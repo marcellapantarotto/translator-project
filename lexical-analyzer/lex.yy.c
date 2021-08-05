@@ -354,8 +354,8 @@ static void yynoreturn yy_fatal_error ( const char* msg  );
 	(yy_hold_char) = *yy_cp; \
 	*yy_cp = '\0'; \
 	(yy_c_buf_p) = yy_cp;
-#define YY_NUM_RULES 4
-#define YY_END_OF_BUFFER 5
+#define YY_NUM_RULES 5
+#define YY_END_OF_BUFFER 6
 /* This struct is not used in this scanner,
    but its presence is necessary. */
 struct yy_trans_info
@@ -365,7 +365,7 @@ struct yy_trans_info
 	};
 static const flex_int16_t yy_accept[10] =
     {   0,
-        0,    0,    5,    3,    4,    1,    2,    1,    0
+        0,    0,    6,    3,    4,    1,    2,    1,    0
     } ;
 
 static const YY_CHAR yy_ec[256] =
@@ -731,12 +731,12 @@ do_action:	/* This label is used only to access EOF actions. */
 case 1:
 YY_RULE_SETUP
 #line 17 "lex.l"
-{printf("NUMBER");}
+{printf("<NUMBER: %s>\n", yytext);}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
 #line 18 "lex.l"
-{printf("SEMICOLON");}
+{printf("<SEMICOLON>\n");}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
@@ -744,11 +744,17 @@ YY_RULE_SETUP
 {showError();}
 	YY_BREAK
 case 4:
+/* rule 4 can match eol */
 YY_RULE_SETUP
 #line 20 "lex.l"
+{ yylineno++; }
+	YY_BREAK
+case 5:
+YY_RULE_SETUP
+#line 21 "lex.l"
 ECHO;
 	YY_BREAK
-#line 752 "lex.yy.c"
+#line 758 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1753,13 +1759,13 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 20 "lex.l"
+#line 21 "lex.l"
 
 
 
 //********** C Functions **********
 void showError() {
-  printf("Not a token!");
+  printf("Not a token! In line: %d\n", yylineno);
 }
 
 void main() {

@@ -14,15 +14,16 @@ numbers ([0-9])+
 
 /********** Token Specifications **********/
 %%
-{numbers}   {printf("NUMBER");}
-";"         {printf("SEMICOLON");}
+{numbers}   {printf("<NUMBER: %s>\n", yytext);}
+";"         {printf("<SEMICOLON>\n");}
 .           {showError();}
+"\n"        { yylineno++; }
 %%
 
 
 //********** C Functions **********
 void showError() {
-  printf("Not a token!");
+  printf("Not a token! In line: %d\n", yylineno);
 }
 
 void main() {
