@@ -2,6 +2,7 @@
 /********** C Stuff (headers, declarations, variables, etc.) **********/
 
   #include <stdio.h>
+  #include <stdlib.h>
   void showError();
 
 %}
@@ -12,9 +13,9 @@ numbers ([0-9])+
 
 /********** Token Specifications **********/
 %%
-{numbers}   {return (NUMBER);}
-";"         {return (SEMICOLON);}
-.           (showError(); return(OTHER);)
+{numbers}   {printf("NUMBER");}
+";"         {printf("SEMICOLON");}
+.           {showError();}
 %%
 
 
