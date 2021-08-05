@@ -7,6 +7,7 @@
 
 %}
 
+%option noyywrap
 /********** Regular Expressions **********/
 numbers ([0-9])+
 
@@ -22,4 +23,10 @@ numbers ([0-9])+
 //********** C Functions **********
 void showError() {
   printf("Not a token!");
+}
+
+void main() {
+  printf("main");
+
+  yylex();
 }

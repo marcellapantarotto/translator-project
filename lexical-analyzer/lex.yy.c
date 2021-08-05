@@ -322,6 +322,9 @@ void yyfree ( void *  );
 #define YY_AT_BOL() (YY_CURRENT_BUFFER_LVALUE->yy_at_bol)
 
 /* Begin user sect3 */
+
+#define yywrap() (/*CONSTCOND*/1)
+#define YY_SKIP_YYWRAP
 typedef flex_uint8_t YY_CHAR;
 
 FILE *yyin = NULL, *yyout = NULL;
@@ -446,10 +449,10 @@ char *yytext;
   #include <stdlib.h>
   void showError();
 
-#line 450 "lex.yy.c"
+#line 453 "lex.yy.c"
 /********** Regular Expressions **********/
 /********** Token Specifications **********/
-#line 453 "lex.yy.c"
+#line 456 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -666,9 +669,9 @@ YY_DECL
 		}
 
 	{
-#line 15 "lex.l"
+#line 16 "lex.l"
 
-#line 672 "lex.yy.c"
+#line 675 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -727,25 +730,25 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 16 "lex.l"
+#line 17 "lex.l"
 {printf("NUMBER");}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 17 "lex.l"
+#line 18 "lex.l"
 {printf("SEMICOLON");}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 18 "lex.l"
+#line 19 "lex.l"
 {showError();}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 19 "lex.l"
+#line 20 "lex.l"
 ECHO;
 	YY_BREAK
-#line 749 "lex.yy.c"
+#line 752 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1750,7 +1753,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 19 "lex.l"
+#line 20 "lex.l"
 
 
 
@@ -1759,3 +1762,8 @@ void showError() {
   printf("Not a token!");
 }
 
+void main() {
+  printf("main");
+
+  yylex();
+}
