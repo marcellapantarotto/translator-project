@@ -1,22 +1,24 @@
 %{
-  ********** C Stuff (headers, declarations, variables, etc.) **********
+/********** C Stuff (headers, declarations, variables, etc.) **********/
 
   #include <stdio.h>
   void showError();
 
 %}
 
-********** Regular Expressions **********
+/********** Regular Expressions **********/
 numbers ([0-9])+
 
+
+/********** Token Specifications **********/
 %%
-********** Token Specifications **********
 {numbers}   {return (NUMBER);}
 ";"         {return (SEMICOLON);}
 .           (showError(); return(OTHER);)
-
 %%
-********** C Functions **********
+
+
+//********** C Functions **********
 void showError() {
   printf("Not a token!");
 }
