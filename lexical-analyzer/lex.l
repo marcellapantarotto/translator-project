@@ -10,11 +10,13 @@
 %option noyywrap
 /********** Regular Expressions **********/
 numbers ([0-9])+
+types   int|float|list
 
 
 /********** Token Specifications **********/
 %%
 {numbers}   {printf("<NUMBER: %s>\n", yytext);}
+{types}     {printf("<TYPE: %s>\n", yytext);}
 ";"         {printf("<SEMICOLON>\n");}
 .           {showError();}
 "\n"        { yylineno++; }
@@ -27,7 +29,6 @@ void showError() {
 }
 
 void main() {
-  printf("main");
-
   yylex();
+  yylex_destroy();
 }

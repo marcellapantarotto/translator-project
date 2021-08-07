@@ -3,4 +3,6 @@
 kjashda
 8273981
 ;
-;
+int a;
+float b;
+list c;
