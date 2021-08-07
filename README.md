@@ -38,7 +38,7 @@ C-IPL Language Prerequisites: (in Portuguese)
 
 - [ ] Toda função retorna uma expressão do tipo de retorno declarado.
 
-- As operações sobre listas são descritas a seguir:
+- [ ] As operações sobre listas são descritas a seguir:
 
   - [ ] declaração: int list, float list.
 
