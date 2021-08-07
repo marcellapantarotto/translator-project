@@ -2,5 +2,6 @@
 int a;
 float b;
 list c;
+list NIL;
 
 hello world

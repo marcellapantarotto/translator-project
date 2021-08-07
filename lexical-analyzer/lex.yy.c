@@ -455,18 +455,19 @@ int yy_flex_debug = 0;
 #define YY_RESTORE_YY_MORE_OFFSET
 char *yytext;
 #line 1 "lex.l"
-#line 2 "lex.l"
 /********** C Stuff (headers, declarations, variables, etc.) **********/
-
+#line 3 "lex.l"
   #include <stdio.h>
   #include <stdlib.h>
+  #define BHRED "\e[1;91m"
+  #define reset "\e[0m"
   void showError();
   int column = 1;
-
-#line 467 "lex.yy.c"
+  int errors = 0;
+#line 468 "lex.yy.c"
 /********** Regular Expressions **********/
 /********** Token Specifications **********/
-#line 470 "lex.yy.c"
+#line 471 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -683,9 +684,9 @@ YY_DECL
 		}
 
 	{
-#line 19 "lex.l"
+#line 22 "lex.l"
 
-#line 689 "lex.yy.c"
+#line 690 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -744,7 +745,7 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 20 "lex.l"
+#line 23 "lex.l"
 {
   printf("NUMBER:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
   column += yyleng;
@@ -752,7 +753,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 25 "lex.l"
+#line 28 "lex.l"
 {
   printf("TYPE:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
   column += yyleng;
@@ -760,7 +761,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 30 "lex.l"
+#line 33 "lex.l"
 {
   printf("SEMICOLON:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
   column += yyleng;
@@ -769,7 +770,7 @@ YY_RULE_SETUP
 case 4:
 /* rule 4 can match eol */
 YY_RULE_SETUP
-#line 35 "lex.l"
+#line 38 "lex.l"
 {
   yylineno++;
   column = 1;
@@ -777,7 +778,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 40 "lex.l"
+#line 43 "lex.l"
 {
   printf("WHITE SPACE:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
   column += yyleng;
@@ -785,18 +786,19 @@ YY_RULE_SETUP
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 45 "lex.l"
+#line 48 "lex.l"
 { 
+  errors++;
   showError();
   column += yyleng; 
 }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 50 "lex.l"
+#line 54 "lex.l"
 ECHO;
 	YY_BREAK
-#line 800 "lex.yy.c"
+#line 802 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1801,17 +1803,20 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 50 "lex.l"
+#line 54 "lex.l"
 
 
 
 //********** C Functions **********
 void showError() {
-  printf("ERROR! Not a token!\n  Line: %d, Column: 0 \t-->\t<%s>\n\n", yylineno, yytext);
+  printf(BHRED "ERROR! Not a token!" reset "\n  Line: %d, Column: %d \t-->\t<%s>" reset " \n\n", yylineno, column, yytext);
 }
 
 void main() {
   yylex();
+
+  printf(BHRED "Total number of errors: %d \n\n" reset, errors);
+  
   yylex_destroy();
 }
 

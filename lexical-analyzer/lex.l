@@ -1,18 +1,21 @@
-%{
 /********** C Stuff (headers, declarations, variables, etc.) **********/
-
+%{
   #include <stdio.h>
   #include <stdlib.h>
+  #define BHRED "\e[1;91m"
+  #define reset "\e[0m"
   void showError();
   int column = 1;
-
+  int errors = 0;
 %}
 
 %option noyywrap
+
 /********** Regular Expressions **********/
 numbers         ([0-9])+
 types           int|float|list
 white-spaces    ([ \t])+
+
 
 
 /********** Token Specifications **********/
@@ -43,6 +46,7 @@ white-spaces    ([ \t])+
 }
 
 . { 
+  errors++;
   showError();
   column += yyleng; 
 }
@@ -52,11 +56,14 @@ white-spaces    ([ \t])+
 
 //********** C Functions **********
 void showError() {
-  printf("ERROR! Not a token!\n  Line: %d, Column: 0 \t-->\t<%s>\n\n", yylineno, yytext);
+  printf(BHRED "ERROR! Not a token!" reset "\n  Line: %d, Column: %d \t-->\t<%s>" reset " \n\n", yylineno, column, yytext);
 }
 
 void main() {
   yylex();
+
+  printf(BHRED "Total number of errors: %d \n\n" reset, errors);
+  
   yylex_destroy();
 }
 
