@@ -18,15 +18,17 @@ C-IPL Language Prerequisites: (in Portuguese)
 - [x] As operações binárias aritméticas são adição, subtração, multiplicação e divisão, 
   - [ ] com regras de precedência e semântica usuais.
 
-- [ ] As operações lógicas são negação, disjunção e conjunção, com  aridade, regras de precedência e semântica usuais. Não há tipo booleano na linguagem: exatamente como em C, valores diferentes de zero e  NIL são tratados como verdadeiro.
+- [x] As operações lógicas são negação, disjunção e conjunção, com  aridade, regras de precedência e semântica usuais.
+  - [ ] Não há tipo booleano na linguagem: exatamente como em C, valores diferentes de zero e  NIL são tratados como verdadeiro.
 
-- [ ] As operações binárias relacionais são as usuais da aritmética: menor, menor ou igual, maior, maior ou igual, igual e diferente, com regras de precedência e semântica usuais. A única exceção é para os comparadores de igual e diferente para comparar uma lista com a constante NIL.
+- [x] As operações binárias relacionais são as usuais da aritmética: menor, menor ou igual, maior, maior ou igual, igual e diferente,
+  - [ ] com regras de precedência e semântica usuais. A única exceção é para os comparadores de igual e diferente para comparar uma lista com a constante NIL.
 
 - [ ] Conversões implícitas entre expressões aritméticas devem ser tratadas de forma usual, permitindo tanto a ampliação (no caso de cálculo e comparação aritméticos, passagem de parâmetro por cópia e retorno de função) quanto redução de tipo (no caso de atribuição, passagem de parâmetros por cópia e retorno de função). Não há conversão de tipo entre listas e os demais tipos (ou vice-versa). Se for possível identificar a tentativa de realização de operações entre operandos que não admitem conversão entre si, o tradutor deve emitir aviso de que a operação é indefinida. A conversão de float para int se dá pelo descarte da parte decimal (não pelo arrendondamento; overflow, como usual, corresponde a comportamento indefinido).
 
 - [ ] Um programa consiste de uma sequência de declarações de variáveis e funções, onde cada função declarada é seguida de sua definição (ou seja, um bloco de comandos, contendo declarações de variáveis e blocos de comandos). Toda função tem um tipo de retorno declarado que pode ser quaisquer um dos tipos primitivos da nova linguagem (int, float, list). Diferentemente de C, qualquer função pode ter zero argumentos (note que não há o tipo VOID na linguagem; mas isso deve ser especificado como uma lista vazia de parâmetros).
 
-- [ ] Necessariamente, o programa deve conter uma função "main".
+- [x] Necessariamente, o programa deve conter uma função "main".
 
 - [ ] As regras de escopo são as mesmas de C. Uma variável ou função só podem ser usadas depois de declaradas e em seus respectivos escopos.
 

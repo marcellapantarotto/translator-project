@@ -12,19 +12,23 @@
 %option noyywrap
 
 /********** Regular Expressions **********/
-numbers         ([0-9])+
-letter          [a-zA-Z]
-white-spaces    ([ \t])+
+number         [0-9]+
+letter         [a-zA-Z]
+white-space    [ \t]+
 types           "int"|"float"|"list"
 
-int             [-+]?{numbers}
-float           [-+]?{numbers}[.]?{numbers}
+int             [-+]?{number}
+float           [-+]?{number}[.]?{number}
 nil             "NIL"
 
+
 op-arithmetic   "+"|"-"|"*"|"/"
+op-logic        "!"|"&&"|"||"
+op-relational   "<"|"<="|">"|">="|"=="|"!="
 
-
-
+assignment      "="
+conditional     "if"|"if-else"
+interation      "for"
 
 
 /********** Token Specifications **********/
@@ -40,7 +44,7 @@ op-arithmetic   "+"|"-"|"*"|"/"
 }
 
 {nil} {
-  printf("NIL:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
+  printf("CONSTANT NIL:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
   column += yyleng;
 }
 
@@ -54,6 +58,34 @@ op-arithmetic   "+"|"-"|"*"|"/"
   column += yyleng;
 }
 
+{op-logic} {
+  printf("LOGIC OPERATION:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
+  column += yyleng;
+}
+
+{op-relational} {
+  printf("RELATIONAL OPERATION:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
+  column += yyleng;
+}
+
+{white-space} {
+  column += yyleng;
+}
+
+"main" {
+  printf("FUNCTION MAIN:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
+  column += yyleng;
+}
+
+"return" {
+  printf("RETURN STATEMENT:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
+  column += yyleng;
+}
+
+{assignment} {
+  printf("ASSIGNMENT:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
+  column += yyleng;
+}
 
 ";" {
   printf("SEMICOLON:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
@@ -63,11 +95,6 @@ op-arithmetic   "+"|"-"|"*"|"/"
 "\n" {
   yylineno++;
   column = 1;
-}
-
-{white-spaces} {
-  printf("WHITE SPACE:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
-  column += yyleng;
 }
 
 . { 
