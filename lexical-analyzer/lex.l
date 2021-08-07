@@ -13,15 +13,34 @@
 
 /********** Regular Expressions **********/
 numbers         ([0-9])+
-types           int|float|list
+letter          [a-zA-Z]
 white-spaces    ([ \t])+
+types           "int"|"float"|"list"
+
+int             [-+]?{numbers}
+float           [-+]?{numbers}[.]?{numbers}
+nil             "NIL"
+
+op-arithmetic   "+"|"-"|"*"|"/"
+
+
 
 
 
 /********** Token Specifications **********/
 %%
-{numbers} {
-  printf("NUMBER:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
+{int} {
+  printf("INT:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
+  column += yyleng;
+}
+
+{float} {
+  printf("FLOAT:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
+  column += yyleng;
+}
+
+{nil} {
+  printf("NIL:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
   column += yyleng;
 }
 
@@ -29,6 +48,12 @@ white-spaces    ([ \t])+
   printf("TYPE:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
   column += yyleng;
 }
+
+{op-arithmetic} {
+  printf("ARITHMETIC OPERATION:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
+  column += yyleng;
+}
+
 
 ";" {
   printf("SEMICOLON:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
