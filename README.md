@@ -10,10 +10,11 @@ Execution of Lexical Analyzer:
 
 C-IPL Language Prerequisites: (in Portuguese)
 
-- [x] Os tipos de dados da linguagem são int, float e list. Os tipos int e float são simples.
-  - [ ] A declaração de uma variável do tipo list se dá pela definição do tipo básico da lista (ver exemplos abaixo). Como restrição em relação à sintaxe usual de C, a declaração de variáveis não poderá ser seguida de atribuição.
+- [x] Os tipos de dados da linguagem são int, float e list. Os tipos int e float são simples. A declaração de uma variável do tipo list se dá pela definição do tipo básico da lista (ver exemplos abaixo).
+  - [ ] Como restrição em relação à sintaxe usual de C, a declaração de variáveis não poderá ser seguida de atribuição.
 
-- [x] A linguagem contém constantes numéricas (para inteiros e reais (sim, isso inclui números negativos)) e a constante NIL (para listas); constantes do tipo string são usadas tão somente para impressão.
+- [x] A linguagem contém constantes numéricas (para inteiros e reais (sim, isso inclui números negativos)) e a constante NIL (para listas); 
+  - [ ] constantes do tipo string são usadas tão somente para impressão.
 
 - [x] As operações binárias aritméticas são adição, subtração, multiplicação e divisão, 
   - [ ] com regras de precedência e semântica usuais.

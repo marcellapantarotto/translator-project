@@ -17,10 +17,9 @@ letter         [a-zA-Z]
 white-space    [ \t]+
 types           "int"|"float"|"list"
 
-int             [-+]?{number}
-float           [-+]?{number}[.]?{number}
+int             {number}
+float           {number}[.]?{number}
 nil             "NIL"
-
 
 op-arithmetic   "+"|"-"|"*"|"/"
 op-logic        "!"|"&&"|"||"
