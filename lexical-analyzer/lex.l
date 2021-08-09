@@ -12,13 +12,14 @@
 %option noyywrap
 
 /********** Regular Expressions **********/
-number         [0-9]+
-letter         [a-zA-Z]
-white-space    [ \t]+
+number          [0-9]
+letter          [a-zA-Z]
+white-space     [ \t]+
 types           "int"|"float"|"list"
 
-int             {number}
-float           {number}[.]?{number}
+
+int             {number}+
+float           {number}+[.]?{number}+
 nil             "NIL"
 
 op-arithmetic   "+"|"-"|"*"|"/"
@@ -26,12 +27,43 @@ op-logic        "!"|"&&"|"||"
 op-relational   "<"|"<="|">"|">="|"=="|"!="
 
 assignment      "="
-conditional     "if"|"if-else"
+conditional     "if"
+else            "else"
 interation      "for"
+
+parentheses      "("|")"
+curly-brackets   "{"|"}"
+
+input           "write"|"wirteln"
+output          "read"
+return          "return"
+main            "main"
+
+comment         \/\/.*
+comments        \/\*(.*\n)*.*\*\/
+
+id              [_a-zA-Z][_a-zA-Z0-9]*
 
 
 /********** Token Specifications **********/
 %%
+{white-space} {
+  column += yyleng;
+}
+
+{comment} {
+  column += yyleng;
+}
+
+{comments} {
+  column += yyleng;
+}
+
+{assignment} {
+  printf("ASSIGNMENT:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
+  column += yyleng;
+}
+
 {int} {
   printf("INT:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
   column += yyleng;
@@ -39,16 +71,6 @@ interation      "for"
 
 {float} {
   printf("FLOAT:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
-  column += yyleng;
-}
-
-{nil} {
-  printf("CONSTANT NIL:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
-  column += yyleng;
-}
-
-{types} {
-  printf("TYPE:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
   column += yyleng;
 }
 
@@ -67,22 +89,65 @@ interation      "for"
   column += yyleng;
 }
 
-{white-space} {
+{parentheses} {
+  printf("PARENTHESES:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
   column += yyleng;
 }
 
-"main" {
+{curly-brackets} {
+  printf("CURLY BRACKET:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
+  column += yyleng;
+}
+
+{conditional} {
+  printf("CONDITIONAL:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
+  column += yyleng;
+}
+
+{else} {
+  printf("ELSE:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
+  column += yyleng;
+}
+
+{interation} {
+  printf("INTERATION:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
+  column += yyleng;
+}
+
+{types} {
+  printf("TYPE:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
+  column += yyleng;
+}
+
+{nil} {
+  printf("CONSTANT NIL:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
+  column += yyleng;
+}
+
+{input} {
+  printf("INPUT:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
+  column += yyleng;
+}
+
+{output} {
+  printf("OUTPUT:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
+  column += yyleng;
+}
+
+
+
+{main} {
   printf("FUNCTION MAIN:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
   column += yyleng;
 }
 
-"return" {
+{return} {
   printf("RETURN STATEMENT:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
   column += yyleng;
 }
 
-{assignment} {
-  printf("ASSIGNMENT:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
+{id} {
+  printf("INDENTIFIER:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
   column += yyleng;
 }
 

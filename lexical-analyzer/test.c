@@ -1,4 +1,8 @@
-int list
+int main() {
+  int list = new NIL;
+  return 0;
+}
+
 5 +5 = 10
 6 != 7
 !a
