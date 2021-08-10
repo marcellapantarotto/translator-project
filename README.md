@@ -45,24 +45,24 @@ C-IPL Language Prerequisites: (in Portuguese)
 
 - [ ] As operações sobre listas são descritas a seguir:
 
-  - [ ] declaração: int list, float list.
+  - [x] declaração: int list, float list.
 
   - [ ] atribuição: a atribuição é feita por referência.
 
-  - [ ] construtores (associativos à direita): a constante NIL já foi mencionada; o operador : é o construtor binário infixo de listas: o operando esquerdo é uma expressão (rvalue) e o o operando à esquerda é uma lista (lvalue). O elemento é sempre acrescentado ao início da lista.
+  - [x] construtores (associativos à direita): a constante NIL já foi mencionada; o operador : é o construtor binário infixo de listas: o operando esquerdo é uma expressão (rvalue) e o o operando à esquerda é uma lista (lvalue). O elemento é sempre acrescentado ao início da lista.
 
-  - [ ] operadores (associativos à direita)
+  - [x] operadores (associativos à direita)
 
-    - [ ] header: ? é o operador unário que retorna o valor do primeiro elemento de uma lista; a lista permanece inalterada; uso do operador em uma lista vazia tem comportamento indefinido.
+    - [x] header: ? é o operador unário que retorna o valor do primeiro elemento de uma lista; a lista permanece inalterada; uso do operador em uma lista vazia tem comportamento indefinido.
 
-    - [ ] tail: ! é operador unário que retorna a cauda de uma lista; a lista permanece inalterada; o uso do operador em uma lista vazia tem comportamento indefinido.
+    - [x] tail: ! é operador unário que retorna a cauda de uma lista; a lista permanece inalterada; o uso do operador em uma lista vazia tem comportamento indefinido.
 
-  - [ ] destrutor (associativo à direita)
+  - [x] destrutor (associativo à direita)
 
-    - [ ] tail: % é operador unário que retorna a cauda da lista; a lista tem seu primeiro elemento removido; o uso do operador em uma lista vazia tem comportamento indefinido.
+    - [x] tail: % é operador unário que retorna a cauda da lista; a lista tem seu primeiro elemento removido; o uso do operador em uma lista vazia tem comportamento indefinido.
 
-  - [ ] funções (associativas à direita):
+  - [x] funções (associativas à direita):
 
-    - [ ] map: >> é o operador binário infixo que tem como primeiro argumento uma função unária e como segundo argumento uma lista; retorna uma lista com a função aplicada aos elementos do segundo elemento; não altera a lista passada como argumento.
+    - [x] map: >> é o operador binário infixo que tem como primeiro argumento uma função unária e como segundo argumento uma lista; retorna uma lista com a função aplicada aos elementos do segundo elemento; não altera a lista passada como argumento.
 
-    - [ ] filter: << é o operador binário infixo que tem como primeiro argumento uma função unária e como segundo argumento uma lista; retorna a lista dos elementos do segundo argumento para os quais a função dada como primeiro argumento retorna valor diferente de zero; não altera a lista passada como argumento.
+    - [x] filter: << é o operador binário infixo que tem como primeiro argumento uma função unária e como segundo argumento uma lista; retorna a lista dos elementos do segundo argumento para os quais a função dada como primeiro argumento retorna valor diferente de zero; não altera a lista passada como argumento.

@@ -2,11 +2,28 @@
 %{
   #include <stdio.h>
   #include <stdlib.h>
+  #include <string.h>
   #define BHRED "\e[1;91m"
   #define reset "\e[0m"
   void showError();
+  void add_node(char *tok);
+  void print_table();
   int column = 1;
   int errors = 0;
+
+  typedef struct table_node {
+    int id;
+    char token[31];
+    struct table_node *next;
+  } table_node;
+
+  typedef struct table {
+    struct table_node *beginning;
+    struct table_node *final;
+  } table;
+
+  table symbol_table;
+  int id_counter = 1;
 %}
 
 %option noinput nounput
@@ -241,6 +258,7 @@ id              [_a-zA-Z][_a-zA-Z0-9]*
 }
 
 {id} {
+  add_node(yytext);
   printf("INDENTIFIER:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
   column += yyleng;
 }
@@ -264,13 +282,49 @@ void showError() {
   printf(BHRED "ERROR! Not a token!" reset "\n  Line: %d, Column: %d \t-->\t<%s>" reset " \n\n", yylineno, column, yytext);
 }
 
-// void main() {
-//   yylex();
+table createTable() {
+  table t;
 
-//   printf(BHRED "Total number of errors: %d \n\n" reset, errors);
-  
-//   yylex_destroy();
-// }
+  t.beginning = (table_node*)malloc(sizeof(table_node));
+  t.beginning->id = 0;
+  strcpy(t.beginning->token,"");
+  t.beginning->next = NULL;
+
+  t.final = t.beginning;
+
+  return t;
+}
+
+void add_node(char *tok) {
+  table_node *node = (table_node*) malloc(sizeof(table_node));
+  node->id = id_counter;
+  strcpy(node->token,tok);
+  node->next = NULL;
+
+  symbol_table.final->next = node;
+  symbol_table.final = node;
+
+  id_counter++;
+}
+
+void print_table() {
+  table_node *aux = symbol_table.beginning;
+  while(aux->next != NULL) {
+    aux = aux->next;
+    printf("%d  |  %s\n", aux->id, aux->token);
+  }
+}
+
+void deleteTable() {
+  table_node *curr = symbol_table.beginning;
+  table_node *nxt;
+  while(curr->next != NULL) {
+    nxt = curr->next;
+    free(curr);
+    curr = nxt;
+  }
+  free(curr);
+}
 
 int main( int argc, char **argv ) {
   ++argv, --argc;
@@ -280,9 +334,15 @@ int main( int argc, char **argv ) {
   else
     yyin = stdin;
 
+  symbol_table = createTable();
+
   yylex();
 
-  printf(BHRED "Total number of errors: %d \n\n" reset, errors);
-  
+  printf("---------------\nSYMBOL TABLE\n---------------\nID | TOKENS\n---------------\n");
+  print_table();
+  deleteTable();
+
+  printf(BHRED "\nTotal number of errors: %d \n\n" reset, errors);
+
   yylex_destroy();
 }
