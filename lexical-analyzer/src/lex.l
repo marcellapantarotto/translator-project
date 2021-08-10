@@ -32,13 +32,10 @@
 /********** Regular Expressions **********/
 number          [0-9]
 letter          [a-zA-Z]
-white-space     [ \t]+
+white-space     [ \t\v\f\r]+
 
 int             {number}+
 float           {number}*[.]?{number}+
-
-input           "write"|"wirteln"
-output          "read"
 
 string          \"(\\.|[^"\\])*\"
 
@@ -69,16 +66,6 @@ id              [_a-zA-Z][_a-zA-Z0-9]*
 
 {float} {
   printf("FLOAT CONSTANT:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
-  column += yyleng;
-}
-
-{input} {
-  printf("INPUT:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
-  column += yyleng;
-}
-
-{output} {
-  printf("OUTPUT:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
   column += yyleng;
 }
 
@@ -129,6 +116,21 @@ id              [_a-zA-Z][_a-zA-Z0-9]*
 
 "for" {
   printf("INTERATION:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
+  column += yyleng;
+}
+
+"write" {
+  printf("INPUT WRITE:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
+  column += yyleng;
+}
+
+"writeln" {
+  printf("INPUT WRITELN:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
+  column += yyleng;
+}
+
+"read" {
+  printf("OUTPUT READ:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
   column += yyleng;
 }
 
