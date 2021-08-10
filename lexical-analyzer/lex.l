@@ -18,10 +18,12 @@ letter          [a-zA-Z]
 white-space     [ \t]+
 
 int             {number}+
-float           {number}+[.]?{number}+
+float           {number}*[.]?{number}+
 
 input           "write"|"wirteln"
 output          "read"
+
+string          \"(\\.|[^"\\])*\"
 
 comment         \/\/.*
 comments        \/\*(.*\n)*.*\*\/
@@ -60,6 +62,11 @@ id              [_a-zA-Z][_a-zA-Z0-9]*
 
 {output} {
   printf("OUTPUT:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
+  column += yyleng;
+}
+
+{string} {
+  printf("STRING:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
   column += yyleng;
 }
 
@@ -184,7 +191,12 @@ id              [_a-zA-Z][_a-zA-Z0-9]*
 }
 
 "%" {
-  printf("TAIL OF LIST:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
+  printf("TAIL OF LIST - REMOVING FIRST ELEMENT OF LIST:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
+  column += yyleng;
+}
+
+":" {
+  printf("LIST CONSTRUCTOR:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
   column += yyleng;
 }
 
@@ -228,14 +240,14 @@ id              [_a-zA-Z][_a-zA-Z0-9]*
   column += yyleng;
 }
 
-"\n" {
-  yylineno++;
-  column = 1;
-}
-
 {id} {
   printf("INDENTIFIER:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
   column += yyleng;
+}
+
+"\n" {
+  yylineno++;
+  column = 1;
 }
 
 . { 
@@ -252,22 +264,25 @@ void showError() {
   printf(BHRED "ERROR! Not a token!" reset "\n  Line: %d, Column: %d \t-->\t<%s>" reset " \n\n", yylineno, column, yytext);
 }
 
-void main() {
-  yylex();
+// void main() {
+//   yylex();
 
-  printf(BHRED "Total number of errors: %d \n\n" reset, errors);
+//   printf(BHRED "Total number of errors: %d \n\n" reset, errors);
   
-  yylex_destroy();
-}
+//   yylex_destroy();
+// }
 
-/*
 int main( int argc, char **argv ) {
-  ++argv, --argc;  // skip over program name
+  ++argv, --argc;
+
   if ( argc > 0 )
     yyin = fopen( argv[0], "r" );
   else
     yyin = stdin;
 
   yylex();
+
+  printf(BHRED "Total number of errors: %d \n\n" reset, errors);
+  
+  yylex_destroy();
 }
-*/

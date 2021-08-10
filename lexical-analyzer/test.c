@@ -1,5 +1,5 @@
 int main() {
-  int list = new NIL;
+  int list            = new NIL;
   return 0;
 }
 
