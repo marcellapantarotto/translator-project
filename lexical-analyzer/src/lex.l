@@ -346,6 +346,7 @@ int main( int argc, char **argv ) {
   delete_table();
 
   printf(BHRED "\nTotal number of errors: %d \n\n" reset, errors);
-
+  
+  fclose(yyin);
   yylex_destroy();
 }

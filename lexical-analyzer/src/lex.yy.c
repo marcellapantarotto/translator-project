@@ -518,7 +518,7 @@ char *yytext;
   void showError();
   void add_node(char *tok);
   void print_table();
-  void delete_table();
+  void destroy_table();
   int column = 1;
   int errors = 0;
 
@@ -1179,7 +1179,7 @@ YY_RULE_SETUP
 #line 274 "lex.l"
 { 
   errors++;
-  printf(BHRED "ERROR! Not a token!" reset "\n  Line: %d, Column: %d \t-->\t<%s>" reset " \n\n", yylineno, column, yytext);
+  showError();
   column += yyleng; 
 }
 	YY_BREAK
@@ -2226,6 +2226,7 @@ int main( int argc, char **argv ) {
   delete_table();
 
   printf(BHRED "\nTotal number of errors: %d \n\n" reset, errors);
-
+  
+  fclose(yyin);
   yylex_destroy();
 }
