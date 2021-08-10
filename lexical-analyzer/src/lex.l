@@ -36,7 +36,7 @@ letter          [a-zA-Z]
 white-space     [ \t\v\f\r]+
 
 int             {number}+
-float           {number}*[.]?{number}+
+float           ({number}*[.])?{number}+
 
 string          \"(\\.|[^"\\])*\"
 
