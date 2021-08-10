@@ -1,3 +1,7 @@
+/* MARCELLA PANTAROTTO (13/0143880) */
+/* PROJECT 1: LEXICAL ANALYZER */
+
+
 /********** C Stuff (headers, declarations, variables, etc.) **********/
 %{
   #include <stdio.h>
@@ -36,7 +40,7 @@ letter          [a-zA-Z]
 white-space     [ \t\v\f\r]+
 
 int             {number}+
-float           ({number}*[.])?{number}+
+float           {number}+[.]|(({number}*[.])?{number}+)
 
 string          \"(\\.|[^"\\])*\"
 
@@ -44,6 +48,9 @@ comment         \/\/.*
 comments        \/\*(.*\n)*.*\*\/
 
 id              [_a-zA-Z][_a-zA-Z0-9]*
+
+id-error        {float}{id}
+
 
 
 /********** Token Specifications **********/
@@ -264,6 +271,12 @@ id              [_a-zA-Z][_a-zA-Z0-9]*
   add_node(yytext);
   printf("INDENTIFIER:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
   column += yyleng;
+}
+
+{id-error} {
+  errors++;
+  showError();
+  column += yyleng; 
 }
 
 "\n" {
