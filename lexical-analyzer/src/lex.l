@@ -8,6 +8,7 @@
   void showError();
   void add_node(char *tok);
   void print_table();
+  void destroy_table();
   int column = 1;
   int errors = 0;
 
@@ -317,7 +318,7 @@ void print_table() {
   }
 }
 
-void deleteTable() {
+void delete_table() {
   table_node *curr = symbol_table.beginning;
   table_node *nxt;
   while(curr->next != NULL) {
@@ -342,7 +343,7 @@ int main( int argc, char **argv ) {
 
   printf("---------------\nSYMBOL TABLE\n---------------\nID | TOKENS\n---------------\n");
   print_table();
-  deleteTable();
+  delete_table();
 
   printf(BHRED "\nTotal number of errors: %d \n\n" reset, errors);
 
