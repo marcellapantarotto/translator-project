@@ -5,5 +5,5 @@ int main() {
     writeln("This is a string\n");
     // This is a comment
     w = x * y;
-    return #0;
+    return 0;
 }

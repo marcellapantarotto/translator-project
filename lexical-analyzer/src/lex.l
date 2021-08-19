@@ -118,7 +118,7 @@ id-error        {float}{id}
 }
 
 "else" {
-  printf("ELSE:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
+  printf("CONDITIONAL:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
   column += yyleng;
 }
 
