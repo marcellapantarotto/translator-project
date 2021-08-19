@@ -3,9 +3,10 @@
 Execution of Lexical Analyzer:
 
 ```bash
-> flex lex.l
-> gcc lex.yy.c
-> ./a.out < text.c
+> cd lexical-analyzer
+> flex -o src/lex.yy.c src/lex.l
+> gcc -g -Wall src/lex.yy.c -o tradutor
+> ./tradutor tests/<test_name>.c
 ```
 
 C-IPL Language Prerequisites: (in Portuguese)

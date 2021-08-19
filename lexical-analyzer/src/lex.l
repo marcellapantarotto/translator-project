@@ -1,7 +1,6 @@
 /* MARCELLA PANTAROTTO (13/0143880) */
 /* PROJECT 1: LEXICAL ANALYZER */
 
-
 /********** C Stuff (headers, declarations, variables, etc.) **********/
 %{
   #include <stdio.h>
@@ -10,7 +9,7 @@
   #define BHRED "\e[1;91m"
   #define reset "\e[0m"
   void showError();
-  void add_node(char *tok);
+  int add_node(char *tok);
   void print_table();
   void destroy_table();
   int column = 1;
@@ -37,7 +36,7 @@
 /********** Regular Expressions **********/
 number          [0-9]
 letter          [a-zA-Z]
-white-space     [ \t\v\f\r]+
+white_space     [ \t\v\f\r]+
 
 int             {number}+
 float           {number}+[.]|(({number}*[.])?{number}+)
@@ -49,13 +48,11 @@ comments        \/\*(.*\n)*.*\*\/
 
 id              [_a-zA-Z][_a-zA-Z0-9]*
 
-id-error        {float}{id}
-
-
 
 /********** Token Specifications **********/
 %%
-{white-space} {
+
+{white_space} {
   column += yyleng;
 }
 
@@ -68,22 +65,22 @@ id-error        {float}{id}
 }
 
 {int} {
-  printf("INT CONSTANT:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
+  printf("INT CONSTANT:\n  Line: %d, Column: %d \t-->\t<NUMBER, %s> \n\n", yylineno, column, yytext);
   column += yyleng;
 }
 
 {float} {
-  printf("FLOAT CONSTANT:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
+  printf("FLOAT CONSTANT:\n  Line: %d, Column: %d \t-->\t<NUMBER, %s> \n\n", yylineno, column, yytext);
   column += yyleng;
 }
 
 {string} {
-  printf("STRING:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
+  printf("STRING:\n  Line: %d, Column: %d \t-->\t<STRING, %s> \n\n", yylineno, column, yytext);
   column += yyleng;
 }
 
 "NIL" {
-  printf("CONSTANT NIL:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
+  printf("CONSTANT NIL:\n  Line: %d, Column: %d \t-->\t<CONSTANT, %s> \n\n", yylineno, column, yytext);
   column += yyleng;
 }
 
@@ -98,185 +95,179 @@ id-error        {float}{id}
 }
 
 "int" {
-  printf("TYPE INT:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
+  printf("TYPE INT:\n  Line: %d, Column: %d \t-->\t<TYPE, %s> \n\n", yylineno, column, yytext);
   column += yyleng;
 }
 
 "float" {
-  printf("TYPE FLOAT:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
+  printf("TYPE FLOAT:\n  Line: %d, Column: %d \t-->\t<TYPE, %s> \n\n", yylineno, column, yytext);
   column += yyleng;
 }
 
 "list" {
-  printf("TYPE LIST:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
+  printf("TYPE LIST:\n  Line: %d, Column: %d \t-->\t<TYPE, %s> \n\n", yylineno, column, yytext);
   column += yyleng;
 }
 
 "if" {
-  printf("CONDITIONAL:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
+  printf("CONDITIONAL:\n  Line: %d, Column: %d \t-->\t<CONDITIONAL, %s> \n\n", yylineno, column, yytext);
   column += yyleng;
 }
 
 "else" {
-  printf("CONDITIONAL:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
+  printf("CONDITIONAL:\n  Line: %d, Column: %d \t-->\t<CONDITIONAL, %s> \n\n", yylineno, column, yytext);
   column += yyleng;
 }
 
 "for" {
-  printf("INTERATION:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
+  printf("INTERATION:\n  Line: %d, Column: %d \t-->\t<INTERATION, %s> \n\n", yylineno, column, yytext);
   column += yyleng;
 }
 
 "write" {
-  printf("INPUT WRITE:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
+  printf("INPUT WRITE:\n  Line: %d, Column: %d \t-->\t<INPUT, %s> \n\n", yylineno, column, yytext);
   column += yyleng;
 }
 
 "writeln" {
-  printf("INPUT WRITELN:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
+  printf("INPUT WRITELN:\n  Line: %d, Column: %d \t-->\t<INPUT, %s> \n\n", yylineno, column, yytext);
   column += yyleng;
 }
 
 "read" {
-  printf("OUTPUT READ:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
+  printf("OUTPUT READ:\n  Line: %d, Column: %d \t-->\t<OUTPUT, %s> \n\n", yylineno, column, yytext);
   column += yyleng;
 }
 
 "+" {
-  printf("ADDITION:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
+  printf("ADDITION:\n  Line: %d, Column: %d \t-->\t<ARITHMETIC_OP, %s> \n\n", yylineno, column, yytext);
   column += yyleng;
 }
 
 "-" {
-  printf("SUBTRACTION:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
+  printf("SUBTRACTION:\n  Line: %d, Column: %d \t-->\t<ARITHMETIC_OP, %s> \n\n", yylineno, column, yytext);
   column += yyleng;
 }
 
 "*" {
-  printf("MULTIPLICATION:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
+  printf("MULTIPLICATION:\n  Line: %d, Column: %d \t-->\t<ARITHMETIC_OP, %s> \n\n", yylineno, column, yytext);
   column += yyleng;
 }
 
 "/" {
-  printf("DIVISION:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
+  printf("DIVISION:\n  Line: %d, Column: %d \t-->\t<ARITHMETIC_OP, %s> \n\n", yylineno, column, yytext);
   column += yyleng;
 }
 
 "==" {
-  printf("EQUAL:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
+  printf("EQUAL:\n  Line: %d, Column: %d \t-->\t<RELATIONAL_OP, %s> \n\n", yylineno, column, yytext);
   column += yyleng;
 }
 
 "<" {
-  printf("LESS THAN:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
+  printf("LESS THAN:\n  Line: %d, Column: %d \t-->\t<RELATIONAL_OP, %s> \n\n", yylineno, column, yytext);
   column += yyleng;
 }
 
 ">" {
-  printf("GREATER THAN:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
+  printf("GREATER THAN:\n  Line: %d, Column: %d \t-->\t<RELATIONAL_OP, %s> \n\n", yylineno, column, yytext);
   column += yyleng;
 }
 
 "<=" {
-  printf("LESS OR EQUAL THAN:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
+  printf("LESS OR EQUAL THAN:\n  Line: %d, Column: %d \t-->\t<RELATIONAL_OP, %s> \n\n", yylineno, column, yytext);
   column += yyleng;
 }
 
 ">=" {
-  printf("GREATER OR EQUAL THAN:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
+  printf("GREATER OR EQUAL THAN:\n  Line: %d, Column: %d \t-->\t<RELATIONAL_OP, %s> \n\n", yylineno, column, yytext);
   column += yyleng;
 }
 
 "!=" {
-  printf("DIFFERENT THAN:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
+  printf("DIFFERENT THAN:\n  Line: %d, Column: %d \t-->\t<RELATIONAL_OP, %s> \n\n", yylineno, column, yytext);
   column += yyleng;
 }
 
 "&&" {
-  printf("AND:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
+  printf("AND:\n  Line: %d, Column: %d \t-->\t<LOGICAL_OP, %s> \n\n", yylineno, column, yytext);
   column += yyleng;
 }
 
 "||" {
-  printf("OR:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
+  printf("OR:\n  Line: %d, Column: %d \t-->\t<LOGICAL_OP, %s> \n\n", yylineno, column, yytext);
   column += yyleng;
 }
 
 "=" {
-  printf("ASSIGNMENT:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
+  printf("ASSIGNMENT:\n  Line: %d, Column: %d \t-->\t<ASSIGN, %s> \n\n", yylineno, column, yytext);
   column += yyleng;
 }
 
 "!" {
-  printf("NAGATION OR LIST TAIL:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
+  printf("NAGATION OR LIST TAIL:\n  Line: %d, Column: %d \t-->\t<RELATIONAL_OP OR LIST_OP, %s> \n\n", yylineno, column, yytext);
   column += yyleng;
 }
 
 "?" {
-  printf("HEADER OF LIST:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
+  printf("HEADER OF LIST:\n  Line: %d, Column: %d \t-->\t<LIST_OP, %s> \n\n", yylineno, column, yytext);
   column += yyleng;
 }
 
 "%" {
-  printf("TAIL OF LIST - REMOVING FIRST ELEMENT OF LIST:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
+  printf("TAIL OF LIST - REMOVING FIRST ELEMENT OF LIST:\n  Line: %d, Column: %d \t-->\t<LIST_OP, %s> \n\n", yylineno, column, yytext);
   column += yyleng;
 }
 
 ":" {
-  printf("LIST CONSTRUCTOR:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
+  printf("LIST CONSTRUCTOR:\n  Line: %d, Column: %d \t-->\t<LIST_OP, %s> \n\n", yylineno, column, yytext);
   column += yyleng;
 }
 
 ">>" {
-  printf("MAP:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
+  printf("MAP:\n  Line: %d, Column: %d \t-->\t<LIST_OP, %s> \n\n", yylineno, column, yytext);
   column += yyleng;
 }
 
 "<<" {
-  printf("FILTER:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
+  printf("FILTER:\n  Line: %d, Column: %d \t-->\t<LIST_OP, %s> \n\n", yylineno, column, yytext);
   column += yyleng;
 }
 
 "(" {
-  printf("OPEN PARENTHESES:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
+  printf("OPEN PARENTHESES:\n  Line: %d, Column: %d \t-->\t<DELIMITER, %s> \n\n", yylineno, column, yytext);
   column += yyleng;
 }
 
 ")" {
-  printf("CLOSE PARENTHESES:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
+  printf("CLOSE PARENTHESES:\n  Line: %d, Column: %d \t-->\t<DELIMITER, %s> \n\n", yylineno, column, yytext);
   column += yyleng;
 }
 
 "{" {
-  printf("OPEN CURLY BRACKET:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
+  printf("OPEN CURLY BRACKET:\n  Line: %d, Column: %d \t-->\t<DELIMITER, %s> \n\n", yylineno, column, yytext);
   column += yyleng;
 }
 
 "}" {
-  printf("CLOSE CURLY BRACKET:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
+  printf("CLOSE CURLY BRACKET:\n  Line: %d, Column: %d \t-->\t<DELIMITER, %s> \n\n", yylineno, column, yytext);
   column += yyleng;
 }
 
 "," {
-  printf("COMMA:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
+  printf("COMMA:\n  Line: %d, Column: %d \t-->\t<PUNCTUATION, %s> \n\n", yylineno, column, yytext);
   column += yyleng;
 }
 
 ";" {
-  printf("SEMICOLON:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
+  printf("SEMICOLON:\n  Line: %d, Column: %d \t-->\t<PUNCTUATION, %s> \n\n", yylineno, column, yytext);
   column += yyleng;
 }
 
 {id} {
-  add_node(yytext);
-  printf("INDENTIFIER:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
+  int position = add_node(yytext);
+  printf("INDENTIFIER:\n  Line: %d, Column: %d \t-->\t<ID, %s, position in symbol table: %d> \n\n", yylineno, column, yytext, position);
   column += yyleng;
-}
-
-{id-error} {
-  errors++;
-  showError();
-  column += yyleng; 
 }
 
 "\n" {
@@ -291,7 +282,6 @@ id-error        {float}{id}
 }
 
 %%
-
 
 //********** C Functions **********
 void showError() {
@@ -311,7 +301,7 @@ table createTable() {
   return t;
 }
 
-void add_node(char *tok) {
+int add_node(char *tok) {
   table_node *node = (table_node*) malloc(sizeof(table_node));
   node->id = id_counter;
   strcpy(node->token,tok);
@@ -321,6 +311,8 @@ void add_node(char *tok) {
   symbol_table.final = node;
 
   id_counter++;
+
+  return id_counter;
 }
 
 void print_table() {
