@@ -6,6 +6,8 @@
   #include <stdio.h>
   #include <stdlib.h>
   #include <string.h>
+  #include "syn_test.tab.h"
+
   #define BHRED "\e[1;91m"
   #define reset "\e[0m"
   void showError();
@@ -342,24 +344,24 @@ void delete_table() {
   free(curr);
 }
 
-int main( int argc, char **argv ) {
-  ++argv, --argc;
+// int main( int argc, char **argv ) {
+//   ++argv, --argc;
 
-  if ( argc > 0 )
-    yyin = fopen( argv[0], "r" );
-  else
-    yyin = stdin;
+//   if ( argc > 0 )
+//     yyin = fopen( argv[0], "r" );
+//   else
+//     yyin = stdin;
 
-  symbol_table = createTable();
+//   symbol_table = createTable();
 
-  yylex();
+//   yylex();
 
-  printf("---------------\nSYMBOL TABLE\n---------------\nID | TOKENS\n---------------\n");
-  print_table();
-  delete_table();
+//   printf("---------------\nSYMBOL TABLE\n---------------\nID | TOKENS\n---------------\n");
+//   print_table();
+//   delete_table();
 
-  printf(BHRED "\nTotal number of errors: %d \n\n" reset, errors);
+//   printf(BHRED "\nTotal number of errors: %d \n\n" reset, errors);
   
-  fclose(yyin);
-  yylex_destroy();
-}
+//   fclose(yyin);
+//   yylex_destroy();
+// }
