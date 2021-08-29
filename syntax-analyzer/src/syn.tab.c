@@ -1556,13 +1556,11 @@ int main(int argc, char **argv) {
   if ( argc > 0 ) {
     yyin = fopen( argv[0], "r" );
     yyparse();
-    
-    work_table();
   }
   else
     yyin = stdin;
 
-  printf("PARSING\n");
+  printf("\n~~~~ PARSING ~~~~\n\n");
   work_table();
   return 0;
 }
