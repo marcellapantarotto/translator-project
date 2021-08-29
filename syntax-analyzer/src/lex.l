@@ -7,7 +7,6 @@
   #include <stdlib.h>
   #include <string.h>
   #include "structures.h"
-  // #include "structures.c"
   #include "syn.tab.h"
 %}
 
@@ -49,7 +48,6 @@ id              [_a-zA-Z][_a-zA-Z0-9]*
   printf("INT CONSTANT:\n  Line: %d, Column: %d \t-->\t<NUMBER, %s> \n\n", yylineno, column, yytext);
 
   sscanf(yytext, "%s", yylval.token.lexeme);
-  // strcpy(yylval.token.lexeme,yytext);
   yylval.token.line = yylineno;
   yylval.token.col = column;
   // yylval.token.scope = scope;
@@ -271,7 +269,6 @@ id              [_a-zA-Z][_a-zA-Z0-9]*
   // yylval->token.scope = scope;
 
   column += yyleng;
-
   return(ID);
 }
 
@@ -284,6 +281,7 @@ id              [_a-zA-Z][_a-zA-Z0-9]*
   errors++;
   show_error();
   column += yyleng; 
+  return(OTHER);
 }
 
 %%

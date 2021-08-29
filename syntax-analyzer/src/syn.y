@@ -18,20 +18,14 @@
 /********** Tokens **********/
 
 %token INTEGER STRING SEMICOLON
-%token ID
+%token ID OTHER
 
 %type <token> INTEGER
 %type <token> ID
 
 /********** Brigde between Lex and Y **********/
 %union {
-  struct t_token {
-    int line;
-    int col;
-    char lexeme[100];
-    // int scope;
-  } token;
-
+  t_token token;
 }
 
 //********** Grammar Rules **********
@@ -61,6 +55,7 @@ declaration:
   | ID {
     printf(BHBLU "program -> list_of_declarations -> declaration -> ID\n" reset);
   }
+  | OTHER
 ;
 
 %%
@@ -76,12 +71,11 @@ int main(int argc, char **argv) {
 
   if ( argc > 0 ) {
     yyin = fopen( argv[0], "r" );
+    printf("\n~~~~ PARSING ~~~~\n\n");
     yyparse();
   }
   else
     yyin = stdin;
-
-  printf("\n~~~~ PARSING ~~~~\n\n");
   
   total_lexical_errors();
 

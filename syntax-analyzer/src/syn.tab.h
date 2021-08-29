@@ -52,7 +52,8 @@ extern int yydebug;
     INTEGER = 258,
     STRING = 259,
     SEMICOLON = 260,
-    ID = 261
+    ID = 261,
+    OTHER = 262
   };
 #endif
 
@@ -62,15 +63,9 @@ union YYSTYPE
 {
 #line 27 "src/syn.y"
 
-  struct t_token {
-    int line;
-    int col;
-    char lexeme[100];
-    // int scope;
-  } token;
+  t_token token;
 
-
-#line 74 "src/syn.tab.h"
+#line 69 "src/syn.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;
