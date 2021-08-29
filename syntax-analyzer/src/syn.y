@@ -39,18 +39,16 @@ program:
   | OTHER
 ;
 
-
 %%
 //********** C Functions **********
-void work_table() {
-  symbol_table = create_table();
-  printf("---------------\nSYMBOL TABLE\n---------------\nID | TOKENS\n---------------\n");
-  print_table();
-  destroy_table();
+int yyerror(char *s) {
+  fprintf(stderr, BHRED "\nError: %s" reset "\n", s);
+  return 0;
 }
 
 int main(int argc, char **argv) {
   ++argv, --argc;
+  symbol_table = create_table();
 
   if ( argc > 0 ) {
     yyin = fopen( argv[0], "r" );
@@ -60,14 +58,10 @@ int main(int argc, char **argv) {
     yyin = stdin;
 
   printf("\n~~~~ PARSING ~~~~\n\n");
-  work_table();
-  return 0;
-}
-
-
-
-int yyerror(char *s)
-{
-  fprintf(stderr, "error: %s\n", s);
+  
+  printf("\n---------------\nSYMBOL TABLE\n---------------\nID | TOKENS\n---------------\n");
+  print_table();
+  destroy_table();
+  
   return 0;
 }
