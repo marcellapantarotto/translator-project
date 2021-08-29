@@ -4,14 +4,13 @@
 #define BHRED "\e[1;91m"
 #define reset "\e[0m"
 
-void show_error();
-
+// void show_error();
 
 int add_node(char *tok);
 void print_table();
 void destroy_table();
-int column = 1;
-int errors = 0;
+// int column = 1;
+// int errors = 0;
 
 typedef struct table_node {
   int id;

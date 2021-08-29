@@ -6,44 +6,67 @@
   #include <stdio.h>
   // #include <stdlib.h>
   // #include <string.h>
+  #include "structures.h"
+  #include "structures.c"
 
-  int yylex();
+  extern int yylex();
   // int yylex_destroy();
-  int yyerror(char *s);
+  extern int yyerror(char *s);
+  extern FILE *yyin;
 %}
 
 /********** Tokens **********/
 
 %token INTEGER STRING SEMICOLON OTHER
 
-%type <num_int> INTEGER
-%type <text> STRING
+%type <token> INTEGER
 
 /********** Brigde between Lex and Y **********/
 %union {
-  int num_int;
-  char text[50];
+  struct t_token {
+    int line;
+    int col;
+    char lexeme[100];
+    // int scope;
+  } token;
 }
 
 //********** Grammar Rules **********
 %%
 program:
   | INTEGER
+  | STRING
+  | OTHER
 ;
 
 
 %%
 //********** C Functions **********
-int main(int argc, char **argv)
-{
+void work_table() {
   symbol_table = create_table();
-  yyparse();
   printf("---------------\nSYMBOL TABLE\n---------------\nID | TOKENS\n---------------\n");
   print_table();
   destroy_table();
+}
 
+int main(int argc, char **argv) {
+  ++argv, --argc;
+
+  if ( argc > 0 ) {
+    yyin = fopen( argv[0], "r" );
+    yyparse();
+    
+    work_table();
+  }
+  else
+    yyin = stdin;
+
+  printf("PARSING\n");
+  work_table();
   return 0;
 }
+
+
 
 int yyerror(char *s)
 {

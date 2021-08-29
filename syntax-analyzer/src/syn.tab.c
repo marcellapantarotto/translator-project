@@ -71,12 +71,15 @@
   #include <stdio.h>
   // #include <stdlib.h>
   // #include <string.h>
+  #include "structures.h"
+  #include "structures.c"
 
-  int yylex();
+  extern int yylex();
   // int yylex_destroy();
-  int yyerror(char *s);
+  extern int yyerror(char *s);
+  extern FILE *yyin;
 
-#line 80 "src/syn.tab.c"
+#line 83 "src/syn.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -135,12 +138,16 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 23 "src/syn.y"
+#line 25 "src/syn.y"
 
-  int num_int;
-  char text[50];
+  struct t_token {
+    int line;
+    int col;
+    char lexeme[100];
+    // int scope;
+  } token;
 
-#line 144 "src/syn.tab.c"
+#line 151 "src/syn.tab.c"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -457,18 +464,18 @@ union yyalloc
 #endif /* !YYCOPY_NEEDED */
 
 /* YYFINAL -- State number of the termination state.  */
-#define YYFINAL  3
+#define YYFINAL  5
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   1
+#define YYLAST   3
 
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  7
 /* YYNNTS -- Number of nonterminals.  */
 #define YYNNTS  2
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  3
+#define YYNRULES  5
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  4
+#define YYNSTATES  6
 
 #define YYUNDEFTOK  2
 #define YYMAXUTOK   261
@@ -516,7 +523,7 @@ static const yytype_int8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int8 yyrline[] =
 {
-       0,    30,    30,    31
+       0,    36,    36,    37,    38,    39
 };
 #endif
 
@@ -553,7 +560,7 @@ static const yytype_int16 yytoknum[] =
      STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-      -3,    -4,     1,    -4
+      -3,    -4,    -4,    -4,     2,    -4
 };
 
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -561,7 +568,7 @@ static const yytype_int8 yypact[] =
      means the default is an error.  */
 static const yytype_int8 yydefact[] =
 {
-       2,     3,     0,     1
+       2,     3,     4,     5,     0,     1
 };
 
   /* YYPGOTO[NTERM-NUM].  */
@@ -573,7 +580,7 @@ static const yytype_int8 yypgoto[] =
   /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-      -1,     2
+      -1,     4
 };
 
   /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -581,31 +588,31 @@ static const yytype_int8 yydefgoto[] =
      number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int8 yytable[] =
 {
-       1,     3
+       1,     2,     5,     3
 };
 
 static const yytype_int8 yycheck[] =
 {
-       3,     0
+       3,     4,     0,     6
 };
 
   /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
      symbol of state STATE-NUM.  */
 static const yytype_int8 yystos[] =
 {
-       0,     3,     8,     0
+       0,     3,     4,     6,     8,     0
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_int8 yyr1[] =
 {
-       0,     7,     8,     8
+       0,     7,     8,     8,     8,     8
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
 static const yytype_int8 yyr2[] =
 {
-       0,     2,     0,     1
+       0,     2,     0,     1,     1,     1
 };
 
 
@@ -1301,7 +1308,7 @@ yyreduce:
   switch (yyn)
     {
 
-#line 1305 "src/syn.tab.c"
+#line 1312 "src/syn.tab.c"
 
       default: break;
     }
@@ -1533,19 +1540,34 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 35 "src/syn.y"
+#line 43 "src/syn.y"
 
 //********** C Functions **********
-int main(int argc, char **argv)
-{
+void work_table() {
   symbol_table = create_table();
-  yyparse();
   printf("---------------\nSYMBOL TABLE\n---------------\nID | TOKENS\n---------------\n");
   print_table();
   destroy_table();
+}
 
+int main(int argc, char **argv) {
+  ++argv, --argc;
+
+  if ( argc > 0 ) {
+    yyin = fopen( argv[0], "r" );
+    yyparse();
+    
+    work_table();
+  }
+  else
+    yyin = stdin;
+
+  printf("PARSING\n");
+  work_table();
   return 0;
 }
+
+
 
 int yyerror(char *s)
 {
