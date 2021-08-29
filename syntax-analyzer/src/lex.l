@@ -6,12 +6,7 @@
   #include <stdio.h>
   #include <stdlib.h>
   #include <string.h>
-  #define BHRED "\e[1;91m"
-  #define reset "\e[0m"
-  int column = 1;
-  int errors = 0;
-  void show_error();
-  //#include "structures.h"
+  #include "structures.h"
   // #include "structures.c"
   #include "syn.tab.h"
 %}
@@ -71,10 +66,10 @@ id              [_a-zA-Z][_a-zA-Z0-9]*
 {string} {
   printf("STRING:\n  Line: %d, Column: %d \t-->\t<STRING, %s> \n\n", yylineno, column, yytext);
 
-  // sscanf(yytext, "%s", yylval.token.lexeme);
-  // yylval.token.line = yylineno;
-  // yylval.token.col = column;
-  // // yylval->token.scope = scope;
+  sscanf(yytext, "%s", yylval.token.lexeme);
+  yylval.token.line = yylineno;
+  yylval.token.col = column;
+  // yylval->token.scope = scope;
 
   column += yyleng;
   return(STRING);
@@ -267,10 +262,17 @@ id              [_a-zA-Z][_a-zA-Z0-9]*
 }
 
 {id} {
-  // int position = add_node(yytext);
-  // printf("INDENTIFIER:\n  Line: %d, Column: %d \t-->\t<ID, %s, position in symbol table: %d> \n\n", yylineno, column, yytext, position);
-  printf("INDENTIFIER:\n  Line: %d, Column: %d \t-->\t<ID, %s, position in symbol table: ?> \n\n", yylineno, column, yytext);
+  int position = add_node(yytext);
+  printf("INDENTIFIER:\n  Line: %d, Column: %d \t-->\t<ID, %s, position in symbol table: %d> \n\n", yylineno, column, yytext, position);
+  
+  sscanf(yytext, "%s", yylval.token.lexeme);
+  yylval.token.line = yylineno;
+  yylval.token.col = column;
+  // yylval->token.scope = scope;
+
   column += yyleng;
+
+  return(ID);
 }
 
 "\n" {
@@ -282,7 +284,6 @@ id              [_a-zA-Z][_a-zA-Z0-9]*
   errors++;
   show_error();
   column += yyleng; 
-  return(OTHER);
 }
 
 %%
@@ -291,32 +292,3 @@ id              [_a-zA-Z][_a-zA-Z0-9]*
 void show_error() {
   printf(BHRED "ERROR! Not a token!" reset "\n  Line: %d, Column: %d \t-->\t<%s>" reset " \n\n", yylineno, column, yytext);
 }
-
-// void work_table() {
-//   symbol_table = create_table();
-//   printf("---------------\nSYMBOL TABLE\n---------------\nID | TOKENS\n---------------\n");
-//   print_table();
-//   destroy_table();
-// }
-
-// int main( int argc, char **argv ) {
-//   ++argv, --argc;
-
-//   if ( argc > 0 )
-//     yyin = fopen( argv[0], "r" );
-//   else
-//     yyin = stdin;
-
-//   symbol_table = create_table();
-
-//   yylex();
-
-//   printf("---------------\nSYMBOL TABLE\n---------------\nID | TOKENS\n---------------\n");
-//   print_table();
-//   destroy_table();
-
-//   printf(BHRED "\nTotal number of errors: %d \n\n" reset, errors);
-  
-//   fclose(yyin);
-//   yylex_destroy();
-// }

@@ -17,9 +17,11 @@
 
 /********** Tokens **********/
 
-%token INTEGER STRING SEMICOLON OTHER
+%token INTEGER STRING SEMICOLON
+%token ID
 
 %type <token> INTEGER
+%type <token> ID
 
 /********** Brigde between Lex and Y **********/
 %union {
@@ -29,14 +31,36 @@
     char lexeme[100];
     // int scope;
   } token;
+
 }
 
 //********** Grammar Rules **********
 %%
-program:
-  | INTEGER
-  | STRING
-  | OTHER
+program: 
+  list_of_declarations {
+    printf(BHBLU "program -> list_of_declarations\n" reset);
+  }
+;
+
+list_of_declarations:
+  declaration list_of_declarations {
+    printf(BHBLU "program -> list_of_declarations -> declaration list_of_declarations\n" reset);
+  }
+  | declaration {
+    printf(BHBLU "program -> list_of_declarations -> declaration\n" reset);
+  }
+;
+
+declaration:
+  INTEGER {
+    printf(BHBLU "program -> list_of_declarations -> declaration -> INTEGER\n" reset);
+  }
+  | STRING {
+    printf(BHBLU "program -> list_of_declarations -> declaration -> STRING\n" reset);
+  }
+  | ID {
+    printf(BHBLU "program -> list_of_declarations -> declaration -> ID\n" reset);
+  }
 ;
 
 %%
@@ -59,6 +83,8 @@ int main(int argc, char **argv) {
 
   printf("\n~~~~ PARSING ~~~~\n\n");
   
+  total_lexical_errors();
+
   printf("\n---------------\nSYMBOL TABLE\n---------------\nID | TOKENS\n---------------\n");
   print_table();
   destroy_table();

@@ -1,16 +1,18 @@
 #ifndef STRUCTURES
 #define STRUCTURES
 
-#define BHRED "\e[1;91m"
+#define BHRED "\e[1;91m"  // red
+#define BHBLU "\e[1;94m"  // blue
 #define reset "\e[0m"
 
-// void show_error();
+void show_error();
+void total_lexical_errors();
 
 int add_node(char *tok);
 void print_table();
 void destroy_table();
-// int column = 1;
-// int errors = 0;
+int column;
+int errors;
 
 typedef struct table_node {
   int id;
@@ -25,7 +27,7 @@ typedef struct table {
 
 // table create_table();
 table symbol_table;
-table *ptr_symbol_table = &symbol_table;
-int id_counter = 1;
+// table *ptr_symbol_table = &symbol_table;
+int id_counter;
 
 #endif

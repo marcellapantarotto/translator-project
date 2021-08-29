@@ -52,7 +52,7 @@ extern int yydebug;
     INTEGER = 258,
     STRING = 259,
     SEMICOLON = 260,
-    OTHER = 261
+    ID = 261
   };
 #endif
 
@@ -60,7 +60,7 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 25 "src/syn.y"
+#line 27 "src/syn.y"
 
   struct t_token {
     int line;
@@ -69,7 +69,8 @@ union YYSTYPE
     // int scope;
   } token;
 
-#line 73 "src/syn.tab.h"
+
+#line 74 "src/syn.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

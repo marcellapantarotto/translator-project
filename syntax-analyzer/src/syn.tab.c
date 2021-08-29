@@ -130,7 +130,7 @@ extern int yydebug;
     INTEGER = 258,
     STRING = 259,
     SEMICOLON = 260,
-    OTHER = 261
+    ID = 261
   };
 #endif
 
@@ -138,7 +138,7 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 25 "src/syn.y"
+#line 27 "src/syn.y"
 
   struct t_token {
     int line;
@@ -147,7 +147,8 @@ union YYSTYPE
     // int scope;
   } token;
 
-#line 151 "src/syn.tab.c"
+
+#line 152 "src/syn.tab.c"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -464,18 +465,18 @@ union yyalloc
 #endif /* !YYCOPY_NEEDED */
 
 /* YYFINAL -- State number of the termination state.  */
-#define YYFINAL  5
+#define YYFINAL  7
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   3
+#define YYLAST   4
 
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  7
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  2
+#define YYNNTS  4
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  5
+#define YYNRULES  7
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  6
+#define YYNSTATES  9
 
 #define YYUNDEFTOK  2
 #define YYMAXUTOK   261
@@ -523,7 +524,7 @@ static const yytype_int8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int8 yyrline[] =
 {
-       0,    36,    36,    37,    38,    39
+       0,    40,    40,    46,    49,    55,    58,    61
 };
 #endif
 
@@ -532,8 +533,8 @@ static const yytype_int8 yyrline[] =
    First, the terminals, then, starting at YYNTOKENS, nonterminals.  */
 static const char *const yytname[] =
 {
-  "$end", "error", "$undefined", "INTEGER", "STRING", "SEMICOLON",
-  "OTHER", "$accept", "program", YY_NULLPTR
+  "$end", "error", "$undefined", "INTEGER", "STRING", "SEMICOLON", "ID",
+  "$accept", "program", "list_of_declarations", "declaration", YY_NULLPTR
 };
 #endif
 
@@ -560,7 +561,7 @@ static const yytype_int16 yytoknum[] =
      STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-      -3,    -4,    -4,    -4,     2,    -4
+      -3,    -4,    -4,    -4,     2,    -4,    -3,    -4,    -4
 };
 
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -568,19 +569,19 @@ static const yytype_int8 yypact[] =
      means the default is an error.  */
 static const yytype_int8 yydefact[] =
 {
-       2,     3,     4,     5,     0,     1
+       0,     5,     6,     7,     0,     2,     4,     1,     3
 };
 
   /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-      -4,    -4
+      -4,    -4,    -2,    -4
 };
 
   /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-      -1,     4
+      -1,     4,     5,     6
 };
 
   /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -588,31 +589,31 @@ static const yytype_int8 yydefgoto[] =
      number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int8 yytable[] =
 {
-       1,     2,     5,     3
+       1,     2,     7,     3,     8
 };
 
 static const yytype_int8 yycheck[] =
 {
-       3,     4,     0,     6
+       3,     4,     0,     6,     6
 };
 
   /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
      symbol of state STATE-NUM.  */
 static const yytype_int8 yystos[] =
 {
-       0,     3,     4,     6,     8,     0
+       0,     3,     4,     6,     8,     9,    10,     0,     9
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_int8 yyr1[] =
 {
-       0,     7,     8,     8,     8,     8
+       0,     7,     8,     9,     9,    10,    10,    10
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
 static const yytype_int8 yyr2[] =
 {
-       0,     2,     0,     1,     1,     1
+       0,     2,     1,     2,     1,     1,     1,     1
 };
 
 
@@ -1307,8 +1308,56 @@ yyreduce:
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
+  case 2:
+#line 40 "src/syn.y"
+                       {
+    printf(BHBLU "program -> list_of_declarations\n" reset);
+  }
+#line 1317 "src/syn.tab.c"
+    break;
 
-#line 1312 "src/syn.tab.c"
+  case 3:
+#line 46 "src/syn.y"
+                                   {
+    printf(BHBLU "program -> list_of_declarations -> declaration list_of_declarations\n" reset);
+  }
+#line 1325 "src/syn.tab.c"
+    break;
+
+  case 4:
+#line 49 "src/syn.y"
+                {
+    printf(BHBLU "program -> list_of_declarations -> declaration\n" reset);
+  }
+#line 1333 "src/syn.tab.c"
+    break;
+
+  case 5:
+#line 55 "src/syn.y"
+          {
+    printf(BHBLU "program -> list_of_declarations -> declaration -> INTEGER\n" reset);
+  }
+#line 1341 "src/syn.tab.c"
+    break;
+
+  case 6:
+#line 58 "src/syn.y"
+           {
+    printf(BHBLU "program -> list_of_declarations -> declaration -> STRING\n" reset);
+  }
+#line 1349 "src/syn.tab.c"
+    break;
+
+  case 7:
+#line 61 "src/syn.y"
+       {
+    printf(BHBLU "program -> list_of_declarations -> declaration -> ID\n" reset);
+  }
+#line 1357 "src/syn.tab.c"
+    break;
+
+
+#line 1361 "src/syn.tab.c"
 
       default: break;
     }
@@ -1540,7 +1589,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 42 "src/syn.y"
+#line 66 "src/syn.y"
 
 //********** C Functions **********
 int yyerror(char *s) {
@@ -1561,6 +1610,8 @@ int main(int argc, char **argv) {
 
   printf("\n~~~~ PARSING ~~~~\n\n");
   
+  total_lexical_errors();
+
   printf("\n---------------\nSYMBOL TABLE\n---------------\nID | TOKENS\n---------------\n");
   print_table();
   destroy_table();

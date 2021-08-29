@@ -48,3 +48,7 @@ void destroy_table() {
   }
   free(curr);
 }
+
+void total_lexical_errors() {
+  printf(BHRED "\nTotal number of lexical errors: %d \n\n" reset, errors);
+}

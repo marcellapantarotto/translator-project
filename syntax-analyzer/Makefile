@@ -11,7 +11,7 @@ compile:
 
 run:
 # ./tradutor tests/test_correct1.c
-	./obj/syntax.o tests/test_correct1.c
+	./obj/syntax.o tests/test_errors1.c
 	
 debug:
 	valgrind -v --tool=memcheck --leak-check=full --log-file="logfile.out" --show-leak-kinds=all --track-origins=yes ./tradutor tests/test_correct1.c
