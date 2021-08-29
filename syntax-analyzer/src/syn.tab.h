@@ -51,9 +51,7 @@ extern int yydebug;
   {
     INTEGER = 258,
     STRING = 259,
-    SEMICOLON = 260,
-    ID = 261,
-    OTHER = 262
+    ID = 260
   };
 #endif
 
@@ -61,11 +59,11 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 27 "src/syn.y"
+#line 29 "src/syn.y"
 
   t_token token;
 
-#line 69 "src/syn.tab.h"
+#line 67 "src/syn.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

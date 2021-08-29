@@ -17,8 +17,10 @@
 
 /********** Tokens **********/
 
-%token INTEGER STRING SEMICOLON
-%token ID OTHER
+%token INTEGER STRING
+%token ID
+// %token 'return'
+%token ';' '(' ')' '{' '}'
 
 %type <token> INTEGER
 %type <token> ID
@@ -34,6 +36,7 @@ program:
   list_of_declarations {
     printf(BHBLU "program -> list_of_declarations\n" reset);
   }
+  | /* epsilon */
 ;
 
 list_of_declarations:
@@ -49,14 +52,57 @@ declaration:
   INTEGER {
     printf(BHBLU "program -> list_of_declarations -> declaration -> INTEGER\n" reset);
   }
-  | STRING {
-    printf(BHBLU "program -> list_of_declarations -> declaration -> STRING\n" reset);
-  }
-  | ID {
-    printf(BHBLU "program -> list_of_declarations -> declaration -> ID\n" reset);
-  }
-  | OTHER
+  | ID 
+  | STRING
+  | '('
+  | ')'
+  | '{'
+  | '}'
+  | ';'
+  
+  // variable_declartion
+  // | function_declartion
 ;
+
+// variable_declartion:
+//   type ID';' {
+//     printf(BHBLU "program -> list_of_declarations -> declaration -> type ID;\n" reset);
+//   }
+// ;
+
+// function_declartion:
+//   type ID'('parameters')' function_definition;
+// ;
+
+// function_definition:
+//   //'{'block_of_commands 'return' value';''}'
+//   ID {
+//     printf(BHBLU "program -> list_of_declarations -> declaration -> ID\n" reset);
+//   }
+// ;
+
+// parameters:
+//   parameter parameters
+//   | /* epsilon */
+// ;
+
+// parameter:
+//   type ID
+// ;
+
+// block_of_commands:
+//   variable_declartion block_of_commands
+//   //| command block_of_commands
+//   | /* epsilon */
+// ;
+
+
+// type:
+//   INTEGER {
+//     printf(BHBLU "program -> list_of_declarations -> declaration -> INTEGER\n" reset);
+//   }  
+// ;
+
 
 %%
 //********** C Functions **********
@@ -68,6 +114,8 @@ int yyerror(char *s) {
 int main(int argc, char **argv) {
   ++argv, --argc;
   symbol_table = create_table();
+
+  // tree_node *root = new_tree_node();
 
   if ( argc > 0 ) {
     yyin = fopen( argv[0], "r" );

@@ -8,8 +8,7 @@
 void show_error();
 void total_lexical_errors();
 
-// add node to symbol table
-int add_node(char *tok);
+int add_table_node(char *tok);
 void print_table();
 void destroy_table();
 int column;
@@ -30,22 +29,28 @@ typedef struct table {
 
 // token
 typedef struct t_token {
-    int line;
-    int col;
     char lexeme[100];
+    char type[20];
+    int line;
+    int column;
     // int scope;
 } t_token;
 
 // tree node
 typedef struct tree_node {
   struct t_token token;
-	struct tree *left;
-	struct tree *right;
+	struct tree_node *child1;
+	struct tree_node *child2;
+  struct tree_node *child3;
+  struct tree_node *child4;
 } tree_node;
 
-// table create_table();
+
+table create_table();
 table symbol_table;
 // table *ptr_symbol_table = &symbol_table;
 int id_counter;
+
+// tree_node syntax_tree;
 
 #endif
