@@ -66,7 +66,7 @@
 
 
 /* First part of user prologue.  */
-#line 5 "syn_test.y"
+#line 5 "src/syn.y"
 
   #include <stdio.h>
   // #include <stdlib.h>
@@ -76,7 +76,7 @@
   // int yylex_destroy();
   int yyerror(char *s);
 
-#line 80 "syn_test.tab.c"
+#line 80 "src/syn.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -109,8 +109,8 @@
 
 /* Use api.header.include to #include this header
    instead of duplicating it here.  */
-#ifndef YY_YY_SYN_TEST_TAB_H_INCLUDED
-# define YY_YY_SYN_TEST_TAB_H_INCLUDED
+#ifndef YY_YY_SRC_SYN_TAB_H_INCLUDED
+# define YY_YY_SRC_SYN_TAB_H_INCLUDED
 /* Debug traces.  */
 #ifndef YYDEBUG
 # define YYDEBUG 0
@@ -135,12 +135,12 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 23 "syn_test.y"
+#line 23 "src/syn.y"
 
-  int number;
+  int num_int;
   char text[50];
 
-#line 144 "syn_test.tab.c"
+#line 144 "src/syn.tab.c"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -153,7 +153,7 @@ extern YYSTYPE yylval;
 
 int yyparse (void);
 
-#endif /* !YY_YY_SYN_TEST_TAB_H_INCLUDED  */
+#endif /* !YY_YY_SRC_SYN_TAB_H_INCLUDED  */
 
 
 
@@ -1301,7 +1301,7 @@ yyreduce:
   switch (yyn)
     {
 
-#line 1305 "syn_test.tab.c"
+#line 1305 "src/syn.tab.c"
 
       default: break;
     }
@@ -1533,12 +1533,17 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 35 "syn_test.y"
+#line 35 "src/syn.y"
 
 //********** C Functions **********
 int main(int argc, char **argv)
 {
+  symbol_table = create_table();
   yyparse();
+  printf("---------------\nSYMBOL TABLE\n---------------\nID | TOKENS\n---------------\n");
+  print_table();
+  destroy_table();
+
   return 0;
 }
 

@@ -6,30 +6,9 @@
   #include <stdio.h>
   #include <stdlib.h>
   #include <string.h>
-  #include "syn_test.tab.h"
-
-  #define BHRED "\e[1;91m"
-  #define reset "\e[0m"
-  void showError();
-  int add_node(char *tok);
-  void print_table();
-  void destroy_table();
-  int column = 1;
-  int errors = 0;
-
-  typedef struct table_node {
-    int id;
-    char token[31];
-    struct table_node *next;
-  } table_node;
-
-  typedef struct table {
-    struct table_node *beginning;
-    struct table_node *final;
-  } table;
-
-  table symbol_table;
-  int id_counter = 1;
+  #include "structures.h"
+  #include "structures.c"
+  #include "syn.tab.h"
 %}
 
 %option noinput nounput
@@ -70,8 +49,8 @@ id              [_a-zA-Z][_a-zA-Z0-9]*
   printf("INT CONSTANT:\n  Line: %d, Column: %d \t-->\t<NUMBER, %s> \n\n", yylineno, column, yytext);
   column += yyleng;
 
-  yylval.number = atoi(yytext);
-  return(INTEGER);
+  // yylval.num_int = atoi(yytext);
+  // return(INTEGER);
 }
 
 {float} {
@@ -83,8 +62,8 @@ id              [_a-zA-Z][_a-zA-Z0-9]*
   printf("STRING:\n  Line: %d, Column: %d \t-->\t<STRING, %s> \n\n", yylineno, column, yytext);
   column += yyleng;
 
-  sscanf(yytext, "%s", yylval.text);
-  return(STRING);
+  // sscanf(yytext, "%s", yylval.text);
+  // return(STRING);
 }
 
 "NIL" {
@@ -270,7 +249,7 @@ id              [_a-zA-Z][_a-zA-Z0-9]*
 ";" {
   printf("SEMICOLON:\n  Line: %d, Column: %d \t-->\t<PUNCTUATION, %s> \n\n", yylineno, column, yytext);
   column += yyleng;
-  return(SEMICOLON);
+  // return(SEMICOLON);
 }
 
 {id} {
@@ -286,82 +265,36 @@ id              [_a-zA-Z][_a-zA-Z0-9]*
 
 . { 
   errors++;
-  showError();
+  show_error();
   column += yyleng; 
-  return(OTHER);
+  // return(OTHER);
 }
 
 %%
 
 //********** C Functions **********
-void showError() {
+void show_error() {
   printf(BHRED "ERROR! Not a token!" reset "\n  Line: %d, Column: %d \t-->\t<%s>" reset " \n\n", yylineno, column, yytext);
 }
 
-table createTable() {
-  table t;
+int main( int argc, char **argv ) {
+  ++argv, --argc;
 
-  t.beginning = (table_node*)malloc(sizeof(table_node));
-  t.beginning->id = 0;
-  strcpy(t.beginning->token,"");
-  t.beginning->next = NULL;
+  if ( argc > 0 )
+    yyin = fopen( argv[0], "r" );
+  else
+    yyin = stdin;
 
-  t.final = t.beginning;
+  symbol_table = create_table();
 
-  return t;
-}
+  yylex();
 
-int add_node(char *tok) {
-  table_node *node = (table_node*) malloc(sizeof(table_node));
-  node->id = id_counter;
-  strcpy(node->token,tok);
-  node->next = NULL;
+  printf("---------------\nSYMBOL TABLE\n---------------\nID | TOKENS\n---------------\n");
+  print_table();
+  destroy_table();
 
-  symbol_table.final->next = node;
-  symbol_table.final = node;
-
-  id_counter++;
-
-  return id_counter;
-}
-
-void print_table() {
-  table_node *aux = symbol_table.beginning;
-  while(aux->next != NULL) {
-    aux = aux->next;
-    printf("%d  |  %s\n", aux->id, aux->token);
-  }
-}
-
-void delete_table() {
-  table_node *curr = symbol_table.beginning;
-  table_node *nxt;
-  while(curr->next != NULL) {
-    nxt = curr->next;
-    free(curr);
-    curr = nxt;
-  }
-  free(curr);
-}
-
-// int main( int argc, char **argv ) {
-//   ++argv, --argc;
-
-//   if ( argc > 0 )
-//     yyin = fopen( argv[0], "r" );
-//   else
-//     yyin = stdin;
-
-//   symbol_table = createTable();
-
-//   yylex();
-
-//   printf("---------------\nSYMBOL TABLE\n---------------\nID | TOKENS\n---------------\n");
-//   print_table();
-//   delete_table();
-
-//   printf(BHRED "\nTotal number of errors: %d \n\n" reset, errors);
+  printf(BHRED "\nTotal number of errors: %d \n\n" reset, errors);
   
-//   fclose(yyin);
-//   yylex_destroy();
-// }
+  fclose(yyin);
+  yylex_destroy();
+}

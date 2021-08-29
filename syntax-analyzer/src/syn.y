@@ -16,12 +16,12 @@
 
 %token INTEGER STRING SEMICOLON OTHER
 
-// %type <number> INTEGER
-// %type <text> STRING
+%type <num_int> INTEGER
+%type <text> STRING
 
 /********** Brigde between Lex and Y **********/
 %union {
-  int number;
+  int num_int;
   char text[50];
 }
 
@@ -36,7 +36,12 @@ program:
 //********** C Functions **********
 int main(int argc, char **argv)
 {
+  symbol_table = create_table();
   yyparse();
+  printf("---------------\nSYMBOL TABLE\n---------------\nID | TOKENS\n---------------\n");
+  print_table();
+  destroy_table();
+
   return 0;
 }
 

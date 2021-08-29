@@ -34,8 +34,8 @@
 /* Undocumented macros, especially those whose name start with YY_,
    are private implementation details.  Do not rely on them.  */
 
-#ifndef YY_YY_SYN_TEST_TAB_H_INCLUDED
-# define YY_YY_SYN_TEST_TAB_H_INCLUDED
+#ifndef YY_YY_SRC_SYN_TAB_H_INCLUDED
+# define YY_YY_SRC_SYN_TAB_H_INCLUDED
 /* Debug traces.  */
 #ifndef YYDEBUG
 # define YYDEBUG 0
@@ -60,12 +60,12 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 23 "syn_test.y"
+#line 23 "src/syn.y"
 
-  int number;
+  int num_int;
   char text[50];
 
-#line 69 "syn_test.tab.h"
+#line 69 "src/syn.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -78,4 +78,4 @@ extern YYSTYPE yylval;
 
 int yyparse (void);
 
-#endif /* !YY_YY_SYN_TEST_TAB_H_INCLUDED  */
+#endif /* !YY_YY_SRC_SYN_TAB_H_INCLUDED  */
