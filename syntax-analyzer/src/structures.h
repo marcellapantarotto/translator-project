@@ -9,7 +9,7 @@ enum rule_type {
   INT = 0,
   FLOAT,
   LIST,
-  CONSTANT_NUMBER,
+  NUMBER,
   CONSTANT_NIL,
   STRING_STMT,
   ASSIGNMENT_COMMAND,

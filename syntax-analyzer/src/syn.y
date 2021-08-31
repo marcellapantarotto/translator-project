@@ -34,9 +34,10 @@
 %type <token> '{'
 %type <token> '}'
 
-// %type <node> program
+%type <node> program
 // %type <node> list_of_declarations
 %type <node> declaration
+%type <node> number
 
 /********** Brigde between Lex and Y **********/
 %union {
@@ -50,7 +51,7 @@
 %%
 program: 
   declaration {
-    printf(BHBLU "program -> list_of_declarations\n" reset);
+    printf(BHBLU "program -> declarations\n" reset);
     root = create_node(&root, PROGRAM);
     add_tree_node(&root, &$1);
   }
@@ -69,21 +70,32 @@ program:
 //     $$ = create_node(&$$, DECLARATION);
 //     add_tree_node(&$$, &$1);
 //   }
+//   // | /* epsilon */
 // ;
 
 declaration:
-  INTEGER {
-    printf(BHBLU "declaration -> <INTEGER, %s>\n" reset, $1.lexeme);
+  number {
+    // printf(BHBLU "declaration -> <INTEGER, %s>\n" reset, $1.lexeme);
     $$ = create_node(&$$, DECLARATION);
+    add_tree_node(&$$, &$1);
+  }
+  // | /* epsilon */
+  | ID {
+    // printf(BHBLU "declaration -> <ID, %s>\n" reset, $1.lexeme);
+    $$ = create_node(&$$, DECLARATION);
+    add_tree_token_node(&$$, &$1, ID);
+    // &$1.lexeme, &$1.line, &$1.column
+  }
+;
+
+number:
+  INTEGER {
+    // printf(BHBLU "declaration -> <INTEGER, %s>\n" reset, $1.lexeme);
+    $$ = create_node(&$$, NUMBER);
     add_tree_token_node(&$$, &$1, INT);
     // &$1.lexeme, &$1.line, &$1.column
   }
-  // | ID {
-  //   printf(BHBLU "declaration -> <ID, %s>\n" reset, $1.lexeme);
-  //   $$ = create_node(&$$, DECLARATION);
-  //   add_tree_token_node(&$$, &$1, ID);
-  //   // &$1.lexeme, &$1.line, &$1.column
-  // }
+;
   // | STRING {
   //   printf(BHBLU "declaration -> <STRING, %s>\n" reset, $1.lexeme);
   //   $$ = create_node(&$$, DECLARATION);
@@ -171,8 +183,6 @@ int yyerror(char *s) {
   fprintf(stderr, BHRED "\nError: %s in line: %d, column: %d" reset "\n", s, yylineno, column-yyleng);
   return 0;
 }
-
-
 
 int main(int argc, char **argv) {
   ++argv, --argc;

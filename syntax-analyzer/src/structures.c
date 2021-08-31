@@ -7,7 +7,7 @@ const char *rule_label[] = {
   "INT",
   "FLOAT",
   "LIST",
-  "CONSTANT_NUMBER",
+  "NUMBER",
   "CONSTANT_NIL",
   "STRING_STMT",
   "ASSIGNMENT_COMMAND",
@@ -196,19 +196,21 @@ t_node add_tree_token_node(t_node *root, t_token *tok, int type) {
 
 // // print tree
 void print_tree(t_node *root, int height) {
-  for (int i = 0; i < height; i++) {
-    printf(".%s\n", rule_label[root->type]);
+  int i;
+  for(i = 0; i < height-1; i++) {
+    printf(".");
   }
-  
+  printf(".%s\n", rule_label[root->type]);
+
   tree_node *curr = root->children;
   while(curr != NULL) {
-    print_tree(curr->child, height++);
+    print_tree(curr->child, height+1);
     curr = curr->sibilings;
-  } 
-
+  }
+  
   if(root->children != NULL) {
-    for (int i = 0; i < height-1; i++) {
-      printf("...");
+    for(i = 0; i < height-1; i++) {
+      printf(".");
     }
     printf("\n");
   }
