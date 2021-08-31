@@ -33,8 +33,8 @@
 %type <token> '{'
 %type <token> '}'
 
-%type <node> program
-%type <node> list_of_declarations
+// %type <node> program
+// %type <node> list_of_declarations
 %type <node> declaration
 
 /********** Brigde between Lex and Y **********/
@@ -43,32 +43,32 @@
   t_node node;
 }
 
-%start program
+%start declaration
 
 //********** Grammar Rules **********
 %%
-program: 
-  list_of_declarations {
-    printf(BHBLU "program -> list_of_declarations\n" reset);
-    root = create_node(&root, PROGRAM);
-    add_tree_node(&root, &$1);
-  }
-  // | /* epsilon */
-;
+// program: 
+//   declaration {
+//     printf(BHBLU "program -> list_of_declarations\n" reset);
+//     root = create_node(&root, PROGRAM);
+//     add_tree_node(&root, &$1);
+//   }
+//   // | /* epsilon */
+// ;
 
-list_of_declarations:
-  declaration list_of_declarations {
-    printf(BHBLU "list_of_declarations -> declaration list_of_declarations\n" reset);
-    $$ = create_node(&$$, LST_DECLARATIONS);
-    add_tree_node(&$$, &$1);
-    add_tree_node(&$$, &$2);
-  }
-  | declaration {
-    printf(BHBLU "program -> list_of_declarations -> declaration\n" reset);
-    $$ = create_node(&$$, DECLARATION);
-    add_tree_node(&$$, &$1);
-  }
-;
+// list_of_declarations:
+//   declaration list_of_declarations {
+//     printf(BHBLU "list_of_declarations -> declaration list_of_declarations\n" reset);
+//     $$ = create_node(&$$, LST_DECLARATIONS);
+//     add_tree_node(&$$, &$1);
+//     add_tree_node(&$$, &$2);
+//   }
+//   | declaration {
+//     printf(BHBLU "program -> list_of_declarations -> declaration\n" reset);
+//     $$ = create_node(&$$, DECLARATION);
+//     add_tree_node(&$$, &$1);
+//   }
+// ;
 
 declaration:
   INTEGER {
@@ -77,48 +77,48 @@ declaration:
     add_tree_token_node(&$$, &$1, INT);
     // &$1.lexeme, &$1.line, &$1.column
   }
-  | ID {
-    printf(BHBLU "declaration -> <ID, %s>\n" reset, $1.lexeme);
-    $$ = create_node(&$$, DECLARATION);
-    add_tree_token_node(&$$, &$1, ID);
-    // &$1.lexeme, &$1.line, &$1.column
-  }
-  | STRING {
-    printf(BHBLU "declaration -> <STRING, %s>\n" reset, $1.lexeme);
-    $$ = create_node(&$$, DECLARATION);
-    add_tree_token_node(&$$, &$1, ID);
-    // &$1.lexeme, &$1.line, &$1.column
-  }
-  | '(' {
-    printf(BHBLU "declaration -> <DELIMITER, %s>\n" reset, $1.lexeme);
-    $$ = create_node(&$$, DECLARATION);
-    add_tree_token_node(&$$, &$1, DELIMITER);
-    // &$1.lexeme, &$1.line, &$1.column
-  }
-  | ')' {
-    printf(BHBLU "declaration -> <DELIMITER, %s>\n" reset, $1.lexeme);
-    $$ = create_node(&$$, DECLARATION);
-    add_tree_token_node(&$$, &$1, DELIMITER);
-    // &$1.lexeme, &$1.line, &$1.column
-  }
-  | '{' {
-    printf(BHBLU "declaration -> <DELIMITER, %s>\n" reset, $1.lexeme);
-    $$ = create_node(&$$, DECLARATION);
-    add_tree_token_node(&$$, &$1, DELIMITER);
-    // &$1.lexeme, &$1.line, &$1.column
-  }
-  | '}' {
-    printf(BHBLU "declaration -> <DELIMITER, %s>\n" reset, $1.lexeme);
-    $$ = create_node(&$$, DECLARATION);
-    add_tree_token_node(&$$, &$1, DELIMITER);
-    // &$1.lexeme, &$1.line, &$1.column
-  }
-  | ';' {
-    printf(BHBLU "declaration -> <SEMICOLON, %s>\n" reset, $1.lexeme);
-    $$ = create_node(&$$, DECLARATION);
-    add_tree_token_node(&$$, &$1, SEMICOLON);
-    // &$1.lexeme, &$1.line, &$1.column
-  }
+  // | ID {
+  //   printf(BHBLU "declaration -> <ID, %s>\n" reset, $1.lexeme);
+  //   $$ = create_node(&$$, DECLARATION);
+  //   add_tree_token_node(&$$, &$1, ID);
+  //   // &$1.lexeme, &$1.line, &$1.column
+  // }
+  // | STRING {
+  //   printf(BHBLU "declaration -> <STRING, %s>\n" reset, $1.lexeme);
+  //   $$ = create_node(&$$, DECLARATION);
+  //   add_tree_token_node(&$$, &$1, ID);
+  //   // &$1.lexeme, &$1.line, &$1.column
+  // }
+  // | '(' {
+  //   printf(BHBLU "declaration -> <DELIMITER, %s>\n" reset, $1.lexeme);
+  //   $$ = create_node(&$$, DECLARATION);
+  //   add_tree_token_node(&$$, &$1, DELIMITER);
+  //   // &$1.lexeme, &$1.line, &$1.column
+  // }
+  // | ')' {
+  //   printf(BHBLU "declaration -> <DELIMITER, %s>\n" reset, $1.lexeme);
+  //   $$ = create_node(&$$, DECLARATION);
+  //   add_tree_token_node(&$$, &$1, DELIMITER);
+  //   // &$1.lexeme, &$1.line, &$1.column
+  // }
+  // | '{' {
+  //   printf(BHBLU "declaration -> <DELIMITER, %s>\n" reset, $1.lexeme);
+  //   $$ = create_node(&$$, DECLARATION);
+  //   add_tree_token_node(&$$, &$1, DELIMITER);
+  //   // &$1.lexeme, &$1.line, &$1.column
+  // }
+  // | '}' {
+  //   printf(BHBLU "declaration -> <DELIMITER, %s>\n" reset, $1.lexeme);
+  //   $$ = create_node(&$$, DECLARATION);
+  //   add_tree_token_node(&$$, &$1, DELIMITER);
+  //   // &$1.lexeme, &$1.line, &$1.column
+  // }
+  // | ';' {
+  //   printf(BHBLU "declaration -> <SEMICOLON, %s>\n" reset, $1.lexeme);
+  //   $$ = create_node(&$$, DECLARATION);
+  //   add_tree_token_node(&$$, &$1, SEMICOLON);
+  //   // &$1.lexeme, &$1.line, &$1.column
+  // }
   
   // variable_declartion
   // | function_declartion
@@ -190,7 +190,7 @@ int main(int argc, char **argv) {
   
   total_lexical_errors();
 
-  print_tree(&root, 0);
+  // print_tree(&root, 0);
 
   printf("\n---------------\nSYMBOL TABLE\n---------------\nID | TOKENS\n---------------\n");
   print_table();

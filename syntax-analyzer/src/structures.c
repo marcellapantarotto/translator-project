@@ -59,30 +59,59 @@ void total_lexical_errors() {
 
 //===============================================================
 
-// t_token new_token() {
-//   struct t_token *t = (struct tree*)malloc(sizeof(t_token));
-//   t->line = 0;
-//   t->column = 0;
-//   strcpy(t->lexeme, "");
-//   // t->scope = 0;
-// }
+t_token null_token() {
+  struct t_token *t = (struct t_token*)malloc(sizeof(t_token));
+  t->line = -1;
+  t->column = -1;
+  strcpy(t->lexeme, "");
+  // t->scope = -1;
+  return *t;
+}
+
+void print_token(t_token *t) {
+  printf("(TOKEN ");
+  printf("Lexeme: %s; ", t->lexeme);
+  printf("Line: %d; ", t->line);
+  printf("Column: %d;) ", t->column);
+}
+
+void print_node(t_node *n) {
+  printf("(NODE ");
+  print_token(&n->token);
+  printf("Type: %d; ", n->type);
+  // printf("(CHILDREN ");
+  // print_children(n->children);
+  printf(")\n");
+}
+
+void print_children(tree_node *c) {
+  print_node(c->child);
+  printf("(Sibilings: ");
+  print_children(c->sibilings);
+  printf(")\n");
+}
 
 t_token create_token(t_token *t) {
+  printf("CREATE TOKEN: ");
   struct t_token *token = (struct t_token*)malloc(sizeof(t_token));
   strcpy(token->lexeme, t->lexeme);
   token->line = t->line;
   token->column = t->column;
   strcpy(token->lexeme, t->lexeme);
   // token->scope = t->scope;
+  print_token(token);
   return *token;
 }
 
 // create new node in tree with the token that is bening passed
 t_node create_node(t_node *t, int type) {
+  printf("CREATE NODE: type: %d\n", type);
   struct t_node *node = (struct t_node*)malloc(sizeof(t_node));
-  node->token = create_token(NULL);
+  node = t;
+  node->token = null_token(NULL);
   node->type = type;
   node->children = NULL;
+  print_node(node);
   return *node;
 }
 
@@ -108,15 +137,19 @@ t_node add_tree_node(t_node *root, t_node *node) {
   //     node->right = add_tree_node(t, node->right);
   //   }
   // }
+  print_node(node);
   return *node;
 }
 
 // create new node in tree with the token that is bening passed
 t_node create_token_node(t_token *t, int type) {
+  printf("CREATE TOKEN NODE: ");
   struct t_node *node = (struct t_node*)malloc(sizeof(t_node));
   node->token = create_token(t);
+  
   node->type = type;
   node->children = NULL;
+  print_node(node);
   return *node;
 }
 
@@ -125,9 +158,16 @@ t_node add_tree_token_node(t_node *root, t_token *tok, int type) {
   // tok->lexeme;
   // tok->line;
   // tok->column;
+  printf("ADD TREE TOKEN NODE: \n");
+  printf("node root: ");
+  print_node(root);
+  printf("token que vai pro nó: ");
+  print_token(tok);
+  printf("\n");
   struct t_node *node = (struct t_node*)malloc(sizeof(t_node));
   *node = create_token_node(tok, type);
   add_tree_node(root, node);
+  print_node(node);
   return *node;
 }
 

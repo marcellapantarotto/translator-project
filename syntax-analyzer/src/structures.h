@@ -6,7 +6,7 @@
 #define reset "\e[0m"
 
 enum rule_type {
-  INT,
+  INT = 0,
   FLOAT,
   LIST,
   CONSTANT_NUMBER,
