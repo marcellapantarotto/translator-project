@@ -74,12 +74,15 @@
   #include "structures.h"
   #include "structures.c"
 
+  extern int yylineno;
   extern int yylex();
   // int yylex_destroy();
   extern int yyerror(char *s);
   extern FILE *yyin;
 
-#line 83 "src/syn.tab.c"
+  t_node root;
+
+#line 86 "src/syn.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -137,11 +140,12 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 29 "src/syn.y"
+#line 41 "src/syn.y"
 
   t_token token;
+  t_node node;
 
-#line 145 "src/syn.tab.c"
+#line 149 "src/syn.tab.c"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -467,7 +471,7 @@ union yyalloc
 /* YYNNTS -- Number of nonterminals.  */
 #define YYNNTS  4
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  13
+#define YYNRULES  12
 /* YYNSTATES -- Number of states.  */
 #define YYNSTATES  14
 
@@ -517,8 +521,8 @@ static const yytype_int8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int8 yyrline[] =
 {
-       0,    36,    36,    39,    43,    46,    52,    55,    56,    57,
-      58,    59,    60,    61
+       0,    51,    51,    60,    66,    74,    80,    86,    92,    98,
+     104,   110,   116
 };
 #endif
 
@@ -566,8 +570,8 @@ static const yytype_int8 yypact[] =
      means the default is an error.  */
 static const yytype_int8 yydefact[] =
 {
-       3,     6,     8,     7,    13,     9,    10,    11,    12,     0,
-       2,     5,     1,     4
+       0,     5,     7,     6,    12,     8,     9,    10,    11,     0,
+       2,     4,     1,     3
 };
 
   /* YYPGOTO[NTERM-NUM].  */
@@ -606,15 +610,15 @@ static const yytype_int8 yystos[] =
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_int8 yyr1[] =
 {
-       0,    11,    12,    12,    13,    13,    14,    14,    14,    14,
-      14,    14,    14,    14
+       0,    11,    12,    13,    13,    14,    14,    14,    14,    14,
+      14,    14,    14
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
 static const yytype_int8 yyr2[] =
 {
-       0,     2,     1,     0,     2,     1,     1,     1,     1,     1,
-       1,     1,     1,     1
+       0,     2,     1,     2,     1,     1,     1,     1,     1,     1,
+       1,     1,     1
 };
 
 
@@ -1310,39 +1314,126 @@ yyreduce:
   switch (yyn)
     {
   case 2:
-#line 36 "src/syn.y"
+#line 51 "src/syn.y"
                        {
     printf(BHBLU "program -> list_of_declarations\n" reset);
+    root = create_node(&root, PROGRAM);
+    add_tree_node(&root, &(yyvsp[0].node));
   }
-#line 1318 "src/syn.tab.c"
+#line 1324 "src/syn.tab.c"
+    break;
+
+  case 3:
+#line 60 "src/syn.y"
+                                   {
+    printf(BHBLU "list_of_declarations -> declaration list_of_declarations\n" reset);
+    (yyval.node) = create_node(&(yyval.node), LST_DECLARATIONS);
+    add_tree_node(&(yyval.node), &(yyvsp[-1].node));
+    add_tree_node(&(yyval.node), &(yyvsp[0].node));
+  }
+#line 1335 "src/syn.tab.c"
     break;
 
   case 4:
-#line 43 "src/syn.y"
-                                   {
-    printf(BHBLU "program -> list_of_declarations -> declaration list_of_declarations\n" reset);
+#line 66 "src/syn.y"
+                {
+    printf(BHBLU "program -> list_of_declarations -> declaration\n" reset);
+    (yyval.node) = create_node(&(yyval.node), DECLARATION);
+    add_tree_node(&(yyval.node), &(yyvsp[0].node));
   }
-#line 1326 "src/syn.tab.c"
+#line 1345 "src/syn.tab.c"
     break;
 
   case 5:
-#line 46 "src/syn.y"
-                {
-    printf(BHBLU "program -> list_of_declarations -> declaration\n" reset);
+#line 74 "src/syn.y"
+          {
+    printf(BHBLU "declaration -> <INTEGER, %s>\n" reset, (yyvsp[0].token).lexeme);
+    (yyval.node) = create_node(&(yyval.node), DECLARATION);
+    add_tree_token_node(&(yyval.node), &(yyvsp[0].token), INT);
+    // &$1.lexeme, &$1.line, &$1.column
   }
-#line 1334 "src/syn.tab.c"
+#line 1356 "src/syn.tab.c"
     break;
 
   case 6:
-#line 52 "src/syn.y"
-          {
-    printf(BHBLU "program -> list_of_declarations -> declaration -> INTEGER\n" reset);
+#line 80 "src/syn.y"
+       {
+    printf(BHBLU "declaration -> <ID, %s>\n" reset, (yyvsp[0].token).lexeme);
+    (yyval.node) = create_node(&(yyval.node), DECLARATION);
+    add_tree_token_node(&(yyval.node), &(yyvsp[0].token), ID);
+    // &$1.lexeme, &$1.line, &$1.column
   }
-#line 1342 "src/syn.tab.c"
+#line 1367 "src/syn.tab.c"
+    break;
+
+  case 7:
+#line 86 "src/syn.y"
+           {
+    printf(BHBLU "declaration -> <STRING, %s>\n" reset, (yyvsp[0].token).lexeme);
+    (yyval.node) = create_node(&(yyval.node), DECLARATION);
+    add_tree_token_node(&(yyval.node), &(yyvsp[0].token), ID);
+    // &$1.lexeme, &$1.line, &$1.column
+  }
+#line 1378 "src/syn.tab.c"
+    break;
+
+  case 8:
+#line 92 "src/syn.y"
+        {
+    printf(BHBLU "declaration -> <DELIMITER, %s>\n" reset, (yyvsp[0].token).lexeme);
+    (yyval.node) = create_node(&(yyval.node), DECLARATION);
+    add_tree_token_node(&(yyval.node), &(yyvsp[0].token), DELIMITER);
+    // &$1.lexeme, &$1.line, &$1.column
+  }
+#line 1389 "src/syn.tab.c"
+    break;
+
+  case 9:
+#line 98 "src/syn.y"
+        {
+    printf(BHBLU "declaration -> <DELIMITER, %s>\n" reset, (yyvsp[0].token).lexeme);
+    (yyval.node) = create_node(&(yyval.node), DECLARATION);
+    add_tree_token_node(&(yyval.node), &(yyvsp[0].token), DELIMITER);
+    // &$1.lexeme, &$1.line, &$1.column
+  }
+#line 1400 "src/syn.tab.c"
+    break;
+
+  case 10:
+#line 104 "src/syn.y"
+        {
+    printf(BHBLU "declaration -> <DELIMITER, %s>\n" reset, (yyvsp[0].token).lexeme);
+    (yyval.node) = create_node(&(yyval.node), DECLARATION);
+    add_tree_token_node(&(yyval.node), &(yyvsp[0].token), DELIMITER);
+    // &$1.lexeme, &$1.line, &$1.column
+  }
+#line 1411 "src/syn.tab.c"
+    break;
+
+  case 11:
+#line 110 "src/syn.y"
+        {
+    printf(BHBLU "declaration -> <DELIMITER, %s>\n" reset, (yyvsp[0].token).lexeme);
+    (yyval.node) = create_node(&(yyval.node), DECLARATION);
+    add_tree_token_node(&(yyval.node), &(yyvsp[0].token), DELIMITER);
+    // &$1.lexeme, &$1.line, &$1.column
+  }
+#line 1422 "src/syn.tab.c"
+    break;
+
+  case 12:
+#line 116 "src/syn.y"
+        {
+    printf(BHBLU "declaration -> <SEMICOLON, %s>\n" reset, (yyvsp[0].token).lexeme);
+    (yyval.node) = create_node(&(yyval.node), DECLARATION);
+    add_tree_token_node(&(yyval.node), &(yyvsp[0].token), SEMICOLON);
+    // &$1.lexeme, &$1.line, &$1.column
+  }
+#line 1433 "src/syn.tab.c"
     break;
 
 
-#line 1346 "src/syn.tab.c"
+#line 1437 "src/syn.tab.c"
 
       default: break;
     }
@@ -1574,19 +1665,22 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 107 "src/syn.y"
+#line 167 "src/syn.y"
 
 //********** C Functions **********
 int yyerror(char *s) {
-  fprintf(stderr, BHRED "\nError: %s" reset "\n", s);
+  fprintf(stderr, BHRED "\nError: %s in line: %d, column: %d" reset "\n", s, yylineno, column-1);
   return 0;
 }
+
+
 
 int main(int argc, char **argv) {
   ++argv, --argc;
   symbol_table = create_table();
+  
 
-  // tree_node *root = new_tree_node();
+  // tree_node *root = create_node();
 
   if ( argc > 0 ) {
     yyin = fopen( argv[0], "r" );
@@ -1597,6 +1691,8 @@ int main(int argc, char **argv) {
     yyin = stdin;
   
   total_lexical_errors();
+
+  print_tree(&root, 0);
 
   printf("\n---------------\nSYMBOL TABLE\n---------------\nID | TOKENS\n---------------\n");
   print_table();

@@ -5,6 +5,32 @@
 #define BHBLU "\e[1;94m"  // blue
 #define reset "\e[0m"
 
+enum rule_type {
+  INT,
+  FLOAT,
+  LIST,
+  CONSTANT_NUMBER,
+  CONSTANT_NIL,
+  STRING_STMT,
+  ASSIGNMENT_COMMAND,
+  CONDITIONAL_COMMAND,
+  INTERATION_COMMAND,
+  FUNCTION_CALLING,
+  RETURN_COMMAND,
+  LOGICAL_OPERATOR,
+  RELATIONAL_OPERATOR,
+  ARITHMETIC_OPERATOR,
+  LIST_OPERATOR,
+  DELIMITER,
+  SEMICOLON,
+  PUNCTUATION,
+  IDENTIFIER,
+  PROGRAM,
+  LST_DECLARATIONS,
+  DECLARATION,
+  ROOT,
+};
+
 void show_error();
 void total_lexical_errors();
 
@@ -29,20 +55,23 @@ typedef struct table {
 
 // token
 typedef struct t_token {
-    char lexeme[100];
-    char type[20];
-    int line;
-    int column;
-    // int scope;
+  char lexeme[200];
+  int line;
+  int column;
+  // int scope;
 } t_token;
 
-// tree node
+// tree structure
+typedef struct t_node {
+  struct t_token token; //--------> value (for node = NULL; for token = terminal)
+  enum rule_type type;
+	struct tree_node *children;
+} t_node;
+
+// tree node struct
 typedef struct tree_node {
-  struct t_token token;
-	struct tree_node *child1;
-	struct tree_node *child2;
-  struct tree_node *child3;
-  struct tree_node *child4;
+  struct t_node *child;
+  struct tree_node *sibilings;
 } tree_node;
 
 
@@ -51,6 +80,6 @@ table symbol_table;
 // table *ptr_symbol_table = &symbol_table;
 int id_counter;
 
-// tree_node syntax_tree;
+
 
 #endif

@@ -59,11 +59,12 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 29 "src/syn.y"
+#line 41 "src/syn.y"
 
   t_token token;
+  t_node node;
 
-#line 67 "src/syn.tab.h"
+#line 68 "src/syn.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;
