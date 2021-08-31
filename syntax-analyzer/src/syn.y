@@ -44,18 +44,18 @@
   t_node node;
 }
 
-%start declaration
+%start program
 
 //********** Grammar Rules **********
 %%
-// program: 
-//   declaration {
-//     printf(BHBLU "program -> list_of_declarations\n" reset);
-//     root = create_node(&root, PROGRAM);
-//     add_tree_node(&root, &$1);
-//   }
-//   // | /* epsilon */
-// ;
+program: 
+  declaration {
+    printf(BHBLU "program -> list_of_declarations\n" reset);
+    root = create_node(&root, PROGRAM);
+    add_tree_node(&root, &$1);
+  }
+  // | /* epsilon */
+;
 
 // list_of_declarations:
 //   declaration list_of_declarations {
@@ -183,7 +183,6 @@ int main(int argc, char **argv) {
 
   if ( argc > 0 ) {
     yyin = fopen( argv[0], "r" );
-    printf("\n~~~~ PARSING ~~~~\n\n");
     yyparse();
   }
   else
@@ -191,7 +190,8 @@ int main(int argc, char **argv) {
   
   total_lexical_errors();
 
-  print_tree(&root, 0);
+  printf("\n~~~~ ABSTRACT TREE ~~~~\n\n");
+  print_tree(&root, 1);
 
   printf("\n---------------\nSYMBOL TABLE\n---------------\nID | TOKENS\n---------------\n");
   print_table();

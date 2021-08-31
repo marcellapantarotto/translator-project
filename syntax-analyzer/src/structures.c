@@ -3,6 +3,32 @@
 #include <string.h>
 #include "structures.h"
 
+const char *rule_label[] = {
+  "INT",
+  "FLOAT",
+  "LIST",
+  "CONSTANT_NUMBER",
+  "CONSTANT_NIL",
+  "STRING_STMT",
+  "ASSIGNMENT_COMMAND",
+  "CONDITIONAL_COMMAND",
+  "INTERATION_COMMAND",
+  "FUNCTION_CALLING",
+  "RETURN_COMMAND",
+  "LOGICAL_OPERATOR",
+  "RELATIONAL_OPERATOR",
+  "ARITHMETIC_OPERATOR",
+  "LIST_OPERATOR",
+  "DELIMITER",
+  "SEMICOLON",
+  "PUNCTUATION",
+  "IDENTIFIER",
+  "PROGRAM",
+  "LST_DECLARATIONS",
+  "DECLARATION",
+};
+
+
 // create symbol table
 table create_table() {
   table t;
@@ -170,9 +196,8 @@ t_node add_tree_token_node(t_node *root, t_token *tok, int type) {
 
 // // print tree
 void print_tree(t_node *root, int height) {
-  printf("\nABSTRACT TREE:\n");
   for (int i = 0; i < height; i++) {
-    printf("%d\n", root->type);
+    printf(".%s\n", rule_label[root->type]);
   }
   
   tree_node *curr = root->children;
