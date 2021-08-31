@@ -76,7 +76,7 @@ program:
 declaration:
   INTEGER {
       // printf(BHBLU "declaration -> <INTEGER, %s>\n" reset, $1.lexeme);
-      $$ = create_node(&$$, NUMBER);
+      $$ = create_node(&$$, DECLARATION);
       add_tree_token_node(&$$, &$1, INT);
       // &$1.lexeme, &$1.line, &$1.column
     }
@@ -89,7 +89,7 @@ declaration:
   | ID {
     // printf(BHBLU "declaration -> <ID, %s>\n" reset, $1.lexeme);
     $$ = create_node(&$$, DECLARATION);
-    add_tree_token_node(&$$, &$1, ID);
+    add_tree_token_node(&$$, &$1, IDENTIFIER);
     // &$1.lexeme, &$1.line, &$1.column
   }
 ;

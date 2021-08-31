@@ -1321,7 +1321,7 @@ yyreduce:
 #line 77 "src/syn.y"
           {
       // printf(BHBLU "declaration -> <INTEGER, %s>\n" reset, $1.lexeme);
-      (yyval.node) = create_node(&(yyval.node), NUMBER);
+      (yyval.node) = create_node(&(yyval.node), DECLARATION);
       add_tree_token_node(&(yyval.node), &(yyvsp[0].token), INT);
       // &$1.lexeme, &$1.line, &$1.column
     }
@@ -1333,7 +1333,7 @@ yyreduce:
        {
     // printf(BHBLU "declaration -> <ID, %s>\n" reset, $1.lexeme);
     (yyval.node) = create_node(&(yyval.node), DECLARATION);
-    add_tree_token_node(&(yyval.node), &(yyvsp[0].token), ID);
+    add_tree_token_node(&(yyval.node), &(yyvsp[0].token), IDENTIFIER);
     // &$1.lexeme, &$1.line, &$1.column
   }
 #line 1340 "src/syn.tab.c"

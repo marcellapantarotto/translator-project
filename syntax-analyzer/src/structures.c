@@ -95,7 +95,7 @@ void print_token(t_token *t) {
 void print_node(t_node *n) {
   printf("(Node ");
   print_token(&n->token);
-  printf("type: %d; ", n->type);
+  printf("type: %s; ",  rule_label[n->type]);
   // printf("(CHILDREN ");
   // print_children(n->children);
   printf(")\n");
@@ -108,7 +108,7 @@ void print_children(tree_node *c) {
   printf(")\n");
 }
 
-//=======================
+//===============================================================
 
 // creating empty token
 t_token null_token() {
@@ -119,7 +119,6 @@ t_token null_token() {
   // t->scope = -1;
   return *t;
 }
-
 
 t_token create_token(t_token *t) {
   printf("CREATE TOKEN: ");
@@ -145,23 +144,23 @@ t_node create_node(t_node *t, int type) {
   return *node;
 }
 
-// add tree node
+// add node to the tree
 t_node add_tree_node(t_node *root, t_node *node) {
   struct tree_node *aux = (struct tree_node*)malloc(sizeof(tree_node));
   aux->child = node;
   aux->sibilings = NULL;
 
   if(root->children == NULL) {
-    root->children = aux;
+    root->children = aux;   // node
   } else {
     tree_node *youngest = root->children;
     
     while(youngest->sibilings) {
       youngest = youngest->sibilings;
-      youngest->sibilings = aux;
+      youngest->sibilings = aux; // node
     } 
   }
-
+  
   printf("add_tree_node: ");
   print_node(node);
   return *node;
@@ -178,7 +177,7 @@ t_node token_to_node(t_token *t, int type) {
   return *node;
 }
 
-// add tree node that is a token
+// add a token (converted into node) to the tree
 t_node add_tree_token_node(t_node *root, t_token *tok, int type) {
   // tok->lexeme;
   // tok->line;
@@ -189,6 +188,8 @@ t_node add_tree_token_node(t_node *root, t_token *tok, int type) {
   *node = token_to_node(tok, type);
 
   add_tree_node(root, node);
+
+  printf("token added as node: ");
   print_node(node);
   return *node;
 }
