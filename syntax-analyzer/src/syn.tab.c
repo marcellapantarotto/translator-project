@@ -74,6 +74,7 @@
   #include "structures.h"
   #include "structures.c"
 
+  extern int yyleng;
   extern int yylineno;
   extern int yylex();
   // int yylex_destroy();
@@ -82,7 +83,7 @@
 
   t_node root;
 
-#line 86 "src/syn.tab.c"
+#line 87 "src/syn.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -140,12 +141,12 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 41 "src/syn.y"
+#line 42 "src/syn.y"
 
   t_token token;
   t_node node;
 
-#line 149 "src/syn.tab.c"
+#line 150 "src/syn.tab.c"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -521,7 +522,7 @@ static const yytype_int8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int8 yyrline[] =
 {
-       0,    74,    74
+       0,    75,    75
 };
 #endif
 
@@ -1307,18 +1308,18 @@ yyreduce:
   switch (yyn)
     {
   case 2:
-#line 74 "src/syn.y"
+#line 75 "src/syn.y"
           {
     printf(BHBLU "declaration -> <INTEGER, %s>\n" reset, (yyvsp[0].token).lexeme);
     (yyval.node) = create_node(&(yyval.node), DECLARATION);
     add_tree_token_node(&(yyval.node), &(yyvsp[0].token), INT);
     // &$1.lexeme, &$1.line, &$1.column
   }
-#line 1318 "src/syn.tab.c"
+#line 1319 "src/syn.tab.c"
     break;
 
 
-#line 1322 "src/syn.tab.c"
+#line 1323 "src/syn.tab.c"
 
       default: break;
     }
@@ -1550,11 +1551,11 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 167 "src/syn.y"
+#line 168 "src/syn.y"
 
 //********** C Functions **********
 int yyerror(char *s) {
-  fprintf(stderr, BHRED "\nError: %s in line: %d, column: %d" reset "\n", s, yylineno, column-1);
+  fprintf(stderr, BHRED "\nError: %s in line: %d, column: %d" reset "\n", s, yylineno, column-yyleng);
   return 0;
 }
 
@@ -1577,7 +1578,7 @@ int main(int argc, char **argv) {
   
   total_lexical_errors();
 
-  // print_tree(&root, 0);
+  print_tree(&root, 0);
 
   printf("\n---------------\nSYMBOL TABLE\n---------------\nID | TOKENS\n---------------\n");
   print_table();

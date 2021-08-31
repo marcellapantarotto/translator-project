@@ -9,6 +9,7 @@
   #include "structures.h"
   #include "structures.c"
 
+  extern int yyleng;
   extern int yylineno;
   extern int yylex();
   // int yylex_destroy();
@@ -167,7 +168,7 @@ declaration:
 %%
 //********** C Functions **********
 int yyerror(char *s) {
-  fprintf(stderr, BHRED "\nError: %s in line: %d, column: %d" reset "\n", s, yylineno, column-1);
+  fprintf(stderr, BHRED "\nError: %s in line: %d, column: %d" reset "\n", s, yylineno, column-yyleng);
   return 0;
 }
 
@@ -190,7 +191,7 @@ int main(int argc, char **argv) {
   
   total_lexical_errors();
 
-  // print_tree(&root, 0);
+  print_tree(&root, 0);
 
   printf("\n---------------\nSYMBOL TABLE\n---------------\nID | TOKENS\n---------------\n");
   print_table();
