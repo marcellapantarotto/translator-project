@@ -143,7 +143,7 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 58 "src/syn.y"
+#line 59 "src/syn.y"
 
   t_token token;
   t_node node;
@@ -465,18 +465,18 @@ union yyalloc
 #endif /* !YYCOPY_NEEDED */
 
 /* YYFINAL -- State number of the termination state.  */
-#define YYFINAL  16
+#define YYFINAL  17
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   26
+#define YYLAST   27
 
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  18
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  4
+#define YYNNTS  5
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  15
+#define YYNRULES  16
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  17
+#define YYNSTATES  18
 
 #define YYUNDEFTOK  2
 #define YYMAXUTOK   262
@@ -524,8 +524,8 @@ static const yytype_int8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    68,    68,   115,   121,   126,   131,   136,   141,   146,
-     151,   156,   161,   166,   171,   179
+       0,    69,    69,    80,   131,   140,   145,   150,   155,   160,
+     165,   170,   175,   180,   185,   190,   198
 };
 #endif
 
@@ -536,7 +536,7 @@ static const char *const yytname[] =
 {
   "$end", "error", "$undefined", "NUM_INT", "STRING", "ID", "'('", "')'",
   "'{'", "'}'", "';'", "','", "FILTER", "MAP", "':'", "'%'", "'?'", "'!'",
-  "$accept", "program", "symbols", "not_tail", YY_NULLPTR
+  "$accept", "root_node", "program", "symbols", "not_tail", YY_NULLPTR
 };
 #endif
 
@@ -555,7 +555,7 @@ static const yytype_int16 yytoknum[] =
 #define yypact_value_is_default(Yyn) \
   ((Yyn) == YYPACT_NINF)
 
-#define YYTABLE_NINF (-16)
+#define YYTABLE_NINF (-17)
 
 #define yytable_value_is_error(Yyn) \
   0
@@ -565,7 +565,7 @@ static const yytype_int16 yytoknum[] =
 static const yytype_int8 yypact[] =
 {
       -6,    12,    13,    14,    15,    16,    17,    18,    19,    20,
-      21,    22,    23,    24,    25,    26,    -7
+      21,    22,    23,    24,    25,    26,    27,    -7
 };
 
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -574,19 +574,19 @@ static const yytype_int8 yypact[] =
 static const yytype_int8 yydefact[] =
 {
        0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,     0,     0,     1
+       0,     0,     0,     0,     0,     0,     0,     1
 };
 
   /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-      -7,    -7,    -7,    -7
+      -7,    -7,    -7,    -7,    -7
 };
 
   /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-      -1,    13,    14,    15
+      -1,    13,    14,    15,    16
 };
 
   /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -595,15 +595,15 @@ static const yytype_int8 yydefgoto[] =
 static const yytype_int8 yytable[] =
 {
        1,     2,     3,     4,     5,     6,     7,     8,     9,    10,
-      11,    12,    -4,    -5,    -6,    -7,    -8,    -9,   -10,   -11,
-     -12,   -13,   -14,   -15,    16,    -2,    -3
+      11,    12,    -5,    -6,    -7,    -8,    -9,   -10,   -11,   -12,
+     -13,   -14,   -15,   -16,    17,    -2,    -3,    -4
 };
 
 static const yytype_int8 yycheck[] =
 {
        6,     7,     8,     9,    10,    11,    12,    13,    14,    15,
       16,    17,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,     0,     0,     0
+       0,     0,     0,     0,     0,     0,     0,     0
 };
 
   /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
@@ -611,21 +611,21 @@ static const yytype_int8 yycheck[] =
 static const yytype_int8 yystos[] =
 {
        0,     6,     7,     8,     9,    10,    11,    12,    13,    14,
-      15,    16,    17,    19,    20,    21,     0
+      15,    16,    17,    19,    20,    21,    22,     0
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_int8 yyr1[] =
 {
-       0,    18,    19,    20,    20,    20,    20,    20,    20,    20,
-      20,    20,    20,    20,    20,    21
+       0,    18,    19,    20,    21,    21,    21,    21,    21,    21,
+      21,    21,    21,    21,    21,    21,    22
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
 static const yytype_int8 yyr2[] =
 {
        0,     2,     1,     1,     1,     1,     1,     1,     1,     1,
-       1,     1,     1,     1,     1,     1
+       1,     1,     1,     1,     1,     1,     1
 };
 
 
@@ -1321,148 +1321,173 @@ yyreduce:
   switch (yyn)
     {
   case 2:
-#line 68 "src/syn.y"
+#line 69 "src/syn.y"
           {
-    printf(BHBLU "program -> symbols\n" reset);
-    root = create_node(&root, PROGRAM);
-    add_tree_node(&root, &(yyvsp[0].node));
+    root = (yyval.node);
+    printf("root\n$$: ");
+    print_node(&(yyval.node));
+    printf("$1: ");
+    print_node(&(yyvsp[0].node));
+    // add_tree_node(&root, &$1);
   }
-#line 1331 "src/syn.tab.c"
+#line 1334 "src/syn.tab.c"
     break;
 
   case 3:
-#line 115 "src/syn.y"
-           {
-    printf(BHBLU "symbols -> not_tail\n" reset);
-    (yyval.node) = create_node(&(yyval.node), SYMBOL);
+#line 80 "src/syn.y"
+          {
+    printf(BHBLU "program -> symbols\n" reset);
+    (yyval.node) = create_node(&(yyval.node), PROGRAM);
+    printf("$$: ");
+    print_node(&(yyval.node));
+    printf("$1: ");
     print_node(&(yyvsp[0].node));
     // add_tree_node(&$$, &$1);
   }
-#line 1342 "src/syn.tab.c"
+#line 1348 "src/syn.tab.c"
     break;
 
   case 4:
-#line 121 "src/syn.y"
+#line 131 "src/syn.y"
+           {
+    printf(BHBLU "symbols -> not_tail\n" reset);
+    (yyval.node) = create_node(&(yyval.node), SYMBOL);
+    printf("$$: ");
+    print_node(&(yyval.node));
+    printf("$1: ");
+    print_node(&(yyvsp[0].node));
+    // add_tree_node(&$$, &$1);
+  }
+#line 1362 "src/syn.tab.c"
+    break;
+
+  case 5:
+#line 140 "src/syn.y"
         {
     printf(BHBLU "symbols -> <OPEN_PARENTHESES, %s>\n" reset, (yyvsp[0].token).lexeme);
     (yyval.node) = create_node(&(yyval.node), SYMBOL);
     add_tree_token_node(&(yyval.node), &(yyvsp[0].token), OPEN_PARENTHESES);
   }
-#line 1352 "src/syn.tab.c"
+#line 1372 "src/syn.tab.c"
     break;
 
-  case 5:
-#line 126 "src/syn.y"
+  case 6:
+#line 145 "src/syn.y"
         {
     printf(BHBLU "SYMBOL -> <CLOSE_PARENTHESES, %s>\n" reset, (yyvsp[0].token).lexeme);
     (yyval.node) = create_node(&(yyval.node), SYMBOL);
     add_tree_token_node(&(yyval.node), &(yyvsp[0].token), CLOSE_PARENTHESES);
   }
-#line 1362 "src/syn.tab.c"
+#line 1382 "src/syn.tab.c"
     break;
 
-  case 6:
-#line 131 "src/syn.y"
+  case 7:
+#line 150 "src/syn.y"
         {
     printf(BHBLU "SYMBOL -> <OPEN_CURLY_BRACKET, %s>\n" reset, (yyvsp[0].token).lexeme);
     (yyval.node) = create_node(&(yyval.node), SYMBOL);
     add_tree_token_node(&(yyval.node), &(yyvsp[0].token), OPEN_CURLY_BRACKET);
   }
-#line 1372 "src/syn.tab.c"
+#line 1392 "src/syn.tab.c"
     break;
 
-  case 7:
-#line 136 "src/syn.y"
+  case 8:
+#line 155 "src/syn.y"
         {
     printf(BHBLU "SYMBOL -> <CLOSE_CURLY_BRACKET, %s>\n" reset, (yyvsp[0].token).lexeme);
     (yyval.node) = create_node(&(yyval.node), SYMBOL);
     add_tree_token_node(&(yyval.node), &(yyvsp[0].token), CLOSE_CURLY_BRACKET);
   }
-#line 1382 "src/syn.tab.c"
+#line 1402 "src/syn.tab.c"
     break;
 
-  case 8:
-#line 141 "src/syn.y"
+  case 9:
+#line 160 "src/syn.y"
         {
     printf(BHBLU "SYMBOL -> <SEMICOLON, %s>\n" reset, (yyvsp[0].token).lexeme);
     (yyval.node) = create_node(&(yyval.node), SYMBOL);
     add_tree_token_node(&(yyval.node), &(yyvsp[0].token), SEMICOLON);
   }
-#line 1392 "src/syn.tab.c"
+#line 1412 "src/syn.tab.c"
     break;
 
-  case 9:
-#line 146 "src/syn.y"
+  case 10:
+#line 165 "src/syn.y"
         {
     printf(BHBLU "SYMBOL -> <SEMICOLON, %s>\n" reset, (yyvsp[0].token).lexeme);
     (yyval.node) = create_node(&(yyval.node), SYMBOL);
     add_tree_token_node(&(yyval.node), &(yyvsp[0].token), COMMA);
   }
-#line 1402 "src/syn.tab.c"
+#line 1422 "src/syn.tab.c"
     break;
 
-  case 10:
-#line 151 "src/syn.y"
+  case 11:
+#line 170 "src/syn.y"
            {
     printf(BHBLU "SYMBOL -> <FILTER_OP, %s>\n" reset, (yyvsp[0].token).lexeme);
     (yyval.node) = create_node(&(yyval.node), SYMBOL);
     add_tree_token_node(&(yyval.node), &(yyvsp[0].token), FILTER_OP);
   }
-#line 1412 "src/syn.tab.c"
+#line 1432 "src/syn.tab.c"
     break;
 
-  case 11:
-#line 156 "src/syn.y"
+  case 12:
+#line 175 "src/syn.y"
         {
     printf(BHBLU "SYMBOL -> <MAP_OP, %s>\n" reset, (yyvsp[0].token).lexeme);
     (yyval.node) = create_node(&(yyval.node), SYMBOL);
     add_tree_token_node(&(yyval.node), &(yyvsp[0].token), MAP_OP);
   }
-#line 1422 "src/syn.tab.c"
+#line 1442 "src/syn.tab.c"
     break;
 
-  case 12:
-#line 161 "src/syn.y"
+  case 13:
+#line 180 "src/syn.y"
         {
     printf(BHBLU "SYMBOL -> <CONSTRUCTOR_OP, %s>\n" reset, (yyvsp[0].token).lexeme);
     (yyval.node) = create_node(&(yyval.node), SYMBOL);
     add_tree_token_node(&(yyval.node), &(yyvsp[0].token), CONSTRUCTOR_OP);
   }
-#line 1432 "src/syn.tab.c"
+#line 1452 "src/syn.tab.c"
     break;
 
-  case 13:
-#line 166 "src/syn.y"
+  case 14:
+#line 185 "src/syn.y"
         {
     printf(BHBLU "SYMBOL -> <POP_OP, %s>\n" reset, (yyvsp[0].token).lexeme);
     (yyval.node) = create_node(&(yyval.node), SYMBOL);
     add_tree_token_node(&(yyval.node), &(yyvsp[0].token), POP_OP);
   }
-#line 1442 "src/syn.tab.c"
+#line 1462 "src/syn.tab.c"
     break;
 
-  case 14:
-#line 171 "src/syn.y"
+  case 15:
+#line 190 "src/syn.y"
         {
     printf(BHBLU "SYMBOL -> <HEAD_OP, %s>\n" reset, (yyvsp[0].token).lexeme);
     (yyval.node) = create_node(&(yyval.node), SYMBOL);
     add_tree_token_node(&(yyval.node), &(yyvsp[0].token), HEAD_OP);
   }
-#line 1452 "src/syn.tab.c"
+#line 1472 "src/syn.tab.c"
     break;
 
-  case 15:
-#line 179 "src/syn.y"
+  case 16:
+#line 198 "src/syn.y"
       {
     printf(BHBLU "not_tail -> <NOT_OR_TAIL, %s>\n" reset, (yyvsp[0].token).lexeme);
     (yyval.node) = create_node(&(yyval.node), SYMBOL);
+    printf("$$: ");
+    print_node(&(yyval.node));
+    printf("$1: ");
+    print_token(&(yyvsp[0].token));
+    printf("\n");
     add_tree_token_node(&(yyval.node), &(yyvsp[0].token), NOT_OR_TAIL);
   }
-#line 1462 "src/syn.tab.c"
+#line 1487 "src/syn.tab.c"
     break;
 
 
-#line 1466 "src/syn.tab.c"
+#line 1491 "src/syn.tab.c"
 
       default: break;
     }
@@ -1694,7 +1719,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 187 "src/syn.y"
+#line 211 "src/syn.y"
 
 //********** C Functions **********
 int yyerror(char *s) {

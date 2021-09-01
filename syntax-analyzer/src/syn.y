@@ -53,6 +53,7 @@
 // %type <node> declaration
 %type <node> symbols
 %type <node> not_tail
+%type <node> root_node
 
 /********** Brigde between Lex and Y **********/
 %union {
@@ -60,15 +61,30 @@
   t_node node;
 }
 
-%start program
+%start root_node
 
 //********** Grammar Rules **********
 %%
+root_node: 
+  program {
+    root = $$;
+    printf("root\n$$: ");
+    print_node(&$$);
+    printf("$1: ");
+    print_node(&$1);
+    // add_tree_node(&root, &$1);
+  }
+;
+
 program: 
   symbols {
     printf(BHBLU "program -> symbols\n" reset);
-    root = create_node(&root, PROGRAM);
-    add_tree_node(&root, &$1);
+    $$ = create_node(&$$, PROGRAM);
+    printf("$$: ");
+    print_node(&$$);
+    printf("$1: ");
+    print_node(&$1);
+    // add_tree_node(&$$, &$1);
   }
   // | /* epsilon */
 ;
@@ -115,6 +131,9 @@ symbols:
   not_tail {
     printf(BHBLU "symbols -> not_tail\n" reset);
     $$ = create_node(&$$, SYMBOL);
+    printf("$$: ");
+    print_node(&$$);
+    printf("$1: ");
     print_node(&$1);
     // add_tree_node(&$$, &$1);
   }
@@ -179,6 +198,11 @@ not_tail:
   '!' {
     printf(BHBLU "not_tail -> <NOT_OR_TAIL, %s>\n" reset, $1.lexeme);
     $$ = create_node(&$$, SYMBOL);
+    printf("$$: ");
+    print_node(&$$);
+    printf("$1: ");
+    print_token(&$1);
+    printf("\n");
     add_tree_token_node(&$$, &$1, NOT_OR_TAIL);
   }
 ;
