@@ -52,32 +52,33 @@ const char *rule_label[] = {
   "MINUS_OP",
   "MULTIPLY_OP",
   "DIVISION_OP",
-  "CONSTRUCTOR_OP",
-  "HEAD_OP",
-  "POP_OP",
-  "MAP_OP",
-  "FILTER_OP",
-  "NOT_OR_TAIL",
-  "COMMA",
-  "SEMICOLON",
-  "OPEN_PARENTHESES",
-  "CLOSE_PARENTHESES",
-  "OPEN_CURLY_BRACKET",
-  "CLOSE_CURLY_BRACKET",
+  ":",
+  "?",
+  "%",
+  ">>",
+  "<<",
+  "!",
+  ",",
+  ";",
+  "(",
+  ")",
+  "{",
+  "}",
+  "SYMBOL",
 };
 
+//===============================================================
+// SYMBOL TABLE SECTION
+//===============================================================
 
 // create symbol table
 table create_table() {
   table t;
-
   t.beginning = (table_node*)malloc(sizeof(table_node));
   t.beginning->id = 0;
   strcpy(t.beginning->token,"");
   t.beginning->next = NULL;
-
   t.final = t.beginning;
-
   return t;
 }
 
@@ -87,12 +88,9 @@ int add_table_node(char *tok) {
   node->id = id_counter;
   strcpy(node->token,tok);
   node->next = NULL;
-
   symbol_table.final->next = node;
   symbol_table.final = node;
-
   id_counter++;
-
   return id_counter;
 }
 
@@ -105,7 +103,7 @@ void print_table() {
   }
 }
 
-// destrou symbol table
+// destroy symbol table
 void destroy_table() {
   table_node *curr = symbol_table.beginning;
   table_node *nxt;
@@ -117,10 +115,13 @@ void destroy_table() {
   free(curr);
 }
 
+// print total number of lexical errors
 void total_lexical_errors() {
   printf(BHRED "\nTotal number of lexical errors: %d \n\n" reset, errors);
 }
 
+//===============================================================
+// DEBUG SECTION
 //===============================================================
 
 void print_token(t_token *t) {
@@ -133,7 +134,7 @@ void print_token(t_token *t) {
 void print_node(t_node *n) {
   printf("(Node ");
   print_token(&n->token);
-  printf("type: %s; ",  rule_label[n->type]);
+  printf("type: %s ",  rule_label[n->type]);
   // printf("(CHILDREN ");
   // print_children(n->children);
   printf(")\n");
@@ -146,6 +147,8 @@ void print_children(tree_node *c) {
   printf(")\n");
 }
 
+//===============================================================
+// TREE SECTION
 //===============================================================
 
 // creating empty token
@@ -174,7 +177,7 @@ t_token create_token(t_token *t) {
 t_node create_node(t_node *t, int type) {
   printf("CREATE NODE: ");
   struct t_node *node = (struct t_node*)malloc(sizeof(t_node));
-  node = t;
+  // node = t;
   node->token = null_token(NULL);
   node->type = type;
   node->children = NULL;
@@ -184,6 +187,11 @@ t_node create_node(t_node *t, int type) {
 
 // add node to the tree
 t_node add_tree_node(t_node *root, t_node *node) {
+
+  // if (!node) {
+  //   *node = create_node(node, type);
+  // }
+
   struct tree_node *aux = (struct tree_node*)malloc(sizeof(tree_node));
   aux->child = node;
   aux->sibilings = NULL;
@@ -195,8 +203,8 @@ t_node add_tree_node(t_node *root, t_node *node) {
     
     while(youngest->sibilings) {
       youngest = youngest->sibilings;
-      youngest->sibilings = aux; // node
-    } 
+    }
+    youngest->sibilings = aux; // node
   }
   
   printf("add_tree_node: ");
@@ -232,14 +240,13 @@ t_node add_tree_token_node(t_node *root, t_token *tok, int type) {
   return *node;
 }
 
-
-// // print tree
+// print whole tree
 void print_tree(t_node *root, int height) {
   int i;
   for(i = 0; i < height-1; i++) {
     printf(".");
   }
-  printf(".%s\n", rule_label[root->type]);
+  printf(". %s\n", rule_label[root->type]);
 
   tree_node *curr = root->children;
   while(curr != NULL) {

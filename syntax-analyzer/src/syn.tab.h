@@ -51,7 +51,9 @@ extern int yydebug;
   {
     NUM_INT = 258,
     STRING = 259,
-    ID = 260
+    ID = 260,
+    FILTER = 261,
+    MAP = 262
   };
 #endif
 
@@ -59,12 +61,12 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 47 "src/syn.y"
+#line 58 "src/syn.y"
 
   t_token token;
   t_node node;
 
-#line 68 "src/syn.tab.h"
+#line 70 "src/syn.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

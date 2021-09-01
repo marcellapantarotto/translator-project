@@ -66,6 +66,7 @@ enum rule_type {
   CLOSE_PARENTHESES,
   OPEN_CURLY_BRACKET,
   CLOSE_CURLY_BRACKET,
+  SYMBOL,
 };
 
 void show_error();

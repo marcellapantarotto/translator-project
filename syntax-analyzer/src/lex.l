@@ -207,78 +207,100 @@ id              [_a-zA-Z][_a-zA-Z0-9]*
 
 "!" {
   printf("NAGATION OR LIST TAIL:\n  Line: %d, Column: %d \t-->\t<RELATIONAL_OP OR LIST_OP, %s> \n\n", yylineno, column, yytext);
-  column += yyleng;
-}
-
-"?" {
-  printf("HEADER OF LIST:\n  Line: %d, Column: %d \t-->\t<LIST_OP, %s> \n\n", yylineno, column, yytext);
-  column += yyleng;
-}
-
-"%" {
-  printf("TAIL OF LIST - REMOVING FIRST ELEMENT OF LIST:\n  Line: %d, Column: %d \t-->\t<LIST_OP, %s> \n\n", yylineno, column, yytext);
-  column += yyleng;
-}
-
-":" {
-  printf("LIST CONSTRUCTOR:\n  Line: %d, Column: %d \t-->\t<LIST_OP, %s> \n\n", yylineno, column, yytext);
-  column += yyleng;
-}
-
-">>" {
-  printf("MAP:\n  Line: %d, Column: %d \t-->\t<LIST_OP, %s> \n\n", yylineno, column, yytext);
-  column += yyleng;
-}
-
-"<<" {
-  printf("FILTER:\n  Line: %d, Column: %d \t-->\t<LIST_OP, %s> \n\n", yylineno, column, yytext);
-  column += yyleng;
-}
-
-"(" {
-  printf("OPEN PARENTHESES:\n  Line: %d, Column: %d \t-->\t<DELIMITER, %s> \n\n", yylineno, column, yytext);
-  
   sscanf(yytext, "%s", yylval.token.lexeme);
   yylval.token.line = yylineno;
   yylval.token.column = column;
   // yylval->token.scope = scope;
+  column += yyleng;
+  return('!');
+}
 
+"?" {
+  printf("HEADER OF LIST:\n  Line: %d, Column: %d \t-->\t<LIST_OP, %s> \n\n", yylineno, column, yytext);
+  sscanf(yytext, "%s", yylval.token.lexeme);
+  yylval.token.line = yylineno;
+  yylval.token.column = column;
+  // yylval->token.scope = scope;
+  column += yyleng;
+  return('?');
+}
+
+"%" {
+  printf("POP:\n  Line: %d, Column: %d \t-->\t<LIST_OP, %s> \n\n", yylineno, column, yytext);
+  sscanf(yytext, "%s", yylval.token.lexeme);
+  yylval.token.line = yylineno;
+  yylval.token.column = column;
+  // yylval->token.scope = scope;
+  column += yyleng;
+  return('%');
+}
+
+":" {
+  printf("LIST CONSTRUCTOR:\n  Line: %d, Column: %d \t-->\t<LIST_OP, %s> \n\n", yylineno, column, yytext);
+  sscanf(yytext, "%s", yylval.token.lexeme);
+  yylval.token.line = yylineno;
+  yylval.token.column = column;
+  // yylval->token.scope = scope;
+  column += yyleng;
+  return(':');
+}
+
+">>" {
+  printf("MAP:\n  Line: %d, Column: %d \t-->\t<LIST_OP, %s> \n\n", yylineno, column, yytext);
+  sscanf(yytext, "%s", yylval.token.lexeme);
+  yylval.token.line = yylineno;
+  yylval.token.column = column;
+  // yylval->token.scope = scope;
+  column += yyleng;
+  return(MAP);
+}
+
+"<<" {
+  printf("FILTER:\n  Line: %d, Column: %d \t-->\t<LIST_OP, %s> \n\n", yylineno, column, yytext);
+  sscanf(yytext, "%s", yylval.token.lexeme);
+  yylval.token.line = yylineno;
+  yylval.token.column = column;
+  // yylval->token.scope = scope;
+  column += yyleng;
+  return(FILTER);
+}
+
+"(" {
+  printf("OPEN PARENTHESES:\n  Line: %d, Column: %d \t-->\t<DELIMITER, %s> \n\n", yylineno, column, yytext);
+  sscanf(yytext, "%s", yylval.token.lexeme);
+  yylval.token.line = yylineno;
+  yylval.token.column = column;
+  // yylval->token.scope = scope;
   column += yyleng;
   return('(');
 }
 
 ")" {
   printf("CLOSE PARENTHESES:\n  Line: %d, Column: %d \t-->\t<DELIMITER, %s> \n\n", yylineno, column, yytext);
-  
   sscanf(yytext, "%s", yylval.token.lexeme);
   yylval.token.line = yylineno;
   yylval.token.column = column;
   // yylval->token.scope = scope;
-
   column += yyleng;
   return(')');
 }
 
 "{" {
   printf("OPEN CURLY BRACKET:\n  Line: %d, Column: %d \t-->\t<DELIMITER, %s> \n\n", yylineno, column, yytext);
-
   sscanf(yytext, "%s", yylval.token.lexeme);
   yylval.token.line = yylineno;
   yylval.token.column = column;
   // yylval->token.scope = scope;
-
   column += yyleng;
   return('{');
 }
 
 "}" {
   printf("CLOSE CURLY BRACKET:\n  Line: %d, Column: %d \t-->\t<DELIMITER, %s> \n\n", yylineno, column, yytext);
-  
   sscanf(yytext, "%s", yylval.token.lexeme);
   yylval.token.line = yylineno;
   yylval.token.column = column;
   // yylval->token.scope = scope;
-
   column += yyleng;
   return('}');
 }
@@ -290,7 +312,6 @@ id              [_a-zA-Z][_a-zA-Z0-9]*
   yylval.token.line = yylineno;
   yylval.token.column = column;
   // yylval->token.scope = scope;
-
   column += yyleng;
   return(',');
 }
@@ -301,7 +322,6 @@ id              [_a-zA-Z][_a-zA-Z0-9]*
   yylval.token.line = yylineno;
   yylval.token.column = column;
   // yylval->token.scope = scope;
-
   column += yyleng;
   return(';');
 }
@@ -309,12 +329,10 @@ id              [_a-zA-Z][_a-zA-Z0-9]*
 {id} {
   int position = add_table_node(yytext);
   printf("IDENTIFIER:\n  Line: %d, Column: %d \t-->\t<ID, %s, position in symbol table: %d> \n\n", yylineno, column, yytext, position);
-  
   sscanf(yytext, "%s", yylval.token.lexeme);
   yylval.token.line = yylineno;
   yylval.token.column = column;
   // yylval->token.scope = scope;
-
   column += yyleng;
   return(ID);
 }
