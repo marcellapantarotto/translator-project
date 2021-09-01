@@ -66,7 +66,7 @@
 
 
 /* First part of user prologue.  */
-#line 5 "src/syn.y"
+#line 8 "src/syn.y"
 
   #include <stdio.h>
   // #include <stdlib.h>
@@ -131,7 +131,7 @@ extern int yydebug;
 # define YYTOKENTYPE
   enum yytokentype
   {
-    INTEGER = 258,
+    NUM_INT = 258,
     STRING = 259,
     ID = 260
   };
@@ -141,7 +141,7 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 43 "src/syn.y"
+#line 47 "src/syn.y"
 
   t_token token;
   t_node node;
@@ -463,18 +463,18 @@ union yyalloc
 #endif /* !YYCOPY_NEEDED */
 
 /* YYFINAL -- State number of the termination state.  */
-#define YYFINAL  5
+#define YYFINAL  6
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   2
+#define YYLAST   7
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  11
+#define YYNTOKENS  12
 /* YYNNTS -- Number of nonterminals.  */
 #define YYNNTS  3
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  4
+#define YYNRULES  5
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  6
+#define YYNSTATES  7
 
 #define YYUNDEFTOK  2
 #define YYMAXUTOK   260
@@ -493,7 +493,7 @@ static const yytype_int8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       7,     8,     2,     2,     2,     2,     2,     2,     2,     2,
+       7,     8,     2,     2,    11,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     6,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
@@ -522,7 +522,7 @@ static const yytype_int8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int8 yyrline[] =
 {
-       0,    53,    53,    77,    89
+       0,    57,    57,    81,    88,   100
 };
 #endif
 
@@ -531,8 +531,8 @@ static const yytype_int8 yyrline[] =
    First, the terminals, then, starting at YYNTOKENS, nonterminals.  */
 static const char *const yytname[] =
 {
-  "$end", "error", "$undefined", "INTEGER", "STRING", "ID", "';'", "'('",
-  "')'", "'{'", "'}'", "$accept", "program", "declaration", YY_NULLPTR
+  "$end", "error", "$undefined", "NUM_INT", "STRING", "ID", "';'", "'('",
+  "')'", "'{'", "'}'", "','", "$accept", "program", "declaration", YY_NULLPTR
 };
 #endif
 
@@ -542,16 +542,16 @@ static const char *const yytname[] =
 static const yytype_int16 yytoknum[] =
 {
        0,   256,   257,   258,   259,   260,    59,    40,    41,   123,
-     125
+     125,    44
 };
 # endif
 
-#define YYPACT_NINF (-4)
+#define YYPACT_NINF (-2)
 
 #define yypact_value_is_default(Yyn) \
   ((Yyn) == YYPACT_NINF)
 
-#define YYTABLE_NINF (-1)
+#define YYTABLE_NINF (-6)
 
 #define yytable_value_is_error(Yyn) \
   0
@@ -560,7 +560,7 @@ static const yytype_int16 yytoknum[] =
      STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-      -3,    -4,    -4,     1,    -4,    -4
+      -1,     1,     0,     5,     6,     7,    -2
 };
 
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -568,13 +568,13 @@ static const yytype_int8 yypact[] =
      means the default is an error.  */
 static const yytype_int8 yydefact[] =
 {
-       0,     3,     4,     0,     2,     1
+       0,     0,     0,     0,     0,     0,     1
 };
 
   /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-      -4,    -4,    -4
+      -2,    -2,    -2
 };
 
   /* YYDEFGOTO[NTERM-NUM].  */
@@ -588,31 +588,31 @@ static const yytype_int8 yydefgoto[] =
      number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int8 yytable[] =
 {
-       1,     5,     2
+      -5,    -4,     1,     5,     2,     6,    -2,    -3
 };
 
 static const yytype_int8 yycheck[] =
 {
-       3,     0,     5
+       0,     0,     3,     3,     5,     0,     0,     0
 };
 
   /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
      symbol of state STATE-NUM.  */
 static const yytype_int8 yystos[] =
 {
-       0,     3,     5,    12,    13,     0
+       0,     3,     5,    13,    14,     3,     0
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_int8 yyr1[] =
 {
-       0,    11,    12,    13,    13
+       0,    12,    13,    14,    14,    14
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
 static const yytype_int8 yyr2[] =
 {
-       0,     2,     1,     1,     1
+       0,     2,     1,     2,     1,     1
 };
 
 
@@ -1308,7 +1308,7 @@ yyreduce:
   switch (yyn)
     {
   case 2:
-#line 53 "src/syn.y"
+#line 57 "src/syn.y"
               {
     printf(BHBLU "program -> declarations\n" reset);
     root = create_node(&root, PROGRAM);
@@ -1318,29 +1318,41 @@ yyreduce:
     break;
 
   case 3:
-#line 77 "src/syn.y"
-          {
-      // printf(BHBLU "declaration -> <INTEGER, %s>\n" reset, $1.lexeme);
-      (yyval.node) = create_node(&(yyval.node), DECLARATION);
-      add_tree_token_node(&(yyval.node), &(yyvsp[0].token), INT);
-      // &$1.lexeme, &$1.line, &$1.column
-    }
-#line 1329 "src/syn.tab.c"
+#line 81 "src/syn.y"
+             {
+    // printf(BHBLU "declaration -> <ID, %s>\n" reset, $1.lexeme);
+    (yyval.node) = create_node(&(yyval.node), DECLARATION);
+    add_tree_token_node(&(yyval.node), &(yyvsp[-1].token), IDENTIFIER);
+    add_tree_token_node(&(yyval.node), &(yyvsp[0].token), NUMBER_INT);
+    // &$1.lexeme, &$1.line, &$1.column
+  }
+#line 1330 "src/syn.tab.c"
     break;
 
   case 4:
-#line 89 "src/syn.y"
+#line 88 "src/syn.y"
+            {
+      // printf(BHBLU "declaration -> <INTEGER, %s>\n" reset, $1.lexeme);
+      (yyval.node) = create_node(&(yyval.node), DECLARATION);
+      add_tree_token_node(&(yyval.node), &(yyvsp[0].token), NUMBER_INT);
+      // &$1.lexeme, &$1.line, &$1.column
+    }
+#line 1341 "src/syn.tab.c"
+    break;
+
+  case 5:
+#line 100 "src/syn.y"
        {
     // printf(BHBLU "declaration -> <ID, %s>\n" reset, $1.lexeme);
     (yyval.node) = create_node(&(yyval.node), DECLARATION);
     add_tree_token_node(&(yyval.node), &(yyvsp[0].token), IDENTIFIER);
     // &$1.lexeme, &$1.line, &$1.column
   }
-#line 1340 "src/syn.tab.c"
+#line 1352 "src/syn.tab.c"
     break;
 
 
-#line 1344 "src/syn.tab.c"
+#line 1356 "src/syn.tab.c"
 
       default: break;
     }
@@ -1572,7 +1584,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 186 "src/syn.y"
+#line 197 "src/syn.y"
 
 //********** C Functions **********
 int yyerror(char *s) {

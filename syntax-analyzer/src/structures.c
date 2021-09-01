@@ -4,28 +4,66 @@
 #include "structures.h"
 
 const char *rule_label[] = {
-  "INT",
-  "FLOAT",
-  "LIST",
-  "NUMBER",
-  "CONSTANT_NIL",
-  "STRING_STMT",
-  "ASSIGNMENT_COMMAND",
-  "CONDITIONAL_COMMAND",
-  "INTERATION_COMMAND",
+  "PROGRAM",
+  "LIST_OF_DECLARATIONS",
+  "DECLARATION",
+  "VARIABLE_DECLARATION",
+  "FUNCTION_DECLARATION",
+  "COMMAND",
+  "UNIQUE_DECLARATION",
+  "LIST_OF_PARAMETERS",
+  "BLOCK_OF_COMMANDS",
+  "TYPE",
+  "PARAMETER",
+  "EXPRESSION",
+  "ASSIGN_STMT",
+  "CONDITIONAL_STMT",
+  "RETURN_STMT",
+  "ITERATION_PROCESS",
+  "INPUT_OPERATION",
+  "OUTPUT_OPERATION",
   "FUNCTION_CALLING",
-  "RETURN_COMMAND",
-  "LOGICAL_OPERATOR",
+  "STATEMENT",
+  "LOOP_CONDITION",
+  "INITIALIZATION_STMT",
+  "UPDATE_STMT",
+  "OPERATION",
+  "LOGIC_OPERATOR",
   "RELATIONAL_OPERATOR",
   "ARITHMETIC_OPERATOR",
   "LIST_OPERATOR",
-  "DELIMITER",
-  "SEMICOLON",
-  "PUNCTUATION",
+  "NUMBER",
   "IDENTIFIER",
-  "PROGRAM",
-  "LST_DECLARATIONS",
-  "DECLARATION",
+  "NUMBER_INT",
+  "NUMBER_FLOAT",
+  "NIL",
+  "STRING_STMT",
+  "TYPE_INT",
+  "TYPE_FLOAT",
+  "TYPE_LIST",
+  "AND_OP",
+  "OR_OP",
+  "GT_OP",
+  "GE_OP",
+  "LT_OP",
+  "LE_OP",
+  "EQ_OP",
+  "ADD_OP",
+  "MINUS_OP",
+  "MULTIPLY_OP",
+  "DIVISION_OP",
+  "CONSTRUCTOR_OP",
+  "HEAD_OP",
+  "POP_OP",
+  "MAP_OP",
+  "FILTER_OP",
+  "NOT_OR_TAIL",
+  "COMMA",
+  "SEMICOLON",
+  "OPEN_PARENTHESES",
+  "CLOSE_PARENTHESES",
+  "OPEN_CURLY_BRACKET",
+  "CLOSE_CURLY_BRACKET",
 };
 
 
@@ -168,12 +206,12 @@ t_node add_tree_node(t_node *root, t_node *node) {
 
 // converting token into node so it can be added to the tree
 t_node token_to_node(t_token *t, int type) {
-  printf("token_to_node: ");
+  // printf("token_to_node: ");
   struct t_node *node = (struct t_node*)malloc(sizeof(t_node));
   node->token = *t;
   node->type = type;
   node->children = NULL;
-  print_node(node);
+  // print_node(node);
   return *node;
 }
 
@@ -182,15 +220,15 @@ t_node add_tree_token_node(t_node *root, t_token *tok, int type) {
   // tok->lexeme;
   // tok->line;
   // tok->column;
-  printf("ADD TREE TOKEN NODE: ");
+  printf("ADD TOKEN TO TREE: ");
 
   struct t_node *node = (struct t_node*)malloc(sizeof(t_node));
   *node = token_to_node(tok, type);
 
   add_tree_node(root, node);
 
-  printf("token added as node: ");
-  print_node(node);
+  // printf("token added as node: ");
+  // print_node(node);
   return *node;
 }
 

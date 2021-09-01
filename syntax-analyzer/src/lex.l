@@ -53,7 +53,7 @@ id              [_a-zA-Z][_a-zA-Z0-9]*
   // yylval.token.scope = scope;
 
   column += yyleng;
-  return(INTEGER);
+  return(NUM_INT);
 }
 
 {float} {
@@ -286,11 +286,17 @@ id              [_a-zA-Z][_a-zA-Z0-9]*
 "," {
   printf("COMMA:\n  Line: %d, Column: %d \t-->\t<PUNCTUATION, %s> \n\n", yylineno, column, yytext);
   column += yyleng;
+  sscanf(yytext, "%s", yylval.token.lexeme);
+  yylval.token.line = yylineno;
+  yylval.token.column = column;
+  // yylval->token.scope = scope;
+
+  column += yyleng;
+  return(',');
 }
 
 ";" {
   printf("SEMICOLON:\n  Line: %d, Column: %d \t-->\t<PUNCTUATION, %s> \n\n", yylineno, column, yytext);
-
   sscanf(yytext, "%s", yylval.token.lexeme);
   yylval.token.line = yylineno;
   yylval.token.column = column;

@@ -49,7 +49,7 @@ extern int yydebug;
 # define YYTOKENTYPE
   enum yytokentype
   {
-    INTEGER = 258,
+    NUM_INT = 258,
     STRING = 259,
     ID = 260
   };
@@ -59,7 +59,7 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 43 "src/syn.y"
+#line 47 "src/syn.y"
 
   t_token token;
   t_node node;

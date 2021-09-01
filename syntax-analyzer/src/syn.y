@@ -2,6 +2,9 @@
 /* PROJECT 2: SYNTAX ANALYZER */
 
 /********** C Stuff (headers, declarations, variables, etc.) **********/
+%defines
+%define lr.type canonical-lr
+
 %{
   #include <stdio.h>
   // #include <stdlib.h>
@@ -21,11 +24,11 @@
 
 /********** Tokens **********/
 
-%token INTEGER STRING
-%token ID 
-%token ';' '(' ')' '{' '}'
+%token NUM_INT STRING
+%token ID
+%token ';' '(' ')' '{' '}' ','
 
-%type <token> INTEGER
+%type <token> NUM_INT
 %type <token> STRING
 %type <token> ID
 %type <token> ';'
@@ -33,6 +36,7 @@
 %type <token> ')'
 %type <token> '{'
 %type <token> '}'
+%type <token> ','
 
 %type <node> program
 // %type <node> list_of_declarations
@@ -74,10 +78,17 @@ program:
 // ;
 
 declaration:
-  INTEGER {
+  ID NUM_INT {
+    // printf(BHBLU "declaration -> <ID, %s>\n" reset, $1.lexeme);
+    $$ = create_node(&$$, DECLARATION);
+    add_tree_token_node(&$$, &$1, IDENTIFIER);
+    add_tree_token_node(&$$, &$2, NUMBER_INT);
+    // &$1.lexeme, &$1.line, &$1.column
+  }
+  | NUM_INT {
       // printf(BHBLU "declaration -> <INTEGER, %s>\n" reset, $1.lexeme);
       $$ = create_node(&$$, DECLARATION);
-      add_tree_token_node(&$$, &$1, INT);
+      add_tree_token_node(&$$, &$1, NUMBER_INT);
       // &$1.lexeme, &$1.line, &$1.column
     }
   // number {
