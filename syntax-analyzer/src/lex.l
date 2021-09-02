@@ -142,62 +142,123 @@ id              [_a-zA-Z][_a-zA-Z0-9]*
 
 "+" {
   printf("ADDITION:\n  Line: %d, Column: %d \t-->\t<ARITHMETIC_OP, %s> \n\n", yylineno, column, yytext);
+  sscanf(yytext, "%s", yylval.token.lexeme);
+  yylval.token.line = yylineno;
+  yylval.token.column = column;
+  // yylval->token.scope = scope;
   column += yyleng;
+  return('+');
 }
 
 "-" {
   printf("SUBTRACTION:\n  Line: %d, Column: %d \t-->\t<ARITHMETIC_OP, %s> \n\n", yylineno, column, yytext);
+  sscanf(yytext, "%s", yylval.token.lexeme);
+  yylval.token.line = yylineno;
+  yylval.token.column = column;
+  // yylval->token.scope = scope;
   column += yyleng;
+  return('-');
 }
 
 "*" {
   printf("MULTIPLICATION:\n  Line: %d, Column: %d \t-->\t<ARITHMETIC_OP, %s> \n\n", yylineno, column, yytext);
+  sscanf(yytext, "%s", yylval.token.lexeme);
+  yylval.token.line = yylineno;
+  yylval.token.column = column;
+  // yylval->token.scope = scope;
   column += yyleng;
+  return('*');
 }
 
 "/" {
   printf("DIVISION:\n  Line: %d, Column: %d \t-->\t<ARITHMETIC_OP, %s> \n\n", yylineno, column, yytext);
+  sscanf(yytext, "%s", yylval.token.lexeme);
+  yylval.token.line = yylineno;
+  yylval.token.column = column;
+  // yylval->token.scope = scope;
   column += yyleng;
+  return('/');
 }
 
 "==" {
   printf("EQUAL:\n  Line: %d, Column: %d \t-->\t<RELATIONAL_OP, %s> \n\n", yylineno, column, yytext);
+  sscanf(yytext, "%s", yylval.token.lexeme);
+  yylval.token.line = yylineno;
+  yylval.token.column = column;
+  // yylval->token.scope = scope;
   column += yyleng;
+  return(EQUAL);
 }
 
 "<" {
   printf("LESS THAN:\n  Line: %d, Column: %d \t-->\t<RELATIONAL_OP, %s> \n\n", yylineno, column, yytext);
+  sscanf(yytext, "%s", yylval.token.lexeme);
+  yylval.token.line = yylineno;
+  yylval.token.column = column;
+  // yylval->token.scope = scope;
   column += yyleng;
+  return(LESS);
 }
 
 ">" {
   printf("GREATER THAN:\n  Line: %d, Column: %d \t-->\t<RELATIONAL_OP, %s> \n\n", yylineno, column, yytext);
+  sscanf(yytext, "%s", yylval.token.lexeme);
+  yylval.token.line = yylineno;
+  yylval.token.column = column;
+  // yylval->token.scope = scope;
   column += yyleng;
+  return(GREATER);
 }
 
 "<=" {
   printf("LESS OR EQUAL THAN:\n  Line: %d, Column: %d \t-->\t<RELATIONAL_OP, %s> \n\n", yylineno, column, yytext);
   column += yyleng;
+  sscanf(yytext, "%s", yylval.token.lexeme);
+  yylval.token.line = yylineno;
+  yylval.token.column = column;
+  // yylval->token.scope = scope;
+  column += yyleng;
+  return(LESS_EQ);
 }
 
 ">=" {
   printf("GREATER OR EQUAL THAN:\n  Line: %d, Column: %d \t-->\t<RELATIONAL_OP, %s> \n\n", yylineno, column, yytext);
+  sscanf(yytext, "%s", yylval.token.lexeme);
+  yylval.token.line = yylineno;
+  yylval.token.column = column;
+  // yylval->token.scope = scope;
   column += yyleng;
+  return(GREATER_EQ);
 }
 
 "!=" {
   printf("DIFFERENT THAN:\n  Line: %d, Column: %d \t-->\t<RELATIONAL_OP, %s> \n\n", yylineno, column, yytext);
+  sscanf(yytext, "%s", yylval.token.lexeme);
+  yylval.token.line = yylineno;
+  yylval.token.column = column;
+  // yylval->token.scope = scope;
   column += yyleng;
+  return(NOT_EQ);
 }
 
 "&&" {
   printf("AND:\n  Line: %d, Column: %d \t-->\t<LOGICAL_OP, %s> \n\n", yylineno, column, yytext);
+  sscanf(yytext, "%s", yylval.token.lexeme);
+  yylval.token.line = yylineno;
+  yylval.token.column = column;
+  // yylval->token.scope = scope;
   column += yyleng;
+  return(AND);
 }
 
 "||" {
   printf("OR:\n  Line: %d, Column: %d \t-->\t<LOGICAL_OP, %s> \n\n", yylineno, column, yytext);
+  sscanf(yytext, "%s", yylval.token.lexeme);
+  yylval.token.line = yylineno;
+  yylval.token.column = column;
+  // yylval->token.scope = scope;
   column += yyleng;
+  return(OR);
 }
 
 "=" {

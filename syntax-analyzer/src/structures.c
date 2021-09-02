@@ -43,15 +43,16 @@ const char *rule_label[] = {
   "TYPE_LIST",
   "AND_OP",
   "OR_OP",
-  "GT_OP",
-  "GE_OP",
-  "LT_OP",
-  "LE_OP",
-  "EQ_OP",
-  "ADD_OP",
-  "MINUS_OP",
-  "MULTIPLY_OP",
-  "DIVISION_OP",
+  ">",
+  ">=",
+  "<",
+  "<=",
+  "==",
+  "!=",
+  "+",
+  "-",
+  "*",
+  "/",
   ":",
   "?",
   "%",
@@ -65,6 +66,7 @@ const char *rule_label[] = {
   "{",
   "}",
   "SYMBOL",
+  "ROOT",
 };
 
 //===============================================================
@@ -175,13 +177,13 @@ t_token create_token(t_token *t) {
 
 // create new node in tree with the token that is bening passed
 t_node create_node(t_node *t, int type) {
-  printf("CREATE NODE: ");
   struct t_node *node = (struct t_node*)malloc(sizeof(t_node));
   // node = t;
   node->token = null_token(NULL);
   node->type = type;
   node->children = NULL;
-  print_node(node);
+  // printf("CREATE NODE: ");
+  // print_node(node);
   return *node;
 }
 
@@ -207,8 +209,8 @@ t_node add_tree_node(t_node *root, t_node *node) {
     youngest->sibilings = aux; // node
   }
   
-  printf("add_tree_node: ");
-  print_node(node);
+  // printf("add_tree_node: ");
+  // print_node(node);
   return *node;
 }
 
@@ -228,7 +230,7 @@ t_node add_tree_token_node(t_node *root, t_token *tok, int type) {
   // tok->lexeme;
   // tok->line;
   // tok->column;
-  printf("ADD TOKEN TO TREE: ");
+  // printf("ADD TOKEN TO TREE: ");
 
   struct t_node *node = (struct t_node*)malloc(sizeof(t_node));
   *node = token_to_node(tok, type);

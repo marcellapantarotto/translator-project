@@ -52,8 +52,16 @@ extern int yydebug;
     NUM_INT = 258,
     STRING = 259,
     ID = 260,
-    FILTER = 261,
-    MAP = 262
+    AND = 261,
+    OR = 262,
+    GREATER = 263,
+    GREATER_EQ = 264,
+    LESS = 265,
+    LESS_EQ = 266,
+    EQUAL = 267,
+    NOT_EQ = 268,
+    FILTER = 269,
+    MAP = 270
   };
 #endif
 
@@ -61,12 +69,12 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 59 "src/syn.y"
+#line 88 "src/syn.y"
 
   t_token token;
   t_node node;
 
-#line 70 "src/syn.tab.h"
+#line 78 "src/syn.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

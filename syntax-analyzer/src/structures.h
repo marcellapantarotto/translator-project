@@ -50,6 +50,7 @@ enum rule_type {
   LT_OP,
   LE_OP,
   EQ_OP,
+  NE_OP,
   ADD_OP,
   MINUS_OP,
   MULTIPLY_OP,
@@ -67,6 +68,7 @@ enum rule_type {
   OPEN_CURLY_BRACKET,
   CLOSE_CURLY_BRACKET,
   SYMBOL,
+  ROOT,
 };
 
 void show_error();
