@@ -71,7 +71,7 @@
   #include <stdio.h>
   // #include <stdlib.h>
   // #include <string.h>
-  #include "structures.h"
+  #include "../lib/structures.h"
   #include "structures.c"
 
   extern int yyleng;
@@ -116,8 +116,8 @@
 
 /* Use api.header.include to #include this header
    instead of duplicating it here.  */
-#ifndef YY_YY_SRC_SYN_TAB_H_INCLUDED
-# define YY_YY_SRC_SYN_TAB_H_INCLUDED
+#ifndef YY_YY_LIB_SYN_TAB_H_INCLUDED
+# define YY_YY_LIB_SYN_TAB_H_INCLUDED
 /* Debug traces.  */
 #ifndef YYDEBUG
 # define YYDEBUG 0
@@ -170,7 +170,7 @@ extern YYSTYPE yylval;
 
 int yyparse (void);
 
-#endif /* !YY_YY_SRC_SYN_TAB_H_INCLUDED  */
+#endif /* !YY_YY_LIB_SYN_TAB_H_INCLUDED  */
 
 
 

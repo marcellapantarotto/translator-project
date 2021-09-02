@@ -1,9 +1,13 @@
-int main()
-{
-   float y = 10.98;
-   for (int i = 1; i <= 10; i++)
-   {
-      writeln(y);
+int main() {
+   // Comment
+   float list my_list;
+   my_list = NIL;
+
+   if(my_list == NIL) {
+      write("Empty list!");
+   } else {
+      writeln("List not empty!");
    }
+
    return 0;
 }

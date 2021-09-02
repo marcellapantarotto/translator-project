@@ -516,7 +516,7 @@ char *yytext;
   #include <stdio.h>
   #include <stdlib.h>
   #include <string.h>
-  #include "structures.h"
+  #include "../lib/structures.h"
   #include "syn.tab.h"
 #line 522 "src/lex.yy.c"
 #define YY_NO_INPUT 1
