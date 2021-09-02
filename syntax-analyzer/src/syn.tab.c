@@ -77,11 +77,11 @@
   extern int yyleng;
   extern int yylineno;
   extern int yylex();
-  // int yylex_destroy();
+  extern int yylex_destroy();
   extern int yyerror(char *s);
   extern FILE *yyin;
 
-  t_node root;
+  // t_node root;
 
 #line 87 "src/syn.tab.c"
 
@@ -132,18 +132,19 @@ extern int yydebug;
   enum yytokentype
   {
     NUM_INT = 258,
-    STRING = 259,
-    ID = 260,
-    AND = 261,
-    OR = 262,
-    GREATER = 263,
-    GREATER_EQ = 264,
-    LESS = 265,
-    LESS_EQ = 266,
-    EQUAL = 267,
-    NOT_EQ = 268,
-    FILTER = 269,
-    MAP = 270
+    NUM_FLOAT = 259,
+    STRING = 260,
+    ID = 261,
+    AND = 262,
+    OR = 263,
+    GREATER = 264,
+    GREATER_EQ = 265,
+    LESS = 266,
+    LESS_EQ = 267,
+    EQUAL = 268,
+    NOT_EQ = 269,
+    FILTER = 270,
+    MAP = 271
   };
 #endif
 
@@ -151,12 +152,12 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 88 "src/syn.y"
+#line 94 "src/syn.y"
 
   t_token token;
   t_node node;
 
-#line 160 "src/syn.tab.c"
+#line 161 "src/syn.tab.c"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -473,21 +474,21 @@ union yyalloc
 #endif /* !YYCOPY_NEEDED */
 
 /* YYFINAL -- State number of the termination state.  */
-#define YYFINAL  38
+#define YYFINAL  44
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   81
+#define YYLAST   1269
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  30
+#define YYNTOKENS  31
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  11
+#define YYNNTS  16
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  38
+#define YYNRULES  44
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  40
+#define YYNSTATES  46
 
 #define YYUNDEFTOK  2
-#define YYMAXUTOK   270
+#define YYMAXUTOK   271
 
 
 /* YYTRANSLATE(TOKEN-NUM) -- Symbol number corresponding to TOKEN-NUM
@@ -502,16 +503,16 @@ static const yytype_int8 yytranslate[] =
        0,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,    29,     2,     2,     2,    27,     2,     2,
-       6,     7,    22,    20,    11,    21,     2,    23,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,    26,    10,
-       2,     2,     2,    28,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,    30,     2,     2,     2,    28,     2,     2,
+       7,     8,    23,    21,    12,    22,     2,    24,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,    27,    11,
+       2,     2,     2,    29,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     8,     2,     9,     2,     2,     2,     2,
+       2,     2,     2,     9,     2,    10,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
@@ -525,18 +526,19 @@ static const yytype_int8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
-       5,    12,    13,    14,    15,    16,    17,    18,    19,    24,
-      25
+       5,     6,    13,    14,    15,    16,    17,    18,    19,    20,
+      25,    26
 };
 
 #if YYDEBUG
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int16 yyrline[] =
 {
-       0,    98,    98,   117,   132,   142,   152,   156,   171,   183,
-     198,   203,   208,   213,   218,   223,   232,   243,   254,   265,
-     291,   301,   314,   324,   334,   344,   354,   364,   377,   387,
-     397,   407,   420,   431,   441,   451,   461,   471,   484
+       0,   104,   104,   122,   136,   148,   160,   170,   180,   190,
+     199,   208,   214,   219,   224,   229,   234,   239,   248,   259,
+     273,   274,   285,   296,   300,   311,   312,   316,   326,   339,
+     349,   359,   372,   382,   395,   405,   415,   425,   435,   445,
+     458,   468,   481,   491,   504
 };
 #endif
 
@@ -545,12 +547,14 @@ static const yytype_int16 yyrline[] =
    First, the terminals, then, starting at YYNTOKENS, nonterminals.  */
 static const char *const yytname[] =
 {
-  "$end", "error", "$undefined", "NUM_INT", "STRING", "ID", "'('", "')'",
-  "'{'", "'}'", "';'", "','", "AND", "OR", "GREATER", "GREATER_EQ", "LESS",
-  "LESS_EQ", "EQUAL", "NOT_EQ", "'+'", "'-'", "'*'", "'/'", "FILTER",
-  "MAP", "':'", "'%'", "'?'", "'!'", "$accept", "root_node", "program",
-  "declaration", "symbols", "operation", "log_operator",
-  "relation_operator", "arith_operator", "lst_operator", "not_tail", YY_NULLPTR
+  "$end", "error", "$undefined", "NUM_INT", "NUM_FLOAT", "STRING", "ID",
+  "'('", "')'", "'{'", "'}'", "';'", "','", "AND", "OR", "GREATER",
+  "GREATER_EQ", "LESS", "LESS_EQ", "EQUAL", "NOT_EQ", "'+'", "'-'", "'*'",
+  "'/'", "FILTER", "MAP", "':'", "'%'", "'?'", "'!'", "$accept",
+  "root_node", "program", "lst_declarations", "declaration", "symbols",
+  "operation", "binary_operation", "single_operation", "lst_single",
+  "lst_binary", "log_operator", "relation_operator", "arith_binary",
+  "arith_single", "not_tail", YY_NULLPTR
 };
 #endif
 
@@ -559,30 +563,32 @@ static const char *const yytname[] =
    (internal) symbol number NUM (which must be that of a token).  */
 static const yytype_int16 yytoknum[] =
 {
-       0,   256,   257,   258,   259,   260,    40,    41,   123,   125,
-      59,    44,   261,   262,   263,   264,   265,   266,   267,   268,
-      43,    45,    42,    47,   269,   270,    58,    37,    63,    33
+       0,   256,   257,   258,   259,   260,   261,    40,    41,   123,
+     125,    59,    44,   262,   263,   264,   265,   266,   267,   268,
+     269,    43,    45,    42,    47,   270,   271,    58,    37,    63,
+      33
 };
 # endif
 
-#define YYPACT_NINF (-4)
+#define YYPACT_NINF (-1)
 
 #define yypact_value_is_default(Yyn) \
   ((Yyn) == YYPACT_NINF)
 
-#define YYTABLE_NINF (-39)
+#define YYTABLE_NINF (-45)
 
 #define yytable_value_is_error(Yyn) \
   0
 
   /* YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
      STATE-NUM.  */
-static const yytype_int8 yypact[] =
+static const yytype_int16 yypact[] =
 {
-      -3,     1,    49,    27,    28,    34,    35,    41,    42,    29,
-      36,    43,    50,    54,    55,    56,    57,    58,    59,    60,
-      61,    62,    63,    64,    65,    66,    67,    68,    69,    70,
-      48,    71,    72,    73,    74,    75,    76,    77,    -4,    78
+    1239,     0,    31,    62,    93,   124,   155,   186,   217,   248,
+     279,   310,   341,   372,   403,   434,   465,   496,   527,   558,
+     589,   620,   651,   682,   713,   744,   775,   806,   837,     2,
+       5,    33,   868,   899,   930,   961,   992,  1023,  1054,  1085,
+    1116,  1147,  1178,  1209,    -1,    36
 };
 
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -593,21 +599,22 @@ static const yytype_int8 yydefact[] =
        0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
        0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
        0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,     0,     0,     0,     0,     1,     0
+       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+       0,     0,     0,     0,     1,     0
 };
 
   /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-      -4,    -4,    -4,    51,    -4,    -4,    -4,    -4,    -4,    -4,
-      -4
+      -1,    -1,    -1,    32,    -1,    -1,    -1,    -1,    -1,    -1,
+      -1,    -1,    -1,    -1,    -1,    -1
 };
 
   /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-      -1,    27,    28,    29,    30,    31,    32,    33,    34,    35,
-      36
+      -1,    29,    30,    31,    32,    33,    34,    35,    36,    37,
+      38,    39,    40,    41,    42,    43
 };
 
   /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -615,56 +622,295 @@ static const yytype_int8 yydefgoto[] =
      number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int8 yytable[] =
 {
-       1,    -8,     2,     3,     4,     5,     6,     7,     8,     9,
+     -11,   -11,    44,   -11,   -11,    -2,   -11,   -11,   -11,   -11,
+     -11,   -11,   -11,   -11,   -11,   -11,   -11,   -11,   -11,   -11,
+     -11,   -11,   -11,   -11,   -11,   -11,   -11,   -11,   -11,   -11,
+     -11,    -6,    -6,    -3,    -6,    -6,    -4,    -6,    -6,    -6,
+      -6,    -6,    -6,    -6,    -6,    -6,    -6,    -6,    -6,    -6,
+      -6,    -6,    -6,    -6,    -6,    -6,    -6,    -6,    -6,    -6,
+      -6,    -6,    -7,    -7,    45,    -7,    -7,     0,    -7,    -7,
+      -7,    -7,    -7,    -7,    -7,    -7,    -7,    -7,    -7,    -7,
+      -7,    -7,    -7,    -7,    -7,    -7,    -7,    -7,    -7,    -7,
+      -7,    -7,    -7,    -8,    -8,     0,    -8,    -8,     0,    -8,
+      -8,    -8,    -8,    -8,    -8,    -8,    -8,    -8,    -8,    -8,
+      -8,    -8,    -8,    -8,    -8,    -8,    -8,    -8,    -8,    -8,
+      -8,    -8,    -8,    -8,   -12,   -12,     0,   -12,   -12,     0,
+     -12,   -12,   -12,   -12,   -12,   -12,   -12,   -12,   -12,   -12,
+     -12,   -12,   -12,   -12,   -12,   -12,   -12,   -12,   -12,   -12,
+     -12,   -12,   -12,   -12,   -12,   -13,   -13,     0,   -13,   -13,
+       0,   -13,   -13,   -13,   -13,   -13,   -13,   -13,   -13,   -13,
+     -13,   -13,   -13,   -13,   -13,   -13,   -13,   -13,   -13,   -13,
+     -13,   -13,   -13,   -13,   -13,   -13,   -14,   -14,     0,   -14,
+     -14,     0,   -14,   -14,   -14,   -14,   -14,   -14,   -14,   -14,
+     -14,   -14,   -14,   -14,   -14,   -14,   -14,   -14,   -14,   -14,
+     -14,   -14,   -14,   -14,   -14,   -14,   -14,   -15,   -15,     0,
+     -15,   -15,     0,   -15,   -15,   -15,   -15,   -15,   -15,   -15,
+     -15,   -15,   -15,   -15,   -15,   -15,   -15,   -15,   -15,   -15,
+     -15,   -15,   -15,   -15,   -15,   -15,   -15,   -15,   -16,   -16,
+       0,   -16,   -16,     0,   -16,   -16,   -16,   -16,   -16,   -16,
+     -16,   -16,   -16,   -16,   -16,   -16,   -16,   -16,   -16,   -16,
+     -16,   -16,   -16,   -16,   -16,   -16,   -16,   -16,   -16,   -17,
+     -17,     0,   -17,   -17,     0,   -17,   -17,   -17,   -17,   -17,
+     -17,   -17,   -17,   -17,   -17,   -17,   -17,   -17,   -17,   -17,
+     -17,   -17,   -17,   -17,   -17,   -17,   -17,   -17,   -17,   -17,
+     -32,   -32,     0,   -32,   -32,     0,   -32,   -32,   -32,   -32,
+     -32,   -32,   -32,   -32,   -32,   -32,   -32,   -32,   -32,   -32,
+     -32,   -32,   -32,   -32,   -32,   -32,   -32,   -32,   -32,   -32,
+     -32,   -33,   -33,     0,   -33,   -33,     0,   -33,   -33,   -33,
+     -33,   -33,   -33,   -33,   -33,   -33,   -33,   -33,   -33,   -33,
+     -33,   -33,   -33,   -33,   -33,   -33,   -33,   -33,   -33,   -33,
+     -33,   -33,   -34,   -34,     0,   -34,   -34,     0,   -34,   -34,
+     -34,   -34,   -34,   -34,   -34,   -34,   -34,   -34,   -34,   -34,
+     -34,   -34,   -34,   -34,   -34,   -34,   -34,   -34,   -34,   -34,
+     -34,   -34,   -34,   -35,   -35,     0,   -35,   -35,     0,   -35,
+     -35,   -35,   -35,   -35,   -35,   -35,   -35,   -35,   -35,   -35,
+     -35,   -35,   -35,   -35,   -35,   -35,   -35,   -35,   -35,   -35,
+     -35,   -35,   -35,   -35,   -36,   -36,     0,   -36,   -36,     0,
+     -36,   -36,   -36,   -36,   -36,   -36,   -36,   -36,   -36,   -36,
+     -36,   -36,   -36,   -36,   -36,   -36,   -36,   -36,   -36,   -36,
+     -36,   -36,   -36,   -36,   -36,   -37,   -37,     0,   -37,   -37,
+       0,   -37,   -37,   -37,   -37,   -37,   -37,   -37,   -37,   -37,
+     -37,   -37,   -37,   -37,   -37,   -37,   -37,   -37,   -37,   -37,
+     -37,   -37,   -37,   -37,   -37,   -37,   -38,   -38,     0,   -38,
+     -38,     0,   -38,   -38,   -38,   -38,   -38,   -38,   -38,   -38,
+     -38,   -38,   -38,   -38,   -38,   -38,   -38,   -38,   -38,   -38,
+     -38,   -38,   -38,   -38,   -38,   -38,   -38,   -39,   -39,     0,
+     -39,   -39,     0,   -39,   -39,   -39,   -39,   -39,   -39,   -39,
+     -39,   -39,   -39,   -39,   -39,   -39,   -39,   -39,   -39,   -39,
+     -39,   -39,   -39,   -39,   -39,   -39,   -39,   -39,   -42,   -42,
+       0,   -42,   -42,     0,   -42,   -42,   -42,   -42,   -42,   -42,
+     -42,   -42,   -42,   -42,   -42,   -42,   -42,   -42,   -42,   -42,
+     -42,   -42,   -42,   -42,   -42,   -42,   -42,   -42,   -42,   -43,
+     -43,     0,   -43,   -43,     0,   -43,   -43,   -43,   -43,   -43,
+     -43,   -43,   -43,   -43,   -43,   -43,   -43,   -43,   -43,   -43,
+     -43,   -43,   -43,   -43,   -43,   -43,   -43,   -43,   -43,   -43,
+     -40,   -40,     0,   -40,   -40,     0,   -40,   -40,   -40,   -40,
+     -40,   -40,   -40,   -40,   -40,   -40,   -40,   -40,   -40,   -40,
+     -40,   -40,   -40,   -40,   -40,   -40,   -40,   -40,   -40,   -40,
+     -40,   -41,   -41,     0,   -41,   -41,     0,   -41,   -41,   -41,
+     -41,   -41,   -41,   -41,   -41,   -41,   -41,   -41,   -41,   -41,
+     -41,   -41,   -41,   -41,   -41,   -41,   -41,   -41,   -41,   -41,
+     -41,   -41,   -29,   -29,     0,   -29,   -29,     0,   -29,   -29,
+     -29,   -29,   -29,   -29,   -29,   -29,   -29,   -29,   -29,   -29,
+     -29,   -29,   -29,   -29,   -29,   -29,   -29,   -29,   -29,   -29,
+     -29,   -29,   -29,   -30,   -30,     0,   -30,   -30,     0,   -30,
+     -30,   -30,   -30,   -30,   -30,   -30,   -30,   -30,   -30,   -30,
+     -30,   -30,   -30,   -30,   -30,   -30,   -30,   -30,   -30,   -30,
+     -30,   -30,   -30,   -30,   -31,   -31,     0,   -31,   -31,     0,
+     -31,   -31,   -31,   -31,   -31,   -31,   -31,   -31,   -31,   -31,
+     -31,   -31,   -31,   -31,   -31,   -31,   -31,   -31,   -31,   -31,
+     -31,   -31,   -31,   -31,   -31,   -27,   -27,     0,   -27,   -27,
+       0,   -27,   -27,   -27,   -27,   -27,   -27,   -27,   -27,   -27,
+     -27,   -27,   -27,   -27,   -27,   -27,   -27,   -27,   -27,   -27,
+     -27,   -27,   -27,   -27,   -27,   -27,   -28,   -28,     0,   -28,
+     -28,     0,   -28,   -28,   -28,   -28,   -28,   -28,   -28,   -28,
+     -28,   -28,   -28,   -28,   -28,   -28,   -28,   -28,   -28,   -28,
+     -28,   -28,   -28,   -28,   -28,   -28,   -28,   -44,   -44,     0,
+     -44,   -44,     0,   -44,   -44,   -44,   -44,   -44,   -44,   -44,
+     -44,   -44,   -44,   -44,   -44,   -44,   -44,   -44,   -44,   -44,
+     -44,   -44,   -44,   -44,   -44,   -44,   -44,   -44,    -5,     1,
+       0,     2,     3,     0,     4,     5,     6,     7,     8,     9,
       10,    11,    12,    13,    14,    15,    16,    17,    18,    19,
-      20,    21,    22,    23,    24,    25,    26,   -10,   -11,   -20,
-     -10,   -11,   -10,   -11,   -12,   -13,   -21,   -12,   -13,   -12,
-     -13,   -14,   -15,   -22,   -14,   -15,   -14,   -15,    -4,    -9,
-     -23,     1,    37,     2,   -24,   -25,   -26,   -27,   -28,   -29,
-     -30,   -31,   -33,   -34,   -35,   -36,   -37,   -38,    38,    -2,
-      -5,    -6,   -16,   -17,   -18,   -19,   -32,    -7,    -3,     0,
-       0,    39
+      20,    21,    22,    23,    24,    25,    26,    27,    28,    -9,
+      -9,     0,    -9,    -9,     0,    -9,    -9,    -9,    -9,    -9,
+      -9,    -9,    -9,    -9,    -9,    -9,    -9,    -9,    -9,    -9,
+      -9,    -9,    -9,    -9,    -9,    -9,    -9,    -9,    -9,    -9,
+     -10,   -10,     0,   -10,   -10,     0,   -10,   -10,   -10,   -10,
+     -10,   -10,   -10,   -10,   -10,   -10,   -10,   -10,   -10,   -10,
+     -10,   -10,   -10,   -10,   -10,   -10,   -10,   -10,   -10,   -10,
+     -10,   -19,   -19,     0,   -19,   -19,     0,   -19,   -19,   -19,
+     -19,   -19,   -19,   -19,   -19,   -19,   -19,   -19,   -19,   -19,
+     -19,   -19,   -19,   -19,   -19,   -19,   -19,   -19,   -19,   -19,
+     -19,   -19,   -18,   -18,     0,   -18,   -18,     0,   -18,   -18,
+     -18,   -18,   -18,   -18,   -18,   -18,   -18,   -18,   -18,   -18,
+     -18,   -18,   -18,   -18,   -18,   -18,   -18,   -18,   -18,   -18,
+     -18,   -18,   -18,   -26,   -26,     0,   -26,   -26,     0,   -26,
+     -26,   -26,   -26,   -26,   -26,   -26,   -26,   -26,   -26,   -26,
+     -26,   -26,   -26,   -26,   -26,   -26,   -26,   -26,   -26,   -26,
+     -26,   -26,   -26,   -26,   -23,   -23,     0,   -23,   -23,     0,
+     -23,   -23,   -23,   -23,   -23,   -23,   -23,   -23,   -23,   -23,
+     -23,   -23,   -23,   -23,   -23,   -23,   -23,   -23,   -23,   -23,
+     -23,   -23,   -23,   -23,   -23,   -21,   -21,     0,   -21,   -21,
+       0,   -21,   -21,   -21,   -21,   -21,   -21,   -21,   -21,   -21,
+     -21,   -21,   -21,   -21,   -21,   -21,   -21,   -21,   -21,   -21,
+     -21,   -21,   -21,   -21,   -21,   -21,   -22,   -22,     0,   -22,
+     -22,     0,   -22,   -22,   -22,   -22,   -22,   -22,   -22,   -22,
+     -22,   -22,   -22,   -22,   -22,   -22,   -22,   -22,   -22,   -22,
+     -22,   -22,   -22,   -22,   -22,   -22,   -22,   -20,   -20,     0,
+     -20,   -20,     0,   -20,   -20,   -20,   -20,   -20,   -20,   -20,
+     -20,   -20,   -20,   -20,   -20,   -20,   -20,   -20,   -20,   -20,
+     -20,   -20,   -20,   -20,   -20,   -20,   -20,   -20,   -25,   -25,
+       0,   -25,   -25,     0,   -25,   -25,   -25,   -25,   -25,   -25,
+     -25,   -25,   -25,   -25,   -25,   -25,   -25,   -25,   -25,   -25,
+     -25,   -25,   -25,   -25,   -25,   -25,   -25,   -25,   -25,   -24,
+     -24,     0,   -24,   -24,     0,   -24,   -24,   -24,   -24,   -24,
+     -24,   -24,   -24,   -24,   -24,   -24,   -24,   -24,   -24,   -24,
+     -24,   -24,   -24,   -24,   -24,   -24,   -24,   -24,   -24,   -24,
+       1,     0,     2,     3,     0,     4,     5,     6,     7,     8,
+       9,    10,    11,    12,    13,    14,    15,    16,    17,    18,
+      19,    20,    21,    22,    23,    24,    25,    26,    27,    28
 };
 
 static const yytype_int8 yycheck[] =
 {
-       3,     0,     5,     6,     7,     8,     9,    10,    11,    12,
+       0,     1,     0,     3,     4,     0,     6,     7,     8,     9,
+      10,    11,    12,    13,    14,    15,    16,    17,    18,    19,
+      20,    21,    22,    23,    24,    25,    26,    27,    28,    29,
+      30,     0,     1,     0,     3,     4,     0,     6,     7,     8,
+       9,    10,    11,    12,    13,    14,    15,    16,    17,    18,
+      19,    20,    21,    22,    23,    24,    25,    26,    27,    28,
+      29,    30,     0,     1,    32,     3,     4,    -1,     6,     7,
+       8,     9,    10,    11,    12,    13,    14,    15,    16,    17,
+      18,    19,    20,    21,    22,    23,    24,    25,    26,    27,
+      28,    29,    30,     0,     1,    -1,     3,     4,    -1,     6,
+       7,     8,     9,    10,    11,    12,    13,    14,    15,    16,
+      17,    18,    19,    20,    21,    22,    23,    24,    25,    26,
+      27,    28,    29,    30,     0,     1,    -1,     3,     4,    -1,
+       6,     7,     8,     9,    10,    11,    12,    13,    14,    15,
+      16,    17,    18,    19,    20,    21,    22,    23,    24,    25,
+      26,    27,    28,    29,    30,     0,     1,    -1,     3,     4,
+      -1,     6,     7,     8,     9,    10,    11,    12,    13,    14,
+      15,    16,    17,    18,    19,    20,    21,    22,    23,    24,
+      25,    26,    27,    28,    29,    30,     0,     1,    -1,     3,
+       4,    -1,     6,     7,     8,     9,    10,    11,    12,    13,
+      14,    15,    16,    17,    18,    19,    20,    21,    22,    23,
+      24,    25,    26,    27,    28,    29,    30,     0,     1,    -1,
+       3,     4,    -1,     6,     7,     8,     9,    10,    11,    12,
       13,    14,    15,    16,    17,    18,    19,    20,    21,    22,
-      23,    24,    25,    26,    27,    28,    29,     0,     0,     0,
-       3,     3,     5,     5,     0,     0,     0,     3,     3,     5,
-       5,     0,     0,     0,     3,     3,     5,     5,     0,     0,
-       0,     3,     3,     5,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,     0,     0,     0,     0,     0,    -1,
-      -1,    30
+      23,    24,    25,    26,    27,    28,    29,    30,     0,     1,
+      -1,     3,     4,    -1,     6,     7,     8,     9,    10,    11,
+      12,    13,    14,    15,    16,    17,    18,    19,    20,    21,
+      22,    23,    24,    25,    26,    27,    28,    29,    30,     0,
+       1,    -1,     3,     4,    -1,     6,     7,     8,     9,    10,
+      11,    12,    13,    14,    15,    16,    17,    18,    19,    20,
+      21,    22,    23,    24,    25,    26,    27,    28,    29,    30,
+       0,     1,    -1,     3,     4,    -1,     6,     7,     8,     9,
+      10,    11,    12,    13,    14,    15,    16,    17,    18,    19,
+      20,    21,    22,    23,    24,    25,    26,    27,    28,    29,
+      30,     0,     1,    -1,     3,     4,    -1,     6,     7,     8,
+       9,    10,    11,    12,    13,    14,    15,    16,    17,    18,
+      19,    20,    21,    22,    23,    24,    25,    26,    27,    28,
+      29,    30,     0,     1,    -1,     3,     4,    -1,     6,     7,
+       8,     9,    10,    11,    12,    13,    14,    15,    16,    17,
+      18,    19,    20,    21,    22,    23,    24,    25,    26,    27,
+      28,    29,    30,     0,     1,    -1,     3,     4,    -1,     6,
+       7,     8,     9,    10,    11,    12,    13,    14,    15,    16,
+      17,    18,    19,    20,    21,    22,    23,    24,    25,    26,
+      27,    28,    29,    30,     0,     1,    -1,     3,     4,    -1,
+       6,     7,     8,     9,    10,    11,    12,    13,    14,    15,
+      16,    17,    18,    19,    20,    21,    22,    23,    24,    25,
+      26,    27,    28,    29,    30,     0,     1,    -1,     3,     4,
+      -1,     6,     7,     8,     9,    10,    11,    12,    13,    14,
+      15,    16,    17,    18,    19,    20,    21,    22,    23,    24,
+      25,    26,    27,    28,    29,    30,     0,     1,    -1,     3,
+       4,    -1,     6,     7,     8,     9,    10,    11,    12,    13,
+      14,    15,    16,    17,    18,    19,    20,    21,    22,    23,
+      24,    25,    26,    27,    28,    29,    30,     0,     1,    -1,
+       3,     4,    -1,     6,     7,     8,     9,    10,    11,    12,
+      13,    14,    15,    16,    17,    18,    19,    20,    21,    22,
+      23,    24,    25,    26,    27,    28,    29,    30,     0,     1,
+      -1,     3,     4,    -1,     6,     7,     8,     9,    10,    11,
+      12,    13,    14,    15,    16,    17,    18,    19,    20,    21,
+      22,    23,    24,    25,    26,    27,    28,    29,    30,     0,
+       1,    -1,     3,     4,    -1,     6,     7,     8,     9,    10,
+      11,    12,    13,    14,    15,    16,    17,    18,    19,    20,
+      21,    22,    23,    24,    25,    26,    27,    28,    29,    30,
+       0,     1,    -1,     3,     4,    -1,     6,     7,     8,     9,
+      10,    11,    12,    13,    14,    15,    16,    17,    18,    19,
+      20,    21,    22,    23,    24,    25,    26,    27,    28,    29,
+      30,     0,     1,    -1,     3,     4,    -1,     6,     7,     8,
+       9,    10,    11,    12,    13,    14,    15,    16,    17,    18,
+      19,    20,    21,    22,    23,    24,    25,    26,    27,    28,
+      29,    30,     0,     1,    -1,     3,     4,    -1,     6,     7,
+       8,     9,    10,    11,    12,    13,    14,    15,    16,    17,
+      18,    19,    20,    21,    22,    23,    24,    25,    26,    27,
+      28,    29,    30,     0,     1,    -1,     3,     4,    -1,     6,
+       7,     8,     9,    10,    11,    12,    13,    14,    15,    16,
+      17,    18,    19,    20,    21,    22,    23,    24,    25,    26,
+      27,    28,    29,    30,     0,     1,    -1,     3,     4,    -1,
+       6,     7,     8,     9,    10,    11,    12,    13,    14,    15,
+      16,    17,    18,    19,    20,    21,    22,    23,    24,    25,
+      26,    27,    28,    29,    30,     0,     1,    -1,     3,     4,
+      -1,     6,     7,     8,     9,    10,    11,    12,    13,    14,
+      15,    16,    17,    18,    19,    20,    21,    22,    23,    24,
+      25,    26,    27,    28,    29,    30,     0,     1,    -1,     3,
+       4,    -1,     6,     7,     8,     9,    10,    11,    12,    13,
+      14,    15,    16,    17,    18,    19,    20,    21,    22,    23,
+      24,    25,    26,    27,    28,    29,    30,     0,     1,    -1,
+       3,     4,    -1,     6,     7,     8,     9,    10,    11,    12,
+      13,    14,    15,    16,    17,    18,    19,    20,    21,    22,
+      23,    24,    25,    26,    27,    28,    29,    30,     0,     1,
+      -1,     3,     4,    -1,     6,     7,     8,     9,    10,    11,
+      12,    13,    14,    15,    16,    17,    18,    19,    20,    21,
+      22,    23,    24,    25,    26,    27,    28,    29,    30,     0,
+       1,    -1,     3,     4,    -1,     6,     7,     8,     9,    10,
+      11,    12,    13,    14,    15,    16,    17,    18,    19,    20,
+      21,    22,    23,    24,    25,    26,    27,    28,    29,    30,
+       0,     1,    -1,     3,     4,    -1,     6,     7,     8,     9,
+      10,    11,    12,    13,    14,    15,    16,    17,    18,    19,
+      20,    21,    22,    23,    24,    25,    26,    27,    28,    29,
+      30,     0,     1,    -1,     3,     4,    -1,     6,     7,     8,
+       9,    10,    11,    12,    13,    14,    15,    16,    17,    18,
+      19,    20,    21,    22,    23,    24,    25,    26,    27,    28,
+      29,    30,     0,     1,    -1,     3,     4,    -1,     6,     7,
+       8,     9,    10,    11,    12,    13,    14,    15,    16,    17,
+      18,    19,    20,    21,    22,    23,    24,    25,    26,    27,
+      28,    29,    30,     0,     1,    -1,     3,     4,    -1,     6,
+       7,     8,     9,    10,    11,    12,    13,    14,    15,    16,
+      17,    18,    19,    20,    21,    22,    23,    24,    25,    26,
+      27,    28,    29,    30,     0,     1,    -1,     3,     4,    -1,
+       6,     7,     8,     9,    10,    11,    12,    13,    14,    15,
+      16,    17,    18,    19,    20,    21,    22,    23,    24,    25,
+      26,    27,    28,    29,    30,     0,     1,    -1,     3,     4,
+      -1,     6,     7,     8,     9,    10,    11,    12,    13,    14,
+      15,    16,    17,    18,    19,    20,    21,    22,    23,    24,
+      25,    26,    27,    28,    29,    30,     0,     1,    -1,     3,
+       4,    -1,     6,     7,     8,     9,    10,    11,    12,    13,
+      14,    15,    16,    17,    18,    19,    20,    21,    22,    23,
+      24,    25,    26,    27,    28,    29,    30,     0,     1,    -1,
+       3,     4,    -1,     6,     7,     8,     9,    10,    11,    12,
+      13,    14,    15,    16,    17,    18,    19,    20,    21,    22,
+      23,    24,    25,    26,    27,    28,    29,    30,     0,     1,
+      -1,     3,     4,    -1,     6,     7,     8,     9,    10,    11,
+      12,    13,    14,    15,    16,    17,    18,    19,    20,    21,
+      22,    23,    24,    25,    26,    27,    28,    29,    30,     0,
+       1,    -1,     3,     4,    -1,     6,     7,     8,     9,    10,
+      11,    12,    13,    14,    15,    16,    17,    18,    19,    20,
+      21,    22,    23,    24,    25,    26,    27,    28,    29,    30,
+       1,    -1,     3,     4,    -1,     6,     7,     8,     9,    10,
+      11,    12,    13,    14,    15,    16,    17,    18,    19,    20,
+      21,    22,    23,    24,    25,    26,    27,    28,    29,    30
 };
 
   /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
      symbol of state STATE-NUM.  */
 static const yytype_int8 yystos[] =
 {
-       0,     3,     5,     6,     7,     8,     9,    10,    11,    12,
-      13,    14,    15,    16,    17,    18,    19,    20,    21,    22,
-      23,    24,    25,    26,    27,    28,    29,    31,    32,    33,
-      34,    35,    36,    37,    38,    39,    40,     3,     0,    33
+       0,     1,     3,     4,     6,     7,     8,     9,    10,    11,
+      12,    13,    14,    15,    16,    17,    18,    19,    20,    21,
+      22,    23,    24,    25,    26,    27,    28,    29,    30,    32,
+      33,    34,    35,    36,    37,    38,    39,    40,    41,    42,
+      43,    44,    45,    46,     0,    34
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_int8 yyr1[] =
 {
-       0,    30,    31,    32,    32,    32,    32,    33,    33,    33,
-      34,    34,    34,    34,    34,    34,    35,    35,    35,    35,
-      36,    36,    37,    37,    37,    37,    37,    37,    38,    38,
-      38,    38,    39,    39,    39,    39,    39,    39,    40
+       0,    31,    32,    33,    34,    34,    35,    35,    35,    35,
+      35,    35,    36,    36,    36,    36,    36,    36,    37,    37,
+      38,    38,    38,    38,    39,    39,    39,    40,    40,    41,
+      41,    41,    42,    42,    43,    43,    43,    43,    43,    43,
+      44,    44,    45,    45,    46
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
 static const yytype_int8 yyr2[] =
 {
-       0,     2,     1,     2,     1,     1,     1,     2,     1,     1,
+       0,     2,     1,     1,     2,     1,     1,     1,     1,     1,
        1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
        1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-       1,     1,     1,     1,     1,     1,     1,     1,     1
+       1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
+       1,     1,     1,     1,     1
 };
 
 
@@ -1360,542 +1606,565 @@ yyreduce:
   switch (yyn)
     {
   case 2:
-#line 98 "src/syn.y"
+#line 104 "src/syn.y"
           {
-    // root = $$;
-    printf(BHBLU "root_node -> program\n" reset);
-    // root = create_node(&root, ROOT);
-    // add_tree_node(&root, &$1);
-    // printf("root: ");
-    // print_node(&root);
-
-    (yyval.node) = create_node(&(yyval.node), ROOT);
-    add_tree_node(&(yyval.node), &(yyvsp[0].node));
-    printf("$$: ");
-    print_node(&(yyval.node));
-    printf("$1: ");
-    print_node(&(yyvsp[0].node));
-    printf("\n");
-  }
-#line 1381 "src/syn.tab.c"
+      // root = $$;
+      // printf(BHBLU "root_node -> program\n" reset);
+      // root = create_node(&root, ROOT);
+      // add_tree_node(&root, &$1);
+      // printf("root: ");
+      // print_node(&root);
+      // $$ = create_node(&$$, ROOT);
+      // add_tree_node(&$$, &$1);
+      // printf("$$: ");
+      // print_node(&$$);
+      // printf("$1: ");
+      // print_node(&$1);
+      // printf("\n");
+    }
+#line 1626 "src/syn.tab.c"
     break;
 
   case 3:
-#line 117 "src/syn.y"
-                      {
-    printf(BHBLU "program -> symbols declaration\n" reset);
-    (yyval.node) = create_node(&(yyval.node), PROGRAM);
-    (yyvsp[-1].node) = create_node(&(yyval.node), SYMBOL);
-    add_tree_node(&(yyval.node), &(yyvsp[-1].node));
-    add_tree_node(&(yyval.node), &(yyvsp[0].node));
-
-    printf("$$: ");
-    print_node(&(yyval.node));
-    printf("$1: ");
-    print_node(&(yyvsp[-1].node));
-    printf("$2: ");
-    print_node(&(yyvsp[0].node));
-    printf("\n");
-  }
-#line 1401 "src/syn.tab.c"
+#line 122 "src/syn.y"
+                   {
+      // printf(BHBLU "program -> list_of_declarations\n" reset);
+      // $$ = create_node(&$$, PROGRAM);
+      // $1 = create_node(&$$, LIST_OF_DECLARATIONS);
+      // add_tree_node(&$$, &$1);
+      // printf("$$: ");
+      // print_node(&$$);
+      // printf("$1: ");
+      // print_node(&$1);
+      // printf("\n");
+    }
+#line 1642 "src/syn.tab.c"
     break;
 
   case 4:
-#line 132 "src/syn.y"
-            {
-    printf(BHBLU "program -> symbols\n" reset);
-    (yyval.node) = create_node(&(yyval.node), PROGRAM);
-    add_tree_node(&(yyval.node), &(yyvsp[0].node));
-
-    printf("$$: ");
-    print_node(&(yyval.node));
-    printf("$1: ");
-    print_node(&(yyvsp[0].node));
-  }
-#line 1416 "src/syn.tab.c"
+#line 136 "src/syn.y"
+                                {
+      // printf(BHBLU "list_of_declarations -> declaration list_of_declarations\n" reset);
+      // $$ = create_node(&$$, LIST_OF_DECLARATIONS);
+      // add_tree_node(&$$, &$1);
+      // add_tree_node(&$$, &$2);
+      // printf("$$: ");
+      // print_node(&$$);
+      // printf("$1: ");
+      // print_node(&$1);
+      // printf("$2: ");
+      // print_node(&$2);
+    }
+#line 1659 "src/syn.tab.c"
     break;
 
   case 5:
-#line 142 "src/syn.y"
+#line 148 "src/syn.y"
                  {
-    printf(BHBLU "program -> declaration\n" reset);
-    (yyval.node) = create_node(&(yyval.node), PROGRAM);
-    add_tree_node(&(yyval.node), &(yyvsp[0].node));
-    
-    printf("$$: ");
-    print_node(&(yyval.node));
-    printf("$1: ");
-    print_node(&(yyvsp[0].node));
-  }
-#line 1431 "src/syn.tab.c"
+      // printf(BHBLU "list_of_declarations -> declaration\n" reset);
+      // $$ = create_node(&$$, LIST_OF_DECLARATIONS);
+      // add_tree_node(&$$, &$1);
+      // printf("$$: ");
+      // print_node(&$$);
+      // printf("$1: ");
+      // print_node(&$1);
+    }
+#line 1673 "src/syn.tab.c"
+    break;
+
+  case 6:
+#line 160 "src/syn.y"
+          {
+      // printf(BHBLU "declaration -> <INTEGER, %s>\n" reset, $1.lexeme);
+      // $$ = create_node(&$$, DECLARATION);
+      // add_tree_token_node(&$$, &$1, NUMBER_INT);
+      // printf("$$: ");
+      // print_node(&$$);
+      // printf("$1: ");
+      // print_token(&$1);
+      // printf("\n\n");
+    }
+#line 1688 "src/syn.tab.c"
     break;
 
   case 7:
-#line 156 "src/syn.y"
-             {
-    printf(BHBLU "declaration -> <ID INTEGER, %s>\n" reset, (yyvsp[-1].token).lexeme);
-    (yyval.node) = create_node(&(yyval.node), DECLARATION);
-    add_tree_token_node(&(yyval.node), &(yyvsp[-1].token), IDENTIFIER);
-    add_tree_token_node(&(yyval.node), &(yyvsp[0].token), NUMBER_INT);
-    // &$1.lexeme, &$1.line, &$1.column
-
-    printf("$$: ");
-    print_node(&(yyval.node));
-    printf("$1: ");
-    print_token(&(yyvsp[-1].token));
-    printf("$2: ");
-    print_token(&(yyvsp[0].token));
-    printf("\n\n");
-  }
-#line 1451 "src/syn.tab.c"
+#line 170 "src/syn.y"
+              {
+      // printf(BHBLU "declaration -> <FLOAT, %s>\n" reset, $1.lexeme);
+      // $$ = create_node(&$$, DECLARATION);
+      // add_tree_token_node(&$$, &$1, NUMBER_FLOAT);
+      // printf("$$: ");
+      // print_node(&$$);
+      // printf("$1: ");
+      // print_token(&$1);
+      // printf("\n\n");
+    }
+#line 1703 "src/syn.tab.c"
     break;
 
   case 8:
-#line 171 "src/syn.y"
-            {
-      printf(BHBLU "declaration -> <INTEGER, %s>\n" reset, (yyvsp[0].token).lexeme);
-      (yyval.node) = create_node(&(yyval.node), DECLARATION);
-      add_tree_token_node(&(yyval.node), &(yyvsp[0].token), NUMBER_INT);
-      // &$1.lexeme, &$1.line, &$1.column
-
-      printf("$$: ");
-      print_node(&(yyval.node));
-      printf("$1: ");
-      print_token(&(yyvsp[0].token));
-      printf("\n\n");
+#line 180 "src/syn.y"
+       {
+    // printf(BHBLU "declaration -> <ID, %s>\n" reset, $1.lexeme);
+    // $$ = create_node(&$$, DECLARATION);
+    // add_tree_token_node(&$$, &$1, IDENTIFIER);
+    // printf("$$: ");
+    // print_node(&$$);
+    // printf("$1: ");
+    // print_token(&$1);
+    // printf("\n\n");
     }
-#line 1468 "src/syn.tab.c"
+#line 1718 "src/syn.tab.c"
     break;
 
   case 9:
-#line 183 "src/syn.y"
-       {
-    printf(BHBLU "declaration -> <ID, %s>\n" reset, (yyvsp[0].token).lexeme);
-    (yyval.node) = create_node(&(yyval.node), DECLARATION);
-    add_tree_token_node(&(yyval.node), &(yyvsp[0].token), IDENTIFIER);
-     // &$1.lexeme, &$1.line, &$1.column
-
-    printf("$$: ");
-    print_node(&(yyval.node));
-    printf("$1: ");
-    print_token(&(yyvsp[0].token));
-    printf("\n\n");
-  }
-#line 1485 "src/syn.tab.c"
+#line 190 "src/syn.y"
+            {
+      // printf(BHBLU "declaration -> symbols\n" reset);
+      // $$ = create_node(&$$, PROGRAM);
+      // add_tree_node(&$$, &$1);
+      // printf("$$: ");
+      // print_node(&$$);
+      // printf("$1: ");
+      // print_node(&$1);
+    }
+#line 1732 "src/syn.tab.c"
     break;
 
   case 10:
-#line 198 "src/syn.y"
-      {
-    printf(BHBLU "symbols -> <OPEN_PARENTHESES, %s>\n" reset, (yyvsp[0].token).lexeme);
-    (yyval.node) = create_node(&(yyval.node), SYMBOL);
-    add_tree_token_node(&(yyval.node), &(yyvsp[0].token), OPEN_PARENTHESES);
-  }
-#line 1495 "src/syn.tab.c"
+#line 199 "src/syn.y"
+              {
+      // printf(BHBLU "declaration -> symbols\n" reset);
+      // $$ = create_node(&$$, OPERATION);
+      // add_tree_node(&$$, &$1);
+      // printf("$$: ");
+      // print_node(&$$);
+      // printf("$1: ");
+      // print_node(&$1);
+    }
+#line 1746 "src/syn.tab.c"
     break;
 
   case 11:
-#line 203 "src/syn.y"
-        {
-    printf(BHBLU "SYMBOL -> <CLOSE_PARENTHESES, %s>\n" reset, (yyvsp[0].token).lexeme);
-    (yyval.node) = create_node(&(yyval.node), SYMBOL);
-    add_tree_token_node(&(yyval.node), &(yyvsp[0].token), CLOSE_PARENTHESES);
-  }
-#line 1505 "src/syn.tab.c"
+#line 208 "src/syn.y"
+          {
+    
+    }
+#line 1754 "src/syn.tab.c"
     break;
 
   case 12:
-#line 208 "src/syn.y"
-        {
-    printf(BHBLU "SYMBOL -> <OPEN_CURLY_BRACKET, %s>\n" reset, (yyvsp[0].token).lexeme);
-    (yyval.node) = create_node(&(yyval.node), SYMBOL);
-    add_tree_token_node(&(yyval.node), &(yyvsp[0].token), OPEN_CURLY_BRACKET);
+#line 214 "src/syn.y"
+      {
+    // printf(BHBLU "symbols -> <OPEN_PARENTHESES, %s>\n" reset, $1.lexeme);
+    // $$ = create_node(&$$, SYMBOL);
+    // add_tree_token_node(&$$, &$1, OPEN_PARENTHESES);
   }
-#line 1515 "src/syn.tab.c"
+#line 1764 "src/syn.tab.c"
     break;
 
   case 13:
-#line 213 "src/syn.y"
+#line 219 "src/syn.y"
         {
-    printf(BHBLU "SYMBOL -> <CLOSE_CURLY_BRACKET, %s>\n" reset, (yyvsp[0].token).lexeme);
-    (yyval.node) = create_node(&(yyval.node), SYMBOL);
-    add_tree_token_node(&(yyval.node), &(yyvsp[0].token), CLOSE_CURLY_BRACKET);
-  }
-#line 1525 "src/syn.tab.c"
-    break;
-
-  case 14:
-#line 218 "src/syn.y"
-        {
-    printf(BHBLU "SYMBOL -> <SEMICOLON, %s>\n" reset, (yyvsp[0].token).lexeme);
-    (yyval.node) = create_node(&(yyval.node), SYMBOL);
-    add_tree_token_node(&(yyval.node), &(yyvsp[0].token), SEMICOLON);
-  }
-#line 1535 "src/syn.tab.c"
-    break;
-
-  case 15:
-#line 223 "src/syn.y"
-        {
-    printf(BHBLU "SYMBOL -> <SEMICOLON, %s>\n" reset, (yyvsp[0].token).lexeme);
-    (yyval.node) = create_node(&(yyval.node), SYMBOL);
-    add_tree_token_node(&(yyval.node), &(yyvsp[0].token), COMMA);
-  }
-#line 1545 "src/syn.tab.c"
-    break;
-
-  case 16:
-#line 232 "src/syn.y"
-               {
-    printf(BHBLU "operation -> logic_operator\n" reset);
-    (yyval.node) = create_node(&(yyval.node), OPERATION);
-    (yyvsp[0].node) = create_node(&(yyvsp[0].node), LOGIC_OPERATOR);
-    add_tree_node(&(yyval.node), &(yyvsp[0].node));
-    printf("$$: ");
-    print_node(&(yyval.node));
-    printf("$1: ");
-    print_node(&(yyvsp[0].node));
-    printf("\n");
-  }
-#line 1561 "src/syn.tab.c"
-    break;
-
-  case 17:
-#line 243 "src/syn.y"
-                      {
-    printf(BHBLU "operation -> relational_operator\n" reset);
-    (yyval.node) = create_node(&(yyval.node), OPERATION);
-    (yyvsp[0].node) = create_node(&(yyvsp[0].node), RELATIONAL_OPERATOR);
-    add_tree_node(&(yyval.node), &(yyvsp[0].node));
-    printf("$$: ");
-    print_node(&(yyval.node));
-    printf("$1: ");
-    print_node(&(yyvsp[0].node));
-    printf("\n");
-  }
-#line 1577 "src/syn.tab.c"
-    break;
-
-  case 18:
-#line 254 "src/syn.y"
-                   {
-    printf(BHBLU "operation -> arithmetic_operator\n" reset);
-    (yyval.node) = create_node(&(yyval.node), OPERATION);
-    (yyvsp[0].node) = create_node(&(yyvsp[0].node), ARITHMETIC_OPERATOR);
-    add_tree_node(&(yyval.node), &(yyvsp[0].node));
-    printf("$$: ");
-    print_node(&(yyval.node));
-    printf("$1: ");
-    print_node(&(yyvsp[0].node));
-    printf("\n");
-  }
-#line 1593 "src/syn.tab.c"
-    break;
-
-  case 19:
-#line 265 "src/syn.y"
-                 {
-    printf(BHBLU "operation -> list_operator\n" reset);
-    (yyval.node) = create_node(&(yyval.node), OPERATION);
-    (yyvsp[0].node) = create_node(&(yyvsp[0].node), LIST_OPERATOR);
-    add_tree_node(&(yyval.node), &(yyvsp[0].node));
-    printf("$$: ");
-    print_node(&(yyval.node));
-    printf("$1: ");
-    print_node(&(yyvsp[0].node));
-    printf("\n");
-  }
-#line 1609 "src/syn.tab.c"
-    break;
-
-  case 20:
-#line 291 "src/syn.y"
-       {
-      printf(BHBLU "logic_operator -> <CONSTRUCTOR_OP, %s>\n" reset, (yyvsp[0].token).lexeme);
-      (yyval.node) = create_node(&(yyval.node), LOGIC_OPERATOR);
-      add_tree_token_node(&(yyval.node), &(yyvsp[0].token), AND_OP);
-      printf("$$: ");
-      print_node(&(yyval.node));
-      printf("$1: ");
-      print_token(&(yyvsp[0].token));
-      printf("\n\n");
-  }
-#line 1624 "src/syn.tab.c"
-    break;
-
-  case 21:
-#line 301 "src/syn.y"
-       {
-      printf(BHBLU "logic_operator -> <CONSTRUCTOR_OP, %s>\n" reset, (yyvsp[0].token).lexeme);
-      (yyval.node) = create_node(&(yyval.node), LOGIC_OPERATOR);
-      add_tree_token_node(&(yyval.node), &(yyvsp[0].token), OR_OP);
-      printf("$$: ");
-      print_node(&(yyval.node));
-      printf("$1: ");
-      print_token(&(yyvsp[0].token));
-      printf("\n\n");
-  }
-#line 1639 "src/syn.tab.c"
-    break;
-
-  case 22:
-#line 314 "src/syn.y"
-          {
-    printf(BHBLU "relational_operator -> <CONSTRUCTOR_OP, %s>\n" reset, (yyvsp[0].token).lexeme);
-    (yyval.node) = create_node(&(yyval.node), RELATIONAL_OPERATOR);
-    add_tree_token_node(&(yyval.node), &(yyvsp[0].token), GT_OP);
-    printf("$$: ");
-    print_node(&(yyval.node));
-    printf("$1: ");
-    print_token(&(yyvsp[0].token));
-    printf("\n\n");
-  }
-#line 1654 "src/syn.tab.c"
-    break;
-
-  case 23:
-#line 324 "src/syn.y"
-               {
-    printf(BHBLU "relational_operator -> <POP_OP, %s>\n" reset, (yyvsp[0].token).lexeme);
-    (yyval.node) = create_node(&(yyval.node), RELATIONAL_OPERATOR);
-    add_tree_token_node(&(yyval.node), &(yyvsp[0].token), GE_OP);
-    printf("$$: ");
-    print_node(&(yyval.node));
-    printf("$1: ");
-    print_token(&(yyvsp[0].token));
-    printf("\n\n");
-  }
-#line 1669 "src/syn.tab.c"
-    break;
-
-  case 24:
-#line 334 "src/syn.y"
-         {
-    printf(BHBLU "relational_operator -> <HEAD_OP, %s>\n" reset, (yyvsp[0].token).lexeme);
-    (yyval.node) = create_node(&(yyval.node), RELATIONAL_OPERATOR);
-    add_tree_token_node(&(yyval.node), &(yyvsp[0].token), LT_OP);
-    printf("$$: ");
-    print_node(&(yyval.node));
-    printf("$1: ");
-    print_token(&(yyvsp[0].token));
-    printf("\n\n");
-  }
-#line 1684 "src/syn.tab.c"
-    break;
-
-  case 25:
-#line 344 "src/syn.y"
-            {
-    printf(BHBLU "relational_operator -> <HEAD_OP, %s>\n" reset, (yyvsp[0].token).lexeme);
-    (yyval.node) = create_node(&(yyval.node), RELATIONAL_OPERATOR);
-    add_tree_token_node(&(yyval.node), &(yyvsp[0].token), LE_OP);
-    printf("$$: ");
-    print_node(&(yyval.node));
-    printf("$1: ");
-    print_token(&(yyvsp[0].token));
-    printf("\n\n");
-  }
-#line 1699 "src/syn.tab.c"
-    break;
-
-  case 26:
-#line 354 "src/syn.y"
-          {
-    printf(BHBLU "relational_operator -> <HEAD_OP, %s>\n" reset, (yyvsp[0].token).lexeme);
-    (yyval.node) = create_node(&(yyval.node), RELATIONAL_OPERATOR);
-    add_tree_token_node(&(yyval.node), &(yyvsp[0].token), EQ_OP);
-    printf("$$: ");
-    print_node(&(yyval.node));
-    printf("$1: ");
-    print_token(&(yyvsp[0].token));
-    printf("\n\n");
-  }
-#line 1714 "src/syn.tab.c"
-    break;
-
-  case 27:
-#line 364 "src/syn.y"
-           {
-    printf(BHBLU "relational_operator -> <HEAD_OP, %s>\n" reset, (yyvsp[0].token).lexeme);
-    (yyval.node) = create_node(&(yyval.node), RELATIONAL_OPERATOR);
-    add_tree_token_node(&(yyval.node), &(yyvsp[0].token), NE_OP);
-    printf("$$: ");
-    print_node(&(yyval.node));
-    printf("$1: ");
-    print_token(&(yyvsp[0].token));
-    printf("\n\n");
-  }
-#line 1729 "src/syn.tab.c"
-    break;
-
-  case 28:
-#line 377 "src/syn.y"
-      {
-    printf(BHBLU "arithmetic_operator -> <ADD_OP, %s>\n" reset, (yyvsp[0].token).lexeme);
-    (yyval.node) = create_node(&(yyval.node), ARITHMETIC_OPERATOR);
-    add_tree_token_node(&(yyval.node), &(yyvsp[0].token), ADD_OP);
-    printf("$$: ");
-    print_node(&(yyval.node));
-    printf("$1: ");
-    print_token(&(yyvsp[0].token));
-    printf("\n\n");
-  }
-#line 1744 "src/syn.tab.c"
-    break;
-
-  case 29:
-#line 387 "src/syn.y"
-        {
-    printf(BHBLU "arithmetic_operator -> <MINUS_OP, %s>\n" reset, (yyvsp[0].token).lexeme);
-    (yyval.node) = create_node(&(yyval.node), ARITHMETIC_OPERATOR);
-    add_tree_token_node(&(yyval.node), &(yyvsp[0].token), MINUS_OP);
-    printf("$$: ");
-    print_node(&(yyval.node));
-    printf("$1: ");
-    print_token(&(yyvsp[0].token));
-    printf("\n");
-  }
-#line 1759 "src/syn.tab.c"
-    break;
-
-  case 30:
-#line 397 "src/syn.y"
-        {
-    printf(BHBLU "arithmetic_operator -> <MULTIPLY_OP, %s>\n" reset, (yyvsp[0].token).lexeme);
-    (yyval.node) = create_node(&(yyval.node), ARITHMETIC_OPERATOR);
-    add_tree_token_node(&(yyval.node), &(yyvsp[0].token), MULTIPLY_OP);
-    printf("$$: ");
-    print_node(&(yyval.node));
-    printf("$1: ");
-    print_token(&(yyvsp[0].token));
-    printf("\n");
+    // printf(BHBLU "SYMBOL -> <CLOSE_PARENTHESES, %s>\n" reset, $1.lexeme);
+    // $$ = create_node(&$$, SYMBOL);
+    // add_tree_token_node(&$$, &$1, CLOSE_PARENTHESES);
   }
 #line 1774 "src/syn.tab.c"
     break;
 
-  case 31:
-#line 407 "src/syn.y"
+  case 14:
+#line 224 "src/syn.y"
         {
-    printf(BHBLU "arithmetic_operator -> <DIVISION_OP, %s>\n" reset, (yyvsp[0].token).lexeme);
-    (yyval.node) = create_node(&(yyval.node), ARITHMETIC_OPERATOR);
-    add_tree_token_node(&(yyval.node), &(yyvsp[0].token), DIVISION_OP);
-    printf("$$: ");
-    print_node(&(yyval.node));
-    printf("$1: ");
-    print_token(&(yyvsp[0].token));
-    printf("\n\n");
+    // printf(BHBLU "SYMBOL -> <OPEN_CURLY_BRACKET, %s>\n" reset, $1.lexeme);
+    // $$ = create_node(&$$, SYMBOL);
+    // add_tree_token_node(&$$, &$1, OPEN_CURLY_BRACKET);
   }
-#line 1789 "src/syn.tab.c"
+#line 1784 "src/syn.tab.c"
+    break;
+
+  case 15:
+#line 229 "src/syn.y"
+        {
+    // printf(BHBLU "SYMBOL -> <CLOSE_CURLY_BRACKET, %s>\n" reset, $1.lexeme);
+    // $$ = create_node(&$$, SYMBOL);
+    // add_tree_token_node(&$$, &$1, CLOSE_CURLY_BRACKET);
+  }
+#line 1794 "src/syn.tab.c"
+    break;
+
+  case 16:
+#line 234 "src/syn.y"
+        {
+    // printf(BHBLU "SYMBOL -> <SEMICOLON, %s>\n" reset, $1.lexeme);
+    // $$ = create_node(&$$, SYMBOL);
+    // add_tree_token_node(&$$, &$1, SEMICOLON);
+  }
+#line 1804 "src/syn.tab.c"
+    break;
+
+  case 17:
+#line 239 "src/syn.y"
+        {
+    // printf(BHBLU "SYMBOL -> <SEMICOLON, %s>\n" reset, $1.lexeme);
+    // $$ = create_node(&$$, SYMBOL);
+    // add_tree_token_node(&$$, &$1, COMMA);
+  }
+#line 1814 "src/syn.tab.c"
+    break;
+
+  case 18:
+#line 248 "src/syn.y"
+                    {
+      // printf(BHBLU "operation -> single_operation\n" reset);
+      // $$ = create_node(&$$, OPERATION);
+      // $1 = create_node(&$1, S_OPERATION);
+      // add_tree_node(&$$, &$1);
+      // printf("$$: ");
+      // print_node(&$$);
+      // printf("$1: ");
+      // print_node(&$1);
+      // printf("\n");
+    }
+#line 1830 "src/syn.tab.c"
+    break;
+
+  case 19:
+#line 259 "src/syn.y"
+                      {
+    // printf(BHBLU "operation -> binary_operation\n" reset);
+    //   $$ = create_node(&$$, OPERATION);
+    //   $1 = create_node(&$1, B_OPERATION);
+    //   add_tree_node(&$$, &$1);
+      // printf("$$: ");
+      // print_node(&$$);
+      // printf("$1: ");
+      // print_node(&$1);
+      // printf("\n");
+    }
+#line 1846 "src/syn.tab.c"
+    break;
+
+  case 21:
+#line 274 "src/syn.y"
+                 {
+      // printf(BHBLU "operation -> logic_operator\n" reset);
+      // $$ = create_node(&$$, OPERATION);
+      // $1 = create_node(&$1, LOGIC_OPERATOR);
+      // add_tree_node(&$$, &$1);
+      // printf("$$: ");
+      // print_node(&$$);
+      // printf("$1: ");
+      // print_node(&$1);
+      // printf("\n");
+    }
+#line 1862 "src/syn.tab.c"
+    break;
+
+  case 22:
+#line 285 "src/syn.y"
+                      {
+      // printf(BHBLU "operation -> relational_operator\n" reset);
+      // $$ = create_node(&$$, OPERATION);
+      // $1 = create_node(&$1, RELATIONAL_OPERATOR);
+      // add_tree_node(&$$, &$1);
+      // printf("$$: ");
+      // print_node(&$$);
+      // printf("$1: ");
+      // print_node(&$1);
+      // printf("\n");
+    }
+#line 1878 "src/syn.tab.c"
+    break;
+
+  case 24:
+#line 300 "src/syn.y"
+           {
+      // printf(BHBLU "single_operation -> not_tail\n" reset);
+      // $$ = create_node(&$$, LOGIC_OPERATOR);
+      // $1 = create_node(&$1, NOT_OR_TAIL);
+      // add_tree_node(&$$, &$1);
+      // printf("$$: ");
+      // print_node(&$$);
+      // printf("$1: ");
+      // print_node(&$1);
+      // printf("\n");
+    }
+#line 1894 "src/syn.tab.c"
+    break;
+
+  case 27:
+#line 316 "src/syn.y"
+      {
+      // printf(BHBLU "list_operator -> <POP_OP, %s>\n" reset, $1.lexeme);
+      // $$ = create_node(&$$, LIST_OPERATOR);
+      // add_tree_token_node(&$$, &$1, POP_OP);
+      // printf("$$: ");
+      // print_node(&$$);
+      // printf("$1: ");
+      // print_token(&$1);
+      // printf("\n\n");
+    }
+#line 1909 "src/syn.tab.c"
+    break;
+
+  case 28:
+#line 326 "src/syn.y"
+        {
+      // printf(BHBLU "list_operator -> <HEAD_OP, %s>\n" reset, $1.lexeme);
+      // $$ = create_node(&$$, LIST_OPERATOR);
+      // add_tree_token_node(&$$, &$1, HEAD_OP);
+      // printf("$$: ");
+      // print_node(&$$);
+      // printf("$1: ");
+      // print_token(&$1);
+      // printf("\n\n");
+    }
+#line 1924 "src/syn.tab.c"
+    break;
+
+  case 29:
+#line 339 "src/syn.y"
+         {
+      // printf(BHBLU "list_operator -> <FILTER_OP, %s>\n" reset, $1.lexeme);
+      // $$ = create_node(&$$, LIST_OPERATOR);
+      // add_tree_token_node(&$$, &$1, FILTER_OP);
+      // printf("$$: ");
+      // print_node(&$$);
+      // printf("$1: ");
+      // print_token(&$1);
+      // printf("\n\n");
+    }
+#line 1939 "src/syn.tab.c"
+    break;
+
+  case 30:
+#line 349 "src/syn.y"
+        {
+      // printf(BHBLU "list_operator -> <MAP_OP, %s>\n" reset, $1.lexeme);
+      // $$ = create_node(&$$, LIST_OPERATOR);
+      // add_tree_token_node(&$$, &$1, MAP_OP);
+      // printf("$$: ");
+      // print_node(&$$);
+      // printf("$1: ");
+      // print_token(&$1);
+      // printf("\n\n");
+    }
+#line 1954 "src/syn.tab.c"
+    break;
+
+  case 31:
+#line 359 "src/syn.y"
+        {
+      // printf(BHBLU "list_operator -> <CONSTRUCTOR_OP, %s>\n" reset, $1.lexeme);
+      // $$ = create_node(&$$, LIST_OPERATOR);
+      // add_tree_token_node(&$$, &$1, CONSTRUCTOR_OP);
+      // printf("$$: ");
+      // print_node(&$$);
+      // printf("$1: ");
+      // print_token(&$1);
+      // printf("\n\n");
+    }
+#line 1969 "src/syn.tab.c"
     break;
 
   case 32:
-#line 420 "src/syn.y"
-           {
-    printf(BHBLU "list_operator -> not_tail\n" reset);
-    (yyval.node) = create_node(&(yyval.node), LIST_OPERATOR);
-    (yyvsp[0].node) = create_node(&(yyvsp[0].node), NOT_OR_TAIL);
-    add_tree_node(&(yyval.node), &(yyvsp[0].node));
-    printf("$$: ");
-    print_node(&(yyval.node));
-    printf("$1: ");
-    print_node(&(yyvsp[0].node));
-    printf("\n");
-  }
-#line 1805 "src/syn.tab.c"
+#line 372 "src/syn.y"
+       {
+      // printf(BHBLU "logic_operator -> <CONSTRUCTOR_OP, %s>\n" reset, $1.lexeme);
+      // $$ = create_node(&$$, LOGIC_OPERATOR);
+      // add_tree_token_node(&$$, &$1, AND_OP);
+      // printf("$$: ");
+      // print_node(&$$);
+      // printf("$1: ");
+      // print_token(&$1);
+      // printf("\n\n");
+    }
+#line 1984 "src/syn.tab.c"
     break;
 
   case 33:
-#line 431 "src/syn.y"
-           {
-    printf(BHBLU "list_operator -> <FILTER_OP, %s>\n" reset, (yyvsp[0].token).lexeme);
-    (yyval.node) = create_node(&(yyval.node), LIST_OPERATOR);
-    add_tree_token_node(&(yyval.node), &(yyvsp[0].token), FILTER_OP);
-    printf("$$: ");
-    print_node(&(yyval.node));
-    printf("$1: ");
-    print_token(&(yyvsp[0].token));
-    printf("\n\n");
-  }
-#line 1820 "src/syn.tab.c"
+#line 382 "src/syn.y"
+       {
+      // printf(BHBLU "logic_operator -> <CONSTRUCTOR_OP, %s>\n" reset, $1.lexeme);
+      // $$ = create_node(&$$, LOGIC_OPERATOR);
+      // add_tree_token_node(&$$, &$1, OR_OP);
+      // printf("$$: ");
+      // print_node(&$$);
+      // printf("$1: ");
+      // print_token(&$1);
+      // printf("\n\n");
+    }
+#line 1999 "src/syn.tab.c"
     break;
 
   case 34:
-#line 441 "src/syn.y"
-        {
-    printf(BHBLU "list_operator -> <MAP_OP, %s>\n" reset, (yyvsp[0].token).lexeme);
-    (yyval.node) = create_node(&(yyval.node), LIST_OPERATOR);
-    add_tree_token_node(&(yyval.node), &(yyvsp[0].token), MAP_OP);
-    printf("$$: ");
-    print_node(&(yyval.node));
-    printf("$1: ");
-    print_token(&(yyvsp[0].token));
-    printf("\n\n");
-  }
-#line 1835 "src/syn.tab.c"
+#line 395 "src/syn.y"
+          {
+      // printf(BHBLU "relational_operator -> <CONSTRUCTOR_OP, %s>\n" reset, $1.lexeme);
+      // $$ = create_node(&$$, RELATIONAL_OPERATOR);
+      // add_tree_token_node(&$$, &$1, GT_OP);
+      // printf("$$: ");
+      // print_node(&$$);
+      // printf("$1: ");
+      // print_token(&$1);
+      // printf("\n\n");
+    }
+#line 2014 "src/syn.tab.c"
     break;
 
   case 35:
-#line 451 "src/syn.y"
-        {
-    printf(BHBLU "list_operator -> <CONSTRUCTOR_OP, %s>\n" reset, (yyvsp[0].token).lexeme);
-    (yyval.node) = create_node(&(yyval.node), LIST_OPERATOR);
-    add_tree_token_node(&(yyval.node), &(yyvsp[0].token), CONSTRUCTOR_OP);
-    printf("$$: ");
-    print_node(&(yyval.node));
-    printf("$1: ");
-    print_token(&(yyvsp[0].token));
-    printf("\n\n");
-  }
-#line 1850 "src/syn.tab.c"
+#line 405 "src/syn.y"
+               {
+      // printf(BHBLU "relational_operator -> <POP_OP, %s>\n" reset, $1.lexeme);
+      // $$ = create_node(&$$, RELATIONAL_OPERATOR);
+      // add_tree_token_node(&$$, &$1, GE_OP);
+      // printf("$$: ");
+      // print_node(&$$);
+      // printf("$1: ");
+      // print_token(&$1);
+      // printf("\n\n");
+    }
+#line 2029 "src/syn.tab.c"
     break;
 
   case 36:
-#line 461 "src/syn.y"
-        {
-    printf(BHBLU "list_operator -> <POP_OP, %s>\n" reset, (yyvsp[0].token).lexeme);
-    (yyval.node) = create_node(&(yyval.node), LIST_OPERATOR);
-    add_tree_token_node(&(yyval.node), &(yyvsp[0].token), POP_OP);
-    printf("$$: ");
-    print_node(&(yyval.node));
-    printf("$1: ");
-    print_token(&(yyvsp[0].token));
-    printf("\n\n");
-  }
-#line 1865 "src/syn.tab.c"
+#line 415 "src/syn.y"
+         {
+      // printf(BHBLU "relational_operator -> <HEAD_OP, %s>\n" reset, $1.lexeme);
+      // $$ = create_node(&$$, RELATIONAL_OPERATOR);
+      // add_tree_token_node(&$$, &$1, LT_OP);
+      // printf("$$: ");
+      // print_node(&$$);
+      // printf("$1: ");
+      // print_token(&$1);
+      // printf("\n\n");
+    }
+#line 2044 "src/syn.tab.c"
     break;
 
   case 37:
-#line 471 "src/syn.y"
-        {
-    printf(BHBLU "list_operator -> <HEAD_OP, %s>\n" reset, (yyvsp[0].token).lexeme);
-    (yyval.node) = create_node(&(yyval.node), LIST_OPERATOR);
-    add_tree_token_node(&(yyval.node), &(yyvsp[0].token), HEAD_OP);
-    printf("$$: ");
-    print_node(&(yyval.node));
-    printf("$1: ");
-    print_token(&(yyvsp[0].token));
-    printf("\n\n");
-  }
-#line 1880 "src/syn.tab.c"
+#line 425 "src/syn.y"
+            {
+      // printf(BHBLU "relational_operator -> <HEAD_OP, %s>\n" reset, $1.lexeme);
+      // $$ = create_node(&$$, RELATIONAL_OPERATOR);
+      // add_tree_token_node(&$$, &$1, LE_OP);
+      // printf("$$: ");
+      // print_node(&$$);
+      // printf("$1: ");
+      // print_token(&$1);
+      // printf("\n\n");
+    }
+#line 2059 "src/syn.tab.c"
     break;
 
   case 38:
-#line 484 "src/syn.y"
+#line 435 "src/syn.y"
+          {
+      // printf(BHBLU "relational_operator -> <HEAD_OP, %s>\n" reset, $1.lexeme);
+      // $$ = create_node(&$$, RELATIONAL_OPERATOR);
+      // add_tree_token_node(&$$, &$1, EQ_OP);
+      // printf("$$: ");
+      // print_node(&$$);
+      // printf("$1: ");
+      // print_token(&$1);
+      // printf("\n\n");
+    }
+#line 2074 "src/syn.tab.c"
+    break;
+
+  case 39:
+#line 445 "src/syn.y"
+           {
+      // printf(BHBLU "relational_operator -> <HEAD_OP, %s>\n" reset, $1.lexeme);
+      // $$ = create_node(&$$, RELATIONAL_OPERATOR);
+      // add_tree_token_node(&$$, &$1, NE_OP);
+      // printf("$$: ");
+      // print_node(&$$);
+      // printf("$1: ");
+      // print_token(&$1);
+      // printf("\n\n");
+    }
+#line 2089 "src/syn.tab.c"
+    break;
+
+  case 40:
+#line 458 "src/syn.y"
       {
-    printf(BHBLU "not_tail -> <NOT_OR_TAIL, %s>\n" reset, (yyvsp[0].token).lexeme);
-    (yyval.node) = create_node(&(yyval.node), SYMBOL);
-    add_tree_token_node(&(yyval.node), &(yyvsp[0].token), NOT_OR_TAIL);
-    printf("$$: ");
-    print_node(&(yyval.node));
-    printf("$1: ");
-    print_token(&(yyvsp[0].token));
-    printf("\n\n");
+      // printf(BHBLU "arithmetic_operator -> <MULTIPLY_OP, %s>\n" reset, $1.lexeme);
+      // $$ = create_node(&$$, ARITHMETIC_OPERATOR);
+      // add_tree_token_node(&$$, &$1, MULTIPLY_OP);
+      // printf("$$: ");
+      // print_node(&$$);
+      // printf("$1: ");
+      // print_token(&$1);
+      // printf("\n");
+    }
+#line 2104 "src/syn.tab.c"
+    break;
+
+  case 41:
+#line 468 "src/syn.y"
+        {
+      // printf(BHBLU "arithmetic_operator -> <DIVISION_OP, %s>\n" reset, $1.lexeme);
+      // $$ = create_node(&$$, ARITHMETIC_OPERATOR);
+      // add_tree_token_node(&$$, &$1, DIVISION_OP);
+      // printf("$$: ");
+      // print_node(&$$);
+      // printf("$1: ");
+      // print_token(&$1);
+      // printf("\n\n");
+    }
+#line 2119 "src/syn.tab.c"
+    break;
+
+  case 42:
+#line 481 "src/syn.y"
+        {
+      // printf(BHBLU "arithmetic_operator -> <ADD_OP, %s>\n" reset, $1.lexeme);
+      // $$ = create_node(&$$, ARITHMETIC_OPERATOR);
+      // add_tree_token_node(&$$, &$1, ADD_OP);
+      // printf("$$: ");
+      // print_node(&$$);
+      // printf("$1: ");
+      // print_token(&$1);
+      // printf("\n\n");
+    }
+#line 2134 "src/syn.tab.c"
+    break;
+
+  case 43:
+#line 491 "src/syn.y"
+        {
+      // printf(BHBLU "arithmetic_operator -> <MINUS_OP, %s>\n" reset, $1.lexeme);
+      // $$ = create_node(&$$, ARITHMETIC_OPERATOR);
+      // add_tree_token_node(&$$, &$1, MINUS_OP);
+      // printf("$$: ");
+      // print_node(&$$);
+      // printf("$1: ");
+      // print_token(&$1);
+      // printf("\n");
+    }
+#line 2149 "src/syn.tab.c"
+    break;
+
+  case 44:
+#line 504 "src/syn.y"
+      {
+    // printf(BHBLU "not_tail -> <NOT_OR_TAIL, %s>\n" reset, $1.lexeme);
+    // $$ = create_node(&$$, SYMBOL);
+    // add_tree_token_node(&$$, &$1, NOT_OR_TAIL);
+    // printf("$$: ");
+    // print_node(&$$);
+    // printf("$1: ");
+    // print_token(&$1);
+    // printf("\n\n");
   }
-#line 1895 "src/syn.tab.c"
+#line 2164 "src/syn.tab.c"
     break;
 
 
-#line 1899 "src/syn.tab.c"
+#line 2168 "src/syn.tab.c"
 
       default: break;
     }
@@ -2127,11 +2396,11 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 497 "src/syn.y"
+#line 517 "src/syn.y"
 
 //********** C Functions **********
 int yyerror(char *s) {
-  fprintf(stderr, BHRED "\nError: %s in line: %d, column: %d" reset "\n", s, yylineno, column-yyleng);
+  fprintf(stderr, BHRED "\nError: %s in line: %d, column: %d\n" reset "\n", s, yylineno, column-yyleng);
   return 0;
 }
 
@@ -2139,7 +2408,6 @@ int main(int argc, char **argv) {
   ++argv, --argc;
   symbol_table = create_table();
   
-
   // tree_node *root = create_node();
 
   if ( argc > 0 ) {
@@ -2151,12 +2419,14 @@ int main(int argc, char **argv) {
   
   total_lexical_errors();
 
-  printf("\n~~~~ ABSTRACT TREE ~~~~\n\n");
-  print_tree(&root, 1);
+  // printf("\n~~~~ ABSTRACT TREE ~~~~\n\n");
+  // print_tree(&root, 1);
 
   printf("\n---------------\nSYMBOL TABLE\n---------------\nID | TOKENS\n---------------\n");
   print_table();
   destroy_table();
+  fclose(yyin);
+  yylex_destroy();
   
   return 0;
 }

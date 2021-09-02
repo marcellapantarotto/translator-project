@@ -67,6 +67,8 @@ const char *rule_label[] = {
   "}",
   "SYMBOL",
   "ROOT",
+  "SINGLE_OPERATION",
+  "BINARY_OPERATION",
 };
 
 //===============================================================

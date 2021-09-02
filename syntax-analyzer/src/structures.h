@@ -69,6 +69,8 @@ enum rule_type {
   CLOSE_CURLY_BRACKET,
   SYMBOL,
   ROOT,
+  S_OPERATION,
+  B_OPERATION,
 };
 
 void show_error();
@@ -79,6 +81,10 @@ void print_table();
 void destroy_table();
 int column;
 int errors;
+
+//===============================================================
+// SYMBOL TABLE SECTION
+//===============================================================
 
 // symbol table node
 typedef struct table_node {
@@ -92,6 +98,10 @@ typedef struct table {
   struct table_node *beginning;
   struct table_node *final;
 } table;
+
+//===============================================================
+// TREE SECTION
+//===============================================================
 
 // token
 typedef struct t_token {

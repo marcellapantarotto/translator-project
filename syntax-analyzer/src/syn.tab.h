@@ -50,18 +50,19 @@ extern int yydebug;
   enum yytokentype
   {
     NUM_INT = 258,
-    STRING = 259,
-    ID = 260,
-    AND = 261,
-    OR = 262,
-    GREATER = 263,
-    GREATER_EQ = 264,
-    LESS = 265,
-    LESS_EQ = 266,
-    EQUAL = 267,
-    NOT_EQ = 268,
-    FILTER = 269,
-    MAP = 270
+    NUM_FLOAT = 259,
+    STRING = 260,
+    ID = 261,
+    AND = 262,
+    OR = 263,
+    GREATER = 264,
+    GREATER_EQ = 265,
+    LESS = 266,
+    LESS_EQ = 267,
+    EQUAL = 268,
+    NOT_EQ = 269,
+    FILTER = 270,
+    MAP = 271
   };
 #endif
 
@@ -69,12 +70,12 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 88 "src/syn.y"
+#line 94 "src/syn.y"
 
   t_token token;
   t_node node;
 
-#line 78 "src/syn.tab.h"
+#line 79 "src/syn.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

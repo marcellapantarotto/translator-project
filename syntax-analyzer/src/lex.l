@@ -46,19 +46,22 @@ id              [_a-zA-Z][_a-zA-Z0-9]*
 
 {int} {
   printf("INT CONSTANT:\n  Line: %d, Column: %d \t-->\t<NUMBER, %s> \n\n", yylineno, column, yytext);
-
   sscanf(yytext, "%s", yylval.token.lexeme);
   yylval.token.line = yylineno;
   yylval.token.column = column;
   // yylval.token.scope = scope;
-
   column += yyleng;
   return(NUM_INT);
 }
 
 {float} {
   printf("FLOAT CONSTANT:\n  Line: %d, Column: %d \t-->\t<NUMBER, %s> \n\n", yylineno, column, yytext);
+  sscanf(yytext, "%s", yylval.token.lexeme);
+  yylval.token.line = yylineno;
+  yylval.token.column = column;
+  // yylval.token.scope = scope;
   column += yyleng;
+  return(NUM_FLOAT);
 }
 
 {string} {
@@ -79,7 +82,8 @@ id              [_a-zA-Z][_a-zA-Z0-9]*
 }
 
 "main" {
-  printf("FUNCTION MAIN:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
+  int position = add_table_node(yytext);
+  printf("FUNCTION MAIN:\n  Line: %d, Column: %d \t-->\t<MAIN, %s, position in symbol table: %d> \n\n", yylineno, column, yytext, position);
   column += yyleng;
 }
 
