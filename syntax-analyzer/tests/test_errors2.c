@@ -1,6 +1,6 @@
 int main() {
-    int list = NIL;
+    int list my_list = NIL;        // error
     int elem;
-    list = elem :: list;       // error
-    return return list;        // error
+    elem %% my_list;   // error
+    return my_list;
 }

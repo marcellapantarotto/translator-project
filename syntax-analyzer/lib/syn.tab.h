@@ -52,17 +52,28 @@ extern int yydebug;
     NUM_INT = 258,
     NUM_FLOAT = 259,
     STRING = 260,
-    ID = 261,
-    AND = 262,
-    OR = 263,
-    GREATER = 264,
-    GREATER_EQ = 265,
-    LESS = 266,
-    LESS_EQ = 267,
-    EQUAL = 268,
-    NOT_EQ = 269,
-    FILTER = 270,
-    MAP = 271
+    NIL_CNST = 261,
+    ID = 262,
+    RETURN_STM = 263,
+    T_INT = 264,
+    T_FLOAT = 265,
+    T_LIST = 266,
+    IF_STMT = 267,
+    ELSE_STMT = 268,
+    FOR_STMT = 269,
+    INPUT_WRITE = 270,
+    INPUT_WRITELN = 271,
+    OUTPUT_READ = 272,
+    AND = 273,
+    OR = 274,
+    GREATER = 275,
+    GREATER_EQ = 276,
+    LESS = 277,
+    LESS_EQ = 278,
+    EQUAL = 279,
+    NOT_EQ = 280,
+    FILTER = 281,
+    MAP = 282
   };
 #endif
 
@@ -70,12 +81,12 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 94 "src/syn.y"
+#line 129 "src/syn.y"
 
   t_token token;
   t_node node;
 
-#line 79 "lib/syn.tab.h"
+#line 90 "lib/syn.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

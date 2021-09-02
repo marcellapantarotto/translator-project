@@ -7,8 +7,8 @@ compile:
 
 run:
 	./tradutor tests/test_correct1.c
-# ./tradutor tests/test_correct2.c
-# ./tradutor tests/test_errors1.c
+#	./tradutor tests/test_correct2.c
+#	./tradutor tests/test_errors1.c
 # ./tradutor tests/test_errors2.c
 	
 debug:

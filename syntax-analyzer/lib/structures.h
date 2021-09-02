@@ -71,6 +71,20 @@ enum rule_type {
   ROOT,
   S_OPERATION,
   B_OPERATION,
+  TYPE_LST,
+  CONSTANT,
+  ARITHMETIC_SINGLE,
+  ARITHMETIC_BINARY,
+  LIST_SINGLE,
+  LIST_BINARY,
+  WRITE,
+  WRITELN,
+  READ,
+  ASSIGN,
+  IF,
+  ELSE,
+  RETURN,
+  FOR,
 };
 
 void show_error();

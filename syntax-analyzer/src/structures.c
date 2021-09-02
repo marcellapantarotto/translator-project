@@ -69,6 +69,20 @@ const char *rule_label[] = {
   "ROOT",
   "SINGLE_OPERATION",
   "BINARY_OPERATION",
+  "TYPE_LST",
+  "CONSTANT",
+  "ARITHMETIC_SINGLE",
+  "ARITHMETIC_BINARY",
+  "LIST_SINGLE",
+  "LIST_BINARY",
+  "WRITE",
+  "WRITELN",
+  "READ",
+  "=",
+  "IF",
+  "ELSE",
+  "RETURN",
+  "FOR",
 };
 
 //===============================================================

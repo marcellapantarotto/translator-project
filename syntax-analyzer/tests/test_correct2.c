@@ -1,13 +1,12 @@
 int main() {
    // Comment
    float list my_list;
-   my_list = NIL;
+   int list other_list;
 
-   if(my_list == NIL) {
-      write("Empty list!");
-   } else {
-      writeln("List not empty!");
+   if(my_list == other_list) {
+      write("Lists are the same");
+   } 
+   if(my_list != other_list) {
+      writeln("Lists are not the same");
    }
-
-   return 0;
 }

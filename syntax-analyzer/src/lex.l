@@ -66,82 +66,133 @@ id              [_a-zA-Z][_a-zA-Z0-9]*
 
 {string} {
   printf("STRING:\n  Line: %d, Column: %d \t-->\t<STRING, %s> \n\n", yylineno, column, yytext);
-
   sscanf(yytext, "%s", yylval.token.lexeme);
   yylval.token.line = yylineno;
   yylval.token.column = column;
   // yylval->token.scope = scope;
-
   column += yyleng;
   return(STRING);
 }
 
 "NIL" {
   printf("CONSTANT NIL:\n  Line: %d, Column: %d \t-->\t<CONSTANT, %s> \n\n", yylineno, column, yytext);
+  sscanf(yytext, "%s", yylval.token.lexeme);
+  yylval.token.line = yylineno;
+  yylval.token.column = column;
+  // yylval.token.scope = scope;
   column += yyleng;
+  return(NIL_CNST);
 }
 
 "main" {
   int position = add_table_node(yytext);
   printf("FUNCTION MAIN:\n  Line: %d, Column: %d \t-->\t<MAIN, %s, position in symbol table: %d> \n\n", yylineno, column, yytext, position);
+  sscanf(yytext, "%s", yylval.token.lexeme);
+  yylval.token.line = yylineno;
+  yylval.token.column = column;
+  // yylval.token.scope = scope;
   column += yyleng;
+  return(ID);
 }
 
 "return" {
   printf("RETURN STATEMENT:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
-  
   // sscanf(yytext, "%s", yylval.token.lexeme);
   // yylval.token.line = yylineno;
   // yylval.token.column = column;
   // // yylval->token.scope = scope;
-
   column += yyleng;
-  // return(*"return");
+  // return(RETURN_STM);
 }
 
 "int" {
   printf("TYPE INT:\n  Line: %d, Column: %d \t-->\t<TYPE, %s> \n\n", yylineno, column, yytext);
+  sscanf(yytext, "%s", yylval.token.lexeme);
+  yylval.token.line = yylineno;
+  yylval.token.column = column;
+  // yylval.token.scope = scope;
   column += yyleng;
+  return(T_INT);
 }
 
 "float" {
   printf("TYPE FLOAT:\n  Line: %d, Column: %d \t-->\t<TYPE, %s> \n\n", yylineno, column, yytext);
+  sscanf(yytext, "%s", yylval.token.lexeme);
+  yylval.token.line = yylineno;
+  yylval.token.column = column;
+  // yylval.token.scope = scope;
   column += yyleng;
+  return(T_FLOAT);
 }
 
 "list" {
   printf("TYPE LIST:\n  Line: %d, Column: %d \t-->\t<TYPE, %s> \n\n", yylineno, column, yytext);
+  sscanf(yytext, "%s", yylval.token.lexeme);
+  yylval.token.line = yylineno;
+  yylval.token.column = column;
+  // yylval.token.scope = scope;
   column += yyleng;
+  return(T_LIST);
 }
 
 "if" {
   printf("CONDITIONAL:\n  Line: %d, Column: %d \t-->\t<CONDITIONAL, %s> \n\n", yylineno, column, yytext);
+  sscanf(yytext, "%s", yylval.token.lexeme);
+  yylval.token.line = yylineno;
+  yylval.token.column = column;
+  // yylval.token.scope = scope;
   column += yyleng;
+  return(IF_STMT);
 }
 
 "else" {
   printf("CONDITIONAL:\n  Line: %d, Column: %d \t-->\t<CONDITIONAL, %s> \n\n", yylineno, column, yytext);
+  sscanf(yytext, "%s", yylval.token.lexeme);
+  yylval.token.line = yylineno;
+  yylval.token.column = column;
+  // yylval.token.scope = scope;
   column += yyleng;
+  return(ELSE_STMT);
 }
 
 "for" {
   printf("INTERATION:\n  Line: %d, Column: %d \t-->\t<INTERATION, %s> \n\n", yylineno, column, yytext);
+  sscanf(yytext, "%s", yylval.token.lexeme);
+  yylval.token.line = yylineno;
+  yylval.token.column = column;
+  // yylval.token.scope = scope;
   column += yyleng;
+  return(FOR_STMT);
 }
 
 "write" {
   printf("INPUT WRITE:\n  Line: %d, Column: %d \t-->\t<INPUT, %s> \n\n", yylineno, column, yytext);
+  sscanf(yytext, "%s", yylval.token.lexeme);
+  yylval.token.line = yylineno;
+  yylval.token.column = column;
+  // yylval.token.scope = scope;
   column += yyleng;
+  return(INPUT_WRITE);
 }
 
 "writeln" {
   printf("INPUT WRITELN:\n  Line: %d, Column: %d \t-->\t<INPUT, %s> \n\n", yylineno, column, yytext);
+  sscanf(yytext, "%s", yylval.token.lexeme);
+  yylval.token.line = yylineno;
+  yylval.token.column = column;
+  // yylval.token.scope = scope;
   column += yyleng;
+  return(INPUT_WRITELN);
 }
 
 "read" {
   printf("OUTPUT READ:\n  Line: %d, Column: %d \t-->\t<OUTPUT, %s> \n\n", yylineno, column, yytext);
+  sscanf(yytext, "%s", yylval.token.lexeme);
+  yylval.token.line = yylineno;
+  yylval.token.column = column;
+  // yylval.token.scope = scope;
   column += yyleng;
+  return(OUTPUT_READ);
 }
 
 "+" {
@@ -267,7 +318,12 @@ id              [_a-zA-Z][_a-zA-Z0-9]*
 
 "=" {
   printf("ASSIGNMENT:\n  Line: %d, Column: %d \t-->\t<ASSIGN, %s> \n\n", yylineno, column, yytext);
+  sscanf(yytext, "%s", yylval.token.lexeme);
+  yylval.token.line = yylineno;
+  yylval.token.column = column;
+  // yylval.token.scope = scope;
   column += yyleng;
+  return(ASSIGN);
 }
 
 "!" {
