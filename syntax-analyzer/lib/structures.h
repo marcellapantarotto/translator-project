@@ -96,6 +96,7 @@ typedef struct table_node {
   int id;
   char token[31];
   struct table_node *next;
+  int scope;
 } table_node;
 
 // symbol table (pointers to beginning and end)
@@ -139,6 +140,16 @@ table create_table();
 int add_table_node(char *tok);
 void print_table();
 void destroy_table();
+// void print_token();
+// void print_node();
+// void print_children();
+t_token null_token();
+t_token create_token(t_token *t);
+t_node create_node(t_node *t, int type);
+t_node add_tree_node(t_node *root, t_node *node);
+t_node token_to_node(t_token *t, int type);
+t_node add_tree_token_node(t_node *root, t_token *tok, int type);
+void print_tree(t_node *root, int height);
 
 //===============================================================
 // VARIABLE DECLARATIONS
@@ -149,5 +160,6 @@ extern int errors;
 extern table symbol_table;
 // table *ptr_symbol_table = &symbol_table;
 extern int id_counter;
+extern int g_scope;
 
 #endif

@@ -906,7 +906,11 @@ int main(int argc, char **argv) {
   printf("\n~~~~ ABSTRACT TREE ~~~~\n\n");
   print_tree(&root, 1);
 
-  printf("\n---------------\nSYMBOL TABLE\n---------------\nID | TOKENS\n---------------\n");
+  printf("\n----------------------------------------------------\n");
+  printf("\t\t    SYMBOL TABLE");
+  printf("\n----------------------------------------------------\n");
+  printf("  ID\t|  TOKENS\t\t\t|  SCOPE");
+  printf("\n----------------------------------------------------\n");
   print_table();
   destroy_table();
   fclose(yyin);

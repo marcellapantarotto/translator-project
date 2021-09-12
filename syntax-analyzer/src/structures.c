@@ -7,6 +7,7 @@ int column;
 int errors;
 table symbol_table;
 int id_counter;
+int g_scope = 0;
 
 const char *rule_label[] = {
   "PROGRAM",
@@ -111,10 +112,15 @@ int add_table_node(char *tok) {
   node->id = id_counter;
   strcpy(node->token,tok);
   node->next = NULL;
+  node->scope = g_scope;
   symbol_table.final->next = node;
   symbol_table.final = node;
   id_counter++;
   return id_counter;
+}
+
+int verify_existing_symbol(){
+  return 0;
 }
 
 // print symbol table
@@ -122,7 +128,7 @@ void print_table() {
   table_node *aux = symbol_table.beginning;
   while(aux->next != NULL) {
     aux = aux->next;
-    printf("%d  |  %s\n", aux->id, aux->token);
+    printf("  %d\t|  %-15s\t\t|  %d\n", aux->id, aux->token, aux->scope);
   }
 }
 
