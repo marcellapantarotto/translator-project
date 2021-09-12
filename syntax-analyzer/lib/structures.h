@@ -87,15 +87,6 @@ enum rule_type {
   FOR,
 };
 
-void show_error();
-void total_lexical_errors();
-
-int add_table_node(char *tok);
-void print_table();
-void destroy_table();
-int column;
-int errors;
-
 //===============================================================
 // SYMBOL TABLE SECTION
 //===============================================================
@@ -138,12 +129,25 @@ typedef struct tree_node {
   struct tree_node *sibilings;
 } tree_node;
 
+//===============================================================
+// FUNCTION DECLATARIONS
+//===============================================================
 
+void show_error();
+void total_lexical_errors();
 table create_table();
-table symbol_table;
+int add_table_node(char *tok);
+void print_table();
+void destroy_table();
+
+//===============================================================
+// VARIABLE DECLARATIONS
+//===============================================================
+
+extern int column;
+extern int errors;
+extern table symbol_table;
 // table *ptr_symbol_table = &symbol_table;
-int id_counter;
-
-
+extern int id_counter;
 
 #endif

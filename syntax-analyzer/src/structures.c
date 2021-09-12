@@ -3,6 +3,11 @@
 #include <string.h>
 #include "../lib/structures.h"
 
+int column;
+int errors;
+table symbol_table;
+int id_counter;
+
 const char *rule_label[] = {
   "PROGRAM",
   "LIST_OF_DECLARATIONS",
