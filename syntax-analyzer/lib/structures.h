@@ -131,13 +131,22 @@ typedef struct tree_node {
 } tree_node;
 
 //===============================================================
+// SCOPE THINGS
+//===============================================================
+
+typedef struct t_scope_node {
+  struct t_scope_node *parent;
+  int scope_number;
+} t_scope_node;
+
+//===============================================================
 // FUNCTION DECLATARIONS
 //===============================================================
 
 void show_error();
 void total_lexical_errors();
 table create_table();
-int add_table_node(char *tok);
+void add_table_node(char *tok);
 void print_table();
 void destroy_table();
 // void print_token();
@@ -150,6 +159,9 @@ t_node add_tree_node(t_node *root, t_node *node);
 t_node token_to_node(t_token *t, int type);
 t_node add_tree_token_node(t_node *root, t_token *tok, int type);
 void print_tree(t_node *root, int height);
+table_node *verify_existing_symbol(table_node *symbol);
+void increment_scope();
+void decrement_scope();
 
 //===============================================================
 // VARIABLE DECLARATIONS
@@ -161,5 +173,8 @@ extern table symbol_table;
 // table *ptr_symbol_table = &symbol_table;
 extern int id_counter;
 extern int g_scope;
+extern int scope_counter;
+extern t_scope_node *root_scope_tree;
+extern t_scope_node *scope_node_curr;
 
 #endif

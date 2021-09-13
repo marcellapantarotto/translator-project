@@ -8,6 +8,9 @@ int errors;
 table symbol_table;
 int id_counter;
 int g_scope = 0;
+int scope_counter = 0;
+t_scope_node *root_scope_tree;
+t_scope_node *scope_node_curr;
 
 const char *rule_label[] = {
   "PROGRAM",
@@ -91,6 +94,8 @@ const char *rule_label[] = {
   "FOR",
 };
 
+
+
 //===============================================================
 // SYMBOL TABLE SECTION
 //===============================================================
@@ -107,20 +112,46 @@ table create_table() {
 }
 
 // add node to symbol table
-int add_table_node(char *tok) {
+void add_table_node(char *tok) {
   table_node *node = (table_node*) malloc(sizeof(table_node));
   node->id = id_counter;
   strcpy(node->token,tok);
   node->next = NULL;
   node->scope = g_scope;
-  symbol_table.final->next = node;
-  symbol_table.final = node;
-  id_counter++;
-  return id_counter;
+  
+  table_node *x = verify_existing_symbol(node);
+  if (x == NULL) {
+    symbol_table.final->next = node;
+    symbol_table.final = node;
+    id_counter++;
+  }
 }
 
-int verify_existing_symbol(){
-  return 0;
+table_node *verify_existing_symbol(table_node *symbol){
+  table_node *aux = symbol_table.beginning;
+  while(aux->next != NULL) {
+    aux = aux->next;
+    if(strcmp(symbol->token, aux->token) == 0 && symbol->scope == aux->scope) {
+      return aux;
+    }
+  }
+  return NULL;
+}
+
+void increment_scope()  {
+  scope_counter += 1;
+  g_scope = scope_counter;
+  t_scope_node *temp = (t_scope_node*) malloc(sizeof(t_scope_node));
+  temp->scope_number = g_scope;
+  temp->parent = scope_node_curr;
+  scope_node_curr = temp;
+}
+
+void decrement_scope() {
+  g_scope = scope_node_curr->parent->scope_number;
+  t_scope_node *temp = scope_node_curr;
+  scope_node_curr = scope_node_curr->parent;
+  free(temp);
 }
 
 // print symbol table

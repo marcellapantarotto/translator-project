@@ -876,8 +876,8 @@ case 8:
 YY_RULE_SETUP
 #line 87 "src/lex.l"
 {
-  int position = add_table_node(yytext);
-  printf("FUNCTION MAIN:\n  Line: %d, Column: %d \t-->\t<MAIN, %s, position in symbol table: %d> \n\n", yylineno, column, yytext, position);
+  // int position = add_table_node(yytext);
+  // printf("FUNCTION MAIN:\n  Line: %d, Column: %d \t-->\t<MAIN, %s, position in symbol table: %d> \n\n", yylineno, column, yytext, position);
   sscanf(yytext, "%s", yylval.token.lexeme);
   yylval.token.line = yylineno;
   yylval.token.column = column;
@@ -1300,13 +1300,12 @@ YY_RULE_SETUP
   yylval.token.column = column;
   // yylval->token.scope = scope;
   column += yyleng;
-  g_scope += 1;
   return('{');
 }
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 420 "src/lex.l"
+#line 419 "src/lex.l"
 {
   printf("CLOSE CURLY BRACKET:\n  Line: %d, Column: %d \t-->\t<DELIMITER, %s> \n\n", yylineno, column, yytext);
   sscanf(yytext, "%s", yylval.token.lexeme);
@@ -1314,7 +1313,8 @@ YY_RULE_SETUP
   yylval.token.column = column;
   // yylval->token.scope = scope;
   column += yyleng;
-  g_scope -= 1;
+
+  decrement_scope();
   return('}');
 }
 	YY_BREAK
@@ -1349,8 +1349,8 @@ case 44:
 YY_RULE_SETUP
 #line 452 "src/lex.l"
 {
-  int position = add_table_node(yytext);
-  printf("IDENTIFIER:\n  Line: %d, Column: %d \t-->\t<ID, %s, position in symbol table: %d> \n\n", yylineno, column, yytext, position);
+  // int position = add_table_node(yytext);
+  // printf("IDENTIFIER:\n  Line: %d, Column: %d \t-->\t<ID, %s, position in symbol table: %d> \n\n", yylineno, column, yytext, position);
   sscanf(yytext, "%s", yylval.token.lexeme);
   yylval.token.line = yylineno;
   yylval.token.column = column;

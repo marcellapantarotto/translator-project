@@ -1,0 +1,1115 @@
+==17417== Memcheck, a memory error detector
+==17417== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==17417== Using Valgrind-3.15.0-608cb11914-20190413 and LibVEX; rerun with -h for copyright info
+==17417== Command: ./tradutor tests/test_correct1.c
+==17417== Parent PID: 17416
+==17417== 
+--17417-- 
+--17417-- Valgrind options:
+--17417--    -v
+--17417--    --tool=memcheck
+--17417--    --leak-check=full
+--17417--    --log-file=logfile.out
+--17417--    --show-leak-kinds=all
+--17417--    --track-origins=yes
+--17417-- Contents of /proc/version:
+--17417--   Linux version 5.10.16.3-microsoft-standard-WSL2 (oe-user@oe-host) (x86_64-msft-linux-gcc (GCC) 9.3.0, GNU ld (GNU Binutils) 2.34.0.20200220) #1 SMP Fri Apr 2 22:23:49 UTC 2021
+--17417-- 
+--17417-- Arch and hwcaps: AMD64, LittleEndian, amd64-cx16-lzcnt-rdtscp-sse3-ssse3-avx-avx2-bmi-f16c-rdrand
+--17417-- Page sizes: currently 4096, max supported 4096
+--17417-- Valgrind library directory: /usr/lib/x86_64-linux-gnu/valgrind
+--17417-- Reading syms from /mnt/c/Users/cella/OneDrive/Documentos/UnB/Tradutores/translator-project/syntax-analyzer/tradutor
+--17417-- Reading syms from /usr/lib/x86_64-linux-gnu/ld-2.33.so
+--17417--   Considering /usr/lib/x86_64-linux-gnu/ld-2.33.so ..
+--17417--   .. CRC mismatch (computed 425b6850 wanted cee0dc4c)
+--17417--   Considering /lib/x86_64-linux-gnu/ld-2.33.so ..
+--17417--   .. CRC mismatch (computed 425b6850 wanted cee0dc4c)
+--17417--   Considering /usr/lib/debug/lib/x86_64-linux-gnu/ld-2.33.so ..
+--17417--   .. CRC is valid
+--17417-- Reading syms from /usr/lib/x86_64-linux-gnu/valgrind/memcheck-amd64-linux
+--17417--    object doesn't have a symbol table
+--17417--    object doesn't have a dynamic symbol table
+--17417-- Scheduler: using generic scheduler lock implementation.
+--17417-- Reading suppressions file: /usr/lib/x86_64-linux-gnu/valgrind/default.supp
+==17417== embedded gdbserver: reading from /tmp/vgdb-pipe-from-vgdb-to-17417-by-marcella-on-???
+==17417== embedded gdbserver: writing to   /tmp/vgdb-pipe-to-vgdb-from-17417-by-marcella-on-???
+==17417== embedded gdbserver: shared mem   /tmp/vgdb-pipe-shared-mem-vgdb-17417-by-marcella-on-???
+==17417== 
+==17417== TO CONTROL THIS PROCESS USING vgdb (which you probably
+==17417== don't want to do, unless you know exactly what you're doing,
+==17417== or are doing some strange experiment):
+==17417==   /usr/lib/x86_64-linux-gnu/valgrind/../../bin/vgdb --pid=17417 ...command...
+==17417== 
+==17417== TO DEBUG THIS PROCESS USING GDB: start GDB like this
+==17417==   /path/to/gdb ./tradutor
+==17417== and then give GDB the following command
+==17417==   target remote | /usr/lib/x86_64-linux-gnu/valgrind/../../bin/vgdb --pid=17417
+==17417== --pid is optional if only one valgrind process is running
+==17417== 
+--17417-- REDIR: 0x40276d0 (ld-linux-x86-64.so.2:strlen) redirected to 0x580c9ce2 (???)
+--17417-- REDIR: 0x40274a0 (ld-linux-x86-64.so.2:index) redirected to 0x580c9cfc (???)
+--17417-- Reading syms from /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_core-amd64-linux.so
+--17417--    object doesn't have a symbol table
+--17417-- Reading syms from /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so
+--17417--    object doesn't have a symbol table
+==17417== WARNING: new redirection conflicts with existing -- ignoring it
+--17417--     old: 0x040276d0 (strlen              ) R-> (0000.0) 0x580c9ce2 ???
+--17417--     new: 0x040276d0 (strlen              ) R-> (2007.0) 0x04845060 strlen
+--17417-- REDIR: 0x4023eb0 (ld-linux-x86-64.so.2:strcmp) redirected to 0x4845fd0 (strcmp)
+--17417-- REDIR: 0x4027c30 (ld-linux-x86-64.so.2:mempcpy) redirected to 0x4849a20 (mempcpy)
+--17417-- Reading syms from /usr/lib/x86_64-linux-gnu/libc-2.33.so
+--17417--   Considering /usr/lib/x86_64-linux-gnu/libc-2.33.so ..
+--17417--   .. CRC mismatch (computed 31fcf0a5 wanted 9eb4d521)
+--17417--   Considering /lib/x86_64-linux-gnu/libc-2.33.so ..
+--17417--   .. CRC mismatch (computed 31fcf0a5 wanted 9eb4d521)
+--17417--   Considering /usr/lib/debug/lib/x86_64-linux-gnu/libc-2.33.so ..
+--17417--   .. CRC is valid
+--17417-- REDIR: 0x48f3f00 (libc.so.6:memmove) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--17417-- REDIR: 0x48f33a0 (libc.so.6:strncpy) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--17417-- REDIR: 0x48f4240 (libc.so.6:strcasecmp) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--17417-- REDIR: 0x48f2e50 (libc.so.6:strcat) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--17417-- REDIR: 0x48f3400 (libc.so.6:rindex) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--17417-- REDIR: 0x48f5700 (libc.so.6:rawmemchr) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--17417-- REDIR: 0x490f830 (libc.so.6:wmemchr) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--17417-- REDIR: 0x490f370 (libc.so.6:wcscmp) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--17417-- REDIR: 0x48f4060 (libc.so.6:mempcpy) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--17417-- REDIR: 0x48f3e90 (libc.so.6:bcmp) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--17417-- REDIR: 0x48f3340 (libc.so.6:strncmp) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--17417-- REDIR: 0x48f2f00 (libc.so.6:strcmp) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--17417-- REDIR: 0x48f3fd0 (libc.so.6:memset) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--17417-- REDIR: 0x490f330 (libc.so.6:wcschr) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--17417-- REDIR: 0x48f32a0 (libc.so.6:strnlen) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--17417-- REDIR: 0x48f2fe0 (libc.so.6:strcspn) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--17417-- REDIR: 0x48f4290 (libc.so.6:strncasecmp) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--17417-- REDIR: 0x48f2f80 (libc.so.6:strcpy) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--17417-- REDIR: 0x48f43e0 (libc.so.6:memcpy@@GLIBC_2.14) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--17417-- REDIR: 0x4910ab0 (libc.so.6:wcsnlen) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--17417-- REDIR: 0x490f3b0 (libc.so.6:wcscpy) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--17417-- REDIR: 0x48f3440 (libc.so.6:strpbrk) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--17417-- REDIR: 0x48f2eb0 (libc.so.6:index) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--17417-- REDIR: 0x48f3260 (libc.so.6:strlen) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--17417-- REDIR: 0x48fbc20 (libc.so.6:memrchr) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--17417-- REDIR: 0x48f42e0 (libc.so.6:strcasecmp_l) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--17417-- REDIR: 0x48f3e50 (libc.so.6:memchr) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--17417-- REDIR: 0x490f480 (libc.so.6:wcslen) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--17417-- REDIR: 0x48f3560 (libc.so.6:strspn) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--17417-- REDIR: 0x48f41e0 (libc.so.6:stpncpy) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--17417-- REDIR: 0x48f4180 (libc.so.6:stpcpy) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--17417-- REDIR: 0x48f5740 (libc.so.6:strchrnul) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--17417-- REDIR: 0x48f4330 (libc.so.6:strncasecmp_l) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--17417-- REDIR: 0x49d6d60 (libc.so.6:__strrchr_avx2) redirected to 0x4844a10 (rindex)
+--17417-- REDIR: 0x48ee130 (libc.so.6:malloc) redirected to 0x4841780 (malloc)
+--17417-- REDIR: 0x48f3a20 (libc.so.6:__GI_strstr) redirected to 0x4849ca0 (__strstr_sse2)
+--17417-- REDIR: 0x49da3d0 (libc.so.6:__memset_avx2_unaligned_erms) redirected to 0x48488e0 (memset)
+--17417-- REDIR: 0x49d6b70 (libc.so.6:__strchrnul_avx2) redirected to 0x4849540 (strchrnul)
+--17417-- REDIR: 0x49d9f20 (libc.so.6:__mempcpy_avx_unaligned_erms) redirected to 0x4849660 (mempcpy)
+--17417-- REDIR: 0x49d6f30 (libc.so.6:__strlen_avx2) redirected to 0x4844f40 (strlen)
+--17417-- REDIR: 0x49d3060 (libc.so.6:__rawmemchr_avx2) redirected to 0x4849580 (rawmemchr)
+--17417-- REDIR: 0x49d8470 (libc.so.6:__strcpy_avx2) redirected to 0x4845090 (strcpy)
+--17417-- REDIR: 0x49d2420 (libc.so.6:__strcmp_avx2) redirected to 0x4845ed0 (strcmp)
+--17417-- REDIR: 0x48ee740 (libc.so.6:free) redirected to 0x48429d0 (free)
+==17417== 
+==17417== HEAP SUMMARY:
+==17417==     in use at exit: 85,424 bytes in 568 blocks
+==17417==   total heap usage: 587 allocs, 19 frees, 104,338 bytes allocated
+==17417== 
+==17417== Searching for pointers to 568 not-freed blocks
+==17417== Checked 94,488 bytes
+==17417== 
+==17417== 16 bytes in 1 blocks are still reachable in loss record 1 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x11632E: main (syn.y:896)
+==17417== 
+==17417== 16 bytes in 1 blocks are indirectly lost in loss record 2 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10AE8A: add_tree_node (structures.c:248)
+==17417==    by 0x10B472: add_tree_token_node (structures.c:289)
+==17417==    by 0x110934: yyparse (syn.y:423)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 16 bytes in 1 blocks are indirectly lost in loss record 3 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10AE8A: add_tree_node (structures.c:248)
+==17417==    by 0x11095D: yyparse (syn.y:424)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 16 bytes in 1 blocks are indirectly lost in loss record 4 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10AE8A: add_tree_node (structures.c:248)
+==17417==    by 0x10B472: add_tree_token_node (structures.c:289)
+==17417==    by 0x110988: yyparse (syn.y:425)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 16 bytes in 1 blocks are indirectly lost in loss record 5 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10AE8A: add_tree_node (structures.c:248)
+==17417==    by 0x10B472: add_tree_token_node (structures.c:289)
+==17417==    by 0x1109AA: yyparse (syn.y:426)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 16 bytes in 1 blocks are indirectly lost in loss record 6 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10AE8A: add_tree_node (structures.c:248)
+==17417==    by 0x1134EF: yyparse (syn.y:624)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 16 bytes in 1 blocks are indirectly lost in loss record 7 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10AE8A: add_tree_node (structures.c:248)
+==17417==    by 0x1144EB: yyparse (syn.y:706)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 16 bytes in 1 blocks are indirectly lost in loss record 8 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10AE8A: add_tree_node (structures.c:248)
+==17417==    by 0x10C243: yyparse (syn.y:144)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 16 bytes in 1 blocks are definitely lost in loss record 9 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10AE8A: add_tree_node (structures.c:248)
+==17417==    by 0x10E9FA: yyparse (syn.y:297)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 16 bytes in 1 blocks are definitely lost in loss record 10 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10AE8A: add_tree_node (structures.c:248)
+==17417==    by 0x1116E7: yyparse (syn.y:481)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 16 bytes in 1 blocks are definitely lost in loss record 11 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10AE8A: add_tree_node (structures.c:248)
+==17417==    by 0x11151C: yyparse (syn.y:469)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 16 bytes in 1 blocks are definitely lost in loss record 12 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10AE8A: add_tree_node (structures.c:248)
+==17417==    by 0x1132F9: yyparse (syn.y:618)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 16 bytes in 1 blocks are definitely lost in loss record 13 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10AE8A: add_tree_node (structures.c:248)
+==17417==    by 0x10C602: yyparse (syn.y:172)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 32 bytes in 2 blocks are indirectly lost in loss record 14 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10AE8A: add_tree_node (structures.c:248)
+==17417==    by 0x10B472: add_tree_token_node (structures.c:289)
+==17417==    by 0x1121DA: yyparse (syn.y:547)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 32 bytes in 2 blocks are indirectly lost in loss record 15 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10AE8A: add_tree_node (structures.c:248)
+==17417==    by 0x112D26: yyparse (syn.y:600)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 32 bytes in 2 blocks are indirectly lost in loss record 16 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10AE8A: add_tree_node (structures.c:248)
+==17417==    by 0x112D46: yyparse (syn.y:601)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 32 (16 direct, 16 indirect) bytes in 1 blocks are definitely lost in loss record 17 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10AE8A: add_tree_node (structures.c:248)
+==17417==    by 0x10C223: yyparse (syn.y:143)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 32 bytes in 2 blocks are definitely lost in loss record 18 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10AE8A: add_tree_node (structures.c:248)
+==17417==    by 0x111E19: yyparse (syn.y:525)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 32 bytes in 2 blocks are definitely lost in loss record 19 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10AE8A: add_tree_node (structures.c:248)
+==17417==    by 0x10C7CD: yyparse (syn.y:183)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 32 bytes in 2 blocks are definitely lost in loss record 20 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10AE8A: add_tree_node (structures.c:248)
+==17417==    by 0x10E103: yyparse (syn.y:277)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 32 bytes in 2 blocks are definitely lost in loss record 21 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10AE8A: add_tree_node (structures.c:248)
+==17417==    by 0x10DF38: yyparse (syn.y:267)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 48 bytes in 3 blocks are definitely lost in loss record 22 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10AE8A: add_tree_node (structures.c:248)
+==17417==    by 0x111FE4: yyparse (syn.y:534)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 64 bytes in 4 blocks are indirectly lost in loss record 23 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10AE8A: add_tree_node (structures.c:248)
+==17417==    by 0x10B472: add_tree_token_node (structures.c:289)
+==17417==    by 0x10CD59: yyparse (syn.y:202)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 64 bytes in 4 blocks are definitely lost in loss record 24 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10AE8A: add_tree_node (structures.c:248)
+==17417==    by 0x10CB63: yyparse (syn.y:191)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 64 bytes in 4 blocks are definitely lost in loss record 25 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10AE8A: add_tree_node (structures.c:248)
+==17417==    by 0x110DEC: yyparse (syn.y:444)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 80 bytes in 5 blocks are indirectly lost in loss record 26 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10AE8A: add_tree_node (structures.c:248)
+==17417==    by 0x10B472: add_tree_token_node (structures.c:289)
+==17417==    by 0x10D22C: yyparse (syn.y:224)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 80 bytes in 5 blocks are indirectly lost in loss record 27 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10AE8A: add_tree_node (structures.c:248)
+==17417==    by 0x10B472: add_tree_token_node (structures.c:289)
+==17417==    by 0x1106BD: yyparse (syn.y:412)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 80 bytes in 5 blocks are indirectly lost in loss record 28 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10AE8A: add_tree_node (structures.c:248)
+==17417==    by 0x1106E6: yyparse (syn.y:413)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 80 bytes in 5 blocks are indirectly lost in loss record 29 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10AE8A: add_tree_node (structures.c:248)
+==17417==    by 0x10B472: add_tree_token_node (structures.c:289)
+==17417==    by 0x110711: yyparse (syn.y:414)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 80 bytes in 5 blocks are indirectly lost in loss record 30 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10AE8A: add_tree_node (structures.c:248)
+==17417==    by 0x10B472: add_tree_token_node (structures.c:289)
+==17417==    by 0x110733: yyparse (syn.y:415)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 80 bytes in 5 blocks are definitely lost in loss record 31 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10AE8A: add_tree_node (structures.c:248)
+==17417==    by 0x10E82F: yyparse (syn.y:293)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 96 (32 direct, 64 indirect) bytes in 2 blocks are definitely lost in loss record 32 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10AE8A: add_tree_node (structures.c:248)
+==17417==    by 0x112CFD: yyparse (syn.y:599)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 208 bytes in 1 blocks are definitely lost in loss record 33 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10A897: null_token (structures.c:209)
+==17417==    by 0x10ABDC: create_node (structures.c:233)
+==17417==    by 0x1123CA: yyparse (syn.y:567)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 208 bytes in 1 blocks are definitely lost in loss record 34 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10A897: null_token (structures.c:209)
+==17417==    by 0x10ABDC: create_node (structures.c:233)
+==17417==    by 0x110756: yyparse (syn.y:421)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 208 bytes in 1 blocks are definitely lost in loss record 35 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10A897: null_token (structures.c:209)
+==17417==    by 0x10ABDC: create_node (structures.c:233)
+==17417==    by 0x10E852: yyparse (syn.y:296)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 208 bytes in 1 blocks are definitely lost in loss record 36 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10A897: null_token (structures.c:209)
+==17417==    by 0x10ABDC: create_node (structures.c:233)
+==17417==    by 0x1118D7: yyparse (syn.y:502)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 208 bytes in 1 blocks are definitely lost in loss record 37 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10A897: null_token (structures.c:209)
+==17417==    by 0x10ABDC: create_node (structures.c:233)
+==17417==    by 0x11153F: yyparse (syn.y:480)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 208 bytes in 1 blocks are definitely lost in loss record 38 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10A897: null_token (structures.c:209)
+==17417==    by 0x10ABDC: create_node (structures.c:233)
+==17417==    by 0x111374: yyparse (syn.y:468)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 208 bytes in 1 blocks are definitely lost in loss record 39 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10A897: null_token (structures.c:209)
+==17417==    by 0x10ABDC: create_node (structures.c:233)
+==17417==    by 0x1150FB: yyparse (syn.y:791)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 208 bytes in 1 blocks are definitely lost in loss record 40 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10A897: null_token (structures.c:209)
+==17417==    by 0x10ABDC: create_node (structures.c:233)
+==17417==    by 0x11331C: yyparse (syn.y:622)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 208 bytes in 1 blocks are definitely lost in loss record 41 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10A897: null_token (structures.c:209)
+==17417==    by 0x10ABDC: create_node (structures.c:233)
+==17417==    by 0x114318: yyparse (syn.y:704)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 208 bytes in 1 blocks are definitely lost in loss record 42 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10A897: null_token (structures.c:209)
+==17417==    by 0x10ABDC: create_node (structures.c:233)
+==17417==    by 0x113151: yyparse (syn.y:617)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 208 bytes in 1 blocks are definitely lost in loss record 43 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10A897: null_token (structures.c:209)
+==17417==    by 0x10ABDC: create_node (structures.c:233)
+==17417==    by 0x10C45A: yyparse (syn.y:171)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 208 bytes in 1 blocks are definitely lost in loss record 44 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10A897: null_token (structures.c:209)
+==17417==    by 0x10ABDC: create_node (structures.c:233)
+==17417==    by 0x10BEF3: yyparse (syn.y:141)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 224 bytes in 1 blocks are indirectly lost in loss record 45 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10B2F8: add_tree_token_node (structures.c:286)
+==17417==    by 0x112574: yyparse (syn.y:568)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 224 bytes in 1 blocks are indirectly lost in loss record 46 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10B2F8: add_tree_token_node (structures.c:286)
+==17417==    by 0x110909: yyparse (syn.y:422)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 224 bytes in 1 blocks are indirectly lost in loss record 47 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10B2F8: add_tree_token_node (structures.c:286)
+==17417==    by 0x110934: yyparse (syn.y:423)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 224 bytes in 1 blocks are indirectly lost in loss record 48 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10B2F8: add_tree_token_node (structures.c:286)
+==17417==    by 0x110988: yyparse (syn.y:425)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 224 bytes in 1 blocks are indirectly lost in loss record 49 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10B2F8: add_tree_token_node (structures.c:286)
+==17417==    by 0x1109AA: yyparse (syn.y:426)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 224 bytes in 1 blocks are indirectly lost in loss record 50 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10B2F8: add_tree_token_node (structures.c:286)
+==17417==    by 0x111A81: yyparse (syn.y:503)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 224 bytes in 1 blocks are indirectly lost in loss record 51 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10B2F8: add_tree_token_node (structures.c:286)
+==17417==    by 0x1152A5: yyparse (syn.y:792)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 224 bytes in 1 blocks are indirectly lost in loss record 52 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10B2F8: add_tree_token_node (structures.c:286)
+==17417==    by 0x1134CF: yyparse (syn.y:623)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 224 bytes in 1 blocks are indirectly lost in loss record 53 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10B2F8: add_tree_token_node (structures.c:286)
+==17417==    by 0x1144CB: yyparse (syn.y:705)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 224 bytes in 1 blocks are definitely lost in loss record 54 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10ABBB: create_node (structures.c:231)
+==17417==    by 0x1123CA: yyparse (syn.y:567)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 224 bytes in 1 blocks are definitely lost in loss record 55 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10B056: token_to_node (structures.c:271)
+==17417==    by 0x10B319: add_tree_token_node (structures.c:287)
+==17417==    by 0x112574: yyparse (syn.y:568)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 224 bytes in 1 blocks are definitely lost in loss record 56 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10ABBB: create_node (structures.c:231)
+==17417==    by 0x110756: yyparse (syn.y:421)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 224 bytes in 1 blocks are definitely lost in loss record 57 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10B056: token_to_node (structures.c:271)
+==17417==    by 0x10B319: add_tree_token_node (structures.c:287)
+==17417==    by 0x110909: yyparse (syn.y:422)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 224 bytes in 1 blocks are definitely lost in loss record 58 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10B056: token_to_node (structures.c:271)
+==17417==    by 0x10B319: add_tree_token_node (structures.c:287)
+==17417==    by 0x110934: yyparse (syn.y:423)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 224 bytes in 1 blocks are definitely lost in loss record 59 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10B056: token_to_node (structures.c:271)
+==17417==    by 0x10B319: add_tree_token_node (structures.c:287)
+==17417==    by 0x110988: yyparse (syn.y:425)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 224 bytes in 1 blocks are definitely lost in loss record 60 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10B056: token_to_node (structures.c:271)
+==17417==    by 0x10B319: add_tree_token_node (structures.c:287)
+==17417==    by 0x1109AA: yyparse (syn.y:426)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 224 bytes in 1 blocks are definitely lost in loss record 61 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10ABBB: create_node (structures.c:231)
+==17417==    by 0x10E852: yyparse (syn.y:296)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 224 bytes in 1 blocks are definitely lost in loss record 62 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10ABBB: create_node (structures.c:231)
+==17417==    by 0x1118D7: yyparse (syn.y:502)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 224 bytes in 1 blocks are definitely lost in loss record 63 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10B056: token_to_node (structures.c:271)
+==17417==    by 0x10B319: add_tree_token_node (structures.c:287)
+==17417==    by 0x111A81: yyparse (syn.y:503)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 224 bytes in 1 blocks are definitely lost in loss record 64 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10ABBB: create_node (structures.c:231)
+==17417==    by 0x11153F: yyparse (syn.y:480)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 224 bytes in 1 blocks are definitely lost in loss record 65 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10ABBB: create_node (structures.c:231)
+==17417==    by 0x111374: yyparse (syn.y:468)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 224 bytes in 1 blocks are definitely lost in loss record 66 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10ABBB: create_node (structures.c:231)
+==17417==    by 0x1150FB: yyparse (syn.y:791)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 224 bytes in 1 blocks are definitely lost in loss record 67 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10B056: token_to_node (structures.c:271)
+==17417==    by 0x10B319: add_tree_token_node (structures.c:287)
+==17417==    by 0x1152A5: yyparse (syn.y:792)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 224 bytes in 1 blocks are definitely lost in loss record 68 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10ABBB: create_node (structures.c:231)
+==17417==    by 0x11331C: yyparse (syn.y:622)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 224 bytes in 1 blocks are definitely lost in loss record 69 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10B056: token_to_node (structures.c:271)
+==17417==    by 0x10B319: add_tree_token_node (structures.c:287)
+==17417==    by 0x1134CF: yyparse (syn.y:623)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 224 bytes in 1 blocks are definitely lost in loss record 70 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10ABBB: create_node (structures.c:231)
+==17417==    by 0x114318: yyparse (syn.y:704)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 224 bytes in 1 blocks are definitely lost in loss record 71 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10B056: token_to_node (structures.c:271)
+==17417==    by 0x10B319: add_tree_token_node (structures.c:287)
+==17417==    by 0x1144CB: yyparse (syn.y:705)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 224 bytes in 1 blocks are definitely lost in loss record 72 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10ABBB: create_node (structures.c:231)
+==17417==    by 0x113151: yyparse (syn.y:617)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 224 bytes in 1 blocks are definitely lost in loss record 73 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10ABBB: create_node (structures.c:231)
+==17417==    by 0x10C45A: yyparse (syn.y:171)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 224 bytes in 1 blocks are definitely lost in loss record 74 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10ABBB: create_node (structures.c:231)
+==17417==    by 0x10BEF3: yyparse (syn.y:141)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 240 (16 direct, 224 indirect) bytes in 1 blocks are definitely lost in loss record 75 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10AE8A: add_tree_node (structures.c:248)
+==17417==    by 0x10B472: add_tree_token_node (structures.c:289)
+==17417==    by 0x112574: yyparse (syn.y:568)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 240 (16 direct, 224 indirect) bytes in 1 blocks are definitely lost in loss record 76 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10AE8A: add_tree_node (structures.c:248)
+==17417==    by 0x10B472: add_tree_token_node (structures.c:289)
+==17417==    by 0x111A81: yyparse (syn.y:503)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 240 (16 direct, 224 indirect) bytes in 1 blocks are definitely lost in loss record 77 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10AE8A: add_tree_node (structures.c:248)
+==17417==    by 0x10B472: add_tree_token_node (structures.c:289)
+==17417==    by 0x1152A5: yyparse (syn.y:792)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 256 (16 direct, 240 indirect) bytes in 1 blocks are definitely lost in loss record 78 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10AE8A: add_tree_node (structures.c:248)
+==17417==    by 0x10B472: add_tree_token_node (structures.c:289)
+==17417==    by 0x1134CF: yyparse (syn.y:623)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 256 (16 direct, 240 indirect) bytes in 1 blocks are definitely lost in loss record 79 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10AE8A: add_tree_node (structures.c:248)
+==17417==    by 0x10B472: add_tree_token_node (structures.c:289)
+==17417==    by 0x1144CB: yyparse (syn.y:705)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 416 bytes in 2 blocks are definitely lost in loss record 80 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10A897: null_token (structures.c:209)
+==17417==    by 0x10ABDC: create_node (structures.c:233)
+==17417==    by 0x112007: yyparse (syn.y:545)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 416 bytes in 2 blocks are definitely lost in loss record 81 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10A897: null_token (structures.c:209)
+==17417==    by 0x10ABDC: create_node (structures.c:233)
+==17417==    by 0x111C71: yyparse (syn.y:524)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 416 bytes in 2 blocks are definitely lost in loss record 82 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10A897: null_token (structures.c:209)
+==17417==    by 0x10ABDC: create_node (structures.c:233)
+==17417==    by 0x10C625: yyparse (syn.y:182)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 416 bytes in 2 blocks are definitely lost in loss record 83 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10A897: null_token (structures.c:209)
+==17417==    by 0x10ABDC: create_node (structures.c:233)
+==17417==    by 0x10DF5B: yyparse (syn.y:276)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 416 bytes in 2 blocks are definitely lost in loss record 84 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10A897: null_token (structures.c:209)
+==17417==    by 0x10ABDC: create_node (structures.c:233)
+==17417==    by 0x1159FC: yyparse (syn.y:841)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 416 bytes in 2 blocks are definitely lost in loss record 85 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10A897: null_token (structures.c:209)
+==17417==    by 0x10ABDC: create_node (structures.c:233)
+==17417==    by 0x112B4C: yyparse (syn.y:598)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 416 bytes in 2 blocks are definitely lost in loss record 86 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10A897: null_token (structures.c:209)
+==17417==    by 0x10ABDC: create_node (structures.c:233)
+==17417==    by 0x10DD90: yyparse (syn.y:266)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 448 bytes in 2 blocks are indirectly lost in loss record 87 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10B2F8: add_tree_token_node (structures.c:286)
+==17417==    by 0x1121DA: yyparse (syn.y:547)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 448 bytes in 2 blocks are indirectly lost in loss record 88 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10B2F8: add_tree_token_node (structures.c:286)
+==17417==    by 0x115BA6: yyparse (syn.y:842)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 448 bytes in 2 blocks are definitely lost in loss record 89 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10ABBB: create_node (structures.c:231)
+==17417==    by 0x112007: yyparse (syn.y:545)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 448 bytes in 2 blocks are definitely lost in loss record 90 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10B056: token_to_node (structures.c:271)
+==17417==    by 0x10B319: add_tree_token_node (structures.c:287)
+==17417==    by 0x1121DA: yyparse (syn.y:547)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 448 bytes in 2 blocks are definitely lost in loss record 91 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10ABBB: create_node (structures.c:231)
+==17417==    by 0x111C71: yyparse (syn.y:524)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 448 bytes in 2 blocks are definitely lost in loss record 92 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10ABBB: create_node (structures.c:231)
+==17417==    by 0x10C625: yyparse (syn.y:182)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 448 bytes in 2 blocks are definitely lost in loss record 93 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10ABBB: create_node (structures.c:231)
+==17417==    by 0x10DF5B: yyparse (syn.y:276)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 448 bytes in 2 blocks are definitely lost in loss record 94 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10ABBB: create_node (structures.c:231)
+==17417==    by 0x1159FC: yyparse (syn.y:841)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 448 bytes in 2 blocks are definitely lost in loss record 95 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10B056: token_to_node (structures.c:271)
+==17417==    by 0x10B319: add_tree_token_node (structures.c:287)
+==17417==    by 0x115BA6: yyparse (syn.y:842)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 448 bytes in 2 blocks are definitely lost in loss record 96 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10ABBB: create_node (structures.c:231)
+==17417==    by 0x112B4C: yyparse (syn.y:598)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 448 bytes in 2 blocks are definitely lost in loss record 97 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10ABBB: create_node (structures.c:231)
+==17417==    by 0x10DD90: yyparse (syn.y:266)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 480 (32 direct, 448 indirect) bytes in 2 blocks are definitely lost in loss record 98 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10AE8A: add_tree_node (structures.c:248)
+==17417==    by 0x10B472: add_tree_token_node (structures.c:289)
+==17417==    by 0x115BA6: yyparse (syn.y:842)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 512 bytes in 32 blocks are indirectly lost in loss record 99 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10AE8A: add_tree_node (structures.c:248)
+==17417==    by 0x10C437: yyparse (syn.y:161)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 512 (32 direct, 480 indirect) bytes in 2 blocks are definitely lost in loss record 100 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10AE8A: add_tree_node (structures.c:248)
+==17417==    by 0x1121B8: yyparse (syn.y:546)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 624 bytes in 3 blocks are definitely lost in loss record 101 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10A897: null_token (structures.c:209)
+==17417==    by 0x10ABDC: create_node (structures.c:233)
+==17417==    by 0x111E3C: yyparse (syn.y:533)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 624 bytes in 3 blocks are definitely lost in loss record 102 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10A897: null_token (structures.c:209)
+==17417==    by 0x10ABDC: create_node (structures.c:233)
+==17417==    by 0x115495: yyparse (syn.y:811)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 672 bytes in 3 blocks are indirectly lost in loss record 103 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10B2F8: add_tree_token_node (structures.c:286)
+==17417==    by 0x11563F: yyparse (syn.y:812)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 672 bytes in 3 blocks are definitely lost in loss record 104 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10ABBB: create_node (structures.c:231)
+==17417==    by 0x111E3C: yyparse (syn.y:533)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 672 bytes in 3 blocks are definitely lost in loss record 105 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10ABBB: create_node (structures.c:231)
+==17417==    by 0x115495: yyparse (syn.y:811)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 672 bytes in 3 blocks are definitely lost in loss record 106 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10B056: token_to_node (structures.c:271)
+==17417==    by 0x10B319: add_tree_token_node (structures.c:287)
+==17417==    by 0x11563F: yyparse (syn.y:812)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 720 (48 direct, 672 indirect) bytes in 3 blocks are definitely lost in loss record 107 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10AE8A: add_tree_node (structures.c:248)
+==17417==    by 0x10B472: add_tree_token_node (structures.c:289)
+==17417==    by 0x11563F: yyparse (syn.y:812)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 832 bytes in 4 blocks are definitely lost in loss record 108 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10A897: null_token (structures.c:209)
+==17417==    by 0x10ABDC: create_node (structures.c:233)
+==17417==    by 0x10CB86: yyparse (syn.y:200)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 832 bytes in 4 blocks are definitely lost in loss record 109 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10A897: null_token (structures.c:209)
+==17417==    by 0x10ABDC: create_node (structures.c:233)
+==17417==    by 0x1121FD: yyparse (syn.y:558)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 832 bytes in 4 blocks are definitely lost in loss record 110 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10A897: null_token (structures.c:209)
+==17417==    by 0x10ABDC: create_node (structures.c:233)
+==17417==    by 0x10C9BB: yyparse (syn.y:190)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 832 bytes in 4 blocks are definitely lost in loss record 111 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10A897: null_token (structures.c:209)
+==17417==    by 0x10ABDC: create_node (structures.c:233)
+==17417==    by 0x110C44: yyparse (syn.y:443)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 896 bytes in 4 blocks are indirectly lost in loss record 112 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10B2F8: add_tree_token_node (structures.c:286)
+==17417==    by 0x10CD59: yyparse (syn.y:202)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 896 bytes in 4 blocks are indirectly lost in loss record 113 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10B2F8: add_tree_token_node (structures.c:286)
+==17417==    by 0x1123A7: yyparse (syn.y:559)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 896 bytes in 4 blocks are definitely lost in loss record 114 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10ABBB: create_node (structures.c:231)
+==17417==    by 0x10CB86: yyparse (syn.y:200)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 896 bytes in 4 blocks are definitely lost in loss record 115 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10B056: token_to_node (structures.c:271)
+==17417==    by 0x10B319: add_tree_token_node (structures.c:287)
+==17417==    by 0x10CD59: yyparse (syn.y:202)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 896 bytes in 4 blocks are definitely lost in loss record 116 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10ABBB: create_node (structures.c:231)
+==17417==    by 0x1121FD: yyparse (syn.y:558)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 896 bytes in 4 blocks are definitely lost in loss record 117 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10B056: token_to_node (structures.c:271)
+==17417==    by 0x10B319: add_tree_token_node (structures.c:287)
+==17417==    by 0x1123A7: yyparse (syn.y:559)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 896 bytes in 4 blocks are definitely lost in loss record 118 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10ABBB: create_node (structures.c:231)
+==17417==    by 0x10C9BB: yyparse (syn.y:190)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 896 bytes in 4 blocks are definitely lost in loss record 119 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10ABBB: create_node (structures.c:231)
+==17417==    by 0x110C44: yyparse (syn.y:443)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 960 (64 direct, 896 indirect) bytes in 4 blocks are definitely lost in loss record 120 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10AE8A: add_tree_node (structures.c:248)
+==17417==    by 0x10B472: add_tree_token_node (structures.c:289)
+==17417==    by 0x1123A7: yyparse (syn.y:559)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 976 (16 direct, 960 indirect) bytes in 1 blocks are definitely lost in loss record 121 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10AE8A: add_tree_node (structures.c:248)
+==17417==    by 0x10B472: add_tree_token_node (structures.c:289)
+==17417==    by 0x110909: yyparse (syn.y:422)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 1,024 (64 direct, 960 indirect) bytes in 4 blocks are definitely lost in loss record 122 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10AE8A: add_tree_node (structures.c:248)
+==17417==    by 0x10CD37: yyparse (syn.y:201)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 1,024 (512 direct, 512 indirect) bytes in 32 blocks are definitely lost in loss record 123 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10AE8A: add_tree_node (structures.c:248)
+==17417==    by 0x10C417: yyparse (syn.y:160)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 1,040 bytes in 5 blocks are definitely lost in loss record 124 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10A897: null_token (structures.c:209)
+==17417==    by 0x10ABDC: create_node (structures.c:233)
+==17417==    by 0x10D059: yyparse (syn.y:222)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 1,040 bytes in 5 blocks are definitely lost in loss record 125 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10A897: null_token (structures.c:209)
+==17417==    by 0x10ABDC: create_node (structures.c:233)
+==17417==    by 0x110FDA: yyparse (syn.y:451)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 1,040 bytes in 5 blocks are definitely lost in loss record 126 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10A897: null_token (structures.c:209)
+==17417==    by 0x10ABDC: create_node (structures.c:233)
+==17417==    by 0x1104DF: yyparse (syn.y:410)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 1,040 bytes in 5 blocks are definitely lost in loss record 127 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10A897: null_token (structures.c:209)
+==17417==    by 0x10ABDC: create_node (structures.c:233)
+==17417==    by 0x10E687: yyparse (syn.y:292)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 1,120 bytes in 5 blocks are indirectly lost in loss record 128 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10B2F8: add_tree_token_node (structures.c:286)
+==17417==    by 0x10D22C: yyparse (syn.y:224)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 1,120 bytes in 5 blocks are indirectly lost in loss record 129 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10B2F8: add_tree_token_node (structures.c:286)
+==17417==    by 0x111184: yyparse (syn.y:452)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 1,120 bytes in 5 blocks are indirectly lost in loss record 130 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10B2F8: add_tree_token_node (structures.c:286)
+==17417==    by 0x110692: yyparse (syn.y:411)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 1,120 bytes in 5 blocks are indirectly lost in loss record 131 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10B2F8: add_tree_token_node (structures.c:286)
+==17417==    by 0x1106BD: yyparse (syn.y:412)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 1,120 bytes in 5 blocks are indirectly lost in loss record 132 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10B2F8: add_tree_token_node (structures.c:286)
+==17417==    by 0x110711: yyparse (syn.y:414)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 1,120 bytes in 5 blocks are indirectly lost in loss record 133 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10B2F8: add_tree_token_node (structures.c:286)
+==17417==    by 0x110733: yyparse (syn.y:415)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 1,120 bytes in 5 blocks are definitely lost in loss record 134 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10ABBB: create_node (structures.c:231)
+==17417==    by 0x10D059: yyparse (syn.y:222)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 1,120 bytes in 5 blocks are definitely lost in loss record 135 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10B056: token_to_node (structures.c:271)
+==17417==    by 0x10B319: add_tree_token_node (structures.c:287)
+==17417==    by 0x10D22C: yyparse (syn.y:224)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 1,120 bytes in 5 blocks are definitely lost in loss record 136 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10ABBB: create_node (structures.c:231)
+==17417==    by 0x110FDA: yyparse (syn.y:451)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 1,120 bytes in 5 blocks are definitely lost in loss record 137 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10B056: token_to_node (structures.c:271)
+==17417==    by 0x10B319: add_tree_token_node (structures.c:287)
+==17417==    by 0x111184: yyparse (syn.y:452)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 1,120 bytes in 5 blocks are definitely lost in loss record 138 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10ABBB: create_node (structures.c:231)
+==17417==    by 0x1104DF: yyparse (syn.y:410)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 1,120 bytes in 5 blocks are definitely lost in loss record 139 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10B056: token_to_node (structures.c:271)
+==17417==    by 0x10B319: add_tree_token_node (structures.c:287)
+==17417==    by 0x110692: yyparse (syn.y:411)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 1,120 bytes in 5 blocks are definitely lost in loss record 140 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10B056: token_to_node (structures.c:271)
+==17417==    by 0x10B319: add_tree_token_node (structures.c:287)
+==17417==    by 0x1106BD: yyparse (syn.y:412)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 1,120 bytes in 5 blocks are definitely lost in loss record 141 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10B056: token_to_node (structures.c:271)
+==17417==    by 0x10B319: add_tree_token_node (structures.c:287)
+==17417==    by 0x110711: yyparse (syn.y:414)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 1,120 bytes in 5 blocks are definitely lost in loss record 142 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10B056: token_to_node (structures.c:271)
+==17417==    by 0x10B319: add_tree_token_node (structures.c:287)
+==17417==    by 0x110733: yyparse (syn.y:415)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 1,120 bytes in 5 blocks are definitely lost in loss record 143 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10ABBB: create_node (structures.c:231)
+==17417==    by 0x10E687: yyparse (syn.y:292)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 1,200 (80 direct, 1,120 indirect) bytes in 5 blocks are definitely lost in loss record 144 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10AE8A: add_tree_node (structures.c:248)
+==17417==    by 0x10B472: add_tree_token_node (structures.c:289)
+==17417==    by 0x111184: yyparse (syn.y:452)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 1,280 (80 direct, 1,200 indirect) bytes in 5 blocks are definitely lost in loss record 145 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10AE8A: add_tree_node (structures.c:248)
+==17417==    by 0x10D20A: yyparse (syn.y:223)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 3,536 bytes in 17 blocks are definitely lost in loss record 146 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10A897: null_token (structures.c:209)
+==17417==    by 0x10ABDC: create_node (structures.c:233)
+==17417==    by 0x1111A7: yyparse (syn.y:459)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 3,808 bytes in 17 blocks are indirectly lost in loss record 147 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10B2F8: add_tree_token_node (structures.c:286)
+==17417==    by 0x111351: yyparse (syn.y:460)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 3,808 bytes in 17 blocks are definitely lost in loss record 148 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10ABBB: create_node (structures.c:231)
+==17417==    by 0x1111A7: yyparse (syn.y:459)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 3,808 bytes in 17 blocks are definitely lost in loss record 149 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10B056: token_to_node (structures.c:271)
+==17417==    by 0x10B319: add_tree_token_node (structures.c:287)
+==17417==    by 0x111351: yyparse (syn.y:460)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 4,080 (272 direct, 3,808 indirect) bytes in 17 blocks are definitely lost in loss record 150 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10AE8A: add_tree_node (structures.c:248)
+==17417==    by 0x10B472: add_tree_token_node (structures.c:289)
+==17417==    by 0x111351: yyparse (syn.y:460)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 4,880 (80 direct, 4,800 indirect) bytes in 5 blocks are definitely lost in loss record 151 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10AE8A: add_tree_node (structures.c:248)
+==17417==    by 0x10B472: add_tree_token_node (structures.c:289)
+==17417==    by 0x110692: yyparse (syn.y:411)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 6,656 bytes in 32 blocks are definitely lost in loss record 152 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10A897: null_token (structures.c:209)
+==17417==    by 0x10ABDC: create_node (structures.c:233)
+==17417==    by 0x10C266: yyparse (syn.y:159)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== 7,168 bytes in 32 blocks are definitely lost in loss record 153 of 153
+==17417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17417==    by 0x10ABBB: create_node (structures.c:231)
+==17417==    by 0x10C266: yyparse (syn.y:159)
+==17417==    by 0x116394: main (syn.y:904)
+==17417== 
+==17417== LEAK SUMMARY:
+==17417==    definitely lost: 68,320 bytes in 422 blocks
+==17417==    indirectly lost: 17,088 bytes in 145 blocks
+==17417==      possibly lost: 0 bytes in 0 blocks
+==17417==    still reachable: 16 bytes in 1 blocks
+==17417==         suppressed: 0 bytes in 0 blocks
+==17417== 
+==17417== ERROR SUMMARY: 114 errors from 114 contexts (suppressed: 0 from 0)

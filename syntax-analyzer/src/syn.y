@@ -12,6 +12,7 @@
   #include "../lib/structures.h"
   #include "structures.c"
 
+  extern char *yytext;
   extern int yyleng;
   extern int yylineno;
   extern int yylex();
@@ -203,23 +204,24 @@ var_declaration:
 ;
 
 func_declaration:
-  unq_declaration '(' lst_parameters ')' '{' block_commands '}' {
+  unq_declaration {increment_scope();} '(' lst_parameters ')' '{' block_commands '}' {
       $$ = create_node(&$$, FUNCTION_DECLARATION);
       add_tree_node(&$$, &$1);
-      add_tree_token_node(&$$, &$2, OPEN_PARENTHESES);
-      add_tree_node(&$$, &$3);
-      add_tree_token_node(&$$, &$4, CLOSE_PARENTHESES);
-      add_tree_token_node(&$$, &$5, OPEN_CURLY_BRACKET);
-      add_tree_node(&$$, &$6);
-      add_tree_token_node(&$$, &$7, CLOSE_CURLY_BRACKET);
+      add_tree_token_node(&$$, &$3, OPEN_PARENTHESES);
+      add_tree_node(&$$, &$4);
+      add_tree_token_node(&$$, &$5, CLOSE_PARENTHESES);
+      add_tree_token_node(&$$, &$6, OPEN_CURLY_BRACKET);
+      add_tree_node(&$$, &$7);
+      add_tree_token_node(&$$, &$8, CLOSE_CURLY_BRACKET);
     }
 ;
 
 unq_declaration: 
-  type ID {
+  type {add_table_node(yytext);} ID {
+    // add_table_node(yytext);
     $$ = create_node(&$$, UNIQUE_DECLARATION);
     add_tree_node(&$$, &$1);
-    add_tree_token_node(&$$, &$2, IDENTIFIER);
+    add_tree_token_node(&$$, &$3, IDENTIFIER);
    }
 ;
 
@@ -890,10 +892,13 @@ int yyerror(char *s) {
 
 int main(int argc, char **argv) {
   ++argv, --argc;
+
+  root_scope_tree = (t_scope_node*) malloc(sizeof(t_scope_node));
+  root_scope_tree->scope_number = 0;
+  scope_node_curr = root_scope_tree;
+
   symbol_table = create_table();
   
-  // tree_node *root = create_node();
-
   if ( argc > 0 ) {
     yyin = fopen( argv[0], "r" );
     yyparse();

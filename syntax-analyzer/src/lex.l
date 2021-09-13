@@ -85,8 +85,8 @@ id              [_a-zA-Z][_a-zA-Z0-9]*
 }
 
 "main" {
-  int position = add_table_node(yytext);
-  printf("FUNCTION MAIN:\n  Line: %d, Column: %d \t-->\t<MAIN, %s, position in symbol table: %d> \n\n", yylineno, column, yytext, position);
+  // int position = add_table_node(yytext);
+  // printf("FUNCTION MAIN:\n  Line: %d, Column: %d \t-->\t<MAIN, %s, position in symbol table: %d> \n\n", yylineno, column, yytext, position);
   sscanf(yytext, "%s", yylval.token.lexeme);
   yylval.token.line = yylineno;
   yylval.token.column = column;
@@ -413,7 +413,6 @@ id              [_a-zA-Z][_a-zA-Z0-9]*
   yylval.token.column = column;
   // yylval->token.scope = scope;
   column += yyleng;
-  g_scope += 1;
   return('{');
 }
 
@@ -424,7 +423,8 @@ id              [_a-zA-Z][_a-zA-Z0-9]*
   yylval.token.column = column;
   // yylval->token.scope = scope;
   column += yyleng;
-  g_scope -= 1;
+
+  decrement_scope();
   return('}');
 }
 
@@ -450,8 +450,8 @@ id              [_a-zA-Z][_a-zA-Z0-9]*
 }
 
 {id} {
-  int position = add_table_node(yytext);
-  printf("IDENTIFIER:\n  Line: %d, Column: %d \t-->\t<ID, %s, position in symbol table: %d> \n\n", yylineno, column, yytext, position);
+  // int position = add_table_node(yytext);
+  // printf("IDENTIFIER:\n  Line: %d, Column: %d \t-->\t<ID, %s, position in symbol table: %d> \n\n", yylineno, column, yytext, position);
   sscanf(yytext, "%s", yylval.token.lexeme);
   yylval.token.line = yylineno;
   yylval.token.column = column;

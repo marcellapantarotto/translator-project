@@ -7,6 +7,7 @@ int main()
   int x;
   my_list = NIL;
   for (i = 0; i < 10; i = i + 1) {
+      // int x;
 		writeln("Write 10 elements to the my_list: ");
 		read(x);
 		my_list = x : my_list;
