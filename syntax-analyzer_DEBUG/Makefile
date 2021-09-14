@@ -1,13 +1,13 @@
 ############################# Makefile ##########################
 compile:
 	gcc-11 -o obj/structures.o -g -c src/structures.c
-	bison --defines=lib/syn.tab.h src/syn.y -o src/syn.tab.c
+	bison --defines=lib/syn.tab.h src/syn.y -o src/syn.tab.c -v
 	flex -o src/lex.yy.c src/lex.l
-	gcc-11 -g -Wall -o tradutor -I lib/ src/syn.tab.c src/lex.yy.c -lfl 
+	gcc-11 -g -Wall -o tradutor -I lib/ src/syn.tab.c src/lex.yy.c -lfl
 
 run:
-#	./tradutor tests/test_professora.c
-	./tradutor tests/test.c
+	./tradutor tests/test_professora.c
+#	./tradutor tests/test.c
 #	./tradutor tests/test_correct1.c
 #	./tradutor tests/test_correct2.c
 #	./tradutor tests/test_errors1.c

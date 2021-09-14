@@ -192,6 +192,7 @@ void increment_scope()  {
 
 // decrements scope of symbols
 void decrement_scope() {
+  return;
   g_scope = scope_node_curr->parent->scope_number;
   t_scope_node *temp = scope_node_curr;
   scope_node_curr = scope_node_curr->parent;

@@ -1,7 +1,7 @@
-int b;
-int main(int a) {
-  b = 1;
-  a = 1;
+int main() {
+  int b;
+  b = main();
+  main(1+b);
 }
 
 // int main {

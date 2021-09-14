@@ -37,10 +37,11 @@
 
 %left AND OR
 %left GREATER GREATER_EQ LESS LESS_EQ EQUAL NOT_EQ
-%right FILTER MAP ':'
+%right FILTER MAP ':' 
 %left '+' '-'
 %left '*' '/'
 %right '%' '?' '!'
+%right IF_STMT ELSE_STMT
 
 %type <token> NUM_INT
 %type <token> NUM_FLOAT
@@ -109,7 +110,7 @@
 %type <node> input
 %type <node> output
 %type <node> func_calling
-%type <node> statement
+// %type <node> statement
 %type <node> var_declaration
 %type <node> func_declaration
 %type <node> type_number
@@ -125,11 +126,12 @@
 %type <node> loop_condition
 %type <node> init_stmt
 %type <node> update_stmt
+%type <node> init_variable
 
 /********** Brigde between Lex and Y **********/
 %union {
   t_token token;
-  t_node node;
+  t_node *node;
 }
 
 %start program
@@ -186,7 +188,12 @@ lst_declarations:
 ;
 
 declaration:
-  var_declaration {
+  func_declaration {
+    printf(BHBLU "declaration -> func_declaration\n\n" reset);
+      // $$ = create_node(&$$, DECLARATION);
+      // add_tree_node(&$$, &$1);
+    }
+  | var_declaration {
       printf(BHBLU "declaration -> var_declaration\n\n" reset);
       // $$ = create_node(&$$, DECLARATION);
       // add_tree_node(&$$, &$1);
@@ -196,33 +203,19 @@ declaration:
       // print_node(&$1);
       // printf("\n");
     }
-  | func_declaration {
-    printf(BHBLU "declaration -> func_declaration\n\n" reset);
-      // $$ = create_node(&$$, DECLARATION);
-      // add_tree_node(&$$, &$1);
-    }
-  | command {
-    printf(BHBLU "declaration -> command\n\n" reset);
-    // $$ = create_node(&$$, DECLARATION);
-    // add_tree_node(&$$, &$1);
-    }
+  // | command {
+  //   printf(BHBLU "declaration -> command\n\n" reset);
+  //   // $$ = create_node(&$$, DECLARATION);
+  //   // add_tree_node(&$$, &$1);
+  //   }
   | error {
     printf(BHBLU "declaration -> error\n\n" reset);
     }
 ;
 
-var_declaration:
-  unq_declaration ';' {
-    printf(BHBLU "var_declaration -> unq_declaration ;\n\n" reset);
-    // $$ = create_node(&$$, VARIABLE_DECLARATION);
-    // add_tree_node(&$$, &$1);
-    // add_tree_token_node(&$$, &$2, SEMICOLON);
-   }
-;
-
 func_declaration:
-  unq_declaration {increment_scope();} '(' lst_parameters ')' '{' block_commands '}' {
-      printf(BHBLU "func_declaration -> unq_declaration {increment_scope();} '(' lst_parameters ')' '{' block_commands '}'\n\n" reset);
+  unq_declaration {increment_scope();} '(' params ')' '{' block_commands '}' {
+      printf(BHBLU "func_declaration -> unq_declaration '(' lst_parameters ')' '{' block_commands '}'\n\n" reset);
       // $$ = create_node(&$$, FUNCTION_DECLARATION);    
       // add_tree_node(&$$, &$1);
       // add_tree_token_node(&$$, &$3, OPEN_PARENTHESES);
@@ -234,13 +227,29 @@ func_declaration:
     }
 ;
 
+var_declaration:
+  unq_declaration ';' {
+    printf(BHBLU "var_declaration -> unq_declaration '';'\n\n" reset);
+    // $$ = create_node(&$$, VARIABLE_DECLARATION);
+    // add_tree_node(&$$, &$1);
+    // add_tree_token_node(&$$, &$2, SEMICOLON);
+   }
+;
+
 unq_declaration:
   type {add_table_node(yytext);} ID {
-    printf(BHBLU "unq_declaration -> type {add_table_node(yytext);} ID " reset);
+    // printf(BHBLU "unq_declaration -> type <ID, %s> \n\n" reset, $3.lexeme);
     // $$ = create_node(&$$, UNIQUE_DECLARATION);
     // add_tree_node(&$$, &$1);
     // add_tree_token_node(&$$, &$3, IDENTIFIER);
    }
+;
+
+params:
+  /* epsilon */ { 
+      printf(BHBLU "lst_parameters -> /* epsilon */\n\n" reset);
+    }
+  | lst_parameters
 ;
 
 lst_parameters: 
@@ -256,9 +265,6 @@ lst_parameters:
       // $$ = create_node(&$$, LIST_OF_PARAMETERS);
       // add_tree_node(&$$, &$1);
     }
-  | /* epsilon */ {
-      printf(BHBLU "lst_parameters -> /* epsilon */\n\n" reset);
-    }
 ;
 
 parameter:  
@@ -267,16 +273,17 @@ parameter:
     // $$ = create_node(&$$, PARAMETER);
     // add_tree_node(&$$, &$1);
     }
-  | ID  {
-    printf(BHBLU "parameter -> ID\n\n" reset);
-    // $$ = create_node(&$$, PARAMETER);
-    // add_tree_token_node(&$$, &$1, IDENTIFIER);
-    }
-  | expression {
-    printf(BHBLU "parameter -> expression\n\n" reset);
-    // $$ = create_node(&$$, PARAMETER);
-    // add_tree_node(&$$, &$1);
-    }
+
+;
+
+lst_params:
+    // epsilon
+  | lst_calling_params
+;
+
+lst_calling_params:
+  operation ',' lst_calling_params
+  | operation
 ;
 
 block_commands: 
@@ -285,11 +292,6 @@ block_commands:
     // $$ = create_node(&$$, BLOCK_OF_COMMANDS);
     // add_tree_node(&$$, &$1);
     // add_tree_node(&$$, &$2);
-    }
-  | command {
-    printf(BHBLU "block_commands -> command\n\n" reset);
-    // $$ = create_node(&$$, BLOCK_OF_COMMANDS);
-    // add_tree_node(&$$, &$1);
     }
   | /* epsilon */ {
       printf(BHBLU "block_commands -> /* epsilon */\n\n" reset);
@@ -312,6 +314,9 @@ command:
     // $$ = create_node(&$$, COMMAND);
     // add_tree_node(&$$, &$1);
     }
+  | init_variable {
+    printf(BHBLU "command -> init_variable\n\n" reset);
+    }
   | iteration {
     printf(BHBLU "command -> iteration\n\n" reset);
     // $$ = create_node(&$$, COMMAND);
@@ -327,20 +332,14 @@ command:
     // $$ = create_node(&$$, COMMAND);
     // add_tree_node(&$$, &$1);
     }
-  | func_calling {
-    printf(BHBLU "command -> func_calling\n\n" reset);
-    // $$ = create_node(&$$, COMMAND);
-    // add_tree_node(&$$, &$1);
+  | '{' block_commands '}' {
+    // $$ = $2;
     }
-  | statement  {
-    printf(BHBLU "command -> statement\n\n" reset);
-    // $$ = create_node(&$$, COMMAND);
-    // add_tree_node(&$$, &$1);
-    }
+  | operation ';'
 ;
 
 conditional_stmt: 
-  IF_STMT '(' statement ')' '{' block_commands '}'  {
+  IF_STMT '(' operation ')' command %prec IF_STMT {
       printf(BHBLU "conditional_stmt -> IF_STMT '(' statement ')' '{' block_commands '}'\n\n" reset);
       // $$ = create_node(&$$, CONDITIONAL_STMT);
       // add_tree_token_node(&$$, &$1, IF);
@@ -351,7 +350,7 @@ conditional_stmt:
       // add_tree_node(&$$, &$6);
       // add_tree_token_node(&$$, &$7, CLOSE_CURLY_BRACKET);
     }
-  | IF_STMT '(' statement ')' ELSE_STMT '{' block_commands '}'  {
+  | IF_STMT '(' operation ')' command ELSE_STMT command  {
       printf(BHBLU "conditional_stmt -> IF_STMT '(' statement ')' ELSE_STMT '{' block_commands '}'\n\n" reset);
       // $$ = create_node(&$$, CONDITIONAL_STMT);
       // add_tree_token_node(&$$, &$1, IF);
@@ -363,26 +362,11 @@ conditional_stmt:
       // add_tree_node(&$$, &$7);
       // add_tree_token_node(&$$, &$8, CLOSE_CURLY_BRACKET);
     }
-  | IF_STMT '(' statement ')' ELSE_STMT IF_STMT '(' statement ')' '{' block_commands '}' {
-      printf(BHBLU "conditional_stmt -> IF_STMT '(' statement ')' ELSE_STMT IF_STMT '(' statement ')' '{' block_commands '}'\n\n" reset);
-      // $$ = create_node(&$$, CONDITIONAL_STMT);
-      // add_tree_token_node(&$$, &$1, IF);
-      // add_tree_token_node(&$$, &$2, OPEN_PARENTHESES);
-      // add_tree_node(&$$, &$3);
-      // add_tree_token_node(&$$, &$4, CLOSE_PARENTHESES);
-      // add_tree_token_node(&$$, &$5, ELSE);
-      // add_tree_token_node(&$$, &$6, IF);
-      // add_tree_token_node(&$$, &$7, OPEN_PARENTHESES);
-      // add_tree_node(&$$, &$8);
-      // add_tree_token_node(&$$, &$9, CLOSE_PARENTHESES);
-      // add_tree_token_node(&$$, &$10, OPEN_CURLY_BRACKET);
-      // add_tree_node(&$$, &$11);
-      // add_tree_token_node(&$$, &$12, CLOSE_CURLY_BRACKET);
-    }
+  
 ;
 
 return_stmt: 
-  RETURN_STM statement ';'  {
+  RETURN_STM operation ';'  {
     printf(BHBLU "return_stmt -> RETURN_STM statement ';'\n\n" reset);
       // $$ = create_node(&$$, RETURN_STMT);
       // add_tree_token_node(&$$, &$1, RETURN);
@@ -391,8 +375,14 @@ return_stmt:
     }
 ;
 
+init_variable: 
+  init_stmt ';'  {
+    // printf(BHBLU "init_variable -> init_stmt ';'\n\n" reset);
+    }
+;
+
 iteration: 
-  FOR_STMT '(' loop_condition ')' '{' block_commands '}' {
+  FOR_STMT '(' loop_condition ')' command {
     printf(BHBLU "FOR_STMT '(' loop_condition ')' '{' block_commands '}'\n\n" reset);
       // $$ = create_node(&$$, ITERATION_PROCESS);
       // add_tree_token_node(&$$, &$1, FOR);
@@ -406,7 +396,7 @@ iteration:
 ;
 
 loop_condition: 
-  init_stmt ';' statement ';' update_stmt {
+  init_stmt ';' operation ';' update_stmt {
     printf(BHBLU "FOR_STMT '(' loop_condition ')' '{' block_commands '}'\n\n" reset);
       // $$ = create_node(&$$, LOOP_CONDITION);
       // add_tree_node(&$$, &$1);
@@ -418,8 +408,8 @@ loop_condition:
 ;
 
 init_stmt: 
-  ID '=' statement  {
-      printf(BHBLU "init_stmt -> ID '=' statement\n\n" reset);
+  ID '=' operation  {
+      // printf(BHBLU "init_stmt -> ID '=' statement\n\n" reset);
       // $$ = create_node(&$$, INITIALIZATION_STMT);
       // add_tree_token_node(&$$, &$1, IDENTIFIER);
       // add_tree_token_node(&$$, &$2, ASSIGN);
@@ -428,7 +418,7 @@ init_stmt:
 ;
 
 update_stmt:
-  statement {
+  init_stmt {
     printf(BHBLU "update_stmt -> statement\n\n" reset);
       // $$ = create_node(&$$, UPDATE_STMT);
       // add_tree_node(&$$, &$1);
@@ -439,7 +429,7 @@ update_stmt:
 ;
 
 output: 
-  OUTPUT_WRITE '(' statement ')' ';'  {
+  OUTPUT_WRITE '(' operation ')' ';'  {
     printf(BHBLU "output -> OUTPUT_WRITE '(' statement ')' ';'\n\n" reset);
       // $$ = create_node(&$$, INPUT_OPERATION);
       // add_tree_token_node(&$$, &$1, WRITE);
@@ -448,7 +438,7 @@ output:
       // add_tree_token_node(&$$, &$4, CLOSE_PARENTHESES);
       // add_tree_token_node(&$$, &$5, SEMICOLON);
     }
-  | OUTPUT_WRITELN '(' statement ')' ';' {
+  | OUTPUT_WRITELN '(' operation ')' ';' {
     printf(BHBLU "output -> OUTPUT_WRITELN '(' statement ')' ';'\n\n" reset);
       // $$ = create_node(&$$, INPUT_OPERATION);
       // add_tree_token_node(&$$, &$1, WRITELN);
@@ -457,6 +447,8 @@ output:
       // add_tree_token_node(&$$, &$4, CLOSE_PARENTHESES);
       // add_tree_token_node(&$$, &$5, SEMICOLON);
     }
+  | OUTPUT_WRITE '(' STRING ')' ';' {}
+  | OUTPUT_WRITELN '(' STRING ')' ';' {}
 ;
 
 input:
@@ -472,8 +464,8 @@ input:
 ;
 
 func_calling: 
-  ID '(' lst_parameters ')' ';' {
-    printf(BHBLU "func_calling -> ID '(' lst_parameters ')' ';'\n\n" reset);
+  ID '(' lst_params ')' {
+    // printf(BHBLU "func_calling -> ID '(' lst_parameters ')' ';'\n\n" reset);
       // $$ = create_node(&$$, FUNCTION_CALLING);
       // add_tree_token_node(&$$, &$1, IDENTIFIER);
       // add_tree_token_node(&$$, &$2, OPEN_PARENTHESES);
@@ -483,27 +475,14 @@ func_calling:
     }
 ;
 
-statement: 
-  operation {
-    printf(BHBLU "statement -> operation\n\n" reset);
-      // $$ = create_node(&$$, STATEMENT);
-      // add_tree_node(&$$, &$1);
-    }
-  | expression {
-    printf(BHBLU "statement -> expression\n\n" reset);
-      // $$ = create_node(&$$, STATEMENT);
-      // add_tree_node(&$$, &$1);
-    }
-  | STRING {
-    printf(BHBLU "statement -> STRING\n\n" reset);
-      // $$ = create_node(&$$, STATEMENT);
-      // add_tree_token_node(&$$, &$1, STRING);
-    }
-;
-
 expression: 
-  ID {
-    printf(BHBLU "expression -> <ID, %s>\n\n" reset, $1.lexeme);
+  func_calling {
+    // printf(BHBLU "command -> func_calling\n\n" reset);
+    // $$ = create_node(&$$, COMMAND);
+    // add_tree_node(&$$, &$1);
+    }
+  | ID {
+    // printf(BHBLU "expression -> <ID, %s>\n\n" reset, $1.lexeme);
     // $$ = create_node(&$$, EXPRESSION);
     // add_tree_token_node(&$$, &$1, IDENTIFIER);
     // printf("$$: ");
@@ -512,7 +491,7 @@ expression:
     // print_token(&$1);
     // printf("\n\n");
     }
-  | const   {
+  | const {
     printf(BHBLU "expression -> const\n\n" reset);
       // $$ = create_node(&$$, EXPRESSION);
       // add_tree_node(&$$, &$1);
@@ -522,10 +501,13 @@ expression:
       // print_token(&$1);
       // printf("\n\n");
     }
+  | single_operation {
+    printf(BHBLU "operation -> single_operation\n\n" reset);
+    }
 ;
 
 const: 
-  number  {
+  number {
     printf(BHBLU "const -> number\n\n" reset);
       // $$ = create_node(&$$, CONSTANT);
       // add_tree_node(&$$, &$1);
@@ -631,12 +613,10 @@ type_number:
 ;
 
 operation:
-  single_operation {
-    printf(BHBLU "operation -> single_operation\n\n" reset);
-  }
-  | binary_operation {
+  binary_operation {
     printf(BHBLU "operation -> binary_operation\n\n" reset);
-  }
+    }
+
 ;
 
 binary_operation:
@@ -650,28 +630,15 @@ binary_operation:
       // $$ = create_node(&$$, B_OPERATION);
       // add_tree_node(&$$, &$1);
     }
-  | expression '=' expression  {
-    printf(BHBLU "binary_operation -> expression '=' expression\n\n" reset);
-      // $$ = create_node(&$$, B_OPERATION);
-      // add_tree_node(&$$, &$1);
-      // add_tree_token_node(&$$, &$2, ASSIGN);
-      // add_tree_node(&$$, &$3);
-    }
-  | expression '=' expression ';' {
-    printf(BHBLU "binary_operation -> expression '=' expression\n\n" reset);
-      // $$ = create_node(&$$, B_OPERATION);
-      // add_tree_node(&$$, &$1);
-      // add_tree_token_node(&$$, &$2, ASSIGN);
-      // add_tree_node(&$$, &$3);
-    }
-  | expression relation_operator expression  {
-    printf(BHBLU "binary_operation -> expression relation_operator expression\n\n" reset);
+
+  | binary_operation relation_operator expression  {
+    printf("arvore: %p", $3);
       // $$ = create_node(&$$, B_OPERATION);
       // add_tree_node(&$$, &$1);
       // add_tree_node(&$$, &$2);
       // add_tree_node(&$$, &$3);
     }
-  | expression log_operator expression {
+  | binary_operation log_operator expression {
     printf(BHBLU "binary_operation -> expression log_operator expression\n\n" reset);
       // $$ = create_node(&$$, B_OPERATION);
       // add_tree_node(&$$, &$1);
@@ -706,38 +673,23 @@ single_operation:
 ;
 
 arith_binary:
-  expression arith_single {
-    printf(BHBLU "arith_binary -> expression arith_single\n\n" reset);
-      // $$ = create_node(&$$, ARITHMETIC_BINARY);
-      // add_tree_node(&$$, &$1);
-      // add_tree_node(&$$, &$2);
-    }
-  | arith_binary arith_single {
-    printf(BHBLU "arith_binary -> arith_binary arith_single\n\n" reset);
-      // $$ = create_node(&$$, ARITHMETIC_BINARY);
-      // add_tree_node(&$$, &$1);
-      // add_tree_node(&$$, &$2);
-    }
-  | arith_single arith_binary {
-    printf(BHBLU "arith_binary -> arith_single arith_binary\n\n" reset);
-      // $$ = create_node(&$$, ARITHMETIC_BINARY);
-      // add_tree_node(&$$, &$1);
-      // add_tree_node(&$$, &$2);
-    }
-  | expression '*' expression {
+  arith_binary '+' expression
+  | arith_binary '-' expression
+  | arith_binary '*' expression {
       printf(BHBLU "arith_binary -> expression '*' expression\n\n" reset);
       // $$ = create_node(&$$, ARITHMETIC_BINARY);
       // add_tree_node(&$$, &$1);
       // add_tree_token_node(&$$, &$2, MULTIPLY_OP);
       // add_tree_node(&$$, &$3);
     }
-  | expression '/' expression {
+  | arith_binary '/' expression {
       printf(BHBLU "arith_binary -> expression '/' expression \n\n" reset);
       //  $$ = create_node(&$$, ARITHMETIC_BINARY);
       // add_tree_node(&$$, &$1);
       // add_tree_token_node(&$$, &$2, DIVISION_OP);
       // add_tree_node(&$$, &$3);
     }
+  | expression 
 ;
 
 arith_single:
