@@ -1,8 +1,10 @@
-int main() {
-  int b;
-  b = main();
-  main(1+b);
-}
+int a;
+int a;
+// int main() {
+//   int b;
+//   b = main();
+//   main(1+b);
+// }
 
 // int main {
 //   int a;

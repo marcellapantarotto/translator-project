@@ -125,13 +125,13 @@
 %type <node> arith_single
 %type <node> lst_binary
 %type <node> lst_single
-%type <node> log_operator
-%type <node> relation_operator
+%type <node> logical_op
+%type <node> relational_op
 
 /********** Brigde between Lex and Y **********/
 %union {
   t_token token;
-  t_node *node;
+  t_node node;
 }
 
 %start program
@@ -140,27 +140,23 @@
 %%
 program: 
   lst_declarations {
-      // $$ = create_node(&$$, PROGRAM);
-      // root = $$;
+      $$ = create_node(&$$, PROGRAM);
+      root = $$;
       // add_tree_node(&$$, &root);
-      // add_tree_node(&$$, &$1);
+      add_tree_node(&root, &$1);
     }
   | /* epsilon */ { }
 ;
 
 lst_declarations:
   declaration lst_declarations  {
-      // tree_node *youngest = $1.children;
-      // while(youngest->sibilings) {
-      //   youngest = youngest->sibilings;
-      // }
-      // $$ = create_node(&$$, LIST_OF_DECLARATIONS);
-      // add_tree_node(&$$, &$1);
-      // add_tree_node(&$$, &$2);
+      $$ = create_node(&$$, LIST_DECLARATIONS);
+      add_tree_node(&$$, &$1);
+      add_tree_node(&$$, &$2);
     }
   | declaration  {
-      // $$ = create_node(&$$, LIST_OF_DECLARATIONS);
-      // add_tree_node(&$$, &$1);
+      $$ = create_node(&$$, LIST_DECLARATIONS);
+      add_tree_node(&$$, &$1);
     }
 ;
 
@@ -206,38 +202,52 @@ unq_declaration:
 ;
 
 parameters:
-  lst_parameters { }
+  lst_parameters {
+      // $$ = create_node(&$$, PARAMETERS);
+      // add_tree_node(&$$, &$1);
+    }
   | /* epsilon */ { }
 ;
 
 lst_parameters: 
   unq_declaration ',' lst_parameters  {
-    // $$ = create_node(&$$, LIST_OF_PARAMETERS);
+    // $$ = create_node(&$$, LIST_PARAMETERS);
     // add_tree_node(&$$, &$1);
     // add_tree_token_node(&$$, &$2, COMMA);
     // add_tree_node(&$$, &$3);
    }
   | unq_declaration {
-      // $$ = create_node(&$$, LIST_OF_PARAMETERS);
+      // $$ = create_node(&$$, LIST_PARAMETERS);
       // add_tree_node(&$$, &$1);
     }
 ;
 
 calling_parameters:
-  lst_calling_parameters { }
+  lst_calling_parameters {
+      // $$ = create_node(&$$, CALLING_PARAMETERS);
+      // add_tree_node(&$$, &$1);
+    }
   | /* epsilon */ { }
 ;
 
 lst_calling_parameters:
-  operation ',' lst_calling_parameters { }
-  | operation { }
+  operation ',' lst_calling_parameters {
+      // $$ = create_node(&$$, LIST_CALLING_PARAMETERS);
+      // add_tree_node(&$$, &$1);
+      // add_tree_token_node(&$$, &$2, SEMICOLON);
+      // add_tree_node(&$$, &$3);
+    }
+  | operation {
+      // $$ = create_node(&$$, LIST_CALLING_PARAMETERS);
+      // add_tree_node(&$$, &$1);
+    }
 ;
 
 block_commands: 
   command block_commands  {
-    // $$ = create_node(&$$, BLOCK_OF_COMMANDS);
-    // add_tree_node(&$$, &$1);
-    // add_tree_node(&$$, &$2);
+    $$ = create_node(&$$, BLOCK_COMMANDS);
+    add_tree_node(&$$, &$1);
+    add_tree_node(&$$, &$2);
     }
   | /* epsilon */ { }
 ;
@@ -275,9 +285,9 @@ command:
     // $$ = $2;
     }
   | operation ';' { 
-      // $$ = create_node(&$$, INPUT_OPERATION);
-      // add_tree_node(&$$, &$1);
-      // add_tree_token_node(&$$, &$2, SEMICOLON);
+      $$ = create_node(&$$, COMMAND);
+      add_tree_node(&$$, &$1);
+      add_tree_token_node(&$$, &$2, SEMICOLON);
     }
 ;
 
@@ -501,14 +511,14 @@ operation:
       // $$ = create_node(&$$, B_OPERATION);
       // add_tree_node(&$$, &$1);
     }
-  | operation relation_operator expression  {
-      printf("arvore: %p\n", $3);
-      // $$ = create_node(&$$, B_OPERATION);
-      // add_tree_node(&$$, &$1);
-      // add_tree_node(&$$, &$2);
-      // add_tree_node(&$$, &$3);
+  | operation relational_op expression  {
+      // printf("arvore: %p\n", &$3);
+      $$ = create_node(&$$, OPERATION);
+      add_tree_node(&$$, &$1);
+      add_tree_node(&$$, &$2);
+      add_tree_node(&$$, &$3);
     }
-  | operation log_operator expression {
+  | operation logical_op expression {
       // $$ = create_node(&$$, B_OPERATION);
       // add_tree_node(&$$, &$1);
       // add_tree_node(&$$, &$2);
@@ -610,7 +620,7 @@ lst_binary:
     }
 ;
 
-log_operator:
+logical_op:
   AND {
       // $$ = create_node(&$$, LOGIC_OPERATOR);
       // add_tree_token_node(&$$, &$1, AND_OP);
@@ -621,30 +631,30 @@ log_operator:
     }
 ;
 
-relation_operator:
+relational_op:
   GREATER {
-      // $$ = create_node(&$$, RELATIONAL_OPERATOR);
-      // add_tree_token_node(&$$, &$1, GT_OP);
+      $$ = create_node(&$$, RELATIONAL_OPERATOR);
+      add_tree_token_node(&$$, &$1, GT_OP);
     }
   | GREATER_EQ {
-      // $$ = create_node(&$$, RELATIONAL_OPERATOR);
-      // add_tree_token_node(&$$, &$1, GE_OP);
+      $$ = create_node(&$$, RELATIONAL_OPERATOR);
+      add_tree_token_node(&$$, &$1, GE_OP);
     }
   | LESS {
-      // $$ = create_node(&$$, RELATIONAL_OPERATOR);
-      // add_tree_token_node(&$$, &$1, LT_OP);
+      $$ = create_node(&$$, RELATIONAL_OPERATOR);
+      add_tree_token_node(&$$, &$1, LT_OP);
     }
   | LESS_EQ {
-      // $$ = create_node(&$$, RELATIONAL_OPERATOR);
-      // add_tree_token_node(&$$, &$1, LE_OP);
+      $$ = create_node(&$$, RELATIONAL_OPERATOR);
+      add_tree_token_node(&$$, &$1, LE_OP);
     }
   | EQUAL {
-      // $$ = create_node(&$$, RELATIONAL_OPERATOR);
-      // add_tree_token_node(&$$, &$1, EQ_OP);
+      $$ = create_node(&$$, RELATIONAL_OPERATOR);
+      add_tree_token_node(&$$, &$1, EQ_OP);
     }
   | NOT_EQ {
-      // $$ = create_node(&$$, RELATIONAL_OPERATOR);
-      // add_tree_token_node(&$$, &$1, NE_OP);
+      $$ = create_node(&$$, RELATIONAL_OPERATOR);
+      add_tree_token_node(&$$, &$1, NE_OP);
     }
 ;
 
@@ -676,12 +686,14 @@ int main(int argc, char **argv) {
   printf("\n~~~~ ABSTRACT TREE ~~~~\n\n");
   print_tree(&root, 1);
 
-  printf("\n====================================================\n");
+  printf("\n\n\n====================================================\n");
   printf("\t\t    SYMBOL TABLE");
   printf("\n====================================================\n");
   printf("  ID\t|  TOKENS\t\t\t|  SCOPE");
   printf("\n====================================================\n");
   print_table();
+
+  // destroy_tree(&root);
   destroy_table();
   fclose(yyin);
   yylex_destroy();

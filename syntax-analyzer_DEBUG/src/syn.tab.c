@@ -167,7 +167,7 @@ union YYSTYPE
 #line 132 "src/syn.y"
 
   t_token token;
-  t_node *node;
+  t_node node;
 
 #line 173 "src/syn.tab.c"
 
@@ -547,15 +547,15 @@ static const yytype_int8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int16 yyrline[] =
 {
-       0,   142,   142,   148,   152,   161,   168,   172,   176,   180,
-     180,   193,   201,   201,   209,   210,   214,   220,   227,   228,
-     232,   233,   237,   242,   246,   250,   254,   258,   262,   266,
-     270,   274,   277,   285,   293,   303,   318,   327,   340,   351,
-     360,   364,   368,   376,   384,   392,   403,   414,   425,   429,
-     433,   437,   444,   448,   455,   459,   466,   470,   477,   485,
-     489,   496,   500,   504,   511,   520,   524,   528,   536,   542,
-     548,   554,   560,   567,   572,   580,   585,   593,   599,   605,
-     614,   618,   625,   629,   633,   637,   641,   645
+       0,   142,   142,   148,   152,   157,   164,   168,   172,   176,
+     176,   189,   197,   197,   205,   209,   213,   219,   226,   230,
+     234,   240,   247,   252,   256,   260,   264,   268,   272,   276,
+     280,   284,   287,   295,   303,   313,   328,   337,   350,   361,
+     370,   374,   378,   386,   394,   402,   413,   424,   435,   439,
+     443,   447,   454,   458,   465,   469,   476,   480,   487,   495,
+     499,   506,   510,   514,   521,   530,   534,   538,   546,   552,
+     558,   564,   570,   577,   582,   590,   595,   603,   609,   615,
+     624,   628,   635,   639,   643,   647,   651,   655
 };
 #endif
 
@@ -577,8 +577,8 @@ static const char *const yytname[] =
   "return_stmt", "iteration", "loop_condition", "init_stmt", "update_stmt",
   "output", "input", "func_calling", "expression", "const", "number",
   "type", "type_lst", "type_number", "operation", "single_operation",
-  "arith_binary", "arith_single", "lst_single", "lst_binary",
-  "log_operator", "relation_operator", YY_NULLPTR
+  "arith_binary", "arith_single", "lst_single", "lst_binary", "logical_op",
+  "relational_op", YY_NULLPTR
 };
 #endif
 
@@ -2690,10 +2690,10 @@ yyreduce:
   case 2:
 #line 142 "src/syn.y"
                    {
-      // $$ = create_node(&$$, PROGRAM);
-      // root = $$;
+      (yyval.node) = create_node(&(yyval.node), PROGRAM);
+      root = (yyval.node);
       // add_tree_node(&$$, &root);
-      // add_tree_node(&$$, &$1);
+      add_tree_node(&root, &(yyvsp[0].node));
     }
 #line 2699 "src/syn.tab.c"
     break;
@@ -2707,58 +2707,54 @@ yyreduce:
   case 4:
 #line 152 "src/syn.y"
                                 {
-      // tree_node *youngest = $1.children;
-      // while(youngest->sibilings) {
-      //   youngest = youngest->sibilings;
-      // }
-      // $$ = create_node(&$$, LIST_OF_DECLARATIONS);
-      // add_tree_node(&$$, &$1);
-      // add_tree_node(&$$, &$2);
+      (yyval.node) = create_node(&(yyval.node), LIST_DECLARATIONS);
+      add_tree_node(&(yyval.node), &(yyvsp[-1].node));
+      add_tree_node(&(yyval.node), &(yyvsp[0].node));
     }
-#line 2719 "src/syn.tab.c"
+#line 2715 "src/syn.tab.c"
     break;
 
   case 5:
-#line 161 "src/syn.y"
+#line 157 "src/syn.y"
                  {
-      // $$ = create_node(&$$, LIST_OF_DECLARATIONS);
-      // add_tree_node(&$$, &$1);
+      (yyval.node) = create_node(&(yyval.node), LIST_DECLARATIONS);
+      add_tree_node(&(yyval.node), &(yyvsp[0].node));
     }
-#line 2728 "src/syn.tab.c"
+#line 2724 "src/syn.tab.c"
     break;
 
   case 6:
-#line 168 "src/syn.y"
+#line 164 "src/syn.y"
                    {
       // $$ = create_node(&$$, DECLARATION);
       // add_tree_node(&$$, &$1);
     }
-#line 2737 "src/syn.tab.c"
+#line 2733 "src/syn.tab.c"
     break;
 
   case 7:
-#line 172 "src/syn.y"
+#line 168 "src/syn.y"
                     {
       // $$ = create_node(&$$, DECLARATION);
       // add_tree_node(&$$, &$1);
     }
-#line 2746 "src/syn.tab.c"
+#line 2742 "src/syn.tab.c"
     break;
 
   case 8:
-#line 176 "src/syn.y"
+#line 172 "src/syn.y"
           { }
-#line 2752 "src/syn.tab.c"
+#line 2748 "src/syn.tab.c"
     break;
 
   case 9:
-#line 180 "src/syn.y"
+#line 176 "src/syn.y"
                   {increment_scope();}
-#line 2758 "src/syn.tab.c"
+#line 2754 "src/syn.tab.c"
     break;
 
   case 10:
-#line 180 "src/syn.y"
+#line 176 "src/syn.y"
                                                                                  {
       // $$ = create_node(&$$, FUNCTION_DECLARATION);    
       // add_tree_node(&$$, &$1);
@@ -2769,200 +2765,214 @@ yyreduce:
       // add_tree_node(&$$, &$7);
       // add_tree_token_node(&$$, &$8, CLOSE_CURLY_BRACKET);
     }
-#line 2773 "src/syn.tab.c"
+#line 2769 "src/syn.tab.c"
     break;
 
   case 11:
-#line 193 "src/syn.y"
+#line 189 "src/syn.y"
                       {
     // $$ = create_node(&$$, VARIABLE_DECLARATION);
     // add_tree_node(&$$, &$1);
     // add_tree_token_node(&$$, &$2, SEMICOLON);
    }
-#line 2783 "src/syn.tab.c"
+#line 2779 "src/syn.tab.c"
     break;
 
   case 12:
-#line 201 "src/syn.y"
+#line 197 "src/syn.y"
        {add_table_node(yytext);}
-#line 2789 "src/syn.tab.c"
+#line 2785 "src/syn.tab.c"
     break;
 
   case 13:
-#line 201 "src/syn.y"
+#line 197 "src/syn.y"
                                     {
     // $$ = create_node(&$$, UNIQUE_DECLARATION);
     // add_tree_node(&$$, &$1);
     // add_tree_token_node(&$$, &$3, IDENTIFIER);
    }
-#line 2799 "src/syn.tab.c"
+#line 2795 "src/syn.tab.c"
     break;
 
   case 14:
-#line 209 "src/syn.y"
-                 { }
-#line 2805 "src/syn.tab.c"
+#line 205 "src/syn.y"
+                 {
+      // $$ = create_node(&$$, PARAMETERS);
+      // add_tree_node(&$$, &$1);
+    }
+#line 2804 "src/syn.tab.c"
     break;
 
   case 15:
-#line 210 "src/syn.y"
+#line 209 "src/syn.y"
                   { }
-#line 2811 "src/syn.tab.c"
+#line 2810 "src/syn.tab.c"
     break;
 
   case 16:
-#line 214 "src/syn.y"
+#line 213 "src/syn.y"
                                       {
-    // $$ = create_node(&$$, LIST_OF_PARAMETERS);
+    // $$ = create_node(&$$, LIST_PARAMETERS);
     // add_tree_node(&$$, &$1);
     // add_tree_token_node(&$$, &$2, COMMA);
     // add_tree_node(&$$, &$3);
    }
-#line 2822 "src/syn.tab.c"
+#line 2821 "src/syn.tab.c"
     break;
 
   case 17:
-#line 220 "src/syn.y"
+#line 219 "src/syn.y"
                     {
-      // $$ = create_node(&$$, LIST_OF_PARAMETERS);
+      // $$ = create_node(&$$, LIST_PARAMETERS);
       // add_tree_node(&$$, &$1);
     }
-#line 2831 "src/syn.tab.c"
+#line 2830 "src/syn.tab.c"
     break;
 
   case 18:
-#line 227 "src/syn.y"
-                         { }
-#line 2837 "src/syn.tab.c"
+#line 226 "src/syn.y"
+                         {
+      // $$ = create_node(&$$, CALLING_PARAMETERS);
+      // add_tree_node(&$$, &$1);
+    }
+#line 2839 "src/syn.tab.c"
     break;
 
   case 19:
-#line 228 "src/syn.y"
+#line 230 "src/syn.y"
                   { }
-#line 2843 "src/syn.tab.c"
+#line 2845 "src/syn.tab.c"
     break;
 
   case 20:
-#line 232 "src/syn.y"
-                                       { }
-#line 2849 "src/syn.tab.c"
+#line 234 "src/syn.y"
+                                       {
+      // $$ = create_node(&$$, LIST_CALLING_PARAMETERS);
+      // add_tree_node(&$$, &$1);
+      // add_tree_token_node(&$$, &$2, SEMICOLON);
+      // add_tree_node(&$$, &$3);
+    }
+#line 2856 "src/syn.tab.c"
     break;
 
   case 21:
-#line 233 "src/syn.y"
-              { }
-#line 2855 "src/syn.tab.c"
-    break;
-
-  case 22:
-#line 237 "src/syn.y"
-                          {
-    // $$ = create_node(&$$, BLOCK_OF_COMMANDS);
-    // add_tree_node(&$$, &$1);
-    // add_tree_node(&$$, &$2);
+#line 240 "src/syn.y"
+              {
+      // $$ = create_node(&$$, LIST_CALLING_PARAMETERS);
+      // add_tree_node(&$$, &$1);
     }
 #line 2865 "src/syn.tab.c"
     break;
 
+  case 22:
+#line 247 "src/syn.y"
+                          {
+    (yyval.node) = create_node(&(yyval.node), BLOCK_COMMANDS);
+    add_tree_node(&(yyval.node), &(yyvsp[-1].node));
+    add_tree_node(&(yyval.node), &(yyvsp[0].node));
+    }
+#line 2875 "src/syn.tab.c"
+    break;
+
   case 23:
-#line 242 "src/syn.y"
+#line 252 "src/syn.y"
                   { }
-#line 2871 "src/syn.tab.c"
+#line 2881 "src/syn.tab.c"
     break;
 
   case 24:
-#line 246 "src/syn.y"
+#line 256 "src/syn.y"
                   {
     // $$ = create_node(&$$, COMMAND);
     // add_tree_node(&$$, &$1);
     }
-#line 2880 "src/syn.tab.c"
+#line 2890 "src/syn.tab.c"
     break;
 
   case 25:
-#line 250 "src/syn.y"
+#line 260 "src/syn.y"
                   {
     // $$ = create_node(&$$, COMMAND);
     // add_tree_node(&$$, &$1);
     }
-#line 2889 "src/syn.tab.c"
+#line 2899 "src/syn.tab.c"
     break;
 
   case 26:
-#line 254 "src/syn.y"
+#line 264 "src/syn.y"
                      {
     // $$ = create_node(&$$, COMMAND);
     // add_tree_node(&$$, &$1);
     }
-#line 2898 "src/syn.tab.c"
+#line 2908 "src/syn.tab.c"
     break;
 
   case 27:
-#line 258 "src/syn.y"
+#line 268 "src/syn.y"
                 {
     // $$ = create_node(&$$, COMMAND);
     // add_tree_node(&$$, &$1);
     }
-#line 2907 "src/syn.tab.c"
+#line 2917 "src/syn.tab.c"
     break;
 
   case 28:
-#line 262 "src/syn.y"
+#line 272 "src/syn.y"
               {
     // $$ = create_node(&$$, COMMAND);
     // add_tree_node(&$$, &$1);
     }
-#line 2916 "src/syn.tab.c"
+#line 2926 "src/syn.tab.c"
     break;
 
   case 29:
-#line 266 "src/syn.y"
+#line 276 "src/syn.y"
           {
     // $$ = create_node(&$$, COMMAND);
     // add_tree_node(&$$, &$1);
     }
-#line 2925 "src/syn.tab.c"
+#line 2935 "src/syn.tab.c"
     break;
 
   case 30:
-#line 270 "src/syn.y"
+#line 280 "src/syn.y"
            {
     // $$ = create_node(&$$, COMMAND);
     // add_tree_node(&$$, &$1);
     }
-#line 2934 "src/syn.tab.c"
+#line 2944 "src/syn.tab.c"
     break;
 
   case 31:
-#line 274 "src/syn.y"
+#line 284 "src/syn.y"
                            {
     // $$ = $2;
-    }
-#line 2942 "src/syn.tab.c"
-    break;
-
-  case 32:
-#line 277 "src/syn.y"
-                  { 
-      // $$ = create_node(&$$, INPUT_OPERATION);
-      // add_tree_node(&$$, &$1);
-      // add_tree_token_node(&$$, &$2, SEMICOLON);
     }
 #line 2952 "src/syn.tab.c"
     break;
 
+  case 32:
+#line 287 "src/syn.y"
+                  { 
+      (yyval.node) = create_node(&(yyval.node), COMMAND);
+      add_tree_node(&(yyval.node), &(yyvsp[-1].node));
+      add_tree_token_node(&(yyval.node), &(yyvsp[0].token), SEMICOLON);
+    }
+#line 2962 "src/syn.tab.c"
+    break;
+
   case 33:
-#line 285 "src/syn.y"
+#line 295 "src/syn.y"
                 {
       // $$ = create_node(&$$, INPUT_OPERATION);
       // add_tree_node(&$$, &$1);
       // add_tree_token_node(&$$, &$2, SEMICOLON);
     }
-#line 2962 "src/syn.tab.c"
+#line 2972 "src/syn.tab.c"
     break;
 
   case 34:
-#line 293 "src/syn.y"
+#line 303 "src/syn.y"
                                                   {
       // $$ = create_node(&$$, CONDITIONAL_STMT);
       // add_tree_token_node(&$$, &$1, IF);
@@ -2973,11 +2983,11 @@ yyreduce:
       // add_tree_node(&$$, &$6);
       // add_tree_token_node(&$$, &$7, CLOSE_CURLY_BRACKET);
     }
-#line 2977 "src/syn.tab.c"
+#line 2987 "src/syn.tab.c"
     break;
 
   case 35:
-#line 303 "src/syn.y"
+#line 313 "src/syn.y"
                                                          {
       // $$ = create_node(&$$, CONDITIONAL_STMT);
       // add_tree_token_node(&$$, &$1, IF);
@@ -2989,22 +2999,22 @@ yyreduce:
       // add_tree_node(&$$, &$7);
       // add_tree_token_node(&$$, &$8, CLOSE_CURLY_BRACKET);
     }
-#line 2993 "src/syn.tab.c"
+#line 3003 "src/syn.tab.c"
     break;
 
   case 36:
-#line 318 "src/syn.y"
+#line 328 "src/syn.y"
                             {
       // $$ = create_node(&$$, RETURN_STMT);
       // add_tree_token_node(&$$, &$1, RETURN);
       // add_tree_node(&$$, &$2);
       // add_tree_token_node(&$$, &$3, SEMICOLON);
     }
-#line 3004 "src/syn.tab.c"
+#line 3014 "src/syn.tab.c"
     break;
 
   case 37:
-#line 327 "src/syn.y"
+#line 337 "src/syn.y"
                                           {
       // $$ = create_node(&$$, ITERATION_PROCESS);
       // add_tree_token_node(&$$, &$1, FOR);
@@ -3015,11 +3025,11 @@ yyreduce:
       // add_tree_node(&$$, &$6);
       // add_tree_token_node(&$$, &$7, CLOSE_CURLY_BRACKET);
     }
-#line 3019 "src/syn.tab.c"
+#line 3029 "src/syn.tab.c"
     break;
 
   case 38:
-#line 340 "src/syn.y"
+#line 350 "src/syn.y"
                                           {
       // $$ = create_node(&$$, LOOP_CONDITION);
       // add_tree_node(&$$, &$1);
@@ -3028,37 +3038,37 @@ yyreduce:
       // add_tree_token_node(&$$, &$4, SEMICOLON);
       // add_tree_node(&$$, &$3);
     }
-#line 3032 "src/syn.tab.c"
+#line 3042 "src/syn.tab.c"
     break;
 
   case 39:
-#line 351 "src/syn.y"
+#line 361 "src/syn.y"
                     {
       // $$ = create_node(&$$, INITIALIZATION_STMT);
       // add_tree_token_node(&$$, &$1, IDENTIFIER);
       // add_tree_token_node(&$$, &$2, ASSIGN);
       // add_tree_node(&$$, &$3);
     }
-#line 3043 "src/syn.tab.c"
+#line 3053 "src/syn.tab.c"
     break;
 
   case 40:
-#line 360 "src/syn.y"
+#line 370 "src/syn.y"
             {
       // $$ = create_node(&$$, UPDATE_STMT);
       // add_tree_node(&$$, &$1);
     }
-#line 3052 "src/syn.tab.c"
+#line 3062 "src/syn.tab.c"
     break;
 
   case 41:
-#line 364 "src/syn.y"
+#line 374 "src/syn.y"
                   { }
-#line 3058 "src/syn.tab.c"
+#line 3068 "src/syn.tab.c"
     break;
 
   case 42:
-#line 368 "src/syn.y"
+#line 378 "src/syn.y"
                                       {
       // $$ = create_node(&$$, INPUT_OPERATION);
       // add_tree_token_node(&$$, &$1, WRITE);
@@ -3067,11 +3077,11 @@ yyreduce:
       // add_tree_token_node(&$$, &$4, CLOSE_PARENTHESES);
       // add_tree_token_node(&$$, &$5, SEMICOLON);
     }
-#line 3071 "src/syn.tab.c"
+#line 3081 "src/syn.tab.c"
     break;
 
   case 43:
-#line 376 "src/syn.y"
+#line 386 "src/syn.y"
                                          {
       // $$ = create_node(&$$, INPUT_OPERATION);
       // add_tree_token_node(&$$, &$1, WRITELN);
@@ -3080,11 +3090,11 @@ yyreduce:
       // add_tree_token_node(&$$, &$4, CLOSE_PARENTHESES);
       // add_tree_token_node(&$$, &$5, SEMICOLON);
     }
-#line 3084 "src/syn.tab.c"
+#line 3094 "src/syn.tab.c"
     break;
 
   case 44:
-#line 384 "src/syn.y"
+#line 394 "src/syn.y"
                                     {
       // $$ = create_node(&$$, INPUT_OPERATION);
       // add_tree_token_node(&$$, &$1, WRITELN);
@@ -3093,11 +3103,11 @@ yyreduce:
       // add_tree_token_node(&$$, &$4, CLOSE_PARENTHESES);
       // add_tree_token_node(&$$, &$5, SEMICOLON);
     }
-#line 3097 "src/syn.tab.c"
+#line 3107 "src/syn.tab.c"
     break;
 
   case 45:
-#line 392 "src/syn.y"
+#line 402 "src/syn.y"
                                       {
       // $$ = create_node(&$$, INPUT_OPERATION);
       // add_tree_token_node(&$$, &$1, WRITELN);
@@ -3106,11 +3116,11 @@ yyreduce:
       // add_tree_token_node(&$$, &$4, CLOSE_PARENTHESES);
       // add_tree_token_node(&$$, &$5, SEMICOLON);
     }
-#line 3110 "src/syn.tab.c"
+#line 3120 "src/syn.tab.c"
     break;
 
   case 46:
-#line 403 "src/syn.y"
+#line 413 "src/syn.y"
                                     {
       // $$ = create_node(&$$, OUTPUT_OPERATION);
       // add_tree_token_node(&$$, &$1, READ);
@@ -3119,11 +3129,11 @@ yyreduce:
       // add_tree_token_node(&$$, &$4, CLOSE_PARENTHESES);
       // add_tree_token_node(&$$, &$5, SEMICOLON);
     }
-#line 3123 "src/syn.tab.c"
+#line 3133 "src/syn.tab.c"
     break;
 
   case 47:
-#line 414 "src/syn.y"
+#line 424 "src/syn.y"
                                 {
       // $$ = create_node(&$$, FUNCTION_CALLING);
       // add_tree_token_node(&$$, &$1, IDENTIFIER);
@@ -3132,396 +3142,396 @@ yyreduce:
       // add_tree_token_node(&$$, &$4, CLOSE_PARENTHESES);
       // add_tree_token_node(&$$, &$5, SEMICOLON);
     }
-#line 3136 "src/syn.tab.c"
+#line 3146 "src/syn.tab.c"
     break;
 
   case 48:
-#line 425 "src/syn.y"
+#line 435 "src/syn.y"
                {
     // $$ = create_node(&$$, COMMAND);
     // add_tree_node(&$$, &$1);
     }
-#line 3145 "src/syn.tab.c"
+#line 3155 "src/syn.tab.c"
     break;
 
   case 49:
-#line 429 "src/syn.y"
+#line 439 "src/syn.y"
                      {
       // $$ = create_node(&$$, COMMAND);
       // add_tree_node(&$$, &$1);
     }
-#line 3154 "src/syn.tab.c"
+#line 3164 "src/syn.tab.c"
     break;
 
   case 50:
-#line 433 "src/syn.y"
+#line 443 "src/syn.y"
           {
       // $$ = create_node(&$$, EXPRESSION);
       // add_tree_node(&$$, &$1);
     }
-#line 3163 "src/syn.tab.c"
+#line 3173 "src/syn.tab.c"
     break;
 
   case 51:
-#line 437 "src/syn.y"
+#line 447 "src/syn.y"
        {
     // $$ = create_node(&$$, EXPRESSION);
     // add_tree_token_node(&$$, &$1, IDENTIFIER);
     }
-#line 3172 "src/syn.tab.c"
+#line 3182 "src/syn.tab.c"
     break;
 
   case 52:
-#line 444 "src/syn.y"
+#line 454 "src/syn.y"
          {
       // $$ = create_node(&$$, CONSTANT);
       // add_tree_node(&$$, &$1);
     }
-#line 3181 "src/syn.tab.c"
+#line 3191 "src/syn.tab.c"
     break;
 
   case 53:
-#line 448 "src/syn.y"
+#line 458 "src/syn.y"
              {
       // $$ = create_node(&$$, CONSTANT);
       // add_tree_token_node(&$$, &$1, NIL);
     }
-#line 3190 "src/syn.tab.c"
+#line 3200 "src/syn.tab.c"
     break;
 
   case 54:
-#line 455 "src/syn.y"
+#line 465 "src/syn.y"
           {
       // $$ = create_node(&$$, NUMBER);
       // add_tree_token_node(&$$, &$1, NUMBER_INT);
     }
-#line 3199 "src/syn.tab.c"
+#line 3209 "src/syn.tab.c"
     break;
 
   case 55:
-#line 459 "src/syn.y"
+#line 469 "src/syn.y"
               {
       // $$ = create_node(&$$, NUMBER);
       // add_tree_token_node(&$$, &$1, NUMBER_FLOAT);
     }
-#line 3208 "src/syn.tab.c"
+#line 3218 "src/syn.tab.c"
     break;
 
   case 56:
-#line 466 "src/syn.y"
+#line 476 "src/syn.y"
             {
       // $$ = create_node(&$$, TYPE);
       // add_tree_node(&$$, &$1);
     }
-#line 3217 "src/syn.tab.c"
+#line 3227 "src/syn.tab.c"
     break;
 
   case 57:
-#line 470 "src/syn.y"
+#line 480 "src/syn.y"
                  {
       // $$ = create_node(&$$, TYPE);
       // add_tree_node(&$$, &$1);
     }
-#line 3226 "src/syn.tab.c"
+#line 3236 "src/syn.tab.c"
     break;
 
   case 58:
-#line 477 "src/syn.y"
+#line 487 "src/syn.y"
                        {
       // $$ = create_node(&$$, TYPE_LST);
       // add_tree_node(&$$, &$1);
       // add_tree_token_node(&$$, &$2, TYPE_LIST);
     }
-#line 3236 "src/syn.tab.c"
+#line 3246 "src/syn.tab.c"
     break;
 
   case 59:
-#line 485 "src/syn.y"
+#line 495 "src/syn.y"
         {
       // $$ = create_node(&$$, NUMBER);
       // add_tree_token_node(&$$, &$1, TYPE_INT);
     }
-#line 3245 "src/syn.tab.c"
+#line 3255 "src/syn.tab.c"
     break;
 
   case 60:
-#line 489 "src/syn.y"
+#line 499 "src/syn.y"
             {
       // $$ = create_node(&$$, NUMBER);
       // add_tree_token_node(&$$, &$1, TYPE_FLOAT);
     }
-#line 3254 "src/syn.tab.c"
+#line 3264 "src/syn.tab.c"
     break;
 
   case 61:
-#line 496 "src/syn.y"
+#line 506 "src/syn.y"
                {
       // $$ = create_node(&$$, B_OPERATION);
       // add_tree_node(&$$, &$1);
     }
-#line 3263 "src/syn.tab.c"
+#line 3273 "src/syn.tab.c"
     break;
 
   case 62:
-#line 500 "src/syn.y"
+#line 510 "src/syn.y"
                {
       // $$ = create_node(&$$, B_OPERATION);
       // add_tree_node(&$$, &$1);
     }
-#line 3272 "src/syn.tab.c"
+#line 3282 "src/syn.tab.c"
     break;
 
   case 63:
-#line 504 "src/syn.y"
-                                            {
-      printf("arvore: %p\n", (yyvsp[0].node));
-      // $$ = create_node(&$$, B_OPERATION);
-      // add_tree_node(&$$, &$1);
-      // add_tree_node(&$$, &$2);
-      // add_tree_node(&$$, &$3);
+#line 514 "src/syn.y"
+                                        {
+      // printf("arvore: %p\n", &$3);
+      (yyval.node) = create_node(&(yyval.node), OPERATION);
+      add_tree_node(&(yyval.node), &(yyvsp[-2].node));
+      add_tree_node(&(yyval.node), &(yyvsp[-1].node));
+      add_tree_node(&(yyval.node), &(yyvsp[0].node));
     }
-#line 3284 "src/syn.tab.c"
+#line 3294 "src/syn.tab.c"
     break;
 
   case 64:
-#line 511 "src/syn.y"
-                                      {
+#line 521 "src/syn.y"
+                                    {
       // $$ = create_node(&$$, B_OPERATION);
       // add_tree_node(&$$, &$1);
       // add_tree_node(&$$, &$2);
       // add_tree_node(&$$, &$3);
     }
-#line 3295 "src/syn.tab.c"
+#line 3305 "src/syn.tab.c"
     break;
 
   case 65:
-#line 520 "src/syn.y"
+#line 530 "src/syn.y"
                {
       // $$ = create_node(&$$, S_OPERATION);
       // add_tree_node(&$$, &$1);
     }
-#line 3304 "src/syn.tab.c"
+#line 3314 "src/syn.tab.c"
     break;
 
   case 66:
-#line 524 "src/syn.y"
+#line 534 "src/syn.y"
                {
       // $$ = create_node(&$$, S_OPERATION);
       // add_tree_node(&$$, &$1);
     }
-#line 3313 "src/syn.tab.c"
+#line 3323 "src/syn.tab.c"
     break;
 
   case 67:
-#line 528 "src/syn.y"
+#line 538 "src/syn.y"
                    {
     // $$ = create_node(&$$, S_OPERATION);
     // add_tree_token_node(&$$, &$1, NOT_OR_TAIL);
     // add_tree_node(&$$, &$2);
   }
-#line 3323 "src/syn.tab.c"
+#line 3333 "src/syn.tab.c"
     break;
 
   case 68:
-#line 536 "src/syn.y"
+#line 546 "src/syn.y"
                               {
       // $$ = create_node(&$$, ARITHMETIC_BINARY);
       // add_tree_node(&$$, &$1);
       // add_tree_token_node(&$$, &$2, MULTIPLY_OP);
       // add_tree_node(&$$, &$3);
     }
-#line 3334 "src/syn.tab.c"
+#line 3344 "src/syn.tab.c"
     break;
 
   case 69:
-#line 542 "src/syn.y"
+#line 552 "src/syn.y"
                                 {
       // $$ = create_node(&$$, ARITHMETIC_BINARY);
       // add_tree_node(&$$, &$1);
       // add_tree_token_node(&$$, &$2, MULTIPLY_OP);
       // add_tree_node(&$$, &$3);
     }
-#line 3345 "src/syn.tab.c"
+#line 3355 "src/syn.tab.c"
     break;
 
   case 70:
-#line 548 "src/syn.y"
+#line 558 "src/syn.y"
                                 {
       // $$ = create_node(&$$, ARITHMETIC_BINARY);
       // add_tree_node(&$$, &$1);
       // add_tree_token_node(&$$, &$2, MULTIPLY_OP);
       // add_tree_node(&$$, &$3);
     }
-#line 3356 "src/syn.tab.c"
+#line 3366 "src/syn.tab.c"
     break;
 
   case 71:
-#line 554 "src/syn.y"
+#line 564 "src/syn.y"
                                 {
       //  $$ = create_node(&$$, ARITHMETIC_BINARY);
       // add_tree_node(&$$, &$1);
       // add_tree_token_node(&$$, &$2, DIVISION_OP);
       // add_tree_node(&$$, &$3);
     }
-#line 3367 "src/syn.tab.c"
+#line 3377 "src/syn.tab.c"
     break;
 
   case 72:
-#line 560 "src/syn.y"
+#line 570 "src/syn.y"
                {
       //  $$ = create_node(&$$, ARITHMETIC_BINARY);
       // add_tree_node(&$$, &$1);
     }
-#line 3376 "src/syn.tab.c"
+#line 3386 "src/syn.tab.c"
     break;
 
   case 73:
-#line 567 "src/syn.y"
+#line 577 "src/syn.y"
                  {
     // $$ = create_node(&$$, ARITHMETIC_SINGLE);
     // add_tree_token_node(&$$, &$1, ADD_OP);
     // add_tree_node(&$$, &$2);
     }
-#line 3386 "src/syn.tab.c"
+#line 3396 "src/syn.tab.c"
     break;
 
   case 74:
-#line 572 "src/syn.y"
+#line 582 "src/syn.y"
                    {
       // $$ = create_node(&$$, ARITHMETIC_SINGLE);
       // add_tree_token_node(&$$, &$1, MINUS_OP);
       // add_tree_node(&$$, &$2);
     }
-#line 3396 "src/syn.tab.c"
+#line 3406 "src/syn.tab.c"
     break;
 
   case 75:
-#line 580 "src/syn.y"
+#line 590 "src/syn.y"
                  {
       // $$ = create_node(&$$, LIST_SINGLE);
       // add_tree_token_node(&$$, &$1, POP_OP);
       // add_tree_node(&$$, &$2);
     }
-#line 3406 "src/syn.tab.c"
+#line 3416 "src/syn.tab.c"
     break;
 
   case 76:
-#line 585 "src/syn.y"
+#line 595 "src/syn.y"
                    {
       // $$ = create_node(&$$, LIST_SINGLE);
       // add_tree_token_node(&$$, &$1, HEAD_OP);
       // add_tree_node(&$$, &$2);
     }
-#line 3416 "src/syn.tab.c"
+#line 3426 "src/syn.tab.c"
     break;
 
   case 77:
-#line 593 "src/syn.y"
+#line 603 "src/syn.y"
                                {
       // $$ = create_node(&$$, LIST_BINARY);
       // add_tree_node(&$$, &$1);
       // add_tree_token_node(&$$, &$2, FILTER_OP);
 
     }
-#line 3427 "src/syn.tab.c"
+#line 3437 "src/syn.tab.c"
     break;
 
   case 78:
-#line 599 "src/syn.y"
+#line 609 "src/syn.y"
                               {
       // $$ = create_node(&$$, LIST_BINARY);
       // add_tree_node(&$$, &$1);
       // add_tree_token_node(&$$, &$2, MAP_OP);
       // add_tree_node(&$$, &$3);
     }
-#line 3438 "src/syn.tab.c"
+#line 3448 "src/syn.tab.c"
     break;
 
   case 79:
-#line 605 "src/syn.y"
+#line 615 "src/syn.y"
                               {
       // $$ = create_node(&$$, LIST_BINARY);
       // add_tree_node(&$$, &$1);
       // add_tree_token_node(&$$, &$2, CONSTRUCTOR_OP);
       // add_tree_node(&$$, &$3);
     }
-#line 3449 "src/syn.tab.c"
+#line 3459 "src/syn.tab.c"
     break;
 
   case 80:
-#line 614 "src/syn.y"
+#line 624 "src/syn.y"
       {
       // $$ = create_node(&$$, LOGIC_OPERATOR);
       // add_tree_token_node(&$$, &$1, AND_OP);
     }
-#line 3458 "src/syn.tab.c"
+#line 3468 "src/syn.tab.c"
     break;
 
   case 81:
-#line 618 "src/syn.y"
+#line 628 "src/syn.y"
        {
       // $$ = create_node(&$$, LOGIC_OPERATOR);
       // add_tree_token_node(&$$, &$1, OR_OP);
     }
-#line 3467 "src/syn.tab.c"
+#line 3477 "src/syn.tab.c"
     break;
 
   case 82:
-#line 625 "src/syn.y"
+#line 635 "src/syn.y"
           {
-      // $$ = create_node(&$$, RELATIONAL_OPERATOR);
-      // add_tree_token_node(&$$, &$1, GT_OP);
+      (yyval.node) = create_node(&(yyval.node), RELATIONAL_OPERATOR);
+      add_tree_token_node(&(yyval.node), &(yyvsp[0].token), GT_OP);
     }
-#line 3476 "src/syn.tab.c"
+#line 3486 "src/syn.tab.c"
     break;
 
   case 83:
-#line 629 "src/syn.y"
+#line 639 "src/syn.y"
                {
-      // $$ = create_node(&$$, RELATIONAL_OPERATOR);
-      // add_tree_token_node(&$$, &$1, GE_OP);
+      (yyval.node) = create_node(&(yyval.node), RELATIONAL_OPERATOR);
+      add_tree_token_node(&(yyval.node), &(yyvsp[0].token), GE_OP);
     }
-#line 3485 "src/syn.tab.c"
+#line 3495 "src/syn.tab.c"
     break;
 
   case 84:
-#line 633 "src/syn.y"
+#line 643 "src/syn.y"
          {
-      // $$ = create_node(&$$, RELATIONAL_OPERATOR);
-      // add_tree_token_node(&$$, &$1, LT_OP);
+      (yyval.node) = create_node(&(yyval.node), RELATIONAL_OPERATOR);
+      add_tree_token_node(&(yyval.node), &(yyvsp[0].token), LT_OP);
     }
-#line 3494 "src/syn.tab.c"
+#line 3504 "src/syn.tab.c"
     break;
 
   case 85:
-#line 637 "src/syn.y"
+#line 647 "src/syn.y"
             {
-      // $$ = create_node(&$$, RELATIONAL_OPERATOR);
-      // add_tree_token_node(&$$, &$1, LE_OP);
+      (yyval.node) = create_node(&(yyval.node), RELATIONAL_OPERATOR);
+      add_tree_token_node(&(yyval.node), &(yyvsp[0].token), LE_OP);
     }
-#line 3503 "src/syn.tab.c"
+#line 3513 "src/syn.tab.c"
     break;
 
   case 86:
-#line 641 "src/syn.y"
+#line 651 "src/syn.y"
           {
-      // $$ = create_node(&$$, RELATIONAL_OPERATOR);
-      // add_tree_token_node(&$$, &$1, EQ_OP);
+      (yyval.node) = create_node(&(yyval.node), RELATIONAL_OPERATOR);
+      add_tree_token_node(&(yyval.node), &(yyvsp[0].token), EQ_OP);
     }
-#line 3512 "src/syn.tab.c"
+#line 3522 "src/syn.tab.c"
     break;
 
   case 87:
-#line 645 "src/syn.y"
+#line 655 "src/syn.y"
            {
-      // $$ = create_node(&$$, RELATIONAL_OPERATOR);
-      // add_tree_token_node(&$$, &$1, NE_OP);
+      (yyval.node) = create_node(&(yyval.node), RELATIONAL_OPERATOR);
+      add_tree_token_node(&(yyval.node), &(yyvsp[0].token), NE_OP);
     }
-#line 3521 "src/syn.tab.c"
+#line 3531 "src/syn.tab.c"
     break;
 
 
-#line 3525 "src/syn.tab.c"
+#line 3535 "src/syn.tab.c"
 
       default: break;
     }
@@ -3753,7 +3763,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 651 "src/syn.y"
+#line 661 "src/syn.y"
 
 //********** C Functions **********
 int yyerror(char *s) {
@@ -3782,12 +3792,14 @@ int main(int argc, char **argv) {
   printf("\n~~~~ ABSTRACT TREE ~~~~\n\n");
   print_tree(&root, 1);
 
-  printf("\n====================================================\n");
+  printf("\n\n\n====================================================\n");
   printf("\t\t    SYMBOL TABLE");
   printf("\n====================================================\n");
   printf("  ID\t|  TOKENS\t\t\t|  SCOPE");
   printf("\n====================================================\n");
   print_table();
+
+  destroy_tree(&root);
   destroy_table();
   fclose(yyin);
   yylex_destroy();

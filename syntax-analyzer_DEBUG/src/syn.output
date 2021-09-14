@@ -93,8 +93,8 @@ Grammar
 
    60 operation: arith_binary
    61          | lst_binary
-   62          | operation relation_operator expression
-   63          | operation log_operator expression
+   62          | operation relational_op expression
+   63          | operation logical_op expression
 
    64 single_operation: arith_single
    65                 | lst_single
@@ -116,15 +116,15 @@ Grammar
    77           | expression MAP expression
    78           | expression ':' expression
 
-   79 log_operator: AND
-   80             | OR
+   79 logical_op: AND
+   80           | OR
 
-   81 relation_operator: GREATER
-   82                  | GREATER_EQ
-   83                  | LESS
-   84                  | LESS_EQ
-   85                  | EQUAL
-   86                  | NOT_EQ
+   81 relational_op: GREATER
+   82              | GREATER_EQ
+   83              | LESS
+   84              | LESS_EQ
+   85              | EQUAL
+   86              | NOT_EQ
 
 
 Terminals, with rules where they appear
@@ -285,10 +285,10 @@ Nonterminals, with rules where they appear
     lst_binary <node> (79)
         on left: 76 77 78
         on right: 61
-    log_operator <node> (80)
+    logical_op <node> (80)
         on left: 79 80
         on right: 63
-    relation_operator <node> (81)
+    relational_op <node> (81)
         on left: 81 82 83 84 85 86
         on right: 62
 
@@ -1271,8 +1271,8 @@ State 58
 State 59
 
    31 command: operation . ';'
-   62 operation: operation . relation_operator expression
-   63          | operation . log_operator expression
+   62 operation: operation . relational_op expression
+   63          | operation . logical_op expression
 
     ';'         shift, and go to state 86
     AND         shift, and go to state 87
@@ -1284,8 +1284,8 @@ State 59
     EQUAL       shift, and go to state 93
     NOT_EQ      shift, and go to state 94
 
-    log_operator       go to state 95
-    relation_operator  go to state 96
+    logical_op     go to state 95
+    relational_op  go to state 96
 
 
 State 60
@@ -1477,8 +1477,8 @@ State 67
 State 68
 
    35 return_stmt: RETURN_STM operation . ';'
-   62 operation: operation . relation_operator expression
-   63          | operation . log_operator expression
+   62 operation: operation . relational_op expression
+   63          | operation . logical_op expression
 
     ';'         shift, and go to state 105
     AND         shift, and go to state 87
@@ -1490,8 +1490,8 @@ State 68
     EQUAL       shift, and go to state 93
     NOT_EQ      shift, and go to state 94
 
-    log_operator       go to state 95
-    relation_operator  go to state 96
+    logical_op     go to state 95
+    relational_op  go to state 96
 
 
 State 69
@@ -1865,127 +1865,127 @@ State 86
 
 State 87
 
-   79 log_operator: AND .
+   79 logical_op: AND .
 
-    NUM_INT    reduce using rule 79 (log_operator)
-    NUM_FLOAT  reduce using rule 79 (log_operator)
-    NIL_CNST   reduce using rule 79 (log_operator)
-    ID         reduce using rule 79 (log_operator)
-    '+'        reduce using rule 79 (log_operator)
-    '-'        reduce using rule 79 (log_operator)
-    '%'        reduce using rule 79 (log_operator)
-    '?'        reduce using rule 79 (log_operator)
-    '!'        reduce using rule 79 (log_operator)
+    NUM_INT    reduce using rule 79 (logical_op)
+    NUM_FLOAT  reduce using rule 79 (logical_op)
+    NIL_CNST   reduce using rule 79 (logical_op)
+    ID         reduce using rule 79 (logical_op)
+    '+'        reduce using rule 79 (logical_op)
+    '-'        reduce using rule 79 (logical_op)
+    '%'        reduce using rule 79 (logical_op)
+    '?'        reduce using rule 79 (logical_op)
+    '!'        reduce using rule 79 (logical_op)
 
 
 State 88
 
-   80 log_operator: OR .
+   80 logical_op: OR .
 
-    NUM_INT    reduce using rule 80 (log_operator)
-    NUM_FLOAT  reduce using rule 80 (log_operator)
-    NIL_CNST   reduce using rule 80 (log_operator)
-    ID         reduce using rule 80 (log_operator)
-    '+'        reduce using rule 80 (log_operator)
-    '-'        reduce using rule 80 (log_operator)
-    '%'        reduce using rule 80 (log_operator)
-    '?'        reduce using rule 80 (log_operator)
-    '!'        reduce using rule 80 (log_operator)
+    NUM_INT    reduce using rule 80 (logical_op)
+    NUM_FLOAT  reduce using rule 80 (logical_op)
+    NIL_CNST   reduce using rule 80 (logical_op)
+    ID         reduce using rule 80 (logical_op)
+    '+'        reduce using rule 80 (logical_op)
+    '-'        reduce using rule 80 (logical_op)
+    '%'        reduce using rule 80 (logical_op)
+    '?'        reduce using rule 80 (logical_op)
+    '!'        reduce using rule 80 (logical_op)
 
 
 State 89
 
-   81 relation_operator: GREATER .
+   81 relational_op: GREATER .
 
-    NUM_INT    reduce using rule 81 (relation_operator)
-    NUM_FLOAT  reduce using rule 81 (relation_operator)
-    NIL_CNST   reduce using rule 81 (relation_operator)
-    ID         reduce using rule 81 (relation_operator)
-    '+'        reduce using rule 81 (relation_operator)
-    '-'        reduce using rule 81 (relation_operator)
-    '%'        reduce using rule 81 (relation_operator)
-    '?'        reduce using rule 81 (relation_operator)
-    '!'        reduce using rule 81 (relation_operator)
+    NUM_INT    reduce using rule 81 (relational_op)
+    NUM_FLOAT  reduce using rule 81 (relational_op)
+    NIL_CNST   reduce using rule 81 (relational_op)
+    ID         reduce using rule 81 (relational_op)
+    '+'        reduce using rule 81 (relational_op)
+    '-'        reduce using rule 81 (relational_op)
+    '%'        reduce using rule 81 (relational_op)
+    '?'        reduce using rule 81 (relational_op)
+    '!'        reduce using rule 81 (relational_op)
 
 
 State 90
 
-   82 relation_operator: GREATER_EQ .
+   82 relational_op: GREATER_EQ .
 
-    NUM_INT    reduce using rule 82 (relation_operator)
-    NUM_FLOAT  reduce using rule 82 (relation_operator)
-    NIL_CNST   reduce using rule 82 (relation_operator)
-    ID         reduce using rule 82 (relation_operator)
-    '+'        reduce using rule 82 (relation_operator)
-    '-'        reduce using rule 82 (relation_operator)
-    '%'        reduce using rule 82 (relation_operator)
-    '?'        reduce using rule 82 (relation_operator)
-    '!'        reduce using rule 82 (relation_operator)
+    NUM_INT    reduce using rule 82 (relational_op)
+    NUM_FLOAT  reduce using rule 82 (relational_op)
+    NIL_CNST   reduce using rule 82 (relational_op)
+    ID         reduce using rule 82 (relational_op)
+    '+'        reduce using rule 82 (relational_op)
+    '-'        reduce using rule 82 (relational_op)
+    '%'        reduce using rule 82 (relational_op)
+    '?'        reduce using rule 82 (relational_op)
+    '!'        reduce using rule 82 (relational_op)
 
 
 State 91
 
-   83 relation_operator: LESS .
+   83 relational_op: LESS .
 
-    NUM_INT    reduce using rule 83 (relation_operator)
-    NUM_FLOAT  reduce using rule 83 (relation_operator)
-    NIL_CNST   reduce using rule 83 (relation_operator)
-    ID         reduce using rule 83 (relation_operator)
-    '+'        reduce using rule 83 (relation_operator)
-    '-'        reduce using rule 83 (relation_operator)
-    '%'        reduce using rule 83 (relation_operator)
-    '?'        reduce using rule 83 (relation_operator)
-    '!'        reduce using rule 83 (relation_operator)
+    NUM_INT    reduce using rule 83 (relational_op)
+    NUM_FLOAT  reduce using rule 83 (relational_op)
+    NIL_CNST   reduce using rule 83 (relational_op)
+    ID         reduce using rule 83 (relational_op)
+    '+'        reduce using rule 83 (relational_op)
+    '-'        reduce using rule 83 (relational_op)
+    '%'        reduce using rule 83 (relational_op)
+    '?'        reduce using rule 83 (relational_op)
+    '!'        reduce using rule 83 (relational_op)
 
 
 State 92
 
-   84 relation_operator: LESS_EQ .
+   84 relational_op: LESS_EQ .
 
-    NUM_INT    reduce using rule 84 (relation_operator)
-    NUM_FLOAT  reduce using rule 84 (relation_operator)
-    NIL_CNST   reduce using rule 84 (relation_operator)
-    ID         reduce using rule 84 (relation_operator)
-    '+'        reduce using rule 84 (relation_operator)
-    '-'        reduce using rule 84 (relation_operator)
-    '%'        reduce using rule 84 (relation_operator)
-    '?'        reduce using rule 84 (relation_operator)
-    '!'        reduce using rule 84 (relation_operator)
+    NUM_INT    reduce using rule 84 (relational_op)
+    NUM_FLOAT  reduce using rule 84 (relational_op)
+    NIL_CNST   reduce using rule 84 (relational_op)
+    ID         reduce using rule 84 (relational_op)
+    '+'        reduce using rule 84 (relational_op)
+    '-'        reduce using rule 84 (relational_op)
+    '%'        reduce using rule 84 (relational_op)
+    '?'        reduce using rule 84 (relational_op)
+    '!'        reduce using rule 84 (relational_op)
 
 
 State 93
 
-   85 relation_operator: EQUAL .
+   85 relational_op: EQUAL .
 
-    NUM_INT    reduce using rule 85 (relation_operator)
-    NUM_FLOAT  reduce using rule 85 (relation_operator)
-    NIL_CNST   reduce using rule 85 (relation_operator)
-    ID         reduce using rule 85 (relation_operator)
-    '+'        reduce using rule 85 (relation_operator)
-    '-'        reduce using rule 85 (relation_operator)
-    '%'        reduce using rule 85 (relation_operator)
-    '?'        reduce using rule 85 (relation_operator)
-    '!'        reduce using rule 85 (relation_operator)
+    NUM_INT    reduce using rule 85 (relational_op)
+    NUM_FLOAT  reduce using rule 85 (relational_op)
+    NIL_CNST   reduce using rule 85 (relational_op)
+    ID         reduce using rule 85 (relational_op)
+    '+'        reduce using rule 85 (relational_op)
+    '-'        reduce using rule 85 (relational_op)
+    '%'        reduce using rule 85 (relational_op)
+    '?'        reduce using rule 85 (relational_op)
+    '!'        reduce using rule 85 (relational_op)
 
 
 State 94
 
-   86 relation_operator: NOT_EQ .
+   86 relational_op: NOT_EQ .
 
-    NUM_INT    reduce using rule 86 (relation_operator)
-    NUM_FLOAT  reduce using rule 86 (relation_operator)
-    NIL_CNST   reduce using rule 86 (relation_operator)
-    ID         reduce using rule 86 (relation_operator)
-    '+'        reduce using rule 86 (relation_operator)
-    '-'        reduce using rule 86 (relation_operator)
-    '%'        reduce using rule 86 (relation_operator)
-    '?'        reduce using rule 86 (relation_operator)
-    '!'        reduce using rule 86 (relation_operator)
+    NUM_INT    reduce using rule 86 (relational_op)
+    NUM_FLOAT  reduce using rule 86 (relational_op)
+    NIL_CNST   reduce using rule 86 (relational_op)
+    ID         reduce using rule 86 (relational_op)
+    '+'        reduce using rule 86 (relational_op)
+    '-'        reduce using rule 86 (relational_op)
+    '%'        reduce using rule 86 (relational_op)
+    '?'        reduce using rule 86 (relational_op)
+    '!'        reduce using rule 86 (relational_op)
 
 
 State 95
 
-   63 operation: operation log_operator . expression
+   63 operation: operation logical_op . expression
 
     NUM_INT    shift, and go to state 203
     NUM_FLOAT  shift, and go to state 204
@@ -2008,7 +2008,7 @@ State 95
 
 State 96
 
-   62 operation: operation relation_operator . expression
+   62 operation: operation relational_op . expression
 
     NUM_INT    shift, and go to state 203
     NUM_FLOAT  shift, and go to state 204
@@ -2139,8 +2139,8 @@ State 103
 
    19 lst_calling_parameters: operation . ',' lst_calling_parameters
    20                       | operation .
-   62 operation: operation . relation_operator expression
-   63          | operation . log_operator expression
+   62 operation: operation . relational_op expression
+   63          | operation . logical_op expression
 
     ','         shift, and go to state 126
     AND         shift, and go to state 87
@@ -2154,15 +2154,15 @@ State 103
 
     ')'  reduce using rule 20 (lst_calling_parameters)
 
-    log_operator       go to state 233
-    relation_operator  go to state 234
+    logical_op     go to state 233
+    relational_op  go to state 234
 
 
 State 104
 
    38 init_stmt: ID '=' operation .
-   62 operation: operation . relation_operator expression
-   63          | operation . log_operator expression
+   62 operation: operation . relational_op expression
+   63          | operation . logical_op expression
 
     AND         shift, and go to state 87
     OR          shift, and go to state 88
@@ -2175,8 +2175,8 @@ State 104
 
     ';'  reduce using rule 38 (init_stmt)
 
-    log_operator       go to state 95
-    relation_operator  go to state 96
+    logical_op     go to state 95
+    relational_op  go to state 96
 
 
 State 105
@@ -2208,8 +2208,8 @@ State 106
 
    33 conditional_stmt: IF_STMT '(' operation . ')' command
    34                 | IF_STMT '(' operation . ')' command ELSE_STMT command
-   62 operation: operation . relation_operator expression
-   63          | operation . log_operator expression
+   62 operation: operation . relational_op expression
+   63          | operation . logical_op expression
 
     ')'         shift, and go to state 127
     AND         shift, and go to state 87
@@ -2221,8 +2221,8 @@ State 106
     EQUAL       shift, and go to state 93
     NOT_EQ      shift, and go to state 94
 
-    log_operator       go to state 235
-    relation_operator  go to state 236
+    logical_op     go to state 235
+    relational_op  go to state 236
 
 
 State 107
@@ -2256,8 +2256,8 @@ State 110
 State 111
 
    41 output: OUTPUT_WRITE '(' operation . ')' ';'
-   62 operation: operation . relation_operator expression
-   63          | operation . log_operator expression
+   62 operation: operation . relational_op expression
+   63          | operation . logical_op expression
 
     ')'         shift, and go to state 131
     AND         shift, and go to state 87
@@ -2269,8 +2269,8 @@ State 111
     EQUAL       shift, and go to state 93
     NOT_EQ      shift, and go to state 94
 
-    log_operator       go to state 235
-    relation_operator  go to state 236
+    logical_op     go to state 235
+    relational_op  go to state 236
 
 
 State 112
@@ -2283,8 +2283,8 @@ State 112
 State 113
 
    42 output: OUTPUT_WRITELN '(' operation . ')' ';'
-   62 operation: operation . relation_operator expression
-   63          | operation . log_operator expression
+   62 operation: operation . relational_op expression
+   63          | operation . logical_op expression
 
     ')'         shift, and go to state 133
     AND         shift, and go to state 87
@@ -2296,8 +2296,8 @@ State 113
     EQUAL       shift, and go to state 93
     NOT_EQ      shift, and go to state 94
 
-    log_operator       go to state 235
-    relation_operator  go to state 236
+    logical_op     go to state 235
+    relational_op  go to state 236
 
 
 State 114
@@ -2379,7 +2379,7 @@ State 118
 
 State 119
 
-   63 operation: operation log_operator expression .
+   63 operation: operation logical_op expression .
 
     ';'         reduce using rule 63 (operation)
     AND         reduce using rule 63 (operation)
@@ -2394,7 +2394,7 @@ State 119
 
 State 120
 
-   62 operation: operation relation_operator expression .
+   62 operation: operation relational_op expression .
 
     ';'         reduce using rule 62 (operation)
     AND         reduce using rule 62 (operation)
@@ -2753,8 +2753,8 @@ State 137
 State 138
 
    37 loop_condition: init_stmt ';' operation . ';' update_stmt
-   62 operation: operation . relation_operator expression
-   63          | operation . log_operator expression
+   62 operation: operation . relational_op expression
+   63          | operation . logical_op expression
 
     ';'         shift, and go to state 145
     AND         shift, and go to state 87
@@ -2766,8 +2766,8 @@ State 138
     EQUAL       shift, and go to state 93
     NOT_EQ      shift, and go to state 94
 
-    log_operator       go to state 95
-    relation_operator  go to state 96
+    logical_op     go to state 95
+    relational_op  go to state 96
 
 
 State 139
@@ -4622,7 +4622,7 @@ State 232
 
 State 233
 
-   63 operation: operation log_operator . expression
+   63 operation: operation logical_op . expression
 
     NUM_INT    shift, and go to state 301
     NUM_FLOAT  shift, and go to state 302
@@ -4645,7 +4645,7 @@ State 233
 
 State 234
 
-   62 operation: operation relation_operator . expression
+   62 operation: operation relational_op . expression
 
     NUM_INT    shift, and go to state 301
     NUM_FLOAT  shift, and go to state 302
@@ -4668,7 +4668,7 @@ State 234
 
 State 235
 
-   63 operation: operation log_operator . expression
+   63 operation: operation logical_op . expression
 
     NUM_INT    shift, and go to state 318
     NUM_FLOAT  shift, and go to state 319
@@ -4691,7 +4691,7 @@ State 235
 
 State 236
 
-   62 operation: operation relation_operator . expression
+   62 operation: operation relational_op . expression
 
     NUM_INT    shift, and go to state 318
     NUM_FLOAT  shift, and go to state 319
@@ -5026,8 +5026,8 @@ State 252
 State 253
 
    31 command: operation . ';'
-   62 operation: operation . relation_operator expression
-   63          | operation . log_operator expression
+   62 operation: operation . relational_op expression
+   63          | operation . logical_op expression
 
     ';'         shift, and go to state 344
     AND         shift, and go to state 87
@@ -5039,8 +5039,8 @@ State 253
     EQUAL       shift, and go to state 93
     NOT_EQ      shift, and go to state 94
 
-    log_operator       go to state 95
-    relation_operator  go to state 96
+    logical_op     go to state 95
+    relational_op  go to state 96
 
 
 State 254
@@ -6166,7 +6166,7 @@ State 310
 
 State 311
 
-   63 operation: operation log_operator expression .
+   63 operation: operation logical_op expression .
 
     ')'         reduce using rule 63 (operation)
     ','         reduce using rule 63 (operation)
@@ -6262,7 +6262,7 @@ State 316
 
 State 317
 
-   62 operation: operation relation_operator expression .
+   62 operation: operation relational_op expression .
 
     ')'         reduce using rule 62 (operation)
     ','         reduce using rule 62 (operation)
@@ -6471,7 +6471,7 @@ State 327
 
 State 328
 
-   63 operation: operation log_operator expression .
+   63 operation: operation logical_op expression .
 
     ')'         reduce using rule 63 (operation)
     AND         reduce using rule 63 (operation)
@@ -6561,7 +6561,7 @@ State 333
 
 State 334
 
-   62 operation: operation relation_operator expression .
+   62 operation: operation relational_op expression .
 
     ')'         reduce using rule 62 (operation)
     AND         reduce using rule 62 (operation)
@@ -6577,8 +6577,8 @@ State 334
 State 335
 
    35 return_stmt: RETURN_STM operation . ';'
-   62 operation: operation . relation_operator expression
-   63          | operation . log_operator expression
+   62 operation: operation . relational_op expression
+   63          | operation . logical_op expression
 
     ';'         shift, and go to state 409
     AND         shift, and go to state 87
@@ -6590,8 +6590,8 @@ State 335
     EQUAL       shift, and go to state 93
     NOT_EQ      shift, and go to state 94
 
-    log_operator       go to state 95
-    relation_operator  go to state 96
+    logical_op     go to state 95
+    relational_op  go to state 96
 
 
 State 336
@@ -7991,8 +7991,8 @@ State 410
 
    33 conditional_stmt: IF_STMT '(' operation . ')' command
    34                 | IF_STMT '(' operation . ')' command ELSE_STMT command
-   62 operation: operation . relation_operator expression
-   63          | operation . log_operator expression
+   62 operation: operation . relational_op expression
+   63          | operation . logical_op expression
 
     ')'         shift, and go to state 438
     AND         shift, and go to state 87
@@ -8004,8 +8004,8 @@ State 410
     EQUAL       shift, and go to state 93
     NOT_EQ      shift, and go to state 94
 
-    log_operator       go to state 235
-    relation_operator  go to state 236
+    logical_op     go to state 235
+    relational_op  go to state 236
 
 
 State 411
@@ -8025,8 +8025,8 @@ State 412
 State 413
 
    41 output: OUTPUT_WRITE '(' operation . ')' ';'
-   62 operation: operation . relation_operator expression
-   63          | operation . log_operator expression
+   62 operation: operation . relational_op expression
+   63          | operation . logical_op expression
 
     ')'         shift, and go to state 441
     AND         shift, and go to state 87
@@ -8038,8 +8038,8 @@ State 413
     EQUAL       shift, and go to state 93
     NOT_EQ      shift, and go to state 94
 
-    log_operator       go to state 235
-    relation_operator  go to state 236
+    logical_op     go to state 235
+    relational_op  go to state 236
 
 
 State 414
@@ -8052,8 +8052,8 @@ State 414
 State 415
 
    42 output: OUTPUT_WRITELN '(' operation . ')' ';'
-   62 operation: operation . relation_operator expression
-   63          | operation . log_operator expression
+   62 operation: operation . relational_op expression
+   63          | operation . logical_op expression
 
     ')'         shift, and go to state 443
     AND         shift, and go to state 87
@@ -8065,8 +8065,8 @@ State 415
     EQUAL       shift, and go to state 93
     NOT_EQ      shift, and go to state 94
 
-    log_operator       go to state 235
-    relation_operator  go to state 236
+    logical_op     go to state 235
+    relational_op  go to state 236
 
 
 State 416
@@ -8105,8 +8105,8 @@ State 417
 State 418
 
    38 init_stmt: ID '=' operation .
-   62 operation: operation . relation_operator expression
-   63          | operation . log_operator expression
+   62 operation: operation . relational_op expression
+   63          | operation . logical_op expression
 
     AND         shift, and go to state 87
     OR          shift, and go to state 88
@@ -8119,8 +8119,8 @@ State 418
 
     ')'  reduce using rule 38 (init_stmt)
 
-    log_operator       go to state 235
-    relation_operator  go to state 236
+    logical_op     go to state 235
+    relational_op  go to state 236
 
 
 State 419

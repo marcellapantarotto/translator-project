@@ -147,8 +147,12 @@ void show_error();
 void total_lexical_errors();
 table create_table();
 void add_table_node(char *tok);
+table_node *verify_existing_symbol(table_node *symbol);
+void increment_scope();
+void decrement_scope();
 void print_table();
 void destroy_table();
+
 t_token null_token();
 t_token create_token(t_token *t);
 t_node create_node(t_node *t, int type);
@@ -156,9 +160,7 @@ t_node add_tree_node(t_node *root, t_node *node);
 t_node token_to_node(t_token *t, int type);
 t_node add_tree_token_node(t_node *root, t_token *tok, int type);
 void print_tree(t_node *root, int height);
-table_node *verify_existing_symbol(table_node *symbol);
-void increment_scope();
-void decrement_scope();
+void destroy_tree(t_node *root);
 
 //===============================================================
 // VARIABLE DECLARATIONS

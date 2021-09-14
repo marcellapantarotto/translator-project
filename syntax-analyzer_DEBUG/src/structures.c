@@ -228,7 +228,6 @@ t_token null_token() {
 
 // creating token
 t_token create_token(t_token *t) {
-  printf("CREATE TOKEN: ");
   struct t_token *token = (struct t_token*)malloc(sizeof(t_token));
   strcpy(token->lexeme, t->lexeme);
   token->line = t->line;
@@ -242,20 +241,14 @@ t_token create_token(t_token *t) {
 // create new node in tree with the token that is bening passed
 t_node create_node(t_node *t, int type) {
   struct t_node *node = (struct t_node*)malloc(sizeof(t_node));
-  // node = t;
   node->token = null_token(NULL);
   node->type = type;
   node->children = NULL;
-  // printf("CREATE NODE: ");
-  // print_node(node);
   return *node;
 }
 
 // add node to the tree
 t_node add_tree_node(t_node *root, t_node *node) {
-  // if (!node) {
-  //   *node = create_node(node, type);
-  // }
   struct tree_node *aux = (struct tree_node*)malloc(sizeof(tree_node));
   aux->child = node;
   aux->sibilings = NULL;
@@ -264,26 +257,20 @@ t_node add_tree_node(t_node *root, t_node *node) {
     root->children = aux;   // node
   } else {
     tree_node *youngest = root->children;
-    
     while(youngest->sibilings) {
       youngest = youngest->sibilings;
     }
     youngest->sibilings = aux; // node
   }
-  
-  // printf("add_tree_node: ");
-  // print_node(node);
   return *node;
 }
 
 // converting token into node so it can be added to the tree
 t_node token_to_node(t_token *t, int type) {
-  // printf("token_to_node: ");
   struct t_node *node = (struct t_node*)malloc(sizeof(t_node));
   node->token = *t;
   node->type = type;
-  node->children = NULL;
-  // print_node(node);
+  // node->children = NULL;
   return *node;
 }
 
@@ -292,10 +279,6 @@ t_node add_tree_token_node(t_node *root, t_token *tok, int type) {
   struct t_node *node = (struct t_node*)malloc(sizeof(t_node));
   *node = token_to_node(tok, type);
   add_tree_node(root, node);
-
-  // printf("ADD TOKEN TO TREE: ");
-  // printf("token added as node: ");
-  // print_node(node);
   return *node;
 }
 
@@ -308,15 +291,33 @@ void print_tree(t_node *root, int height) {
   printf(". %s\n", rule_label[root->type]);
 
   tree_node *curr = root->children;
+  // print_node(curr->child);
+
   while(curr != NULL) {
-    print_tree(curr->child, height+1);
+    // printf("height + 1 = %d\n", height + 1);
+    print_tree(curr->child, height + 1);
     curr = curr->sibilings;
   }
   
   if(root->children != NULL) {
-    for(i = 0; i < height-1; i++) {
+    // printf("if\n");
+    for(i = 0; i < height+1; i++) {
+      // printf("for2\n");
       printf(".");
     }
-    printf("\n");
+    // printf("\n");
   }
+}
+
+// destroy tree
+void destroy_tree(t_node *root) {
+  if(root == NULL) {
+    return;
+  }
+  tree_node *curr = root->children;
+  while(curr != NULL) {
+    destroy_tree(curr->child);
+    curr = curr->sibilings;
+  }
+  free(root);
 }
