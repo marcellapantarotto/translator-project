@@ -65,9 +65,9 @@
 %type <token> IF_STMT
 %type <token> ELSE_STMT
 %type <token> FOR_STMT
+%type <token> INPUT_READ
 %type <token> OUTPUT_WRITE
 %type <token> OUTPUT_WRITELN
-%type <token> INPUT_READ
 
 // operators
 %type <token> '='
@@ -94,37 +94,39 @@
 %type <node> program
 %type <node> lst_declarations
 %type <node> declaration
-%type <node> operation
-%type <node> single_operation
-%type <node> log_operator
-%type <node> relation_operator
-%type <node> arith_binary
-%type <node> arith_single
-%type <node> lst_single
-%type <node> lst_binary
-%type <node> type
-%type <node> expression
+%type <node> func_declaration
+%type <node> var_declaration
+%type <node> unq_declaration
+%type <node> func_calling
+%type <node> parameters
+%type <node> lst_parameters
+%type <node> calling_parameters
+%type <node> lst_calling_parameters
+%type <node> block_commands
+%type <node> command
+%type <node> init_variable
+%type <node> init_stmt
+%type <node> conditional_stmt
 %type <node> return_stmt
 %type <node> iteration
 %type <node> input
 %type <node> output
-%type <node> func_calling
-%type <node> var_declaration
-%type <node> func_declaration
-%type <node> type_number
-%type <node> type_lst
-%type <node> const
-%type <node> block_commands
-// %type <node> parameter
-%type <node> lst_parameters
-%type <node> unq_declaration
-%type <node> command
-%type <node> conditional_stmt
-%type <node> number
 %type <node> loop_condition
-%type <node> init_stmt
 %type <node> update_stmt
-%type <node> init_variable
+%type <node> expression
+%type <node> const
+%type <node> number
+%type <node> type
+%type <node> type_lst
+%type <node> type_number
+%type <node> operation
+%type <node> single_operation
+%type <node> arith_binary
+%type <node> arith_single
+%type <node> lst_binary
+%type <node> lst_single
+%type <node> log_operator
+%type <node> relation_operator
 
 /********** Brigde between Lex and Y **********/
 %union {
@@ -204,8 +206,8 @@ unq_declaration:
 ;
 
 parameters:
-  /* epsilon */
-  | lst_parameters { }
+  lst_parameters { }
+  | /* epsilon */ { }
 ;
 
 lst_parameters: 
@@ -222,8 +224,8 @@ lst_parameters:
 ;
 
 calling_parameters:
-  /* epsilon */
-  | lst_calling_parameters { }
+  lst_calling_parameters { }
+  | /* epsilon */ { }
 ;
 
 lst_calling_parameters:

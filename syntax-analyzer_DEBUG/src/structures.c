@@ -42,7 +42,6 @@ const char *rule_label[] = {
   "WRITELN",
   "LOOP_CONDITION",
   "UPDATE_STMT",
-  "STATEMENT",
   "EXPRESSION",
   "CONSTANT",
   "NUMBER",
@@ -58,7 +57,6 @@ const char *rule_label[] = {
   "INT",
   "FLOAT",
   "OPERATION",
-  "BINARY_OPERATION",
   "SINGLE_OPERATION",
   "ARITHMETIC_BINARY",
   "ARITHMETIC_SINGLE",
@@ -109,7 +107,6 @@ void print_node(t_node *n) {
   printf("type: %s ",  rule_label[n->type]);
   // printf("(CHILDREN ");
   // print_children(n->children);
-  // print_node(n->children->child);
   printf(")\n");
 }
 
@@ -118,21 +115,13 @@ void print_children(tree_node *c) {
   print_node(c->child);
   printf(";");
 
-  // tree_node *aux;
-  // printf("(sibilings: ");
-  // while (c->sibilings != NULL) {
-  //   aux = c->sibilings;
-  //   print_children(aux);
-  // }
-  
-  // print_children(c->sibilings);
+  tree_node *aux;
+  printf("(sibilings: ");
+  while (c->sibilings != NULL) {
+    aux = c->sibilings;
+    print_node(aux->child);
+  }
   printf(")\n");
-
-  // table_node *aux = symbol_table.beginning;
-  // while(aux->next != NULL) {
-  //   aux = aux->next;
-  //   printf("  %d\t|  %-15s\t\t|  %d\n", aux->id, aux->token, aux->scope);
-  // }
 }
 
 //===============================================================
