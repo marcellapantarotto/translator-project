@@ -547,15 +547,15 @@ static const yytype_int8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int16 yyrline[] =
 {
-       0,   142,   142,   151,   155,   160,   167,   171,   175,   179,
-     179,   192,   200,   200,   208,   212,   219,   225,   232,   236,
-     240,   246,   253,   258,   262,   266,   270,   274,   278,   282,
-     286,   290,   297,   305,   313,   321,   334,   343,   354,   365,
-     374,   378,   382,   390,   398,   406,   417,   428,   438,   442,
-     446,   450,   457,   461,   468,   472,   479,   483,   490,   498,
-     502,   509,   513,   517,   523,   532,   536,   540,   548,   554,
-     560,   566,   572,   579,   584,   592,   597,   605,   610,   616,
-     625,   629,   636,   640,   644,   648,   652,   656
+       0,   142,   142,   151,   158,   163,   170,   174,   178,   185,
+     185,   198,   206,   206,   214,   218,   225,   231,   238,   242,
+     249,   255,   262,   267,   274,   278,   282,   286,   290,   294,
+     298,   302,   309,   317,   325,   333,   346,   355,   366,   377,
+     386,   390,   397,   405,   413,   421,   432,   443,   453,   457,
+     461,   465,   472,   476,   483,   487,   494,   498,   505,   513,
+     517,   524,   528,   532,   538,   547,   551,   555,   563,   569,
+     575,   581,   587,   594,   599,   607,   612,   620,   625,   631,
+     640,   644,   651,   655,   659,   663,   667,   671
 };
 #endif
 
@@ -2690,7 +2690,7 @@ yyreduce:
   case 2:
 #line 142 "src/syn.y"
                    {
-      (yyval.node) = create_node((yyval.node), PROGRAM);
+      (yyval.node) = create_node(PROGRAM);
       root = (yyval.node);
       add_tree_node(root, (yyvsp[0].node));
 
@@ -2703,63 +2703,69 @@ yyreduce:
 
   case 3:
 #line 151 "src/syn.y"
-                  { }
-#line 2708 "src/syn.tab.c"
+                  {
+      (yyval.node) = create_node(PROGRAM);
+      printf("**epsilon program** \n");
+    }
+#line 2711 "src/syn.tab.c"
     break;
 
   case 4:
-#line 155 "src/syn.y"
+#line 158 "src/syn.y"
                                 {
-      (yyval.node) = create_node((yyval.node), LIST_DECLARATIONS);
+      (yyval.node) = create_node(LIST_DECLARATIONS);
       add_tree_node((yyval.node), (yyvsp[-1].node));
       add_tree_node((yyval.node), (yyvsp[0].node));
     }
-#line 2718 "src/syn.tab.c"
+#line 2721 "src/syn.tab.c"
     break;
 
   case 5:
-#line 160 "src/syn.y"
+#line 163 "src/syn.y"
                  {
-      (yyval.node) = create_node((yyval.node), LIST_DECLARATIONS);
+      (yyval.node) = create_node(LIST_DECLARATIONS);
       add_tree_node((yyval.node), (yyvsp[0].node));
     }
-#line 2727 "src/syn.tab.c"
+#line 2730 "src/syn.tab.c"
     break;
 
   case 6:
-#line 167 "src/syn.y"
+#line 170 "src/syn.y"
                    {
-      (yyval.node) = create_node((yyval.node), DECLARATION);
+      (yyval.node) = create_node(DECLARATION);
       add_tree_node((yyval.node), (yyvsp[0].node));
     }
-#line 2736 "src/syn.tab.c"
+#line 2739 "src/syn.tab.c"
     break;
 
   case 7:
-#line 171 "src/syn.y"
+#line 174 "src/syn.y"
                     {
-      (yyval.node) = create_node((yyval.node), DECLARATION);
+      (yyval.node) = create_node(DECLARATION);
       add_tree_node((yyval.node), (yyvsp[0].node));
     }
-#line 2745 "src/syn.tab.c"
+#line 2748 "src/syn.tab.c"
     break;
 
   case 8:
-#line 175 "src/syn.y"
-          { (yyval.node) = create_node((yyval.node), DECLARATION); }
-#line 2751 "src/syn.tab.c"
-    break;
-
-  case 9:
-#line 179 "src/syn.y"
-                  {increment_scope();}
+#line 178 "src/syn.y"
+          {
+      (yyval.node) = create_node(DECLARATION); 
+      printf("**error** \n");
+    }
 #line 2757 "src/syn.tab.c"
     break;
 
+  case 9:
+#line 185 "src/syn.y"
+                  {increment_scope();}
+#line 2763 "src/syn.tab.c"
+    break;
+
   case 10:
-#line 179 "src/syn.y"
+#line 185 "src/syn.y"
                                                                                  {
-      (yyval.node) = create_node((yyval.node), FUNCTION_DECLARATION);    
+      (yyval.node) = create_node(FUNCTION_DECLARATION);    
       add_tree_node((yyval.node), (yyvsp[-7].node));
       // add_tree_token_node($$, &$3, OPEN_PARENTHESES);
       add_tree_node((yyval.node), (yyvsp[-4].node));
@@ -2768,236 +2774,242 @@ yyreduce:
       add_tree_node((yyval.node), (yyvsp[-1].node));
       // add_tree_token_node($$, &$8, CLOSE_CURLY_BRACKET);
     }
-#line 2772 "src/syn.tab.c"
+#line 2778 "src/syn.tab.c"
     break;
 
   case 11:
-#line 192 "src/syn.y"
+#line 198 "src/syn.y"
                       {
-      (yyval.node) = create_node((yyval.node), VARIABLE_DECLARATION);
+      (yyval.node) = create_node(VARIABLE_DECLARATION);
       add_tree_node((yyval.node), (yyvsp[-1].node));
       add_tree_token_node((yyval.node), &(yyvsp[0].token), SEMICOLON);
     }
-#line 2782 "src/syn.tab.c"
-    break;
-
-  case 12:
-#line 200 "src/syn.y"
-       {add_table_node(yytext);}
 #line 2788 "src/syn.tab.c"
     break;
 
+  case 12:
+#line 206 "src/syn.y"
+       {add_table_node(yytext);}
+#line 2794 "src/syn.tab.c"
+    break;
+
   case 13:
-#line 200 "src/syn.y"
+#line 206 "src/syn.y"
                                     {
-      (yyval.node) = create_node((yyval.node), UNIQUE_DECLARATION);
+      (yyval.node) = create_node(UNIQUE_DECLARATION);
       add_tree_node((yyval.node), (yyvsp[-2].node));
       add_tree_token_node((yyval.node), &(yyvsp[0].token), IDENTIFIER);
     }
-#line 2798 "src/syn.tab.c"
+#line 2804 "src/syn.tab.c"
     break;
 
   case 14:
-#line 208 "src/syn.y"
+#line 214 "src/syn.y"
                  {
-      (yyval.node) = create_node((yyval.node), PARAMETERS);
+      (yyval.node) = create_node(PARAMETERS);
       add_tree_node((yyval.node), (yyvsp[0].node));
     }
-#line 2807 "src/syn.tab.c"
+#line 2813 "src/syn.tab.c"
     break;
 
   case 15:
-#line 212 "src/syn.y"
+#line 218 "src/syn.y"
                   {
-      (yyval.node) = create_node((yyval.node), PARAMETERS);
-      // add_tree_node($$, $1);
+      (yyval.node) = create_node(PARAMETERS);
+      printf("**epsilon parameters** \n");
     }
-#line 2816 "src/syn.tab.c"
+#line 2822 "src/syn.tab.c"
     break;
 
   case 16:
-#line 219 "src/syn.y"
+#line 225 "src/syn.y"
                                       {
-      (yyval.node) = create_node((yyval.node), LIST_PARAMETERS);
+      (yyval.node) = create_node(LIST_PARAMETERS);
       add_tree_node((yyval.node), (yyvsp[-2].node));
       add_tree_token_node((yyval.node), &(yyvsp[-1].token), COMMA);
       add_tree_node((yyval.node), (yyvsp[0].node));
     }
-#line 2827 "src/syn.tab.c"
+#line 2833 "src/syn.tab.c"
     break;
 
   case 17:
-#line 225 "src/syn.y"
+#line 231 "src/syn.y"
                     {
-      (yyval.node) = create_node((yyval.node), LIST_PARAMETERS);
+      (yyval.node) = create_node(LIST_PARAMETERS);
       add_tree_node((yyval.node), (yyvsp[0].node));
     }
-#line 2836 "src/syn.tab.c"
+#line 2842 "src/syn.tab.c"
     break;
 
   case 18:
-#line 232 "src/syn.y"
+#line 238 "src/syn.y"
                          {
-      (yyval.node) = create_node((yyval.node), CALLING_PARAMETERS);
+      (yyval.node) = create_node(CALLING_PARAMETERS);
       add_tree_node((yyval.node), (yyvsp[0].node));
     }
-#line 2845 "src/syn.tab.c"
-    break;
-
-  case 19:
-#line 236 "src/syn.y"
-                  { (yyval.node) = create_node((yyval.node), CALLING_PARAMETERS); }
 #line 2851 "src/syn.tab.c"
     break;
 
-  case 20:
-#line 240 "src/syn.y"
-                                       {
-      (yyval.node) = create_node((yyval.node), LIST_CALLING_PARAMETERS);
-      add_tree_node((yyval.node), (yyvsp[-2].node));
-      add_tree_token_node((yyval.node), &(yyvsp[-1].token), COMMA);
-      add_tree_node((yyval.node), (yyvsp[0].node));
+  case 19:
+#line 242 "src/syn.y"
+                  {
+      (yyval.node) = create_node(CALLING_PARAMETERS);
+      printf("**epsilon calling_parameters** \n");
     }
-#line 2862 "src/syn.tab.c"
+#line 2860 "src/syn.tab.c"
     break;
 
-  case 21:
-#line 246 "src/syn.y"
-              {
-      (yyval.node) = create_node((yyval.node), LIST_CALLING_PARAMETERS);
+  case 20:
+#line 249 "src/syn.y"
+                                       {
+      (yyval.node) = create_node(LIST_CALLING_PARAMETERS);
+      add_tree_node((yyval.node), (yyvsp[-2].node));
+      add_tree_token_node((yyval.node), &(yyvsp[-1].token), COMMA);
       add_tree_node((yyval.node), (yyvsp[0].node));
     }
 #line 2871 "src/syn.tab.c"
     break;
 
+  case 21:
+#line 255 "src/syn.y"
+              {
+      (yyval.node) = create_node(LIST_CALLING_PARAMETERS);
+      add_tree_node((yyval.node), (yyvsp[0].node));
+    }
+#line 2880 "src/syn.tab.c"
+    break;
+
   case 22:
-#line 253 "src/syn.y"
+#line 262 "src/syn.y"
                           {
-      (yyval.node) = create_node((yyval.node), BLOCK_COMMANDS);
+      (yyval.node) = create_node(BLOCK_COMMANDS);
       add_tree_node((yyval.node), (yyvsp[-1].node));
       add_tree_node((yyval.node), (yyvsp[0].node));
     }
-#line 2881 "src/syn.tab.c"
+#line 2890 "src/syn.tab.c"
     break;
 
   case 23:
-#line 258 "src/syn.y"
-                  { (yyval.node) = create_node((yyval.node), BLOCK_COMMANDS); }
-#line 2887 "src/syn.tab.c"
+#line 267 "src/syn.y"
+                  {
+      (yyval.node) = create_node(BLOCK_COMMANDS);
+      printf("**epsilon block_commands** \n");
+    }
+#line 2899 "src/syn.tab.c"
     break;
 
   case 24:
-#line 262 "src/syn.y"
+#line 274 "src/syn.y"
                   {
-      (yyval.node) = create_node((yyval.node), COMMAND);
+      (yyval.node) = create_node(COMMAND);
       add_tree_node((yyval.node), (yyvsp[0].node));
     }
-#line 2896 "src/syn.tab.c"
+#line 2908 "src/syn.tab.c"
     break;
 
   case 25:
-#line 266 "src/syn.y"
+#line 278 "src/syn.y"
                   {
-      (yyval.node) = create_node((yyval.node), COMMAND);
+      (yyval.node) = create_node(COMMAND);
       add_tree_node((yyval.node), (yyvsp[0].node));
     }
-#line 2905 "src/syn.tab.c"
+#line 2917 "src/syn.tab.c"
     break;
 
   case 26:
-#line 270 "src/syn.y"
+#line 282 "src/syn.y"
                      {
-      (yyval.node) = create_node((yyval.node), COMMAND);
+      (yyval.node) = create_node(COMMAND);
       add_tree_node((yyval.node), (yyvsp[0].node));
     }
-#line 2914 "src/syn.tab.c"
+#line 2926 "src/syn.tab.c"
     break;
 
   case 27:
-#line 274 "src/syn.y"
+#line 286 "src/syn.y"
                 {
-      (yyval.node) = create_node((yyval.node), COMMAND);
+      (yyval.node) = create_node(COMMAND);
       add_tree_node((yyval.node), (yyvsp[0].node));
     }
-#line 2923 "src/syn.tab.c"
+#line 2935 "src/syn.tab.c"
     break;
 
   case 28:
-#line 278 "src/syn.y"
+#line 290 "src/syn.y"
               {
-      (yyval.node) = create_node((yyval.node), COMMAND);
+      (yyval.node) = create_node(COMMAND);
       add_tree_node((yyval.node), (yyvsp[0].node));
     }
-#line 2932 "src/syn.tab.c"
+#line 2944 "src/syn.tab.c"
     break;
 
   case 29:
-#line 282 "src/syn.y"
+#line 294 "src/syn.y"
           {
-      (yyval.node) = create_node((yyval.node), COMMAND);
+      (yyval.node) = create_node(COMMAND);
       add_tree_node((yyval.node), (yyvsp[0].node));
     }
-#line 2941 "src/syn.tab.c"
+#line 2953 "src/syn.tab.c"
     break;
 
   case 30:
-#line 286 "src/syn.y"
+#line 298 "src/syn.y"
            {
-      (yyval.node) = create_node((yyval.node), COMMAND);
+      (yyval.node) = create_node(COMMAND);
       add_tree_node((yyval.node), (yyvsp[0].node));
-    }
-#line 2950 "src/syn.tab.c"
-    break;
-
-  case 31:
-#line 290 "src/syn.y"
-                           {
-    // $$ = $2;
-      (yyval.node) = create_node((yyval.node), COMMAND);
-      add_tree_token_node((yyval.node), &(yyvsp[-2].token), OPEN_CURLY_BRACKET);
-      add_tree_node((yyval.node), (yyvsp[-1].node));
-      add_tree_token_node((yyval.node), &(yyvsp[0].token), CLOSE_CURLY_BRACKET);
     }
 #line 2962 "src/syn.tab.c"
     break;
 
+  case 31:
+#line 302 "src/syn.y"
+                           {
+    // $$ = $2;
+      (yyval.node) = create_node(COMMAND);
+      add_tree_token_node((yyval.node), &(yyvsp[-2].token), OPEN_CURLY_BRACKET);
+      add_tree_node((yyval.node), (yyvsp[-1].node));
+      add_tree_token_node((yyval.node), &(yyvsp[0].token), CLOSE_CURLY_BRACKET);
+    }
+#line 2974 "src/syn.tab.c"
+    break;
+
   case 32:
-#line 297 "src/syn.y"
+#line 309 "src/syn.y"
                   { 
-      (yyval.node) = create_node((yyval.node), COMMAND);
+      (yyval.node) = create_node(COMMAND);
       add_tree_node((yyval.node), (yyvsp[-1].node));
       add_tree_token_node((yyval.node), &(yyvsp[0].token), SEMICOLON);
     }
-#line 2972 "src/syn.tab.c"
+#line 2984 "src/syn.tab.c"
     break;
 
   case 33:
-#line 305 "src/syn.y"
+#line 317 "src/syn.y"
                 {
-      (yyval.node) = create_node((yyval.node), INIT_VARIABLE);
+      (yyval.node) = create_node(INIT_VARIABLE);
       add_tree_node((yyval.node), (yyvsp[-1].node));
       add_tree_token_node((yyval.node), &(yyvsp[0].token), SEMICOLON);
     }
-#line 2982 "src/syn.tab.c"
+#line 2994 "src/syn.tab.c"
     break;
 
   case 34:
-#line 313 "src/syn.y"
+#line 325 "src/syn.y"
                                                   {
-      (yyval.node) = create_node((yyval.node), CONDITIONAL_STMT);
+      (yyval.node) = create_node(CONDITIONAL_STMT);
       add_tree_token_node((yyval.node), &(yyvsp[-4].token), IF);
       add_tree_token_node((yyval.node), &(yyvsp[-3].token), OPEN_PARENTHESES);
       add_tree_node((yyval.node), (yyvsp[-2].node));
       add_tree_token_node((yyval.node), &(yyvsp[-1].token), CLOSE_PARENTHESES);
       add_tree_node((yyval.node), (yyvsp[0].node));
     }
-#line 2995 "src/syn.tab.c"
+#line 3007 "src/syn.tab.c"
     break;
 
   case 35:
-#line 321 "src/syn.y"
+#line 333 "src/syn.y"
                                                          {
-      (yyval.node) = create_node((yyval.node), CONDITIONAL_STMT);
+      (yyval.node) = create_node(CONDITIONAL_STMT);
       add_tree_token_node((yyval.node), &(yyvsp[-6].token), IF);
       add_tree_token_node((yyval.node), &(yyvsp[-5].token), OPEN_PARENTHESES);
       add_tree_node((yyval.node), (yyvsp[-4].node));
@@ -3006,534 +3018,537 @@ yyreduce:
       add_tree_token_node((yyval.node), &(yyvsp[-1].token), ELSE);
       add_tree_node((yyval.node), (yyvsp[0].node));
     }
-#line 3010 "src/syn.tab.c"
+#line 3022 "src/syn.tab.c"
     break;
 
   case 36:
-#line 334 "src/syn.y"
+#line 346 "src/syn.y"
                             {
-      (yyval.node) = create_node((yyval.node), RETURN_STMT);
+      (yyval.node) = create_node(RETURN_STMT);
       add_tree_token_node((yyval.node), &(yyvsp[-2].token), RETURN);
       add_tree_node((yyval.node), (yyvsp[-1].node));
       add_tree_token_node((yyval.node), &(yyvsp[0].token), SEMICOLON);
     }
-#line 3021 "src/syn.tab.c"
+#line 3033 "src/syn.tab.c"
     break;
 
   case 37:
-#line 343 "src/syn.y"
+#line 355 "src/syn.y"
                                           {
-      (yyval.node) = create_node((yyval.node), ITERATION_PROCESS);
+      (yyval.node) = create_node(ITERATION_PROCESS);
       add_tree_token_node((yyval.node), &(yyvsp[-4].token), FOR);
       add_tree_token_node((yyval.node), &(yyvsp[-3].token), OPEN_PARENTHESES);
       add_tree_node((yyval.node), (yyvsp[-2].node));
       add_tree_token_node((yyval.node), &(yyvsp[-1].token), CLOSE_PARENTHESES);
       add_tree_node((yyval.node), (yyvsp[0].node));
     }
-#line 3034 "src/syn.tab.c"
+#line 3046 "src/syn.tab.c"
     break;
 
   case 38:
-#line 354 "src/syn.y"
+#line 366 "src/syn.y"
                                           {
-      (yyval.node) = create_node((yyval.node), LOOP_CONDITION);
+      (yyval.node) = create_node(LOOP_CONDITION);
       add_tree_node((yyval.node), (yyvsp[-4].node));
       add_tree_token_node((yyval.node), &(yyvsp[-3].token), SEMICOLON);
       add_tree_node((yyval.node), (yyvsp[-2].node));
       add_tree_token_node((yyval.node), &(yyvsp[-1].token), SEMICOLON);
       add_tree_node((yyval.node), (yyvsp[0].node));
     }
-#line 3047 "src/syn.tab.c"
+#line 3059 "src/syn.tab.c"
     break;
 
   case 39:
-#line 365 "src/syn.y"
+#line 377 "src/syn.y"
                     {
-      (yyval.node) = create_node((yyval.node), INIT_STMT);
+      (yyval.node) = create_node(INIT_STMT);
       add_tree_token_node((yyval.node), &(yyvsp[-2].token), IDENTIFIER);
       add_tree_token_node((yyval.node), &(yyvsp[-1].token), ASSIGN);
       add_tree_node((yyval.node), (yyvsp[0].node));
     }
-#line 3058 "src/syn.tab.c"
+#line 3070 "src/syn.tab.c"
     break;
 
   case 40:
-#line 374 "src/syn.y"
+#line 386 "src/syn.y"
             {
-      (yyval.node) = create_node((yyval.node), UPDATE_STMT);
+      (yyval.node) = create_node(UPDATE_STMT);
       add_tree_node((yyval.node), (yyvsp[0].node));
     }
-#line 3067 "src/syn.tab.c"
+#line 3079 "src/syn.tab.c"
     break;
 
   case 41:
-#line 378 "src/syn.y"
-                  { (yyval.node) = create_node((yyval.node), UPDATE_STMT); }
-#line 3073 "src/syn.tab.c"
+#line 390 "src/syn.y"
+                  {
+      (yyval.node) = create_node(UPDATE_STMT);
+      printf("**epsilon update_stmt** \n");
+    }
+#line 3088 "src/syn.tab.c"
     break;
 
   case 42:
-#line 382 "src/syn.y"
+#line 397 "src/syn.y"
                                       {
-      (yyval.node) = create_node((yyval.node), OUTPUT_OPERATION);
+      (yyval.node) = create_node(OUTPUT_OPERATION);
       add_tree_token_node((yyval.node), &(yyvsp[-4].token), WRITE);
       add_tree_token_node((yyval.node), &(yyvsp[-3].token), OPEN_PARENTHESES);
       add_tree_node((yyval.node), (yyvsp[-2].node));
       add_tree_token_node((yyval.node), &(yyvsp[-1].token), CLOSE_PARENTHESES);
       add_tree_token_node((yyval.node), &(yyvsp[0].token), SEMICOLON);
     }
-#line 3086 "src/syn.tab.c"
+#line 3101 "src/syn.tab.c"
     break;
 
   case 43:
-#line 390 "src/syn.y"
+#line 405 "src/syn.y"
                                          {
-      (yyval.node) = create_node((yyval.node), OUTPUT_OPERATION);
+      (yyval.node) = create_node(OUTPUT_OPERATION);
       add_tree_token_node((yyval.node), &(yyvsp[-4].token), WRITELN);
       add_tree_token_node((yyval.node), &(yyvsp[-3].token), OPEN_PARENTHESES);
       add_tree_node((yyval.node), (yyvsp[-2].node));
       add_tree_token_node((yyval.node), &(yyvsp[-1].token), CLOSE_PARENTHESES);
       add_tree_token_node((yyval.node), &(yyvsp[0].token), SEMICOLON);
     }
-#line 3099 "src/syn.tab.c"
+#line 3114 "src/syn.tab.c"
     break;
 
   case 44:
-#line 398 "src/syn.y"
+#line 413 "src/syn.y"
                                     {
-      (yyval.node) = create_node((yyval.node), OUTPUT_OPERATION);
+      (yyval.node) = create_node(OUTPUT_OPERATION);
       add_tree_token_node((yyval.node), &(yyvsp[-4].token), WRITELN);
       add_tree_token_node((yyval.node), &(yyvsp[-3].token), OPEN_PARENTHESES);
       add_tree_token_node((yyval.node), &(yyvsp[-2].token), STRING);
       add_tree_token_node((yyval.node), &(yyvsp[-1].token), CLOSE_PARENTHESES);
       add_tree_token_node((yyval.node), &(yyvsp[0].token), SEMICOLON);
     }
-#line 3112 "src/syn.tab.c"
+#line 3127 "src/syn.tab.c"
     break;
 
   case 45:
-#line 406 "src/syn.y"
+#line 421 "src/syn.y"
                                       {
-      (yyval.node) = create_node((yyval.node), OUTPUT_OPERATION);
+      (yyval.node) = create_node(OUTPUT_OPERATION);
       add_tree_token_node((yyval.node), &(yyvsp[-4].token), WRITELN);
       add_tree_token_node((yyval.node), &(yyvsp[-3].token), OPEN_PARENTHESES);
       add_tree_token_node((yyval.node), &(yyvsp[-2].token), STRING);
       add_tree_token_node((yyval.node), &(yyvsp[-1].token), CLOSE_PARENTHESES);
       add_tree_token_node((yyval.node), &(yyvsp[0].token), SEMICOLON);
     }
-#line 3125 "src/syn.tab.c"
+#line 3140 "src/syn.tab.c"
     break;
 
   case 46:
-#line 417 "src/syn.y"
+#line 432 "src/syn.y"
                                     {
-      (yyval.node) = create_node((yyval.node), INPUT_OPERATION);
+      (yyval.node) = create_node(INPUT_OPERATION);
       add_tree_token_node((yyval.node), &(yyvsp[-4].token), READ);
       add_tree_token_node((yyval.node), &(yyvsp[-3].token), OPEN_PARENTHESES);
       add_tree_node((yyval.node), (yyvsp[-2].node));
       add_tree_token_node((yyval.node), &(yyvsp[-1].token), CLOSE_PARENTHESES);
       add_tree_token_node((yyval.node), &(yyvsp[0].token), SEMICOLON);
     }
-#line 3138 "src/syn.tab.c"
+#line 3153 "src/syn.tab.c"
     break;
 
   case 47:
-#line 428 "src/syn.y"
+#line 443 "src/syn.y"
                                 {
-      (yyval.node) = create_node((yyval.node), FUNCTION_CALLING);
+      (yyval.node) = create_node(FUNCTION_CALLING);
       add_tree_token_node((yyval.node), &(yyvsp[-3].token), IDENTIFIER);
       add_tree_token_node((yyval.node), &(yyvsp[-2].token), OPEN_PARENTHESES);
       add_tree_node((yyval.node), (yyvsp[-1].node));
       add_tree_token_node((yyval.node), &(yyvsp[0].token), CLOSE_PARENTHESES);
     }
-#line 3150 "src/syn.tab.c"
+#line 3165 "src/syn.tab.c"
     break;
 
   case 48:
-#line 438 "src/syn.y"
+#line 453 "src/syn.y"
                {
-    (yyval.node) = create_node((yyval.node), EXPRESSION);
+    (yyval.node) = create_node(EXPRESSION);
     add_tree_node((yyval.node), (yyvsp[0].node));
     }
-#line 3159 "src/syn.tab.c"
+#line 3174 "src/syn.tab.c"
     break;
 
   case 49:
-#line 442 "src/syn.y"
+#line 457 "src/syn.y"
                      {
-      (yyval.node) = create_node((yyval.node), EXPRESSION);
+      (yyval.node) = create_node(EXPRESSION);
       add_tree_node((yyval.node), (yyvsp[0].node));
     }
-#line 3168 "src/syn.tab.c"
+#line 3183 "src/syn.tab.c"
     break;
 
   case 50:
-#line 446 "src/syn.y"
+#line 461 "src/syn.y"
           {
-      (yyval.node) = create_node((yyval.node), EXPRESSION);
+      (yyval.node) = create_node(EXPRESSION);
       add_tree_node((yyval.node), (yyvsp[0].node));
     }
-#line 3177 "src/syn.tab.c"
+#line 3192 "src/syn.tab.c"
     break;
 
   case 51:
-#line 450 "src/syn.y"
+#line 465 "src/syn.y"
        {
-      (yyval.node) = create_node((yyval.node), EXPRESSION);
+      (yyval.node) = create_node(EXPRESSION);
       add_tree_token_node((yyval.node), &(yyvsp[0].token), IDENTIFIER);
     }
-#line 3186 "src/syn.tab.c"
+#line 3201 "src/syn.tab.c"
     break;
 
   case 52:
-#line 457 "src/syn.y"
+#line 472 "src/syn.y"
          {
-      (yyval.node) = create_node((yyval.node), CONSTANT);
+      (yyval.node) = create_node(CONSTANT);
       add_tree_node((yyval.node), (yyvsp[0].node));
     }
-#line 3195 "src/syn.tab.c"
+#line 3210 "src/syn.tab.c"
     break;
 
   case 53:
-#line 461 "src/syn.y"
+#line 476 "src/syn.y"
              {
-      (yyval.node) = create_node((yyval.node), CONSTANT);
+      (yyval.node) = create_node(CONSTANT);
       add_tree_token_node((yyval.node), &(yyvsp[0].token), NIL);
     }
-#line 3204 "src/syn.tab.c"
+#line 3219 "src/syn.tab.c"
     break;
 
   case 54:
-#line 468 "src/syn.y"
+#line 483 "src/syn.y"
           {
-      (yyval.node) = create_node((yyval.node), NUMBER);
+      (yyval.node) = create_node(NUMBER);
       add_tree_token_node((yyval.node), &(yyvsp[0].token), NUMBER_INT);
     }
-#line 3213 "src/syn.tab.c"
+#line 3228 "src/syn.tab.c"
     break;
 
   case 55:
-#line 472 "src/syn.y"
+#line 487 "src/syn.y"
               {
-      (yyval.node) = create_node((yyval.node), NUMBER);
+      (yyval.node) = create_node(NUMBER);
       add_tree_token_node((yyval.node), &(yyvsp[0].token), NUMBER_FLOAT);
     }
-#line 3222 "src/syn.tab.c"
+#line 3237 "src/syn.tab.c"
     break;
 
   case 56:
-#line 479 "src/syn.y"
+#line 494 "src/syn.y"
             {
-      (yyval.node) = create_node((yyval.node), TYPE);
+      (yyval.node) = create_node(TYPE);
       add_tree_node((yyval.node), (yyvsp[0].node));
     }
-#line 3231 "src/syn.tab.c"
+#line 3246 "src/syn.tab.c"
     break;
 
   case 57:
-#line 483 "src/syn.y"
+#line 498 "src/syn.y"
                  {
-      (yyval.node) = create_node((yyval.node), TYPE);
+      (yyval.node) = create_node(TYPE);
       add_tree_node((yyval.node), (yyvsp[0].node));
     }
-#line 3240 "src/syn.tab.c"
+#line 3255 "src/syn.tab.c"
     break;
 
   case 58:
-#line 490 "src/syn.y"
+#line 505 "src/syn.y"
                        {
-      (yyval.node) = create_node((yyval.node), TYPE_LIST);
+      (yyval.node) = create_node(TYPE_LIST);
       add_tree_node((yyval.node), (yyvsp[-1].node));
       add_tree_token_node((yyval.node), &(yyvsp[0].token), LIST);
     }
-#line 3250 "src/syn.tab.c"
+#line 3265 "src/syn.tab.c"
     break;
 
   case 59:
-#line 498 "src/syn.y"
+#line 513 "src/syn.y"
         {
-      (yyval.node) = create_node((yyval.node), TYPE_NUMBER);
+      (yyval.node) = create_node(TYPE_NUMBER);
       add_tree_token_node((yyval.node), &(yyvsp[0].token), INT);
     }
-#line 3259 "src/syn.tab.c"
+#line 3274 "src/syn.tab.c"
     break;
 
   case 60:
-#line 502 "src/syn.y"
+#line 517 "src/syn.y"
             {
-      (yyval.node) = create_node((yyval.node), TYPE_NUMBER);
+      (yyval.node) = create_node(TYPE_NUMBER);
       add_tree_token_node((yyval.node), &(yyvsp[0].token), FLOAT);
     }
-#line 3268 "src/syn.tab.c"
+#line 3283 "src/syn.tab.c"
     break;
 
   case 61:
-#line 509 "src/syn.y"
+#line 524 "src/syn.y"
                {
-      (yyval.node) = create_node((yyval.node), OPERATION);
+      (yyval.node) = create_node(OPERATION);
       add_tree_node((yyval.node), (yyvsp[0].node));
     }
-#line 3277 "src/syn.tab.c"
+#line 3292 "src/syn.tab.c"
     break;
 
   case 62:
-#line 513 "src/syn.y"
+#line 528 "src/syn.y"
                {
-      (yyval.node) = create_node((yyval.node), OPERATION);
+      (yyval.node) = create_node(OPERATION);
       add_tree_node((yyval.node), (yyvsp[0].node));
     }
-#line 3286 "src/syn.tab.c"
+#line 3301 "src/syn.tab.c"
     break;
 
   case 63:
-#line 517 "src/syn.y"
+#line 532 "src/syn.y"
                                         {
-      (yyval.node) = create_node((yyval.node), OPERATION);
+      (yyval.node) = create_node(OPERATION);
       add_tree_node((yyval.node), (yyvsp[-2].node));
       add_tree_node((yyval.node), (yyvsp[-1].node));
       add_tree_node((yyval.node), (yyvsp[0].node));
     }
-#line 3297 "src/syn.tab.c"
+#line 3312 "src/syn.tab.c"
     break;
 
   case 64:
-#line 523 "src/syn.y"
+#line 538 "src/syn.y"
                                     {
-      (yyval.node) = create_node((yyval.node), OPERATION);
+      (yyval.node) = create_node(OPERATION);
       add_tree_node((yyval.node), (yyvsp[-2].node));
       add_tree_node((yyval.node), (yyvsp[-1].node));
       add_tree_node((yyval.node), (yyvsp[0].node));
     }
-#line 3308 "src/syn.tab.c"
+#line 3323 "src/syn.tab.c"
     break;
 
   case 65:
-#line 532 "src/syn.y"
+#line 547 "src/syn.y"
                {
-      (yyval.node) = create_node((yyval.node), SINGLE_OPERATION);
+      (yyval.node) = create_node(SINGLE_OPERATION);
       add_tree_node((yyval.node), (yyvsp[0].node));
     }
-#line 3317 "src/syn.tab.c"
+#line 3332 "src/syn.tab.c"
     break;
 
   case 66:
-#line 536 "src/syn.y"
+#line 551 "src/syn.y"
                {
-      (yyval.node) = create_node((yyval.node), SINGLE_OPERATION);
+      (yyval.node) = create_node(SINGLE_OPERATION);
       add_tree_node((yyval.node), (yyvsp[0].node));
     }
-#line 3326 "src/syn.tab.c"
+#line 3341 "src/syn.tab.c"
     break;
 
   case 67:
-#line 540 "src/syn.y"
+#line 555 "src/syn.y"
                    {
-    (yyval.node) = create_node((yyval.node), SINGLE_OPERATION);
+    (yyval.node) = create_node(SINGLE_OPERATION);
     add_tree_token_node((yyval.node), &(yyvsp[-1].token), NOT_OR_TAIL);
     add_tree_node((yyval.node), (yyvsp[0].node));
   }
-#line 3336 "src/syn.tab.c"
+#line 3351 "src/syn.tab.c"
     break;
 
   case 68:
-#line 548 "src/syn.y"
+#line 563 "src/syn.y"
                               {
-      (yyval.node) = create_node((yyval.node), ARITHMETIC_BINARY);
+      (yyval.node) = create_node(ARITHMETIC_BINARY);
       add_tree_node((yyval.node), (yyvsp[-2].node));
       add_tree_token_node((yyval.node), &(yyvsp[-1].token), ADD_OP);
       add_tree_node((yyval.node), (yyvsp[0].node));
     }
-#line 3347 "src/syn.tab.c"
+#line 3362 "src/syn.tab.c"
     break;
 
   case 69:
-#line 554 "src/syn.y"
+#line 569 "src/syn.y"
                                 {
-      (yyval.node) = create_node((yyval.node), ARITHMETIC_BINARY);
+      (yyval.node) = create_node(ARITHMETIC_BINARY);
       add_tree_node((yyval.node), (yyvsp[-2].node));
       add_tree_token_node((yyval.node), &(yyvsp[-1].token), MINUS_OP);
       add_tree_node((yyval.node), (yyvsp[0].node));
     }
-#line 3358 "src/syn.tab.c"
+#line 3373 "src/syn.tab.c"
     break;
 
   case 70:
-#line 560 "src/syn.y"
+#line 575 "src/syn.y"
                                 {
-      (yyval.node) = create_node((yyval.node), ARITHMETIC_BINARY);
+      (yyval.node) = create_node(ARITHMETIC_BINARY);
       add_tree_node((yyval.node), (yyvsp[-2].node));
       add_tree_token_node((yyval.node), &(yyvsp[-1].token), MULTIPLY_OP);
       add_tree_node((yyval.node), (yyvsp[0].node));
     }
-#line 3369 "src/syn.tab.c"
+#line 3384 "src/syn.tab.c"
     break;
 
   case 71:
-#line 566 "src/syn.y"
+#line 581 "src/syn.y"
                                 {
-       (yyval.node) = create_node((yyval.node), ARITHMETIC_BINARY);
+       (yyval.node) = create_node(ARITHMETIC_BINARY);
       add_tree_node((yyval.node), (yyvsp[-2].node));
       add_tree_token_node((yyval.node), &(yyvsp[-1].token), DIVISION_OP);
       add_tree_node((yyval.node), (yyvsp[0].node));
     }
-#line 3380 "src/syn.tab.c"
+#line 3395 "src/syn.tab.c"
     break;
 
   case 72:
-#line 572 "src/syn.y"
+#line 587 "src/syn.y"
                {
-       (yyval.node) = create_node((yyval.node), ARITHMETIC_BINARY);
+       (yyval.node) = create_node(ARITHMETIC_BINARY);
       add_tree_node((yyval.node), (yyvsp[0].node));
     }
-#line 3389 "src/syn.tab.c"
+#line 3404 "src/syn.tab.c"
     break;
 
   case 73:
-#line 579 "src/syn.y"
+#line 594 "src/syn.y"
                  {
-    (yyval.node) = create_node((yyval.node), ARITHMETIC_SINGLE);
+    (yyval.node) = create_node(ARITHMETIC_SINGLE);
     add_tree_token_node((yyval.node), &(yyvsp[-1].token), ADD_OP);
     add_tree_node((yyval.node), (yyvsp[0].node));
     }
-#line 3399 "src/syn.tab.c"
+#line 3414 "src/syn.tab.c"
     break;
 
   case 74:
-#line 584 "src/syn.y"
+#line 599 "src/syn.y"
                    {
-      (yyval.node) = create_node((yyval.node), ARITHMETIC_SINGLE);
+      (yyval.node) = create_node(ARITHMETIC_SINGLE);
       add_tree_token_node((yyval.node), &(yyvsp[-1].token), MINUS_OP);
       add_tree_node((yyval.node), (yyvsp[0].node));
     }
-#line 3409 "src/syn.tab.c"
+#line 3424 "src/syn.tab.c"
     break;
 
   case 75:
-#line 592 "src/syn.y"
+#line 607 "src/syn.y"
                  {
-      (yyval.node) = create_node((yyval.node), LIST_SINGLE);
+      (yyval.node) = create_node(LIST_SINGLE);
       add_tree_token_node((yyval.node), &(yyvsp[-1].token), POP_OP);
       add_tree_node((yyval.node), (yyvsp[0].node));
     }
-#line 3419 "src/syn.tab.c"
+#line 3434 "src/syn.tab.c"
     break;
 
   case 76:
-#line 597 "src/syn.y"
+#line 612 "src/syn.y"
                    {
-      (yyval.node) = create_node((yyval.node), LIST_SINGLE);
+      (yyval.node) = create_node(LIST_SINGLE);
       add_tree_token_node((yyval.node), &(yyvsp[-1].token), HEAD_OP);
       add_tree_node((yyval.node), (yyvsp[0].node));
     }
-#line 3429 "src/syn.tab.c"
+#line 3444 "src/syn.tab.c"
     break;
 
   case 77:
-#line 605 "src/syn.y"
+#line 620 "src/syn.y"
                                {
-      (yyval.node) = create_node((yyval.node), LIST_BINARY);
+      (yyval.node) = create_node(LIST_BINARY);
       add_tree_node((yyval.node), (yyvsp[-2].node));
       add_tree_token_node((yyval.node), &(yyvsp[-1].token), FILTER_OP);
     }
-#line 3439 "src/syn.tab.c"
+#line 3454 "src/syn.tab.c"
     break;
 
   case 78:
-#line 610 "src/syn.y"
+#line 625 "src/syn.y"
                               {
-      (yyval.node) = create_node((yyval.node), LIST_BINARY);
+      (yyval.node) = create_node(LIST_BINARY);
       add_tree_node((yyval.node), (yyvsp[-2].node));
       add_tree_token_node((yyval.node), &(yyvsp[-1].token), MAP_OP);
       add_tree_node((yyval.node), (yyvsp[0].node));
     }
-#line 3450 "src/syn.tab.c"
+#line 3465 "src/syn.tab.c"
     break;
 
   case 79:
-#line 616 "src/syn.y"
+#line 631 "src/syn.y"
                               {
-      (yyval.node) = create_node((yyval.node), LIST_BINARY);
+      (yyval.node) = create_node(LIST_BINARY);
       add_tree_node((yyval.node), (yyvsp[-2].node));
       add_tree_token_node((yyval.node), &(yyvsp[-1].token), CONSTRUCTOR_OP);
       add_tree_node((yyval.node), (yyvsp[0].node));
     }
-#line 3461 "src/syn.tab.c"
+#line 3476 "src/syn.tab.c"
     break;
 
   case 80:
-#line 625 "src/syn.y"
+#line 640 "src/syn.y"
       {
-      (yyval.node) = create_node((yyval.node), LOGIC_OPERATOR);
+      (yyval.node) = create_node(LOGIC_OPERATOR);
       add_tree_token_node((yyval.node), &(yyvsp[0].token), AND_OP);
     }
-#line 3470 "src/syn.tab.c"
+#line 3485 "src/syn.tab.c"
     break;
 
   case 81:
-#line 629 "src/syn.y"
+#line 644 "src/syn.y"
        {
-      (yyval.node) = create_node((yyval.node), LOGIC_OPERATOR);
+      (yyval.node) = create_node(LOGIC_OPERATOR);
       add_tree_token_node((yyval.node), &(yyvsp[0].token), OR_OP);
     }
-#line 3479 "src/syn.tab.c"
+#line 3494 "src/syn.tab.c"
     break;
 
   case 82:
-#line 636 "src/syn.y"
+#line 651 "src/syn.y"
           {
-      (yyval.node) = create_node((yyval.node), RELATIONAL_OPERATOR);
+      (yyval.node) = create_node(RELATIONAL_OPERATOR);
       add_tree_token_node((yyval.node), &(yyvsp[0].token), GT_OP);
     }
-#line 3488 "src/syn.tab.c"
+#line 3503 "src/syn.tab.c"
     break;
 
   case 83:
-#line 640 "src/syn.y"
+#line 655 "src/syn.y"
                {
-      (yyval.node) = create_node((yyval.node), RELATIONAL_OPERATOR);
+      (yyval.node) = create_node(RELATIONAL_OPERATOR);
       add_tree_token_node((yyval.node), &(yyvsp[0].token), GE_OP);
     }
-#line 3497 "src/syn.tab.c"
+#line 3512 "src/syn.tab.c"
     break;
 
   case 84:
-#line 644 "src/syn.y"
+#line 659 "src/syn.y"
          {
-      (yyval.node) = create_node((yyval.node), RELATIONAL_OPERATOR);
+      (yyval.node) = create_node(RELATIONAL_OPERATOR);
       add_tree_token_node((yyval.node), &(yyvsp[0].token), LT_OP);
     }
-#line 3506 "src/syn.tab.c"
+#line 3521 "src/syn.tab.c"
     break;
 
   case 85:
-#line 648 "src/syn.y"
+#line 663 "src/syn.y"
             {
-      (yyval.node) = create_node((yyval.node), RELATIONAL_OPERATOR);
+      (yyval.node) = create_node(RELATIONAL_OPERATOR);
       add_tree_token_node((yyval.node), &(yyvsp[0].token), LE_OP);
     }
-#line 3515 "src/syn.tab.c"
+#line 3530 "src/syn.tab.c"
     break;
 
   case 86:
-#line 652 "src/syn.y"
+#line 667 "src/syn.y"
           {
-      (yyval.node) = create_node((yyval.node), RELATIONAL_OPERATOR);
+      (yyval.node) = create_node(RELATIONAL_OPERATOR);
       add_tree_token_node((yyval.node), &(yyvsp[0].token), EQ_OP);
     }
-#line 3524 "src/syn.tab.c"
+#line 3539 "src/syn.tab.c"
     break;
 
   case 87:
-#line 656 "src/syn.y"
+#line 671 "src/syn.y"
            {
-      (yyval.node) = create_node((yyval.node), RELATIONAL_OPERATOR);
+      (yyval.node) = create_node(RELATIONAL_OPERATOR);
       add_tree_token_node((yyval.node), &(yyvsp[0].token), NE_OP);
     }
-#line 3533 "src/syn.tab.c"
+#line 3548 "src/syn.tab.c"
     break;
 
 
-#line 3537 "src/syn.tab.c"
+#line 3552 "src/syn.tab.c"
 
       default: break;
     }
@@ -3765,7 +3780,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 662 "src/syn.y"
+#line 677 "src/syn.y"
 
 //********** C Functions **********
 int yyerror(char *s) {
@@ -3791,10 +3806,13 @@ int main(int argc, char **argv) {
   
   total_lexical_errors();
 
-  printf("\n~~~~ ABSTRACT TREE ~~~~\n\n");
+  // printf("\n~~~~ ABSTRACT TREE ~~~~\n\n");
+  printf("\n====================================================\n");
+  printf("\t\t    ABSTRACT TREE");
+  printf("\n====================================================\n\n");
   print_tree(root, 1);
 
-  printf("\n\n\n====================================================\n");
+  printf("\n\n====================================================\n");
   printf("\t\t    SYMBOL TABLE");
   printf("\n====================================================\n");
   printf("  ID\t|  TOKENS\t\t\t|  SCOPE");

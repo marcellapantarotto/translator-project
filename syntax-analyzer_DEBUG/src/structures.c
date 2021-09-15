@@ -227,20 +227,8 @@ t_token null_token() {
   return *t;
 }
 
-// // creating token
-// t_token create_token(t_token *t) {
-//   struct t_token *token = (struct t_token*)malloc(sizeof(t_token));
-//   strcpy(token->lexeme, t->lexeme);
-//   token->line = t->line;
-//   token->column = t->column;
-//   strcpy(token->lexeme, t->lexeme);
-//   // token->scope = t->scope;
-//   print_token(token);
-//   return *token;
-// }
-
 // create new node in tree with the token that is bening passed
-t_node *create_node(t_node *t, int type) {
+t_node *create_node(int type) {
   struct t_node *node = (struct t_node*)malloc(sizeof(t_node));
   node->token = null_token(NULL);
   node->type = type;
@@ -258,12 +246,12 @@ t_node add_tree_node(t_node *root, t_node *node) {
     root->children = aux;   // node
   } else {
     tree_node *youngest = root->children;
-    
     while(youngest->sibilings) {
-      youngest = youngest->sibilings;
+      youngest = youngest->sibilings; // root
     }
     youngest->sibilings = aux; // node
   }
+
   return *node;
 }
 
@@ -287,10 +275,11 @@ t_node add_tree_token_node(t_node *root, t_token *tok, int type) {
 // print whole tree
 void print_tree(t_node *root, int height) {
   int i;
+  printf(" |");
   for(i = 0; i < height-1; i++) {
-    printf(".");
+    printf(" |");
   }
-  printf(" %s", rule_label[root->type]);
+  printf("- %s", rule_label[root->type]);
 
   if(root->token.line != -1) {
     printf(": " BHBLU "%s  (line: %d, column: %d)\n" reset, root->token.lexeme, root->token.line, root->token.column);
@@ -299,18 +288,10 @@ void print_tree(t_node *root, int height) {
   }
 
   tree_node *curr = root->children;
-
   while(curr != NULL) {
     print_tree(curr->child, height+1);
     curr = curr->sibilings;
   }
-  
-  // if(root->children != NULL) {
-  //   for(i = 0; i < height+1; i++) {
-  //     printf(".");
-  //   }
-  //   printf("\n");
-  // }
 }
 
 // destroy tree
