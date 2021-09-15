@@ -84,7 +84,7 @@ union YYSTYPE
 #line 132 "src/syn.y"
 
   t_token token;
-  t_node node;
+  t_node *node;
 
 #line 90 "lib/syn.tab.h"
 

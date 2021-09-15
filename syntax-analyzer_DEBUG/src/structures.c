@@ -88,6 +88,7 @@ const char *rule_label[] = {
   ")",
   "{",
   "}",
+  "=",
 };
 
 //===============================================================
@@ -95,10 +96,10 @@ const char *rule_label[] = {
 //===============================================================
 
 void print_token(t_token *t) {
-  printf("(Token ");
-  printf("lexeme: %s; ", t->lexeme);
-  printf("line: %d; ", t->line);
-  printf("column: %d;) ", t->column);
+  // printf("(Token ");
+  printf(": %s\n", t->lexeme);
+  // printf("line: %d; ", t->line);
+  // printf("column: %d;)\n", t->column);
 }
 
 void print_node(t_node *n) {
@@ -239,12 +240,12 @@ t_token create_token(t_token *t) {
 }
 
 // create new node in tree with the token that is bening passed
-t_node create_node(t_node *t, int type) {
+t_node *create_node(t_node *t, int type) {
   struct t_node *node = (struct t_node*)malloc(sizeof(t_node));
   node->token = null_token(NULL);
   node->type = type;
   node->children = NULL;
-  return *node;
+  return node;
 }
 
 // add node to the tree
@@ -257,6 +258,7 @@ t_node add_tree_node(t_node *root, t_node *node) {
     root->children = aux;   // node
   } else {
     tree_node *youngest = root->children;
+    
     while(youngest->sibilings) {
       youngest = youngest->sibilings;
     }
@@ -270,7 +272,7 @@ t_node token_to_node(t_token *t, int type) {
   struct t_node *node = (struct t_node*)malloc(sizeof(t_node));
   node->token = *t;
   node->type = type;
-  // node->children = NULL;
+  node->children = NULL;
   return *node;
 }
 
@@ -288,25 +290,27 @@ void print_tree(t_node *root, int height) {
   for(i = 0; i < height-1; i++) {
     printf(".");
   }
-  printf(". %s\n", rule_label[root->type]);
+  printf(" %s", rule_label[root->type]);
+
+  if(root->token.line != -1) {
+    print_token(&root->token);
+  } else {
+    printf("\n");
+  }
 
   tree_node *curr = root->children;
-  // print_node(curr->child);
 
   while(curr != NULL) {
-    // printf("height + 1 = %d\n", height + 1);
-    print_tree(curr->child, height + 1);
+    print_tree(curr->child, height+1);
     curr = curr->sibilings;
   }
   
-  if(root->children != NULL) {
-    // printf("if\n");
-    for(i = 0; i < height+1; i++) {
-      // printf("for2\n");
-      printf(".");
-    }
-    // printf("\n");
-  }
+  // if(root->children != NULL) {
+  //   for(i = 0; i < height+1; i++) {
+  //     printf(".");
+  //   }
+  //   printf("\n");
+  // }
 }
 
 // destroy tree
