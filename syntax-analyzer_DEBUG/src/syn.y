@@ -172,19 +172,19 @@ declaration:
       $$ = create_node($$, DECLARATION);
       add_tree_node($$, $1);
     }
-  | error { }
+  | error { $$ = create_node($$, DECLARATION); }
 ;
 
 func_declaration:
   unq_declaration {increment_scope();} '(' parameters ')' '{' block_commands '}' {
       $$ = create_node($$, FUNCTION_DECLARATION);    
       add_tree_node($$, $1);
-      add_tree_token_node($$, &$3, OPEN_PARENTHESES);
+      // add_tree_token_node($$, &$3, OPEN_PARENTHESES);
       add_tree_node($$, $4);
-      add_tree_token_node($$, &$5, CLOSE_PARENTHESES);
-      add_tree_token_node($$, &$6, OPEN_CURLY_BRACKET);
+      // add_tree_token_node($$, &$5, CLOSE_PARENTHESES);
+      // add_tree_token_node($$, &$6, OPEN_CURLY_BRACKET);
       add_tree_node($$, $7);
-      add_tree_token_node($$, &$8, CLOSE_CURLY_BRACKET);
+      // add_tree_token_node($$, &$8, CLOSE_CURLY_BRACKET);
     }
 ;
 
@@ -209,7 +209,10 @@ parameters:
       $$ = create_node($$, PARAMETERS);
       add_tree_node($$, $1);
     }
-  | /* epsilon */ { }
+  | /* epsilon */ {
+      $$ = create_node($$, PARAMETERS);
+      // add_tree_node($$, $1);
+    }
 ;
 
 lst_parameters: 
@@ -230,7 +233,7 @@ calling_parameters:
       $$ = create_node($$, CALLING_PARAMETERS);
       add_tree_node($$, $1);
     }
-  | /* epsilon */ { }
+  | /* epsilon */ { $$ = create_node($$, CALLING_PARAMETERS); }
 ;
 
 lst_calling_parameters:
@@ -252,7 +255,7 @@ block_commands:
       add_tree_node($$, $1);
       add_tree_node($$, $2);
     }
-  | /* epsilon */ { }
+  | /* epsilon */ { $$ = create_node($$, BLOCK_COMMANDS); }
 ;
 
 command: 
@@ -314,7 +317,6 @@ conditional_stmt:
       add_tree_node($$, $3);
       add_tree_token_node($$, &$4, CLOSE_PARENTHESES);
       add_tree_node($$, $5);
-      // add_tree_token_node($$, $6, IF);
     }
   | IF_STMT '(' operation ')' command ELSE_STMT command  {
       $$ = create_node($$, CONDITIONAL_STMT);
@@ -326,7 +328,6 @@ conditional_stmt:
       add_tree_token_node($$, &$6, ELSE);
       add_tree_node($$, $7);
     }
-  // | /*epsilon*/ {}
 ;
 
 return_stmt: 
@@ -374,7 +375,7 @@ update_stmt:
       $$ = create_node($$, UPDATE_STMT);
       add_tree_node($$, $1);
     }
-  | /* epsilon */ { }
+  | /* epsilon */ { $$ = create_node($$, UPDATE_STMT); }
 ;
 
 output: 

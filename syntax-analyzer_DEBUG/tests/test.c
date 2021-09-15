@@ -1,7 +1,7 @@
-// int main() {
-  float list FL;
-  
-// }
+int main(int b) {
+  int a;
+  a = 1;
+}
 
 // int main {
 //   int a;
