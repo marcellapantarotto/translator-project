@@ -150,7 +150,7 @@ program:
     }
   | /* epsilon */ {
       $$ = create_node(PROGRAM);
-      printf("**epsilon program** \n");
+      printf("epsilon (program) \n");
     }
 ;
 
@@ -217,7 +217,7 @@ parameters:
     }
   | /* epsilon */ {
       $$ = create_node(PARAMETERS);
-      printf("**epsilon parameters** \n");
+      printf("epsilon (parameters) \n");
     }
 ;
 
@@ -241,7 +241,7 @@ calling_parameters:
     }
   | /* epsilon */ {
       $$ = create_node(CALLING_PARAMETERS);
-      printf("**epsilon calling_parameters** \n");
+      printf("epsilon (calling_parameters) \n");
     }
 ;
 
@@ -266,7 +266,7 @@ block_commands:
     }
   | /* epsilon */ {
       $$ = create_node(BLOCK_COMMANDS);
-      printf("**epsilon block_commands** \n");
+      printf("epsilon (block_commands) \n");
     }
 ;
 
@@ -299,12 +299,12 @@ command:
       $$ = create_node(COMMAND);
       add_tree_node($$, $1);
     }
-  | '{' block_commands '}' {
+  | {increment_scope();} '{' block_commands '}' {
     // $$ = $2;
       $$ = create_node(COMMAND);
-      add_tree_token_node($$, &$1, OPEN_CURLY_BRACKET);
-      add_tree_node($$, $2);
-      add_tree_token_node($$, &$3, CLOSE_CURLY_BRACKET);
+      add_tree_token_node($$, &$2, OPEN_CURLY_BRACKET);
+      add_tree_node($$, $3);
+      add_tree_token_node($$, &$4, CLOSE_CURLY_BRACKET);
     }
   | operation ';' { 
       $$ = create_node(COMMAND);
@@ -389,7 +389,7 @@ update_stmt:
     }
   | /* epsilon */ {
       $$ = create_node(UPDATE_STMT);
-      printf("**epsilon update_stmt** \n");
+      printf("epsilon (update_stmt) \n");
     }
 ;
 
@@ -712,8 +712,10 @@ int main(int argc, char **argv) {
   printf("\n====================================================\n");
   print_table();
 
+  
   destroy_tree(root);
   destroy_table();
+  
   fclose(yyin);
   yylex_destroy();
   

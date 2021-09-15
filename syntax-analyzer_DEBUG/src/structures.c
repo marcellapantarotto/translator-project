@@ -97,7 +97,7 @@ const char *rule_label[] = {
 
 void print_token(t_token *t) {
   printf("(Token ");
-  printf("lexeme: %s", t->lexeme);
+  printf("lexeme: %s; ", t->lexeme);
   printf("line: %d; ", t->line);
   printf("column: %d;)", t->column);
 }
@@ -180,7 +180,7 @@ void increment_scope()  {
 
 // decrements scope of symbols
 void decrement_scope() {
-  return;
+  // return;
   g_scope = scope_node_curr->parent->scope_number;
   t_scope_node *temp = scope_node_curr;
   scope_node_curr = scope_node_curr->parent;
@@ -302,7 +302,9 @@ void destroy_tree(t_node *root) {
   tree_node *curr = root->children;
   while(curr != NULL) {
     destroy_tree(curr->child);
+    
     curr = curr->sibilings;
   }
+  // print_node(root);
   free(root);
 }
