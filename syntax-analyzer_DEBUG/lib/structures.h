@@ -157,9 +157,9 @@ void destroy_table();
 t_token null_token();
 t_token create_token(t_token *t);
 t_node *create_node(int type);
-t_node add_tree_node(t_node *root, t_node *node);
+void add_tree_node(t_node *root, t_node *node);
 t_node token_to_node(t_token *t, int type);
-t_node add_tree_token_node(t_node *root, t_token *tok, int type);
+void add_tree_token_node(t_node *root, t_token *tok, int type);
 void print_tree(t_node *root, int height);
 void destroy_tree(t_node *root);
 

@@ -14,84 +14,81 @@ t_scope_node *scope_node_curr;
 
 const char *rule_label[] = {
   "PROGRAM",
-  "LIST_OF_DECLARATIONS",
+  "LIST_DECLARATIONS",
   "DECLARATION",
-  "VARIABLE_DECLARATION",
   "FUNCTION_DECLARATION",
-  "COMMAND",
-  "UNIQUE_DECLARATION",
-  "LIST_OF_PARAMETERS",
-  "BLOCK_OF_COMMANDS",
-  "TYPE",
-  "PARAMETER",
-  "EXPRESSION",
-  "ASSIGN_STMT",
-  "CONDITIONAL_STMT",
-  "RETURN_STMT",
-  "ITERATION_PROCESS",
-  "INPUT_OPERATION",
-  "OUTPUT_OPERATION",
+  "PARAMETERS",
+  "LIST_PARAMETERS",
   "FUNCTION_CALLING",
-  "STATEMENT",
-  "LOOP_CONDITION",
-  "INITIALIZATION_STMT",
-  "UPDATE_STMT",
-  "OPERATION",
-  "LOGIC_OPERATOR",
-  "RELATIONAL_OPERATOR",
-  "ARITHMETIC_OPERATOR",
-  "LIST_OPERATOR",
-  "NUMBER",
-  "IDENTIFIER",
-  "NUMBER_INT",
-  "NUMBER_FLOAT",
-  "NIL",
-  "STRING_STMT",
-  "TYPE_INT",
-  "TYPE_FLOAT",
-  "TYPE_LIST",
-  "AND_OP",
-  "OR_OP",
-  ">",
-  ">=",
-  "<",
-  "<=",
-  "==",
-  "!=",
-  "+",
-  "-",
-  "*",
-  "/",
-  ":",
-  "?",
-  "%",
-  ">>",
-  "<<",
-  "!",
-  ",",
-  ";",
-  "(",
-  ")",
-  "{",
-  "}",
-  "SYMBOL",
-  "ROOT",
-  "SINGLE_OPERATION",
-  "BINARY_OPERATION",
-  "TYPE_LST",
-  "CONSTANT",
-  "ARITHMETIC_SINGLE",
-  "ARITHMETIC_BINARY",
-  "LIST_SINGLE",
-  "LIST_BINARY",
-  "WRITE",
-  "WRITELN",
-  "READ",
-  "=",
+  "CALLING_PARAMETERS",
+  "LIST_CALLING_PARAMETERS",
+  "BLOCK_COMMANDS",
+  "COMMAND",
+  "VARIABLE_DECLARATION",
+  "UNIQUE_DECLARATION",
+  "INIT_VARIABLE",
+  "INIT_STMT",
+  "CONDITIONAL_STMT",
   "IF",
   "ELSE",
+  "RETURN_STMT",
   "RETURN",
+  "ITERATION_PROCESS",
   "FOR",
+  "INPUT_OPERATION",
+  "READ",
+  "OUTPUT_OPERATION",
+  "WRITE",
+  "WRITELN",
+  "LOOP_CONDITION",
+  "UPDATE_STMT",
+  "EXPRESSION",
+  "CONSTANT",
+  "NUMBER",
+  "IDENTIFIER",
+  "NIL",
+  "NUMBER_INT",
+  "NUMBER_FLOAT",
+  "STRING_STMT",
+  "TYPE",
+  "TYPE_LIST",
+  "LIST",
+  "TYPE_NUMBER",
+  "INT",
+  "FLOAT",
+  "OPERATION",
+  "SINGLE_OPERATION",
+  "ARITHMETIC_BINARY",
+  "ARITHMETIC_SINGLE",
+  "ADD",
+  "MINUS",
+  "MULTIPLY",
+  "DIVISION",
+  "LIST_BINARY",
+  "LIST_SINGLE",
+  "NOT_OR_TAIL",
+  "CONSTRUCTOR",
+  "HEAD",
+  "POP",
+  "MAP",
+  "FILTER",
+  "LOGIC_OPERATOR",
+  "AND",
+  "OR",
+  "RELATIONAL_OPERATOR",
+  "GREATER_THEN",
+  "GREATER_EQUAL",
+  "LESS_THEN",
+  "LESS_EQUAL",
+  "EQUAL",
+  "NOT_EQUAL",
+  "COMMA",
+  "SEMICOLON",
+  "OPEN_PARENTHESES",
+  "CLOSE_PARENTHESES",
+  "OPEN_CURLY_BRACKET",
+  "CLOSE_CURLY_BRACKET",
+  "ASSIGN",
 };
 
 //===============================================================
@@ -102,7 +99,7 @@ void print_token(t_token *t) {
   printf("(Token ");
   printf("lexeme: %s; ", t->lexeme);
   printf("line: %d; ", t->line);
-  printf("column: %d;) ", t->column);
+  printf("column: %d;)", t->column);
 }
 
 void print_node(t_node *n) {
@@ -111,7 +108,6 @@ void print_node(t_node *n) {
   printf("type: %s ",  rule_label[n->type]);
   // printf("(CHILDREN ");
   // print_children(n->children);
-  // print_node(n->children->child);
   printf(")\n");
 }
 
@@ -120,21 +116,13 @@ void print_children(tree_node *c) {
   print_node(c->child);
   printf(";");
 
-  // tree_node *aux;
-  // printf("(sibilings: ");
-  // while (c->sibilings != NULL) {
-  //   aux = c->sibilings;
-  //   print_children(aux);
-  // }
-  
-  // print_children(c->sibilings);
+  tree_node *aux;
+  printf("(sibilings: ");
+  while (c->sibilings != NULL) {
+    aux = c->sibilings;
+    print_node(aux->child);
+  }
   printf(")\n");
-
-  // table_node *aux = symbol_table.beginning;
-  // while(aux->next != NULL) {
-  //   aux = aux->next;
-  //   printf("  %d\t|  %-15s\t\t|  %d\n", aux->id, aux->token, aux->scope);
-  // }
 }
 
 //===============================================================
@@ -192,6 +180,7 @@ void increment_scope()  {
 
 // decrements scope of symbols
 void decrement_scope() {
+  // return;
   g_scope = scope_node_curr->parent->scope_number;
   t_scope_node *temp = scope_node_curr;
   scope_node_curr = scope_node_curr->parent;
@@ -238,36 +227,17 @@ t_token null_token() {
   return *t;
 }
 
-// creating token
-t_token create_token(t_token *t) {
-  printf("CREATE TOKEN: ");
-  struct t_token *token = (struct t_token*)malloc(sizeof(t_token));
-  strcpy(token->lexeme, t->lexeme);
-  token->line = t->line;
-  token->column = t->column;
-  strcpy(token->lexeme, t->lexeme);
-  // token->scope = t->scope;
-  print_token(token);
-  return *token;
-}
-
 // create new node in tree with the token that is bening passed
-t_node create_node(t_node *t, int type) {
+t_node *create_node(int type) {
   struct t_node *node = (struct t_node*)malloc(sizeof(t_node));
-  // node = t;
   node->token = null_token(NULL);
   node->type = type;
   node->children = NULL;
-  // printf("CREATE NODE: ");
-  // print_node(node);
-  return *node;
+  return node;
 }
 
 // add node to the tree
 t_node add_tree_node(t_node *root, t_node *node) {
-  // if (!node) {
-  //   *node = create_node(node, type);
-  // }
   struct tree_node *aux = (struct tree_node*)malloc(sizeof(tree_node));
   aux->child = node;
   aux->sibilings = NULL;
@@ -276,26 +246,21 @@ t_node add_tree_node(t_node *root, t_node *node) {
     root->children = aux;   // node
   } else {
     tree_node *youngest = root->children;
-    
     while(youngest->sibilings) {
-      youngest = youngest->sibilings;
+      youngest = youngest->sibilings; // root
     }
     youngest->sibilings = aux; // node
   }
-  
-  // printf("add_tree_node: ");
-  // print_node(node);
+
   return *node;
 }
 
 // converting token into node so it can be added to the tree
 t_node token_to_node(t_token *t, int type) {
-  // printf("token_to_node: ");
   struct t_node *node = (struct t_node*)malloc(sizeof(t_node));
   node->token = *t;
   node->type = type;
   node->children = NULL;
-  // print_node(node);
   return *node;
 }
 
@@ -304,31 +269,42 @@ t_node add_tree_token_node(t_node *root, t_token *tok, int type) {
   struct t_node *node = (struct t_node*)malloc(sizeof(t_node));
   *node = token_to_node(tok, type);
   add_tree_node(root, node);
-
-  // printf("ADD TOKEN TO TREE: ");
-  // printf("token added as node: ");
-  // print_node(node);
   return *node;
 }
 
 // print whole tree
 void print_tree(t_node *root, int height) {
   int i;
+  printf(" |");
   for(i = 0; i < height-1; i++) {
-    printf(".");
+    printf(" |");
   }
-  printf(". %s\n", rule_label[root->type]);
+  printf("- %s", rule_label[root->type]);
+
+  if(root->token.line != -1) {
+    printf(": " BHBLU "%s  (line: %d, column: %d)\n" reset, root->token.lexeme, root->token.line, root->token.column);
+  } else {
+    printf("\n");
+  }
 
   tree_node *curr = root->children;
   while(curr != NULL) {
     print_tree(curr->child, height+1);
     curr = curr->sibilings;
   }
-  
-  if(root->children != NULL) {
-    for(i = 0; i < height-1; i++) {
-      printf(".");
-    }
-    printf("\n");
+}
+
+// destroy tree
+void destroy_tree(t_node *root) {
+  if(root == NULL) {
+    return;
   }
+  tree_node *curr = root->children;
+  while(curr != NULL) {
+    destroy_tree(curr->child);
+    
+    curr = curr->sibilings;
+  }
+  // print_node(root);
+  free(root);
 }

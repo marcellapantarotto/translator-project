@@ -7,84 +7,81 @@
 
 enum rule_type {
   PROGRAM,
-  LIST_OF_DECLARATIONS,
+  LIST_DECLARATIONS,
   DECLARATION,
-  VARIABLE_DECLARATION,
   FUNCTION_DECLARATION,
-  COMMAND,
-  UNIQUE_DECLARATION,
-  LIST_OF_PARAMETERS,
-  BLOCK_OF_COMMANDS,
-  TYPE,
-  PARAMETER,
-  EXPRESSION,
-  ASSIGN_STMT,
-  CONDITIONAL_STMT,
-  RETURN_STMT,
-  ITERATION_PROCESS,
-  INPUT_OPERATION,
-  OUTPUT_OPERATION,
+  PARAMETERS,
+  LIST_PARAMETERS,
   FUNCTION_CALLING,
-  STATEMENT,
+  CALLING_PARAMETERS,
+  LIST_CALLING_PARAMETERS,
+  BLOCK_COMMANDS,
+  COMMAND,
+  VARIABLE_DECLARATION,
+  UNIQUE_DECLARATION,
+  INIT_VARIABLE,
+  INIT_STMT,
+  CONDITIONAL_STMT,
+  IF,
+  ELSE,
+  RETURN_STMT,
+  RETURN,
+  ITERATION_PROCESS,
+  FOR,
+  INPUT_OPERATION,
+  READ,
+  OUTPUT_OPERATION,
+  WRITE,
+  WRITELN,
   LOOP_CONDITION,
-  INITIALIZATION_STMT,
   UPDATE_STMT,
-  OPERATION,
-  LOGIC_OPERATOR,
-  RELATIONAL_OPERATOR,
-  ARITHMETIC_OPERATOR,
-  LIST_OPERATOR,
+  EXPRESSION,
+  CONSTANT,
   NUMBER,
   IDENTIFIER,
+  NIL,
   NUMBER_INT,
   NUMBER_FLOAT,
-  NIL,
   STRING_STMT,
-  TYPE_INT,
-  TYPE_FLOAT,
+  TYPE,
   TYPE_LIST,
+  LIST,
+  TYPE_NUMBER,
+  INT,
+  FLOAT,
+  OPERATION,
+  SINGLE_OPERATION,
+  ARITHMETIC_BINARY,
+  ARITHMETIC_SINGLE,
+  ADD_OP,
+  MINUS_OP,
+  MULTIPLY_OP,
+  DIVISION_OP,
+  LIST_BINARY,
+  LIST_SINGLE,
+  NOT_OR_TAIL,
+  CONSTRUCTOR_OP,
+  HEAD_OP,
+  POP_OP,
+  MAP_OP,
+  FILTER_OP,
+  LOGIC_OPERATOR,
   AND_OP,
   OR_OP,
+  RELATIONAL_OPERATOR,
   GT_OP,
   GE_OP,
   LT_OP,
   LE_OP,
   EQ_OP,
   NE_OP,
-  ADD_OP,
-  MINUS_OP,
-  MULTIPLY_OP,
-  DIVISION_OP,
-  CONSTRUCTOR_OP,
-  HEAD_OP,
-  POP_OP,
-  MAP_OP,
-  FILTER_OP,
-  NOT_OR_TAIL,
   COMMA,
   SEMICOLON,
   OPEN_PARENTHESES,
   CLOSE_PARENTHESES,
   OPEN_CURLY_BRACKET,
   CLOSE_CURLY_BRACKET,
-  SYMBOL,
-  ROOT,
-  S_OPERATION,
-  B_OPERATION,
-  TYPE_LST,
-  CONSTANT,
-  ARITHMETIC_SINGLE,
-  ARITHMETIC_BINARY,
-  LIST_SINGLE,
-  LIST_BINARY,
-  WRITE,
-  WRITELN,
-  READ,
   ASSIGN,
-  IF,
-  ELSE,
-  RETURN,
-  FOR,
 };
 
 //===============================================================
@@ -151,18 +148,20 @@ void show_error();
 void total_lexical_errors();
 table create_table();
 void add_table_node(char *tok);
+table_node *verify_existing_symbol(table_node *symbol);
+void increment_scope();
+void decrement_scope();
 void print_table();
 void destroy_table();
+
 t_token null_token();
 t_token create_token(t_token *t);
-t_node create_node(t_node *t, int type);
+t_node *create_node(int type);
 t_node add_tree_node(t_node *root, t_node *node);
 t_node token_to_node(t_token *t, int type);
 t_node add_tree_token_node(t_node *root, t_token *tok, int type);
 void print_tree(t_node *root, int height);
-table_node *verify_existing_symbol(table_node *symbol);
-void increment_scope();
-void decrement_scope();
+void destroy_tree(t_node *root);
 
 //===============================================================
 // VARIABLE DECLARATIONS

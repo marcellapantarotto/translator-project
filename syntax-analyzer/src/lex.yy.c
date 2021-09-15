@@ -1183,7 +1183,7 @@ YY_RULE_SETUP
   yylval.token.column = column;
   // yylval.token.scope = scope;
   column += yyleng;
-  return(ASSIGN);
+  return('=');
 }
 	YY_BREAK
 case 32:

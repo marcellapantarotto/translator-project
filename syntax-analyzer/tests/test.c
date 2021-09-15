@@ -1,20 +1,14 @@
-int b;
-int main(int a) {
-  b = 1;
-  a = 1;
-}
-
-// int main {
+int a;
+// int main() {
 //   int a;
 //   a = 2;
-//   int a;
-//   {
+//   if(a == 2) {
 //     int b;
-//     a = 2;
+//     a = 3;
 //   }
 //   int c;
 //   c = 3;
-//   {
+//   if(c == 2) {
 //     int d;
 //   }
 // }
