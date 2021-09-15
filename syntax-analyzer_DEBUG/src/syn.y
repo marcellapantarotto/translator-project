@@ -140,18 +140,13 @@
 %%
 program: 
   lst_declarations {
-    // printf("=> %p\n", &$$);
-    // print_node(&$$);
-    // print_node(&$1);
-
       $$ = create_node($$, PROGRAM);
       root = $$;
-      // add_tree_node($$, $root);
       add_tree_node(root, $1);
 
       // root = $$;
-      // root = create_node(&root, PROGRAM);
-      // add_tree_node(&root, &$1);
+      // root = create_node(root, PROGRAM);
+      // add_tree_node(root, $1);
     }
   | /* epsilon */ { }
 ;
@@ -219,11 +214,11 @@ parameters:
 
 lst_parameters: 
   unq_declaration ',' lst_parameters  {
-    $$ = create_node($$, LIST_PARAMETERS);
-    add_tree_node($$, $1);
-    add_tree_token_node($$, &$2, COMMA);
-    add_tree_node($$, $3);
-   }
+      $$ = create_node($$, LIST_PARAMETERS);
+      add_tree_node($$, $1);
+      add_tree_token_node($$, &$2, COMMA);
+      add_tree_node($$, $3);
+    }
   | unq_declaration {
       $$ = create_node($$, LIST_PARAMETERS);
       add_tree_node($$, $1);
@@ -319,8 +314,7 @@ conditional_stmt:
       add_tree_node($$, $3);
       add_tree_token_node($$, &$4, CLOSE_PARENTHESES);
       add_tree_node($$, $5);
-      // add_tree_token_node($$, &$6, IF);
-      
+      // add_tree_token_node($$, $6, IF);
     }
   | IF_STMT '(' operation ')' command ELSE_STMT command  {
       $$ = create_node($$, CONDITIONAL_STMT);
@@ -332,7 +326,7 @@ conditional_stmt:
       add_tree_token_node($$, &$6, ELSE);
       add_tree_node($$, $7);
     }
-  
+  // | /*epsilon*/ {}
 ;
 
 return_stmt: 
@@ -362,7 +356,7 @@ loop_condition:
       add_tree_token_node($$, &$2, SEMICOLON);
       add_tree_node($$, $3);
       add_tree_token_node($$, &$4, SEMICOLON);
-      add_tree_node($$, $3);
+      add_tree_node($$, $5);
     }
 ;
 
@@ -520,7 +514,6 @@ operation:
       add_tree_node($$, $1);
     }
   | operation relational_op expression  {
-      // printf("arvore: %p\n", &$3);
       $$ = create_node($$, OPERATION);
       add_tree_node($$, $1);
       add_tree_node($$, $2);
@@ -700,7 +693,7 @@ int main(int argc, char **argv) {
   printf("\n====================================================\n");
   print_table();
 
-  // destroy_tree(&root);
+  destroy_tree(root);
   destroy_table();
   fclose(yyin);
   yylex_destroy();

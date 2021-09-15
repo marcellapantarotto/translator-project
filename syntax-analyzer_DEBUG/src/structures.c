@@ -60,35 +60,35 @@ const char *rule_label[] = {
   "SINGLE_OPERATION",
   "ARITHMETIC_BINARY",
   "ARITHMETIC_SINGLE",
-  "+",
-  "-",
-  "*",
-  "/",
+  "ADD",
+  "MINUS",
+  "MULTIPLY",
+  "DIVISION",
   "LIST_BINARY",
   "LIST_SINGLE",
-  "!",
-  ":",
-  "?",
-  "%",
-  ">>",
-  "<<",
+  "NOT_OR_TAIL",
+  "CONSTRUCTOR",
+  "HEAD",
+  "POP",
+  "MAP",
+  "FILTER",
   "LOGIC_OPERATOR",
-  "&&",
-  "||",
+  "AND",
+  "OR",
   "RELATIONAL_OPERATOR",
-  ">",
-  ">=",
-  "<",
-  "<=",
-  "==",
-  "!=",
-  ",",
-  ";",
-  "(",
-  ")",
-  "{",
-  "}",
-  "=",
+  "GREATER_THEN",
+  "GREATER_EQUAL",
+  "LESS_THEN",
+  "LESS_EQUAL",
+  "EQUAL",
+  "NOT_EQUAL",
+  "COMMA",
+  "SEMICOLON",
+  "OPEN_PARENTHESES",
+  "CLOSE_PARENTHESES",
+  "OPEN_CURLY_BRACKET",
+  "CLOSE_CURLY_BRACKET",
+  "ASSIGN",
 };
 
 //===============================================================
@@ -96,10 +96,10 @@ const char *rule_label[] = {
 //===============================================================
 
 void print_token(t_token *t) {
-  // printf("(Token ");
-  printf(": %s\n", t->lexeme);
-  // printf("line: %d; ", t->line);
-  // printf("column: %d;)\n", t->column);
+  printf("(Token ");
+  printf("lexeme: %s", t->lexeme);
+  printf("line: %d; ", t->line);
+  printf("column: %d;)", t->column);
 }
 
 void print_node(t_node *n) {
@@ -227,17 +227,17 @@ t_token null_token() {
   return *t;
 }
 
-// creating token
-t_token create_token(t_token *t) {
-  struct t_token *token = (struct t_token*)malloc(sizeof(t_token));
-  strcpy(token->lexeme, t->lexeme);
-  token->line = t->line;
-  token->column = t->column;
-  strcpy(token->lexeme, t->lexeme);
-  // token->scope = t->scope;
-  print_token(token);
-  return *token;
-}
+// // creating token
+// t_token create_token(t_token *t) {
+//   struct t_token *token = (struct t_token*)malloc(sizeof(t_token));
+//   strcpy(token->lexeme, t->lexeme);
+//   token->line = t->line;
+//   token->column = t->column;
+//   strcpy(token->lexeme, t->lexeme);
+//   // token->scope = t->scope;
+//   print_token(token);
+//   return *token;
+// }
 
 // create new node in tree with the token that is bening passed
 t_node *create_node(t_node *t, int type) {
@@ -293,7 +293,7 @@ void print_tree(t_node *root, int height) {
   printf(" %s", rule_label[root->type]);
 
   if(root->token.line != -1) {
-    print_token(&root->token);
+    printf(": " BHBLU "%s\n" reset, root->token.lexeme);
   } else {
     printf("\n");
   }

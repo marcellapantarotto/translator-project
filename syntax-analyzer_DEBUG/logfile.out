@@ -1,414 +1,391 @@
-==26405== Memcheck, a memory error detector
-==26405== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
-==26405== Using Valgrind-3.15.0-608cb11914-20190413 and LibVEX; rerun with -h for copyright info
-==26405== Command: ./tradutor tests/test_correct1.c
-==26405== Parent PID: 26404
-==26405== 
---26405-- 
---26405-- Valgrind options:
---26405--    -v
---26405--    --tool=memcheck
---26405--    --leak-check=full
---26405--    --log-file=logfile.out
---26405--    --show-leak-kinds=all
---26405--    --track-origins=yes
---26405-- Contents of /proc/version:
---26405--   Linux version 5.10.16.3-microsoft-standard-WSL2 (oe-user@oe-host) (x86_64-msft-linux-gcc (GCC) 9.3.0, GNU ld (GNU Binutils) 2.34.0.20200220) #1 SMP Fri Apr 2 22:23:49 UTC 2021
---26405-- 
---26405-- Arch and hwcaps: AMD64, LittleEndian, amd64-cx16-lzcnt-rdtscp-sse3-ssse3-avx-avx2-bmi-f16c-rdrand
---26405-- Page sizes: currently 4096, max supported 4096
---26405-- Valgrind library directory: /usr/lib/x86_64-linux-gnu/valgrind
---26405-- Reading syms from /mnt/c/Users/cella/OneDrive/Documentos/UnB/Tradutores/translator-project/syntax-analyzer_DEBUG/tradutor
---26405-- Reading syms from /usr/lib/x86_64-linux-gnu/ld-2.33.so
---26405--   Considering /usr/lib/x86_64-linux-gnu/ld-2.33.so ..
---26405--   .. CRC mismatch (computed 425b6850 wanted cee0dc4c)
---26405--   Considering /lib/x86_64-linux-gnu/ld-2.33.so ..
---26405--   .. CRC mismatch (computed 425b6850 wanted cee0dc4c)
---26405--   Considering /usr/lib/debug/lib/x86_64-linux-gnu/ld-2.33.so ..
---26405--   .. CRC is valid
---26405-- Reading syms from /usr/lib/x86_64-linux-gnu/valgrind/memcheck-amd64-linux
---26405--    object doesn't have a symbol table
---26405--    object doesn't have a dynamic symbol table
---26405-- Scheduler: using generic scheduler lock implementation.
---26405-- Reading suppressions file: /usr/lib/x86_64-linux-gnu/valgrind/default.supp
-==26405== embedded gdbserver: reading from /tmp/vgdb-pipe-from-vgdb-to-26405-by-marcella-on-???
-==26405== embedded gdbserver: writing to   /tmp/vgdb-pipe-to-vgdb-from-26405-by-marcella-on-???
-==26405== embedded gdbserver: shared mem   /tmp/vgdb-pipe-shared-mem-vgdb-26405-by-marcella-on-???
-==26405== 
-==26405== TO CONTROL THIS PROCESS USING vgdb (which you probably
-==26405== don't want to do, unless you know exactly what you're doing,
-==26405== or are doing some strange experiment):
-==26405==   /usr/lib/x86_64-linux-gnu/valgrind/../../bin/vgdb --pid=26405 ...command...
-==26405== 
-==26405== TO DEBUG THIS PROCESS USING GDB: start GDB like this
-==26405==   /path/to/gdb ./tradutor
-==26405== and then give GDB the following command
-==26405==   target remote | /usr/lib/x86_64-linux-gnu/valgrind/../../bin/vgdb --pid=26405
-==26405== --pid is optional if only one valgrind process is running
-==26405== 
---26405-- REDIR: 0x40276d0 (ld-linux-x86-64.so.2:strlen) redirected to 0x580c9ce2 (???)
---26405-- REDIR: 0x40274a0 (ld-linux-x86-64.so.2:index) redirected to 0x580c9cfc (???)
---26405-- Reading syms from /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_core-amd64-linux.so
---26405--    object doesn't have a symbol table
---26405-- Reading syms from /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so
---26405--    object doesn't have a symbol table
-==26405== WARNING: new redirection conflicts with existing -- ignoring it
---26405--     old: 0x040276d0 (strlen              ) R-> (0000.0) 0x580c9ce2 ???
---26405--     new: 0x040276d0 (strlen              ) R-> (2007.0) 0x04845060 strlen
---26405-- REDIR: 0x4023eb0 (ld-linux-x86-64.so.2:strcmp) redirected to 0x4845fd0 (strcmp)
---26405-- REDIR: 0x4027c30 (ld-linux-x86-64.so.2:mempcpy) redirected to 0x4849a20 (mempcpy)
---26405-- Reading syms from /usr/lib/x86_64-linux-gnu/libc-2.33.so
---26405--   Considering /usr/lib/x86_64-linux-gnu/libc-2.33.so ..
---26405--   .. CRC mismatch (computed 31fcf0a5 wanted 9eb4d521)
---26405--   Considering /lib/x86_64-linux-gnu/libc-2.33.so ..
---26405--   .. CRC mismatch (computed 31fcf0a5 wanted 9eb4d521)
---26405--   Considering /usr/lib/debug/lib/x86_64-linux-gnu/libc-2.33.so ..
---26405--   .. CRC is valid
---26405-- REDIR: 0x48f3f00 (libc.so.6:memmove) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
---26405-- REDIR: 0x48f33a0 (libc.so.6:strncpy) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
---26405-- REDIR: 0x48f4240 (libc.so.6:strcasecmp) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
---26405-- REDIR: 0x48f2e50 (libc.so.6:strcat) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
---26405-- REDIR: 0x48f3400 (libc.so.6:rindex) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
---26405-- REDIR: 0x48f5700 (libc.so.6:rawmemchr) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
---26405-- REDIR: 0x490f830 (libc.so.6:wmemchr) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
---26405-- REDIR: 0x490f370 (libc.so.6:wcscmp) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
---26405-- REDIR: 0x48f4060 (libc.so.6:mempcpy) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
---26405-- REDIR: 0x48f3e90 (libc.so.6:bcmp) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
---26405-- REDIR: 0x48f3340 (libc.so.6:strncmp) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
---26405-- REDIR: 0x48f2f00 (libc.so.6:strcmp) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
---26405-- REDIR: 0x48f3fd0 (libc.so.6:memset) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
---26405-- REDIR: 0x490f330 (libc.so.6:wcschr) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
---26405-- REDIR: 0x48f32a0 (libc.so.6:strnlen) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
---26405-- REDIR: 0x48f2fe0 (libc.so.6:strcspn) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
---26405-- REDIR: 0x48f4290 (libc.so.6:strncasecmp) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
---26405-- REDIR: 0x48f2f80 (libc.so.6:strcpy) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
---26405-- REDIR: 0x48f43e0 (libc.so.6:memcpy@@GLIBC_2.14) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
---26405-- REDIR: 0x4910ab0 (libc.so.6:wcsnlen) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
---26405-- REDIR: 0x490f3b0 (libc.so.6:wcscpy) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
---26405-- REDIR: 0x48f3440 (libc.so.6:strpbrk) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
---26405-- REDIR: 0x48f2eb0 (libc.so.6:index) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
---26405-- REDIR: 0x48f3260 (libc.so.6:strlen) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
---26405-- REDIR: 0x48fbc20 (libc.so.6:memrchr) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
---26405-- REDIR: 0x48f42e0 (libc.so.6:strcasecmp_l) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
---26405-- REDIR: 0x48f3e50 (libc.so.6:memchr) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
---26405-- REDIR: 0x490f480 (libc.so.6:wcslen) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
---26405-- REDIR: 0x48f3560 (libc.so.6:strspn) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
---26405-- REDIR: 0x48f41e0 (libc.so.6:stpncpy) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
---26405-- REDIR: 0x48f4180 (libc.so.6:stpcpy) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
---26405-- REDIR: 0x48f5740 (libc.so.6:strchrnul) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
---26405-- REDIR: 0x48f4330 (libc.so.6:strncasecmp_l) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
---26405-- REDIR: 0x49d6d60 (libc.so.6:__strrchr_avx2) redirected to 0x4844a10 (rindex)
---26405-- REDIR: 0x48ee130 (libc.so.6:malloc) redirected to 0x4841780 (malloc)
---26405-- REDIR: 0x48f3a20 (libc.so.6:__GI_strstr) redirected to 0x4849ca0 (__strstr_sse2)
---26405-- REDIR: 0x49da3d0 (libc.so.6:__memset_avx2_unaligned_erms) redirected to 0x48488e0 (memset)
---26405-- REDIR: 0x49d3060 (libc.so.6:__rawmemchr_avx2) redirected to 0x4849580 (rawmemchr)
---26405-- REDIR: 0x49d8470 (libc.so.6:__strcpy_avx2) redirected to 0x4845090 (strcpy)
---26405-- REDIR: 0x49d2420 (libc.so.6:__strcmp_avx2) redirected to 0x4845ed0 (strcmp)
---26405-- REDIR: 0x49d6b70 (libc.so.6:__strchrnul_avx2) redirected to 0x4849540 (strchrnul)
---26405-- REDIR: 0x49d9f20 (libc.so.6:__mempcpy_avx_unaligned_erms) redirected to 0x4849660 (mempcpy)
---26405-- REDIR: 0x49d6f30 (libc.so.6:__strlen_avx2) redirected to 0x4844f40 (strlen)
---26405-- REDIR: 0x48ee740 (libc.so.6:free) redirected to 0x48429d0 (free)
-==26405== Invalid free() / delete / delete[] / realloc()
-==26405==    at 0x4842A3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==26405==    by 0x10B6F5: destroy_tree (structures.c:317)
-==26405==    by 0x10E005: main (syn.y:701)
-==26405==  Address 0x11b300 is 0 bytes inside data symbol "root"
-==26405== 
-==26405== 
-==26405== HEAP SUMMARY:
-==26405==     in use at exit: 21,696 bytes in 173 blocks
-==26405==   total heap usage: 185 allocs, 13 frees, 40,498 bytes allocated
-==26405== 
-==26405== Searching for pointers to 173 not-freed blocks
-==26405== Checked 94,512 bytes
-==26405== 
-==26405== 16 bytes in 1 blocks are still reachable in loss record 1 of 43
-==26405==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==26405==    by 0x10DEF4: main (syn.y:676)
-==26405== 
-==26405== 16 bytes in 1 blocks are still reachable in loss record 2 of 43
-==26405==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==26405==    by 0x10A75E: increment_scope (structures.c:174)
-==26405==    by 0x10C683: yyparse (syn.y:181)
-==26405==    by 0x10DF5A: main (syn.y:684)
-==26405== 
-==26405== 16 bytes in 1 blocks are indirectly lost in loss record 3 of 43
-==26405==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==26405==    by 0x10AE86: add_tree_node (structures.c:253)
-==26405==    by 0x10C29A: yyparse (syn.y:146)
-==26405==    by 0x10DF5A: main (syn.y:684)
-==26405== 
-==26405== 16 bytes in 1 blocks are definitely lost in loss record 4 of 43
-==26405==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==26405==    by 0x10AE86: add_tree_node (structures.c:253)
-==26405==    by 0x10C674: yyparse (syn.y:164)
-==26405==    by 0x10DF5A: main (syn.y:684)
-==26405== 
-==26405== 32 bytes in 2 blocks are indirectly lost in loss record 5 of 43
-==26405==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==26405==    by 0x10AE86: add_tree_node (structures.c:253)
-==26405==    by 0x10B46E: add_tree_token_node (structures.c:282)
-==26405==    by 0x10CA81: yyparse (syn.y:295)
-==26405==    by 0x10DF5A: main (syn.y:684)
-==26405== 
-==26405== 32 bytes in 2 blocks are indirectly lost in loss record 6 of 43
-==26405==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==26405==    by 0x10AE86: add_tree_node (structures.c:253)
-==26405==    by 0x10C4A9: yyparse (syn.y:160)
-==26405==    by 0x10DF5A: main (syn.y:684)
-==26405== 
-==26405== 32 (16 direct, 16 indirect) bytes in 1 blocks are definitely lost in loss record 7 of 43
-==26405==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==26405==    by 0x10AE86: add_tree_node (structures.c:253)
-==26405==    by 0x10C27A: yyparse (syn.y:145)
-==26405==    by 0x10DF5A: main (syn.y:684)
-==26405== 
-==26405== 64 (32 direct, 32 indirect) bytes in 2 blocks are definitely lost in loss record 8 of 43
-==26405==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==26405==    by 0x10AE86: add_tree_node (structures.c:253)
-==26405==    by 0x10C489: yyparse (syn.y:159)
-==26405==    by 0x10DF5A: main (syn.y:684)
-==26405== 
-==26405== 96 bytes in 6 blocks are indirectly lost in loss record 9 of 43
-==26405==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==26405==    by 0x10AE86: add_tree_node (structures.c:253)
-==26405==    by 0x10CC7E: yyparse (syn.y:523)
-==26405==    by 0x10DF5A: main (syn.y:684)
-==26405== 
-==26405== 96 bytes in 6 blocks are indirectly lost in loss record 10 of 43
-==26405==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==26405==    by 0x10AE86: add_tree_node (structures.c:253)
-==26405==    by 0x10CC9E: yyparse (syn.y:524)
-==26405==    by 0x10DF5A: main (syn.y:684)
-==26405== 
-==26405== 208 bytes in 1 blocks are definitely lost in loss record 11 of 43
-==26405==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==26405==    by 0x10A893: null_token (structures.c:221)
-==26405==    by 0x10ABD8: create_node (structures.c:245)
-==26405==    by 0x10CCC1: yyparse (syn.y:641)
-==26405==    by 0x10DF5A: main (syn.y:684)
-==26405== 
-==26405== 208 bytes in 1 blocks are definitely lost in loss record 12 of 43
-==26405==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==26405==    by 0x10A893: null_token (structures.c:221)
-==26405==    by 0x10ABD8: create_node (structures.c:245)
-==26405==    by 0x10C4CC: yyparse (syn.y:163)
-==26405==    by 0x10DF5A: main (syn.y:684)
-==26405== 
-==26405== 208 bytes in 1 blocks are definitely lost in loss record 13 of 43
-==26405==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==26405==    by 0x10A893: null_token (structures.c:221)
-==26405==    by 0x10ABD8: create_node (structures.c:245)
-==26405==    by 0x10BF4A: yyparse (syn.y:143)
-==26405==    by 0x10DF5A: main (syn.y:684)
-==26405== 
-==26405== 224 bytes in 1 blocks are indirectly lost in loss record 14 of 43
-==26405==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==26405==    by 0x10B2F4: add_tree_token_node (structures.c:280)
-==26405==    by 0x10CE6B: yyparse (syn.y:642)
-==26405==    by 0x10DF5A: main (syn.y:684)
-==26405== 
-==26405== 224 bytes in 1 blocks are definitely lost in loss record 15 of 43
-==26405==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==26405==    by 0x10ABB7: create_node (structures.c:244)
-==26405==    by 0x10CCC1: yyparse (syn.y:641)
-==26405==    by 0x10DF5A: main (syn.y:684)
-==26405== 
-==26405== 224 bytes in 1 blocks are definitely lost in loss record 16 of 43
-==26405==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==26405==    by 0x10B052: token_to_node (structures.c:271)
-==26405==    by 0x10B315: add_tree_token_node (structures.c:281)
-==26405==    by 0x10CE6B: yyparse (syn.y:642)
-==26405==    by 0x10DF5A: main (syn.y:684)
-==26405== 
-==26405== 224 bytes in 1 blocks are definitely lost in loss record 17 of 43
-==26405==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==26405==    by 0x10ABB7: create_node (structures.c:244)
-==26405==    by 0x10C4CC: yyparse (syn.y:163)
-==26405==    by 0x10DF5A: main (syn.y:684)
-==26405== 
-==26405== 224 bytes in 1 blocks are definitely lost in loss record 18 of 43
-==26405==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==26405==    by 0x10ABB7: create_node (structures.c:244)
-==26405==    by 0x10BF4A: yyparse (syn.y:143)
-==26405==    by 0x10DF5A: main (syn.y:684)
-==26405== 
-==26405== 240 (16 direct, 224 indirect) bytes in 1 blocks are definitely lost in loss record 19 of 43
-==26405==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==26405==    by 0x10AE86: add_tree_node (structures.c:253)
-==26405==    by 0x10B46E: add_tree_token_node (structures.c:282)
-==26405==    by 0x10CE6B: yyparse (syn.y:642)
-==26405==    by 0x10DF5A: main (syn.y:684)
-==26405== 
-==26405== 288 (96 direct, 192 indirect) bytes in 6 blocks are definitely lost in loss record 20 of 43
-==26405==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==26405==    by 0x10AE86: add_tree_node (structures.c:253)
-==26405==    by 0x10CC55: yyparse (syn.y:522)
-==26405==    by 0x10DF5A: main (syn.y:684)
-==26405== 
-==26405== 336 bytes in 21 blocks are indirectly lost in loss record 21 of 43
-==26405==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==26405==    by 0x10AE86: add_tree_node (structures.c:253)
-==26405==    by 0x10C88B: yyparse (syn.y:255)
-==26405==    by 0x10DF5A: main (syn.y:684)
-==26405== 
-==26405== 416 bytes in 2 blocks are definitely lost in loss record 22 of 43
-==26405==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==26405==    by 0x10A893: null_token (structures.c:221)
-==26405==    by 0x10ABD8: create_node (structures.c:245)
-==26405==    by 0x10C8AE: yyparse (syn.y:293)
-==26405==    by 0x10DF5A: main (syn.y:684)
-==26405== 
-==26405== 416 bytes in 2 blocks are definitely lost in loss record 23 of 43
-==26405==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==26405==    by 0x10A893: null_token (structures.c:221)
-==26405==    by 0x10ABD8: create_node (structures.c:245)
-==26405==    by 0x10D5C2: yyparse (syn.y:661)
-==26405==    by 0x10DF5A: main (syn.y:684)
-==26405== 
-==26405== 416 bytes in 2 blocks are definitely lost in loss record 24 of 43
-==26405==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==26405==    by 0x10A893: null_token (structures.c:221)
-==26405==    by 0x10ABD8: create_node (structures.c:245)
-==26405==    by 0x10C2D8: yyparse (syn.y:158)
-==26405==    by 0x10DF5A: main (syn.y:684)
-==26405== 
-==26405== 448 bytes in 2 blocks are indirectly lost in loss record 25 of 43
-==26405==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==26405==    by 0x10B2F4: add_tree_token_node (structures.c:280)
-==26405==    by 0x10CA81: yyparse (syn.y:295)
-==26405==    by 0x10DF5A: main (syn.y:684)
-==26405== 
-==26405== 448 bytes in 2 blocks are indirectly lost in loss record 26 of 43
-==26405==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==26405==    by 0x10B2F4: add_tree_token_node (structures.c:280)
-==26405==    by 0x10D76C: yyparse (syn.y:662)
-==26405==    by 0x10DF5A: main (syn.y:684)
-==26405== 
-==26405== 448 bytes in 2 blocks are definitely lost in loss record 27 of 43
-==26405==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==26405==    by 0x10ABB7: create_node (structures.c:244)
-==26405==    by 0x10C8AE: yyparse (syn.y:293)
-==26405==    by 0x10DF5A: main (syn.y:684)
-==26405== 
-==26405== 448 bytes in 2 blocks are definitely lost in loss record 28 of 43
-==26405==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==26405==    by 0x10B052: token_to_node (structures.c:271)
-==26405==    by 0x10B315: add_tree_token_node (structures.c:281)
-==26405==    by 0x10CA81: yyparse (syn.y:295)
-==26405==    by 0x10DF5A: main (syn.y:684)
-==26405== 
-==26405== 448 bytes in 2 blocks are definitely lost in loss record 29 of 43
-==26405==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==26405==    by 0x10ABB7: create_node (structures.c:244)
-==26405==    by 0x10D5C2: yyparse (syn.y:661)
-==26405==    by 0x10DF5A: main (syn.y:684)
-==26405== 
-==26405== 448 bytes in 2 blocks are definitely lost in loss record 30 of 43
-==26405==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==26405==    by 0x10B052: token_to_node (structures.c:271)
-==26405==    by 0x10B315: add_tree_token_node (structures.c:281)
-==26405==    by 0x10D76C: yyparse (syn.y:662)
-==26405==    by 0x10DF5A: main (syn.y:684)
-==26405== 
-==26405== 448 bytes in 2 blocks are definitely lost in loss record 31 of 43
-==26405==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==26405==    by 0x10ABB7: create_node (structures.c:244)
-==26405==    by 0x10C2D8: yyparse (syn.y:158)
-==26405==    by 0x10DF5A: main (syn.y:684)
-==26405== 
-==26405== 480 (32 direct, 448 indirect) bytes in 2 blocks are definitely lost in loss record 32 of 43
-==26405==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==26405==    by 0x10AE86: add_tree_node (structures.c:253)
-==26405==    by 0x10B46E: add_tree_token_node (structures.c:282)
-==26405==    by 0x10D76C: yyparse (syn.y:662)
-==26405==    by 0x10DF5A: main (syn.y:684)
-==26405== 
-==26405== 512 (32 direct, 480 indirect) bytes in 2 blocks are definitely lost in loss record 33 of 43
-==26405==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==26405==    by 0x10AE86: add_tree_node (structures.c:253)
-==26405==    by 0x10CA5F: yyparse (syn.y:294)
-==26405==    by 0x10DF5A: main (syn.y:684)
-==26405== 
-==26405== 624 bytes in 3 blocks are definitely lost in loss record 34 of 43
-==26405==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==26405==    by 0x10A893: null_token (structures.c:221)
-==26405==    by 0x10ABD8: create_node (structures.c:245)
-==26405==    by 0x10D05B: yyparse (syn.y:649)
-==26405==    by 0x10DF5A: main (syn.y:684)
-==26405== 
-==26405== 672 bytes in 3 blocks are indirectly lost in loss record 35 of 43
-==26405==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==26405==    by 0x10B2F4: add_tree_token_node (structures.c:280)
-==26405==    by 0x10D205: yyparse (syn.y:650)
-==26405==    by 0x10DF5A: main (syn.y:684)
-==26405== 
-==26405== 672 bytes in 3 blocks are definitely lost in loss record 36 of 43
-==26405==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==26405==    by 0x10ABB7: create_node (structures.c:244)
-==26405==    by 0x10D05B: yyparse (syn.y:649)
-==26405==    by 0x10DF5A: main (syn.y:684)
-==26405== 
-==26405== 672 bytes in 3 blocks are definitely lost in loss record 37 of 43
-==26405==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==26405==    by 0x10B052: token_to_node (structures.c:271)
-==26405==    by 0x10B315: add_tree_token_node (structures.c:281)
-==26405==    by 0x10D205: yyparse (syn.y:650)
-==26405==    by 0x10DF5A: main (syn.y:684)
-==26405== 
-==26405== 672 (336 direct, 336 indirect) bytes in 21 blocks are definitely lost in loss record 38 of 43
-==26405==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==26405==    by 0x10AE86: add_tree_node (structures.c:253)
-==26405==    by 0x10C86B: yyparse (syn.y:254)
-==26405==    by 0x10DF5A: main (syn.y:684)
-==26405== 
-==26405== 720 (48 direct, 672 indirect) bytes in 3 blocks are definitely lost in loss record 39 of 43
-==26405==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==26405==    by 0x10AE86: add_tree_node (structures.c:253)
-==26405==    by 0x10B46E: add_tree_token_node (structures.c:282)
-==26405==    by 0x10D205: yyparse (syn.y:650)
-==26405==    by 0x10DF5A: main (syn.y:684)
-==26405== 
-==26405== 1,248 bytes in 6 blocks are definitely lost in loss record 40 of 43
-==26405==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==26405==    by 0x10A893: null_token (structures.c:221)
-==26405==    by 0x10ABD8: create_node (structures.c:245)
-==26405==    by 0x10CAA4: yyparse (syn.y:521)
-==26405==    by 0x10DF5A: main (syn.y:684)
-==26405== 
-==26405== 1,344 bytes in 6 blocks are definitely lost in loss record 41 of 43
-==26405==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==26405==    by 0x10ABB7: create_node (structures.c:244)
-==26405==    by 0x10CAA4: yyparse (syn.y:521)
-==26405==    by 0x10DF5A: main (syn.y:684)
-==26405== 
-==26405== 4,368 bytes in 21 blocks are definitely lost in loss record 42 of 43
-==26405==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==26405==    by 0x10A893: null_token (structures.c:221)
-==26405==    by 0x10ABD8: create_node (structures.c:245)
-==26405==    by 0x10C6BA: yyparse (syn.y:253)
-==26405==    by 0x10DF5A: main (syn.y:684)
-==26405== 
-==26405== 4,704 bytes in 21 blocks are definitely lost in loss record 43 of 43
-==26405==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==26405==    by 0x10ABB7: create_node (structures.c:244)
-==26405==    by 0x10C6BA: yyparse (syn.y:253)
-==26405==    by 0x10DF5A: main (syn.y:684)
-==26405== 
-==26405== LEAK SUMMARY:
-==26405==    definitely lost: 19,264 bytes in 125 blocks
-==26405==    indirectly lost: 2,400 bytes in 46 blocks
-==26405==      possibly lost: 0 bytes in 0 blocks
-==26405==    still reachable: 32 bytes in 2 blocks
-==26405==         suppressed: 0 bytes in 0 blocks
-==26405== 
-==26405== ERROR SUMMARY: 32 errors from 32 contexts (suppressed: 0 from 0)
-==26405== 
-==26405== 1 errors in context 1 of 32:
-==26405== Invalid free() / delete / delete[] / realloc()
-==26405==    at 0x4842A3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==26405==    by 0x10B6F5: destroy_tree (structures.c:317)
-==26405==    by 0x10E005: main (syn.y:701)
-==26405==  Address 0x11b300 is 0 bytes inside data symbol "root"
-==26405== 
-==26405== ERROR SUMMARY: 32 errors from 32 contexts (suppressed: 0 from 0)
+==10321== Memcheck, a memory error detector
+==10321== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==10321== Using Valgrind-3.15.0-608cb11914-20190413 and LibVEX; rerun with -h for copyright info
+==10321== Command: ./tradutor tests/test.c
+==10321== Parent PID: 10320
+==10321== 
+--10321-- 
+--10321-- Valgrind options:
+--10321--    -v
+--10321--    --tool=memcheck
+--10321--    --leak-check=full
+--10321--    --log-file=logfile.out
+--10321--    --show-leak-kinds=all
+--10321--    --track-origins=yes
+--10321-- Contents of /proc/version:
+--10321--   Linux version 5.10.16.3-microsoft-standard-WSL2 (oe-user@oe-host) (x86_64-msft-linux-gcc (GCC) 9.3.0, GNU ld (GNU Binutils) 2.34.0.20200220) #1 SMP Fri Apr 2 22:23:49 UTC 2021
+--10321-- 
+--10321-- Arch and hwcaps: AMD64, LittleEndian, amd64-cx16-lzcnt-rdtscp-sse3-ssse3-avx-avx2-bmi-f16c-rdrand
+--10321-- Page sizes: currently 4096, max supported 4096
+--10321-- Valgrind library directory: /usr/lib/x86_64-linux-gnu/valgrind
+--10321-- Reading syms from /mnt/c/Users/cella/OneDrive/Documentos/UnB/Tradutores/translator-project/syntax-analyzer_DEBUG/tradutor
+--10321-- Reading syms from /usr/lib/x86_64-linux-gnu/ld-2.33.so
+--10321--   Considering /usr/lib/x86_64-linux-gnu/ld-2.33.so ..
+--10321--   .. CRC mismatch (computed 425b6850 wanted cee0dc4c)
+--10321--   Considering /lib/x86_64-linux-gnu/ld-2.33.so ..
+--10321--   .. CRC mismatch (computed 425b6850 wanted cee0dc4c)
+--10321--   Considering /usr/lib/debug/lib/x86_64-linux-gnu/ld-2.33.so ..
+--10321--   .. CRC is valid
+--10321-- Reading syms from /usr/lib/x86_64-linux-gnu/valgrind/memcheck-amd64-linux
+--10321--    object doesn't have a symbol table
+--10321--    object doesn't have a dynamic symbol table
+--10321-- Scheduler: using generic scheduler lock implementation.
+--10321-- Reading suppressions file: /usr/lib/x86_64-linux-gnu/valgrind/default.supp
+==10321== embedded gdbserver: reading from /tmp/vgdb-pipe-from-vgdb-to-10321-by-marcella-on-???
+==10321== embedded gdbserver: writing to   /tmp/vgdb-pipe-to-vgdb-from-10321-by-marcella-on-???
+==10321== embedded gdbserver: shared mem   /tmp/vgdb-pipe-shared-mem-vgdb-10321-by-marcella-on-???
+==10321== 
+==10321== TO CONTROL THIS PROCESS USING vgdb (which you probably
+==10321== don't want to do, unless you know exactly what you're doing,
+==10321== or are doing some strange experiment):
+==10321==   /usr/lib/x86_64-linux-gnu/valgrind/../../bin/vgdb --pid=10321 ...command...
+==10321== 
+==10321== TO DEBUG THIS PROCESS USING GDB: start GDB like this
+==10321==   /path/to/gdb ./tradutor
+==10321== and then give GDB the following command
+==10321==   target remote | /usr/lib/x86_64-linux-gnu/valgrind/../../bin/vgdb --pid=10321
+==10321== --pid is optional if only one valgrind process is running
+==10321== 
+--10321-- REDIR: 0x40276d0 (ld-linux-x86-64.so.2:strlen) redirected to 0x580c9ce2 (???)
+--10321-- REDIR: 0x40274a0 (ld-linux-x86-64.so.2:index) redirected to 0x580c9cfc (???)
+--10321-- Reading syms from /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_core-amd64-linux.so
+--10321--    object doesn't have a symbol table
+--10321-- Reading syms from /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so
+--10321--    object doesn't have a symbol table
+==10321== WARNING: new redirection conflicts with existing -- ignoring it
+--10321--     old: 0x040276d0 (strlen              ) R-> (0000.0) 0x580c9ce2 ???
+--10321--     new: 0x040276d0 (strlen              ) R-> (2007.0) 0x04845060 strlen
+--10321-- REDIR: 0x4023eb0 (ld-linux-x86-64.so.2:strcmp) redirected to 0x4845fd0 (strcmp)
+--10321-- REDIR: 0x4027c30 (ld-linux-x86-64.so.2:mempcpy) redirected to 0x4849a20 (mempcpy)
+--10321-- Reading syms from /usr/lib/x86_64-linux-gnu/libc-2.33.so
+--10321--   Considering /usr/lib/x86_64-linux-gnu/libc-2.33.so ..
+--10321--   .. CRC mismatch (computed 31fcf0a5 wanted 9eb4d521)
+--10321--   Considering /lib/x86_64-linux-gnu/libc-2.33.so ..
+--10321--   .. CRC mismatch (computed 31fcf0a5 wanted 9eb4d521)
+--10321--   Considering /usr/lib/debug/lib/x86_64-linux-gnu/libc-2.33.so ..
+--10321--   .. CRC is valid
+--10321-- REDIR: 0x48f3f00 (libc.so.6:memmove) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--10321-- REDIR: 0x48f33a0 (libc.so.6:strncpy) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--10321-- REDIR: 0x48f4240 (libc.so.6:strcasecmp) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--10321-- REDIR: 0x48f2e50 (libc.so.6:strcat) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--10321-- REDIR: 0x48f3400 (libc.so.6:rindex) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--10321-- REDIR: 0x48f5700 (libc.so.6:rawmemchr) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--10321-- REDIR: 0x490f830 (libc.so.6:wmemchr) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--10321-- REDIR: 0x490f370 (libc.so.6:wcscmp) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--10321-- REDIR: 0x48f4060 (libc.so.6:mempcpy) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--10321-- REDIR: 0x48f3e90 (libc.so.6:bcmp) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--10321-- REDIR: 0x48f3340 (libc.so.6:strncmp) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--10321-- REDIR: 0x48f2f00 (libc.so.6:strcmp) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--10321-- REDIR: 0x48f3fd0 (libc.so.6:memset) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--10321-- REDIR: 0x490f330 (libc.so.6:wcschr) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--10321-- REDIR: 0x48f32a0 (libc.so.6:strnlen) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--10321-- REDIR: 0x48f2fe0 (libc.so.6:strcspn) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--10321-- REDIR: 0x48f4290 (libc.so.6:strncasecmp) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--10321-- REDIR: 0x48f2f80 (libc.so.6:strcpy) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--10321-- REDIR: 0x48f43e0 (libc.so.6:memcpy@@GLIBC_2.14) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--10321-- REDIR: 0x4910ab0 (libc.so.6:wcsnlen) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--10321-- REDIR: 0x490f3b0 (libc.so.6:wcscpy) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--10321-- REDIR: 0x48f3440 (libc.so.6:strpbrk) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--10321-- REDIR: 0x48f2eb0 (libc.so.6:index) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--10321-- REDIR: 0x48f3260 (libc.so.6:strlen) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--10321-- REDIR: 0x48fbc20 (libc.so.6:memrchr) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--10321-- REDIR: 0x48f42e0 (libc.so.6:strcasecmp_l) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--10321-- REDIR: 0x48f3e50 (libc.so.6:memchr) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--10321-- REDIR: 0x490f480 (libc.so.6:wcslen) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--10321-- REDIR: 0x48f3560 (libc.so.6:strspn) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--10321-- REDIR: 0x48f41e0 (libc.so.6:stpncpy) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--10321-- REDIR: 0x48f4180 (libc.so.6:stpcpy) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--10321-- REDIR: 0x48f5740 (libc.so.6:strchrnul) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--10321-- REDIR: 0x48f4330 (libc.so.6:strncasecmp_l) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--10321-- REDIR: 0x49d6d60 (libc.so.6:__strrchr_avx2) redirected to 0x4844a10 (rindex)
+--10321-- REDIR: 0x48ee130 (libc.so.6:malloc) redirected to 0x4841780 (malloc)
+--10321-- REDIR: 0x48f3a20 (libc.so.6:__GI_strstr) redirected to 0x4849ca0 (__strstr_sse2)
+--10321-- REDIR: 0x49da3d0 (libc.so.6:__memset_avx2_unaligned_erms) redirected to 0x48488e0 (memset)
+--10321-- REDIR: 0x49d3060 (libc.so.6:__rawmemchr_avx2) redirected to 0x4849580 (rawmemchr)
+--10321-- REDIR: 0x49d8470 (libc.so.6:__strcpy_avx2) redirected to 0x4845090 (strcpy)
+--10321-- REDIR: 0x49d6b70 (libc.so.6:__strchrnul_avx2) redirected to 0x4849540 (strchrnul)
+--10321-- REDIR: 0x49d9f20 (libc.so.6:__mempcpy_avx_unaligned_erms) redirected to 0x4849660 (mempcpy)
+--10321-- REDIR: 0x49d6f30 (libc.so.6:__strlen_avx2) redirected to 0x4844f40 (strlen)
+==10321== Invalid read of size 8
+==10321==    at 0x10B524: destroy_tree (structures.c:324)
+==10321==    by 0x10E87F: main (syn.y:698)
+==10321==  Address 0x0 is not stack'd, malloc'd or (recently) free'd
+==10321== 
+==10321== 
+==10321== Process terminating with default action of signal 11 (SIGSEGV)
+==10321==  Access not within mapped region at address 0x0
+==10321==    at 0x10B524: destroy_tree (structures.c:324)
+==10321==    by 0x10E87F: main (syn.y:698)
+==10321==  If you believe this happened as a result of a stack
+==10321==  overflow in your program's main thread (unlikely but
+==10321==  possible), you can try to increase the size of the
+==10321==  main thread stack using the --main-stacksize= flag.
+==10321==  The main thread stack size used in this run was 8388608.
+--10321-- REDIR: 0x48ee740 (libc.so.6:free) redirected to 0x48429d0 (free)
+==10321== 
+==10321== HEAP SUMMARY:
+==10321==     in use at exit: 22,082 bytes in 37 blocks
+==10321==   total heap usage: 38 allocs, 1 frees, 23,106 bytes allocated
+==10321== 
+==10321== Searching for pointers to 37 not-freed blocks
+==10321== Checked 95,928 bytes
+==10321== 
+==10321== 8 bytes in 1 blocks are still reachable in loss record 1 of 37
+==10321==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==10321==    by 0x111208: yyalloc (lex.yy.c:2331)
+==10321==    by 0x110CBF: yyensure_buffer_stack (lex.yy.c:2029)
+==10321==    by 0x10E944: yylex (lex.yy.c:731)
+==10321==    by 0x10B923: yyparse (syn.tab.c:2614)
+==10321==    by 0x10E7D4: main (syn.y:681)
+==10321== 
+==10321== 16 bytes in 1 blocks are still reachable in loss record 2 of 37
+==10321==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==10321==    by 0x10E76E: main (syn.y:673)
+==10321== 
+==10321== 16 bytes in 1 blocks are still reachable in loss record 3 of 37
+==10321==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==10321==    by 0x10ACE6: add_tree_node (structures.c:253)
+==10321==    by 0x10B2CE: add_tree_token_node (structures.c:283)
+==10321==    by 0x10D529: yyparse (syn.y:500)
+==10321==    by 0x10E7D4: main (syn.y:681)
+==10321== 
+==10321== 16 bytes in 1 blocks are still reachable in loss record 4 of 37
+==10321==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==10321==    by 0x10ACE6: add_tree_node (structures.c:253)
+==10321==    by 0x10D47C: yyparse (syn.y:485)
+==10321==    by 0x10E7D4: main (syn.y:681)
+==10321== 
+==10321== 16 bytes in 1 blocks are still reachable in loss record 5 of 37
+==10321==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==10321==    by 0x10ACE6: add_tree_node (structures.c:253)
+==10321==    by 0x10C0FA: yyparse (syn.y:202)
+==10321==    by 0x10E7D4: main (syn.y:681)
+==10321== 
+==10321== 16 bytes in 1 blocks are still reachable in loss record 6 of 37
+==10321==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==10321==    by 0x10ACE6: add_tree_node (structures.c:253)
+==10321==    by 0x10B2CE: add_tree_token_node (structures.c:283)
+==10321==    by 0x10C11C: yyparse (syn.y:203)
+==10321==    by 0x10E7D4: main (syn.y:681)
+==10321== 
+==10321== 16 bytes in 1 blocks are still reachable in loss record 7 of 37
+==10321==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==10321==    by 0x10ACE6: add_tree_node (structures.c:253)
+==10321==    by 0x10C07B: yyparse (syn.y:194)
+==10321==    by 0x10E7D4: main (syn.y:681)
+==10321== 
+==10321== 16 bytes in 1 blocks are still reachable in loss record 8 of 37
+==10321==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==10321==    by 0x10ACE6: add_tree_node (structures.c:253)
+==10321==    by 0x10B2CE: add_tree_token_node (structures.c:283)
+==10321==    by 0x10C09D: yyparse (syn.y:195)
+==10321==    by 0x10E7D4: main (syn.y:681)
+==10321== 
+==10321== 16 bytes in 1 blocks are still reachable in loss record 9 of 37
+==10321==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==10321==    by 0x10ACE6: add_tree_node (structures.c:253)
+==10321==    by 0x10BEE5: yyparse (syn.y:173)
+==10321==    by 0x10E7D4: main (syn.y:681)
+==10321== 
+==10321== 16 bytes in 1 blocks are still reachable in loss record 10 of 37
+==10321==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==10321==    by 0x10ACE6: add_tree_node (structures.c:253)
+==10321==    by 0x10BE5F: yyparse (syn.y:162)
+==10321==    by 0x10E7D4: main (syn.y:681)
+==10321== 
+==10321== 16 bytes in 1 blocks are still reachable in loss record 11 of 37
+==10321==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==10321==    by 0x10ACE6: add_tree_node (structures.c:253)
+==10321==    by 0x10BDB0: yyparse (syn.y:145)
+==10321==    by 0x10E7D4: main (syn.y:681)
+==10321== 
+==10321== 56 bytes in 1 blocks are still reachable in loss record 12 of 37
+==10321==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==10321==    by 0x10A591: create_table (structures.c:135)
+==10321==    by 0x10E79B: main (syn.y:677)
+==10321== 
+==10321== 56 bytes in 1 blocks are still reachable in loss record 13 of 37
+==10321==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==10321==    by 0x10A5E2: add_table_node (structures.c:145)
+==10321==    by 0x10C0B1: yyparse (syn.y:200)
+==10321==    by 0x10E7D4: main (syn.y:681)
+==10321== 
+==10321== 64 bytes in 1 blocks are still reachable in loss record 14 of 37
+==10321==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==10321==    by 0x111208: yyalloc (lex.yy.c:2331)
+==10321==    by 0x11082E: yy_create_buffer (lex.yy.c:1869)
+==10321==    by 0x10E96E: yylex (lex.yy.c:733)
+==10321==    by 0x10B923: yyparse (syn.tab.c:2614)
+==10321==    by 0x10E7D4: main (syn.y:681)
+==10321== 
+==10321== 208 bytes in 1 blocks are definitely lost in loss record 15 of 37
+==10321==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==10321==    by 0x10A83F: null_token (structures.c:222)
+==10321==    by 0x10AB6C: create_node (structures.c:245)
+==10321==    by 0x10D500: yyparse (syn.y:499)
+==10321==    by 0x10E7D4: main (syn.y:681)
+==10321== 
+==10321== 208 bytes in 1 blocks are definitely lost in loss record 16 of 37
+==10321==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==10321==    by 0x10A83F: null_token (structures.c:222)
+==10321==    by 0x10AB6C: create_node (structures.c:245)
+==10321==    by 0x10D452: yyparse (syn.y:484)
+==10321==    by 0x10E7D4: main (syn.y:681)
+==10321== 
+==10321== 208 bytes in 1 blocks are definitely lost in loss record 17 of 37
+==10321==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==10321==    by 0x10A83F: null_token (structures.c:222)
+==10321==    by 0x10AB6C: create_node (structures.c:245)
+==10321==    by 0x10C0CA: yyparse (syn.y:201)
+==10321==    by 0x10E7D4: main (syn.y:681)
+==10321== 
+==10321== 208 bytes in 1 blocks are definitely lost in loss record 18 of 37
+==10321==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==10321==    by 0x10A83F: null_token (structures.c:222)
+==10321==    by 0x10AB6C: create_node (structures.c:245)
+==10321==    by 0x10C04B: yyparse (syn.y:193)
+==10321==    by 0x10E7D4: main (syn.y:681)
+==10321== 
+==10321== 208 bytes in 1 blocks are definitely lost in loss record 19 of 37
+==10321==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==10321==    by 0x10A83F: null_token (structures.c:222)
+==10321==    by 0x10AB6C: create_node (structures.c:245)
+==10321==    by 0x10BEBB: yyparse (syn.y:172)
+==10321==    by 0x10E7D4: main (syn.y:681)
+==10321== 
+==10321== 208 bytes in 1 blocks are definitely lost in loss record 20 of 37
+==10321==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==10321==    by 0x10A83F: null_token (structures.c:222)
+==10321==    by 0x10AB6C: create_node (structures.c:245)
+==10321==    by 0x10BE35: yyparse (syn.y:161)
+==10321==    by 0x10E7D4: main (syn.y:681)
+==10321== 
+==10321== 208 bytes in 1 blocks are definitely lost in loss record 21 of 37
+==10321==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==10321==    by 0x10A83F: null_token (structures.c:222)
+==10321==    by 0x10AB6C: create_node (structures.c:245)
+==10321==    by 0x10BD78: yyparse (syn.y:143)
+==10321==    by 0x10E7D4: main (syn.y:681)
+==10321== 
+==10321== 224 bytes in 1 blocks are still reachable in loss record 22 of 37
+==10321==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==10321==    by 0x10AB4B: create_node (structures.c:244)
+==10321==    by 0x10D500: yyparse (syn.y:499)
+==10321==    by 0x10E7D4: main (syn.y:681)
+==10321== 
+==10321== 224 bytes in 1 blocks are still reachable in loss record 23 of 37
+==10321==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==10321==    by 0x10B154: add_tree_token_node (structures.c:281)
+==10321==    by 0x10D529: yyparse (syn.y:500)
+==10321==    by 0x10E7D4: main (syn.y:681)
+==10321== 
+==10321== 224 bytes in 1 blocks are still reachable in loss record 24 of 37
+==10321==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==10321==    by 0x10AB4B: create_node (structures.c:244)
+==10321==    by 0x10D452: yyparse (syn.y:484)
+==10321==    by 0x10E7D4: main (syn.y:681)
+==10321== 
+==10321== 224 bytes in 1 blocks are still reachable in loss record 25 of 37
+==10321==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==10321==    by 0x10AB4B: create_node (structures.c:244)
+==10321==    by 0x10C0CA: yyparse (syn.y:201)
+==10321==    by 0x10E7D4: main (syn.y:681)
+==10321== 
+==10321== 224 bytes in 1 blocks are still reachable in loss record 26 of 37
+==10321==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==10321==    by 0x10B154: add_tree_token_node (structures.c:281)
+==10321==    by 0x10C11C: yyparse (syn.y:203)
+==10321==    by 0x10E7D4: main (syn.y:681)
+==10321== 
+==10321== 224 bytes in 1 blocks are still reachable in loss record 27 of 37
+==10321==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==10321==    by 0x10AB4B: create_node (structures.c:244)
+==10321==    by 0x10C04B: yyparse (syn.y:193)
+==10321==    by 0x10E7D4: main (syn.y:681)
+==10321== 
+==10321== 224 bytes in 1 blocks are still reachable in loss record 28 of 37
+==10321==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==10321==    by 0x10B154: add_tree_token_node (structures.c:281)
+==10321==    by 0x10C09D: yyparse (syn.y:195)
+==10321==    by 0x10E7D4: main (syn.y:681)
+==10321== 
+==10321== 224 bytes in 1 blocks are still reachable in loss record 29 of 37
+==10321==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==10321==    by 0x10AB4B: create_node (structures.c:244)
+==10321==    by 0x10BEBB: yyparse (syn.y:172)
+==10321==    by 0x10E7D4: main (syn.y:681)
+==10321== 
+==10321== 224 bytes in 1 blocks are still reachable in loss record 30 of 37
+==10321==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==10321==    by 0x10AB4B: create_node (structures.c:244)
+==10321==    by 0x10BE35: yyparse (syn.y:161)
+==10321==    by 0x10E7D4: main (syn.y:681)
+==10321== 
+==10321== 224 bytes in 1 blocks are still reachable in loss record 31 of 37
+==10321==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==10321==    by 0x10AB4B: create_node (structures.c:244)
+==10321==    by 0x10BD78: yyparse (syn.y:143)
+==10321==    by 0x10E7D4: main (syn.y:681)
+==10321== 
+==10321== 224 bytes in 1 blocks are definitely lost in loss record 32 of 37
+==10321==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==10321==    by 0x10AEB2: token_to_node (structures.c:272)
+==10321==    by 0x10B175: add_tree_token_node (structures.c:282)
+==10321==    by 0x10D529: yyparse (syn.y:500)
+==10321==    by 0x10E7D4: main (syn.y:681)
+==10321== 
+==10321== 224 bytes in 1 blocks are definitely lost in loss record 33 of 37
+==10321==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==10321==    by 0x10AEB2: token_to_node (structures.c:272)
+==10321==    by 0x10B175: add_tree_token_node (structures.c:282)
+==10321==    by 0x10C11C: yyparse (syn.y:203)
+==10321==    by 0x10E7D4: main (syn.y:681)
+==10321== 
+==10321== 224 bytes in 1 blocks are definitely lost in loss record 34 of 37
+==10321==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==10321==    by 0x10AEB2: token_to_node (structures.c:272)
+==10321==    by 0x10B175: add_tree_token_node (structures.c:282)
+==10321==    by 0x10C09D: yyparse (syn.y:195)
+==10321==    by 0x10E7D4: main (syn.y:681)
+==10321== 
+==10321== 472 bytes in 1 blocks are still reachable in loss record 35 of 37
+==10321==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==10321==    by 0x48D5EDD: __fopen_internal (iofopen.c:65)
+==10321==    by 0x48D5EDD: fopen@@GLIBC_2.2.5 (iofopen.c:86)
+==10321==    by 0x10E7C8: main (syn.y:680)
+==10321== 
+==10321== 512 bytes in 1 blocks are still reachable in loss record 36 of 37
+==10321==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==10321==    by 0x48D52D3: _IO_file_doallocate (filedoalloc.c:101)
+==10321==    by 0x48E502F: _IO_doallocbuf (genops.c:347)
+==10321==    by 0x48E25D3: _IO_file_xsgetn (fileops.c:1288)
+==10321==    by 0x48D6492: fread (iofread.c:38)
+==10321==    by 0x110196: yy_get_next_buffer (lex.yy.c:1618)
+==10321==    by 0x10FC5E: yylex (lex.yy.c:1458)
+==10321==    by 0x10B923: yyparse (syn.tab.c:2614)
+==10321==    by 0x10E7D4: main (syn.y:681)
+==10321== 
+==10321== 16,386 bytes in 1 blocks are still reachable in loss record 37 of 37
+==10321==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==10321==    by 0x111208: yyalloc (lex.yy.c:2331)
+==10321==    by 0x110866: yy_create_buffer (lex.yy.c:1878)
+==10321==    by 0x10E96E: yylex (lex.yy.c:733)
+==10321==    by 0x10B923: yyparse (syn.tab.c:2614)
+==10321==    by 0x10E7D4: main (syn.y:681)
+==10321== 
+==10321== LEAK SUMMARY:
+==10321==    definitely lost: 2,128 bytes in 10 blocks
+==10321==    indirectly lost: 0 bytes in 0 blocks
+==10321==      possibly lost: 0 bytes in 0 blocks
+==10321==    still reachable: 19,954 bytes in 27 blocks
+==10321==         suppressed: 0 bytes in 0 blocks
+==10321== 
+==10321== ERROR SUMMARY: 11 errors from 11 contexts (suppressed: 0 from 0)
+==10321== 
+==10321== 1 errors in context 1 of 11:
+==10321== Invalid read of size 8
+==10321==    at 0x10B524: destroy_tree (structures.c:324)
+==10321==    by 0x10E87F: main (syn.y:698)
+==10321==  Address 0x0 is not stack'd, malloc'd or (recently) free'd
+==10321== 
+==10321== ERROR SUMMARY: 11 errors from 11 contexts (suppressed: 0 from 0)
