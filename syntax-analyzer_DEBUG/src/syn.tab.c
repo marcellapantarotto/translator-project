@@ -3829,6 +3829,7 @@ int main(int argc, char **argv) {
   
   destroy_tree(root);
   destroy_table();
+  free(root_scope_tree);
   
   fclose(yyin);
   yylex_destroy();

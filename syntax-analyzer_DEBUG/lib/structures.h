@@ -170,7 +170,6 @@ void destroy_tree(t_node *root);
 extern int column;
 extern int errors;
 extern table symbol_table;
-// table *ptr_symbol_table = &symbol_table;
 extern int id_counter;
 extern int g_scope;
 extern int scope_counter;
