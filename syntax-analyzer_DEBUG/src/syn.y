@@ -198,7 +198,7 @@ var_declaration:
   unq_declaration ';' {
       $$ = create_node(VARIABLE_DECLARATION);
       add_tree_node($$, $1);
-      add_tree_token_node($$, &$2, SEMICOLON);
+      // add_tree_token_node($$, &$2, SEMICOLON);
     }
 ;
 
@@ -225,7 +225,7 @@ lst_parameters:
   unq_declaration ',' lst_parameters  {
       $$ = create_node(LIST_PARAMETERS);
       add_tree_node($$, $1);
-      add_tree_token_node($$, &$2, COMMA);
+      // add_tree_token_node($$, &$2, COMMA);
       add_tree_node($$, $3);
     }
   | unq_declaration {
@@ -249,7 +249,7 @@ lst_calling_parameters:
   operation ',' lst_calling_parameters {
       $$ = create_node(LIST_CALLING_PARAMETERS);
       add_tree_node($$, $1);
-      add_tree_token_node($$, &$2, COMMA);
+      // add_tree_token_node($$, &$2, COMMA);
       add_tree_node($$, $3);
     }
   | operation {
@@ -261,6 +261,7 @@ lst_calling_parameters:
 block_commands: 
   command block_commands  {
       $$ = create_node(BLOCK_COMMANDS);
+      // $$ = $1;
       add_tree_node($$, $1);
       add_tree_node($$, $2);
     }
@@ -302,14 +303,14 @@ command:
   | {increment_scope();} '{' block_commands '}' {
     // $$ = $2;
       $$ = create_node(COMMAND);
-      add_tree_token_node($$, &$2, OPEN_CURLY_BRACKET);
+      // add_tree_token_node($$, &$2, OPEN_CURLY_BRACKET);
       add_tree_node($$, $3);
-      add_tree_token_node($$, &$4, CLOSE_CURLY_BRACKET);
+      // add_tree_token_node($$, &$4, CLOSE_CURLY_BRACKET);
     }
   | operation ';' { 
       $$ = create_node(COMMAND);
       add_tree_node($$, $1);
-      add_tree_token_node($$, &$2, SEMICOLON);
+      // add_tree_token_node($$, &$2, SEMICOLON);
     }
 ;
 
@@ -317,7 +318,7 @@ init_variable:
   init_stmt ';' {
       $$ = create_node(INIT_VARIABLE);
       add_tree_node($$, $1);
-      add_tree_token_node($$, &$2, SEMICOLON);
+      // add_tree_token_node($$, &$2, SEMICOLON);
     }
 ;
 
@@ -325,17 +326,17 @@ conditional_stmt:
   IF_STMT '(' operation ')' command %prec IF_STMT {
       $$ = create_node(CONDITIONAL_STMT);
       add_tree_token_node($$, &$1, IF);
-      add_tree_token_node($$, &$2, OPEN_PARENTHESES);
+      // add_tree_token_node($$, &$2, OPEN_PARENTHESES);
       add_tree_node($$, $3);
-      add_tree_token_node($$, &$4, CLOSE_PARENTHESES);
+      // add_tree_token_node($$, &$4, CLOSE_PARENTHESES);
       add_tree_node($$, $5);
     }
   | IF_STMT '(' operation ')' command ELSE_STMT command  {
       $$ = create_node(CONDITIONAL_STMT);
       add_tree_token_node($$, &$1, IF);
-      add_tree_token_node($$, &$2, OPEN_PARENTHESES);
+      // add_tree_token_node($$, &$2, OPEN_PARENTHESES);
       add_tree_node($$, $3);
-      add_tree_token_node($$, &$4, CLOSE_PARENTHESES);
+      // add_tree_token_node($$, &$4, CLOSE_PARENTHESES);
       add_tree_node($$, $5);
       add_tree_token_node($$, &$6, ELSE);
       add_tree_node($$, $7);
@@ -347,7 +348,7 @@ return_stmt:
       $$ = create_node(RETURN_STMT);
       add_tree_token_node($$, &$1, RETURN);
       add_tree_node($$, $2);
-      add_tree_token_node($$, &$3, SEMICOLON);
+      // add_tree_token_node($$, &$3, SEMICOLON);
     }
 ;
 
@@ -355,9 +356,9 @@ iteration:
   FOR_STMT '(' loop_condition ')' command {
       $$ = create_node(ITERATION_PROCESS);
       add_tree_token_node($$, &$1, FOR);
-      add_tree_token_node($$, &$2, OPEN_PARENTHESES);
+      // add_tree_token_node($$, &$2, OPEN_PARENTHESES);
       add_tree_node($$, $3);
-      add_tree_token_node($$, &$4, CLOSE_PARENTHESES);
+      // add_tree_token_node($$, &$4, CLOSE_PARENTHESES);
       add_tree_node($$, $5);
     }
 ;
@@ -366,9 +367,9 @@ loop_condition:
   init_stmt ';' operation ';' update_stmt {
       $$ = create_node(LOOP_CONDITION);
       add_tree_node($$, $1);
-      add_tree_token_node($$, &$2, SEMICOLON);
+      // add_tree_token_node($$, &$2, SEMICOLON);
       add_tree_node($$, $3);
-      add_tree_token_node($$, &$4, SEMICOLON);
+      // add_tree_token_node($$, &$4, SEMICOLON);
       add_tree_node($$, $5);
     }
 ;
@@ -377,7 +378,7 @@ init_stmt:
   ID '=' operation  {
       $$ = create_node(INIT_STMT);
       add_tree_token_node($$, &$1, IDENTIFIER);
-      add_tree_token_node($$, &$2, ASSIGN);
+      // add_tree_token_node($$, &$2, ASSIGN);
       add_tree_node($$, $3);
     }
 ;
@@ -397,34 +398,34 @@ output:
   OUTPUT_WRITE '(' operation ')' ';'  {
       $$ = create_node(OUTPUT_OPERATION);
       add_tree_token_node($$, &$1, WRITE);
-      add_tree_token_node($$, &$2, OPEN_PARENTHESES);
+      // add_tree_token_node($$, &$2, OPEN_PARENTHESES);
       add_tree_node($$, $3);
-      add_tree_token_node($$, &$4, CLOSE_PARENTHESES);
-      add_tree_token_node($$, &$5, SEMICOLON);
+      // add_tree_token_node($$, &$4, CLOSE_PARENTHESES);
+      // add_tree_token_node($$, &$5, SEMICOLON);
     }
   | OUTPUT_WRITELN '(' operation ')' ';' {
       $$ = create_node(OUTPUT_OPERATION);
       add_tree_token_node($$, &$1, WRITELN);
-      add_tree_token_node($$, &$2, OPEN_PARENTHESES);
+      // add_tree_token_node($$, &$2, OPEN_PARENTHESES);
       add_tree_node($$, $3);
-      add_tree_token_node($$, &$4, CLOSE_PARENTHESES);
-      add_tree_token_node($$, &$5, SEMICOLON);
+      // add_tree_token_node($$, &$4, CLOSE_PARENTHESES);
+      // add_tree_token_node($$, &$5, SEMICOLON);
     }
   | OUTPUT_WRITE '(' STRING ')' ';' {
       $$ = create_node(OUTPUT_OPERATION);
       add_tree_token_node($$, &$1, WRITELN);
-      add_tree_token_node($$, &$2, OPEN_PARENTHESES);
+      // add_tree_token_node($$, &$2, OPEN_PARENTHESES);
       add_tree_token_node($$, &$3, STRING);
-      add_tree_token_node($$, &$4, CLOSE_PARENTHESES);
-      add_tree_token_node($$, &$5, SEMICOLON);
+      // add_tree_token_node($$, &$4, CLOSE_PARENTHESES);
+      // add_tree_token_node($$, &$5, SEMICOLON);
     }
   | OUTPUT_WRITELN '(' STRING ')' ';' {
       $$ = create_node(OUTPUT_OPERATION);
       add_tree_token_node($$, &$1, WRITELN);
-      add_tree_token_node($$, &$2, OPEN_PARENTHESES);
+      // add_tree_token_node($$, &$2, OPEN_PARENTHESES);
       add_tree_token_node($$, &$3, STRING);
-      add_tree_token_node($$, &$4, CLOSE_PARENTHESES);
-      add_tree_token_node($$, &$5, SEMICOLON);
+      // add_tree_token_node($$, &$4, CLOSE_PARENTHESES);
+      // add_tree_token_node($$, &$5, SEMICOLON);
     }
 ;
 
@@ -432,10 +433,10 @@ input:
   INPUT_READ '(' expression ')' ';' {
       $$ = create_node(INPUT_OPERATION);
       add_tree_token_node($$, &$1, READ);
-      add_tree_token_node($$, &$2, OPEN_PARENTHESES);
+      // add_tree_token_node($$, &$2, OPEN_PARENTHESES);
       add_tree_node($$, $3);
-      add_tree_token_node($$, &$4, CLOSE_PARENTHESES);
-      add_tree_token_node($$, &$5, SEMICOLON);
+      // add_tree_token_node($$, &$4, CLOSE_PARENTHESES);
+      // add_tree_token_node($$, &$5, SEMICOLON);
     }
 ;
 
@@ -443,9 +444,9 @@ func_calling:
   ID '(' calling_parameters ')' {
       $$ = create_node(FUNCTION_CALLING);
       add_tree_token_node($$, &$1, IDENTIFIER);
-      add_tree_token_node($$, &$2, OPEN_PARENTHESES);
+      // add_tree_token_node($$, &$2, OPEN_PARENTHESES);
       add_tree_node($$, $3);
-      add_tree_token_node($$, &$4, CLOSE_PARENTHESES);
+      // add_tree_token_node($$, &$4, CLOSE_PARENTHESES);
     }
 ;
 

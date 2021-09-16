@@ -851,7 +851,7 @@ YY_RULE_SETUP
 #line 67 "src/lex.l"
 {
   // printf("STRING:\n  Line: %d, Column: %d \t-->\t<STRING, %s> \n\n", yylineno, column, yytext);
-  sscanf(yytext, "%s", yylval.token.lexeme);
+  strcpy(yylval.token.lexeme, yytext);  // to get the whole string
   yylval.token.line = yylineno;
   yylval.token.column = column;
   // yylval->token.scope = scope;

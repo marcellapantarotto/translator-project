@@ -111,19 +111,18 @@ void print_node(t_node *n) {
   printf(")\n");
 }
 
-void print_children(tree_node *c) {
-  printf("child: ");
-  print_node(c->child);
-  printf(";");
-
-  tree_node *aux;
-  printf("(sibilings: ");
-  while (c->sibilings != NULL) {
-    aux = c->sibilings;
-    print_node(aux->child);
-  }
-  printf(")\n");
-}
+// void print_children(tree_node *c) {
+//   printf("child: ");
+//   print_node(c->child);
+//   printf(";");
+//   tree_node *aux;
+//   printf("(sibilings: ");
+//   while (c->sibilings != NULL) {
+//     aux = c->sibilings;
+//     print_node(aux->child);
+//   }
+//   printf(")\n");
+// }
 
 //===============================================================
 // SYMBOL TABLE SECTION
@@ -278,7 +277,7 @@ void print_tree(t_node *root, int height) {
   }
   printf("- %s", rule_label[root->type]);
 
-  if(root->token.line != -1) {
+  if(root->token.line != -1) {  
     printf(": " BHBLU "%s  (line: %d, column: %d)\n" reset, root->token.lexeme, root->token.line, root->token.column);
   } else {
     printf("\n");
