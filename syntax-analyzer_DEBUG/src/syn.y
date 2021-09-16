@@ -148,7 +148,7 @@ program:
       // root = create_node(root, PROGRAM);
       // add_tree_node(root, $1);
     }
-  | /* epsilon */ {
+  | %empty {
       $$ = create_node(PROGRAM);
       printf("epsilon (program) \n");
     }
@@ -215,7 +215,7 @@ parameters:
       $$ = create_node(PARAMETERS);
       add_tree_node($$, $1);
     }
-  | /* epsilon */ {
+  | %empty {
       $$ = create_node(PARAMETERS);
       printf("epsilon (parameters) \n");
     }
@@ -239,7 +239,7 @@ calling_parameters:
       $$ = create_node(CALLING_PARAMETERS);
       add_tree_node($$, $1);
     }
-  | /* epsilon */ {
+  | %empty {
       $$ = create_node(CALLING_PARAMETERS);
       printf("epsilon (calling_parameters) \n");
     }
@@ -264,7 +264,7 @@ block_commands:
       add_tree_node($$, $1);
       add_tree_node($$, $2);
     }
-  | /* epsilon */ {
+  | %empty {
       $$ = create_node(BLOCK_COMMANDS);
       printf("epsilon (block_commands) \n");
     }
@@ -387,7 +387,7 @@ update_stmt:
       $$ = create_node(UPDATE_STMT);
       add_tree_node($$, $1);
     }
-  | /* epsilon */ {
+  | %empty {
       $$ = create_node(UPDATE_STMT);
       printf("epsilon (update_stmt) \n");
     }
@@ -711,6 +711,7 @@ int main(int argc, char **argv) {
   printf("  ID\t|  TOKENS\t\t\t|  SCOPE");
   printf("\n====================================================\n");
   print_table();
+  printf("====================================================\n\n");
 
   
   destroy_tree(root);

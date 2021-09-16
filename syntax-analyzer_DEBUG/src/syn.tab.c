@@ -2704,7 +2704,7 @@ yyreduce:
 
   case 3:
 #line 151 "src/syn.y"
-                  {
+           {
       (yyval.node) = create_node(PROGRAM);
       printf("epsilon (program) \n");
     }
@@ -2815,7 +2815,7 @@ yyreduce:
 
   case 15:
 #line 218 "src/syn.y"
-                  {
+           {
       (yyval.node) = create_node(PARAMETERS);
       printf("epsilon (parameters) \n");
     }
@@ -2853,7 +2853,7 @@ yyreduce:
 
   case 19:
 #line 242 "src/syn.y"
-                  {
+           {
       (yyval.node) = create_node(CALLING_PARAMETERS);
       printf("epsilon (calling_parameters) \n");
     }
@@ -2892,7 +2892,7 @@ yyreduce:
 
   case 23:
 #line 267 "src/syn.y"
-                  {
+           {
       (yyval.node) = create_node(BLOCK_COMMANDS);
       printf("epsilon (block_commands) \n");
     }
@@ -3087,7 +3087,7 @@ yyreduce:
 
   case 42:
 #line 390 "src/syn.y"
-                  {
+           {
       (yyval.node) = create_node(UPDATE_STMT);
       printf("epsilon (update_stmt) \n");
     }
@@ -3825,6 +3825,7 @@ int main(int argc, char **argv) {
   printf("  ID\t|  TOKENS\t\t\t|  SCOPE");
   printf("\n====================================================\n");
   print_table();
+  printf("====================================================\n\n");
 
   
   destroy_tree(root);

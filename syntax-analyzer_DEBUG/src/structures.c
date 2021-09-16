@@ -251,7 +251,6 @@ void add_tree_node(t_node *root, t_node *node) {
     }
     youngest->sibilings = aux; // node
   }
-  // return *node;
 }
 
 // converting token into node so it can be added to the tree
@@ -268,8 +267,6 @@ void add_tree_token_node(t_node *root, t_token *tok, int type) {
   struct t_node *node = (struct t_node*)malloc(sizeof(t_node));
   *node = token_to_node(tok, type);
   add_tree_node(root, node);
-
-  // return *node;
 }
 
 // print whole tree
@@ -305,6 +302,6 @@ void destroy_tree(t_node *root) {
     curr = curr->sibilings;
   }
   // print_node(root);
+  free(root->children);
   free(root);
-  // free(curr);
 }
