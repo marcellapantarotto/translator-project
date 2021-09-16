@@ -713,7 +713,6 @@ int main(int argc, char **argv) {
   print_table();
   printf("====================================================\n\n");
 
-  
   destroy_tree(root);
   destroy_table();
   free(root_scope_tree);

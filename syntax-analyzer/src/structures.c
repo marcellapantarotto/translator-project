@@ -219,25 +219,25 @@ void total_lexical_errors() {
 
 // creating empty token
 t_token null_token() {
-  struct t_token *t = (struct t_token*)malloc(sizeof(t_token));
-  t->line = -1;
-  t->column = -1;
-  strcpy(t->lexeme, "");
+  struct t_token t;
+  t.line = -1;
+  t.column = -1;
+  strcpy(t.lexeme, "");
   // t->scope = -1;
-  return *t;
+  return t;
 }
 
 // create new node in tree with the token that is bening passed
 t_node *create_node(int type) {
   struct t_node *node = (struct t_node*)malloc(sizeof(t_node));
-  node->token = null_token(NULL);
+  node->token = null_token();
   node->type = type;
   node->children = NULL;
   return node;
 }
 
 // add node to the tree
-t_node add_tree_node(t_node *root, t_node *node) {
+void add_tree_node(t_node *root, t_node *node) {
   struct tree_node *aux = (struct tree_node*)malloc(sizeof(tree_node));
   aux->child = node;
   aux->sibilings = NULL;
@@ -251,8 +251,6 @@ t_node add_tree_node(t_node *root, t_node *node) {
     }
     youngest->sibilings = aux; // node
   }
-
-  return *node;
 }
 
 // converting token into node so it can be added to the tree
@@ -265,11 +263,10 @@ t_node token_to_node(t_token *t, int type) {
 }
 
 // add a token (converted into node) to the tree
-t_node add_tree_token_node(t_node *root, t_token *tok, int type) {
+void add_tree_token_node(t_node *root, t_token *tok, int type) {
   struct t_node *node = (struct t_node*)malloc(sizeof(t_node));
   *node = token_to_node(tok, type);
   add_tree_node(root, node);
-  return *node;
 }
 
 // print whole tree
@@ -302,9 +299,8 @@ void destroy_tree(t_node *root) {
   tree_node *curr = root->children;
   while(curr != NULL) {
     destroy_tree(curr->child);
-    
     curr = curr->sibilings;
   }
-  // print_node(root);
+  free(root->children);
   free(root);
 }

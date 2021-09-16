@@ -301,7 +301,6 @@ void destroy_tree(t_node *root) {
     destroy_tree(curr->child);
     curr = curr->sibilings;
   }
-  // print_node(root);
   free(root->children);
   free(root);
 }
