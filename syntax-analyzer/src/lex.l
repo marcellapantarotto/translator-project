@@ -413,6 +413,7 @@ id              [_a-zA-Z][_a-zA-Z0-9]*
   yylval.token.column = column;
   // yylval->token.scope = scope;
   column += yyleng;
+  
   return('{');
 }
 
