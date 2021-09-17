@@ -1,7 +1,7 @@
 int main() {
     int int a;          // error
     int b = 8;          // error
-    list float product;
-    writeln("This is a string\n");
+    int list IL;   // error
+    writeln("This is a string");
     // This is a comment
 }

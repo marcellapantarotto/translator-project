@@ -17,7 +17,7 @@
   extern int yylineno;
   extern int yylex();
   extern int yylex_destroy();
-  extern int yyerror(char *s);
+  extern int yyerror(const char *s);
   extern FILE *yyin;
 
   t_node *root;
@@ -128,6 +128,9 @@
 %type <node> logical_op
 %type <node> relational_op
 
+%define parse.lac full
+%define parse.error verbose
+
 /********** Brigde between Lex and Y **********/
 %union {
   t_token token;
@@ -140,13 +143,9 @@
 %%
 program: 
   lst_declarations {
-      $$ = create_node(PROGRAM);
       root = $$;
+      root = create_node(PROGRAM);
       add_tree_node(root, $1);
-
-      // root = $$;
-      // root = create_node(root, PROGRAM);
-      // add_tree_node(root, $1);
     }
   | %empty {
       $$ = create_node(PROGRAM);
@@ -161,23 +160,27 @@ lst_declarations:
       add_tree_node($$, $2);
     }
   | declaration  {
-      $$ = create_node(LIST_DECLARATIONS);
-      add_tree_node($$, $1);
+      $$ = $1;
+      // $$ = create_node(LIST_DECLARATIONS);
+      // add_tree_node($$, $1);
     }
 ;
 
 declaration:
   func_declaration {
-      $$ = create_node(DECLARATION);
-      add_tree_node($$, $1);
+      $$ = $1;
+      // $$ = create_node(DECLARATION);
+      // add_tree_node($$, $1);
     }
   | var_declaration {
-      $$ = create_node(DECLARATION);
-      add_tree_node($$, $1);
+      $$ = $1;
+      // $$ = create_node(DECLARATION);
+      // add_tree_node($$, $1);
     }
   | error {
+      yyerrok;
       $$ = create_node(DECLARATION); 
-      printf("**error** \n");
+      syntax_errors++;
     }
 ;
 
@@ -196,9 +199,10 @@ func_declaration:
 
 var_declaration:
   unq_declaration ';' {
-      $$ = create_node(VARIABLE_DECLARATION);
-      add_tree_node($$, $1);
-      add_tree_token_node($$, &$2, SEMICOLON);
+      // $$ = create_node(VARIABLE_DECLARATION);
+      $$ = $1;
+      // add_tree_node($$, $1);
+      // add_tree_token_node($$, &$2, SEMICOLON);
     }
 ;
 
@@ -212,8 +216,9 @@ unq_declaration:
 
 parameters:
   lst_parameters {
-      $$ = create_node(PARAMETERS);
-      add_tree_node($$, $1);
+      $$ = $1;
+      // $$ = create_node(PARAMETERS);
+      // add_tree_node($$, $1);
     }
   | %empty {
       $$ = create_node(PARAMETERS);
@@ -225,12 +230,13 @@ lst_parameters:
   unq_declaration ',' lst_parameters  {
       $$ = create_node(LIST_PARAMETERS);
       add_tree_node($$, $1);
-      add_tree_token_node($$, &$2, COMMA);
+      // add_tree_token_node($$, &$2, COMMA);
       add_tree_node($$, $3);
     }
   | unq_declaration {
-      $$ = create_node(LIST_PARAMETERS);
-      add_tree_node($$, $1);
+      $$ = $1;
+      // $$ = create_node(LIST_PARAMETERS);
+      // add_tree_node($$, $1);
     }
 ;
 
@@ -249,7 +255,7 @@ lst_calling_parameters:
   operation ',' lst_calling_parameters {
       $$ = create_node(LIST_CALLING_PARAMETERS);
       add_tree_node($$, $1);
-      add_tree_token_node($$, &$2, COMMA);
+      // add_tree_token_node($$, &$2, COMMA);
       add_tree_node($$, $3);
     }
   | operation {
@@ -260,56 +266,63 @@ lst_calling_parameters:
 
 block_commands: 
   command block_commands  {
+      // $$ = $1;
       $$ = create_node(BLOCK_COMMANDS);
       add_tree_node($$, $1);
       add_tree_node($$, $2);
     }
-  | %empty {
-      $$ = create_node(BLOCK_COMMANDS);
-      printf("epsilon (block_commands) \n");
-    }
+  | command {
+    $$ = $1;
+  }
 ;
 
 command: 
   var_declaration {
-      $$ = create_node(COMMAND);
-      add_tree_node($$, $1);
+      $$ = $1;
+      // $$ = create_node(COMMAND);
+      // add_tree_node($$, $1);
     }
   | init_variable {
-      $$ = create_node(COMMAND);
-      add_tree_node($$, $1);
+      $$ = $1;
+      // $$ = create_node(COMMAND);
+      // add_tree_node($$, $1);
     }
   | conditional_stmt {
-      $$ = create_node(COMMAND);
-      add_tree_node($$, $1);
+      $$ = $1;
+      // $$ = create_node(COMMAND);
+      // add_tree_node($$, $1);
     }
   | return_stmt {
-      $$ = create_node(COMMAND);
-      add_tree_node($$, $1);
+      $$ = $1;
+      // $$ = create_node(COMMAND);
+      // add_tree_node($$, $1);
     }
   | iteration {
-      $$ = create_node(COMMAND);
-      add_tree_node($$, $1);
+      $$ = $1;
+      // $$ = create_node(COMMAND);
+      // add_tree_node($$, $1);
     }
   | input {
-      $$ = create_node(COMMAND);
-      add_tree_node($$, $1);
+      $$ = $1;
+      // $$ = create_node(COMMAND);
+      // add_tree_node($$, $1);
     }
   | output {
-      $$ = create_node(COMMAND);
-      add_tree_node($$, $1);
+      $$ = $1;
+      // $$ = create_node(COMMAND);
+      // add_tree_node($$, $1);
     }
   | {increment_scope();} '{' block_commands '}' {
     // $$ = $2;
       $$ = create_node(COMMAND);
-      add_tree_token_node($$, &$2, OPEN_CURLY_BRACKET);
+      // add_tree_token_node($$, &$2, OPEN_CURLY_BRACKET);
       add_tree_node($$, $3);
-      add_tree_token_node($$, &$4, CLOSE_CURLY_BRACKET);
+      // add_tree_token_node($$, &$4, CLOSE_CURLY_BRACKET);
     }
   | operation ';' { 
       $$ = create_node(COMMAND);
       add_tree_node($$, $1);
-      add_tree_token_node($$, &$2, SEMICOLON);
+      // add_tree_token_node($$, &$2, SEMICOLON);
     }
 ;
 
@@ -317,7 +330,7 @@ init_variable:
   init_stmt ';' {
       $$ = create_node(INIT_VARIABLE);
       add_tree_node($$, $1);
-      add_tree_token_node($$, &$2, SEMICOLON);
+      // add_tree_token_node($$, &$2, SEMICOLON);
     }
 ;
 
@@ -325,17 +338,17 @@ conditional_stmt:
   IF_STMT '(' operation ')' command %prec IF_STMT {
       $$ = create_node(CONDITIONAL_STMT);
       add_tree_token_node($$, &$1, IF);
-      add_tree_token_node($$, &$2, OPEN_PARENTHESES);
+      // add_tree_token_node($$, &$2, OPEN_PARENTHESES);
       add_tree_node($$, $3);
-      add_tree_token_node($$, &$4, CLOSE_PARENTHESES);
+      // add_tree_token_node($$, &$4, CLOSE_PARENTHESES);
       add_tree_node($$, $5);
     }
   | IF_STMT '(' operation ')' command ELSE_STMT command  {
       $$ = create_node(CONDITIONAL_STMT);
       add_tree_token_node($$, &$1, IF);
-      add_tree_token_node($$, &$2, OPEN_PARENTHESES);
+      // add_tree_token_node($$, &$2, OPEN_PARENTHESES);
       add_tree_node($$, $3);
-      add_tree_token_node($$, &$4, CLOSE_PARENTHESES);
+      // add_tree_token_node($$, &$4, CLOSE_PARENTHESES);
       add_tree_node($$, $5);
       add_tree_token_node($$, &$6, ELSE);
       add_tree_node($$, $7);
@@ -347,7 +360,7 @@ return_stmt:
       $$ = create_node(RETURN_STMT);
       add_tree_token_node($$, &$1, RETURN);
       add_tree_node($$, $2);
-      add_tree_token_node($$, &$3, SEMICOLON);
+      // add_tree_token_node($$, &$3, SEMICOLON);
     }
 ;
 
@@ -355,9 +368,9 @@ iteration:
   FOR_STMT '(' loop_condition ')' command {
       $$ = create_node(ITERATION_PROCESS);
       add_tree_token_node($$, &$1, FOR);
-      add_tree_token_node($$, &$2, OPEN_PARENTHESES);
+      // add_tree_token_node($$, &$2, OPEN_PARENTHESES);
       add_tree_node($$, $3);
-      add_tree_token_node($$, &$4, CLOSE_PARENTHESES);
+      // add_tree_token_node($$, &$4, CLOSE_PARENTHESES);
       add_tree_node($$, $5);
     }
 ;
@@ -366,9 +379,9 @@ loop_condition:
   init_stmt ';' operation ';' update_stmt {
       $$ = create_node(LOOP_CONDITION);
       add_tree_node($$, $1);
-      add_tree_token_node($$, &$2, SEMICOLON);
+      // add_tree_token_node($$, &$2, SEMICOLON);
       add_tree_node($$, $3);
-      add_tree_token_node($$, &$4, SEMICOLON);
+      // add_tree_token_node($$, &$4, SEMICOLON);
       add_tree_node($$, $5);
     }
 ;
@@ -377,15 +390,16 @@ init_stmt:
   ID '=' operation  {
       $$ = create_node(INIT_STMT);
       add_tree_token_node($$, &$1, IDENTIFIER);
-      add_tree_token_node($$, &$2, ASSIGN);
+      // add_tree_token_node($$, &$2, ASSIGN);
       add_tree_node($$, $3);
     }
 ;
 
 update_stmt:
   init_stmt {
-      $$ = create_node(UPDATE_STMT);
-      add_tree_node($$, $1);
+      $$ = $1;
+      // $$ = create_node(UPDATE_STMT);
+      // add_tree_node($$, $1);
     }
   | %empty {
       $$ = create_node(UPDATE_STMT);
@@ -397,34 +411,34 @@ output:
   OUTPUT_WRITE '(' operation ')' ';'  {
       $$ = create_node(OUTPUT_OPERATION);
       add_tree_token_node($$, &$1, WRITE);
-      add_tree_token_node($$, &$2, OPEN_PARENTHESES);
+      // add_tree_token_node($$, &$2, OPEN_PARENTHESES);
       add_tree_node($$, $3);
-      add_tree_token_node($$, &$4, CLOSE_PARENTHESES);
-      add_tree_token_node($$, &$5, SEMICOLON);
+      // add_tree_token_node($$, &$4, CLOSE_PARENTHESES);
+      // add_tree_token_node($$, &$5, SEMICOLON);
     }
   | OUTPUT_WRITELN '(' operation ')' ';' {
       $$ = create_node(OUTPUT_OPERATION);
       add_tree_token_node($$, &$1, WRITELN);
-      add_tree_token_node($$, &$2, OPEN_PARENTHESES);
+      // add_tree_token_node($$, &$2, OPEN_PARENTHESES);
       add_tree_node($$, $3);
-      add_tree_token_node($$, &$4, CLOSE_PARENTHESES);
-      add_tree_token_node($$, &$5, SEMICOLON);
+      // add_tree_token_node($$, &$4, CLOSE_PARENTHESES);
+      // add_tree_token_node($$, &$5, SEMICOLON);
     }
   | OUTPUT_WRITE '(' STRING ')' ';' {
       $$ = create_node(OUTPUT_OPERATION);
       add_tree_token_node($$, &$1, WRITELN);
-      add_tree_token_node($$, &$2, OPEN_PARENTHESES);
+      // add_tree_token_node($$, &$2, OPEN_PARENTHESES);
       add_tree_token_node($$, &$3, STRING);
-      add_tree_token_node($$, &$4, CLOSE_PARENTHESES);
-      add_tree_token_node($$, &$5, SEMICOLON);
+      // add_tree_token_node($$, &$4, CLOSE_PARENTHESES);
+      // add_tree_token_node($$, &$5, SEMICOLON);
     }
   | OUTPUT_WRITELN '(' STRING ')' ';' {
       $$ = create_node(OUTPUT_OPERATION);
       add_tree_token_node($$, &$1, WRITELN);
-      add_tree_token_node($$, &$2, OPEN_PARENTHESES);
+      // add_tree_token_node($$, &$2, OPEN_PARENTHESES);
       add_tree_token_node($$, &$3, STRING);
-      add_tree_token_node($$, &$4, CLOSE_PARENTHESES);
-      add_tree_token_node($$, &$5, SEMICOLON);
+      // add_tree_token_node($$, &$4, CLOSE_PARENTHESES);
+      // add_tree_token_node($$, &$5, SEMICOLON);
     }
 ;
 
@@ -432,10 +446,10 @@ input:
   INPUT_READ '(' expression ')' ';' {
       $$ = create_node(INPUT_OPERATION);
       add_tree_token_node($$, &$1, READ);
-      add_tree_token_node($$, &$2, OPEN_PARENTHESES);
+      // add_tree_token_node($$, &$2, OPEN_PARENTHESES);
       add_tree_node($$, $3);
-      add_tree_token_node($$, &$4, CLOSE_PARENTHESES);
-      add_tree_token_node($$, &$5, SEMICOLON);
+      // add_tree_token_node($$, &$4, CLOSE_PARENTHESES);
+      // add_tree_token_node($$, &$5, SEMICOLON);
     }
 ;
 
@@ -443,24 +457,27 @@ func_calling:
   ID '(' calling_parameters ')' {
       $$ = create_node(FUNCTION_CALLING);
       add_tree_token_node($$, &$1, IDENTIFIER);
-      add_tree_token_node($$, &$2, OPEN_PARENTHESES);
+      // add_tree_token_node($$, &$2, OPEN_PARENTHESES);
       add_tree_node($$, $3);
-      add_tree_token_node($$, &$4, CLOSE_PARENTHESES);
+      // add_tree_token_node($$, &$4, CLOSE_PARENTHESES);
     }
 ;
 
 expression: 
   func_calling {
-    $$ = create_node(EXPRESSION);
-    add_tree_node($$, $1);
+    $$ = $1;
+    // $$ = create_node(EXPRESSION);
+    // add_tree_node($$, $1);
     }
   | single_operation {
-      $$ = create_node(EXPRESSION);
-      add_tree_node($$, $1);
+      $$ = $1;
+      // $$ = create_node(EXPRESSION);
+      // add_tree_node($$, $1);
     }
   | const {
-      $$ = create_node(EXPRESSION);
-      add_tree_node($$, $1);
+      $$ = $1;
+      // $$ = create_node(EXPRESSION);
+      // add_tree_node($$, $1);
     }
   | ID {
       $$ = create_node(EXPRESSION);
@@ -470,8 +487,9 @@ expression:
 
 const: 
   number {
-      $$ = create_node(CONSTANT);
-      add_tree_node($$, $1);
+    $$ = $1;
+      // $$ = create_node(CONSTANT);
+      // add_tree_node($$, $1);
     }
   | NIL_CNST {
       $$ = create_node(CONSTANT);
@@ -492,19 +510,22 @@ number:
 
 type:
   type_lst  {
-      $$ = create_node(TYPE);
-      add_tree_node($$, $1);
+      $$ = $1;
+      // $$ = create_node(TYPE);
+      // add_tree_node($$, $1);
     }
   | type_number  {
-      $$ = create_node(TYPE);
-      add_tree_node($$, $1);
+    $$ = $1;
+      // $$ = create_node(TYPE);
+      // add_tree_node($$, $1);
     }
 ;
 
 type_lst:
   type_number T_LIST   {
       $$ = create_node(TYPE_LIST);
-      add_tree_node($$, $1);
+      // add_tree_node($$, $1);
+      $$ = $1;
       add_tree_token_node($$, &$2, LIST);
     }
 ;
@@ -522,12 +543,14 @@ type_number:
 
 operation:
   arith_binary {
-      $$ = create_node(OPERATION);
-      add_tree_node($$, $1);
+      $$ = $1;
+      // $$ = create_node(OPERATION);
+      // add_tree_node($$, $1);
     }
   | lst_binary {
-      $$ = create_node(OPERATION);
-      add_tree_node($$, $1);
+      $$ = $1;
+      // $$ = create_node(OPERATION);
+      // add_tree_node($$, $1);
     }
   | operation relational_op expression  {
       $$ = create_node(OPERATION);
@@ -545,12 +568,14 @@ operation:
 
 single_operation:
   arith_single {
-      $$ = create_node(SINGLE_OPERATION);
-      add_tree_node($$, $1);
+      $$ = $1;
+      // $$ = create_node(SINGLE_OPERATION);
+      // add_tree_node($$, $1);
     }
   | lst_single {
-      $$ = create_node(SINGLE_OPERATION);
-      add_tree_node($$, $1);
+      $$ = $1;
+      // $$ = create_node(SINGLE_OPERATION);
+      // add_tree_node($$, $1);
     }
   | '!' expression {
     $$ = create_node(SINGLE_OPERATION);
@@ -585,8 +610,9 @@ arith_binary:
       add_tree_node($$, $3);
     }
   | expression {
-       $$ = create_node(ARITHMETIC_BINARY);
-      add_tree_node($$, $1);
+      $$ = $1;
+      // $$ = create_node(ARITHMETIC_BINARY);
+      // add_tree_node($$, $1);
     }
 ;
 
@@ -676,8 +702,8 @@ relational_op:
 
 %%
 //********** C Functions **********
-int yyerror(char *s) {
-  fprintf(stderr, BHRED "\nError: %s in line: %d, column: %d\n\n" reset "\n", s, yylineno, column-yyleng);
+int yyerror(const char *s) {
+  fprintf(stderr, BHRED "\nError: in line: %d, column: %d - %s " reset "\n", yylineno, column-yyleng, s);
   return 0;
 }
 
@@ -698,6 +724,7 @@ int main(int argc, char **argv) {
     yyin = stdin;
   
   total_lexical_errors();
+  total_syntax_errors();
 
   // printf("\n~~~~ ABSTRACT TREE ~~~~\n\n");
   printf("\n====================================================\n");

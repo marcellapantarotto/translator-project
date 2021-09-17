@@ -66,7 +66,7 @@ id              [_a-zA-Z][_a-zA-Z0-9]*
 
 {string} {
   // printf("STRING:\n  Line: %d, Column: %d \t-->\t<STRING, %s> \n\n", yylineno, column, yytext);
-  sscanf(yytext, "%s", yylval.token.lexeme);
+  strcpy(yylval.token.lexeme, yytext);  // to get the whole string
   yylval.token.line = yylineno;
   yylval.token.column = column;
   // yylval->token.scope = scope;
@@ -466,10 +466,9 @@ id              [_a-zA-Z][_a-zA-Z0-9]*
 }
 
 . { 
-  errors++;
+  lexical_errors++;
   show_error();
-  column += yyleng; 
-  // return(OTHER);
+  column += yyleng;
 }
 
 %%
