@@ -289,6 +289,7 @@ void print_tree(t_node *root, int height) {
   printf("- %s", rule_label[root->type]);
 
   if(root->token.line != -1) {  
+    // printf("- %s", rule_label[root->type]);
     printf(": " BHBLU "%s  (line: %d, column: %d)\n" reset, root->token.lexeme, root->token.line, root->token.column);
   } else {
     printf("\n");

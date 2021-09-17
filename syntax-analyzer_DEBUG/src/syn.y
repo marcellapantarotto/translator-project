@@ -143,13 +143,9 @@
 %%
 program: 
   lst_declarations {
-      $$ = create_node(PROGRAM);
       root = $$;
+      root = create_node(PROGRAM);
       add_tree_node(root, $1);
-
-      // root = $$;
-      // root = create_node(root, PROGRAM);
-      // add_tree_node(root, $1);
     }
   | %empty {
       $$ = create_node(PROGRAM);
@@ -164,19 +160,22 @@ lst_declarations:
       add_tree_node($$, $2);
     }
   | declaration  {
-      $$ = create_node(LIST_DECLARATIONS);
-      add_tree_node($$, $1);
+      $$ = $1;
+      // $$ = create_node(LIST_DECLARATIONS);
+      // add_tree_node($$, $1);
     }
 ;
 
 declaration:
   func_declaration {
-      $$ = create_node(DECLARATION);
-      add_tree_node($$, $1);
+      $$ = $1;
+      // $$ = create_node(DECLARATION);
+      // add_tree_node($$, $1);
     }
   | var_declaration {
-      $$ = create_node(DECLARATION);
-      add_tree_node($$, $1);
+      $$ = $1;
+      // $$ = create_node(DECLARATION);
+      // add_tree_node($$, $1);
     }
   | error {
       yyerrok;
@@ -200,8 +199,9 @@ func_declaration:
 
 var_declaration:
   unq_declaration ';' {
-      $$ = create_node(VARIABLE_DECLARATION);
-      add_tree_node($$, $1);
+      // $$ = create_node(VARIABLE_DECLARATION);
+      $$ = $1;
+      // add_tree_node($$, $1);
       // add_tree_token_node($$, &$2, SEMICOLON);
     }
 ;
@@ -216,8 +216,9 @@ unq_declaration:
 
 parameters:
   lst_parameters {
-      $$ = create_node(PARAMETERS);
-      add_tree_node($$, $1);
+      $$ = $1;
+      // $$ = create_node(PARAMETERS);
+      // add_tree_node($$, $1);
     }
   | %empty {
       $$ = create_node(PARAMETERS);
@@ -233,8 +234,9 @@ lst_parameters:
       add_tree_node($$, $3);
     }
   | unq_declaration {
-      $$ = create_node(LIST_PARAMETERS);
-      add_tree_node($$, $1);
+      $$ = $1;
+      // $$ = create_node(LIST_PARAMETERS);
+      // add_tree_node($$, $1);
     }
 ;
 
@@ -264,45 +266,51 @@ lst_calling_parameters:
 
 block_commands: 
   command block_commands  {
-      $$ = create_node(BLOCK_COMMANDS);
       // $$ = $1;
+      $$ = create_node(BLOCK_COMMANDS);
       add_tree_node($$, $1);
       add_tree_node($$, $2);
     }
-  | %empty {
-      $$ = create_node(BLOCK_COMMANDS);
-      printf("epsilon (block_commands) \n");
-    }
+  | command {
+    $$ = $1;
+  }
 ;
 
 command: 
   var_declaration {
-      $$ = create_node(COMMAND);
-      add_tree_node($$, $1);
+      $$ = $1;
+      // $$ = create_node(COMMAND);
+      // add_tree_node($$, $1);
     }
   | init_variable {
-      $$ = create_node(COMMAND);
-      add_tree_node($$, $1);
+      $$ = $1;
+      // $$ = create_node(COMMAND);
+      // add_tree_node($$, $1);
     }
   | conditional_stmt {
-      $$ = create_node(COMMAND);
-      add_tree_node($$, $1);
+      $$ = $1;
+      // $$ = create_node(COMMAND);
+      // add_tree_node($$, $1);
     }
   | return_stmt {
-      $$ = create_node(COMMAND);
-      add_tree_node($$, $1);
+      $$ = $1;
+      // $$ = create_node(COMMAND);
+      // add_tree_node($$, $1);
     }
   | iteration {
-      $$ = create_node(COMMAND);
-      add_tree_node($$, $1);
+      $$ = $1;
+      // $$ = create_node(COMMAND);
+      // add_tree_node($$, $1);
     }
   | input {
-      $$ = create_node(COMMAND);
-      add_tree_node($$, $1);
+      $$ = $1;
+      // $$ = create_node(COMMAND);
+      // add_tree_node($$, $1);
     }
   | output {
-      $$ = create_node(COMMAND);
-      add_tree_node($$, $1);
+      $$ = $1;
+      // $$ = create_node(COMMAND);
+      // add_tree_node($$, $1);
     }
   | {increment_scope();} '{' block_commands '}' {
     // $$ = $2;
@@ -389,8 +397,9 @@ init_stmt:
 
 update_stmt:
   init_stmt {
-      $$ = create_node(UPDATE_STMT);
-      add_tree_node($$, $1);
+      $$ = $1;
+      // $$ = create_node(UPDATE_STMT);
+      // add_tree_node($$, $1);
     }
   | %empty {
       $$ = create_node(UPDATE_STMT);
@@ -456,16 +465,19 @@ func_calling:
 
 expression: 
   func_calling {
-    $$ = create_node(EXPRESSION);
-    add_tree_node($$, $1);
+    $$ = $1;
+    // $$ = create_node(EXPRESSION);
+    // add_tree_node($$, $1);
     }
   | single_operation {
-      $$ = create_node(EXPRESSION);
-      add_tree_node($$, $1);
+      $$ = $1;
+      // $$ = create_node(EXPRESSION);
+      // add_tree_node($$, $1);
     }
   | const {
-      $$ = create_node(EXPRESSION);
-      add_tree_node($$, $1);
+      $$ = $1;
+      // $$ = create_node(EXPRESSION);
+      // add_tree_node($$, $1);
     }
   | ID {
       $$ = create_node(EXPRESSION);
@@ -475,8 +487,9 @@ expression:
 
 const: 
   number {
-      $$ = create_node(CONSTANT);
-      add_tree_node($$, $1);
+    $$ = $1;
+      // $$ = create_node(CONSTANT);
+      // add_tree_node($$, $1);
     }
   | NIL_CNST {
       $$ = create_node(CONSTANT);
@@ -497,19 +510,22 @@ number:
 
 type:
   type_lst  {
-      $$ = create_node(TYPE);
-      add_tree_node($$, $1);
+      $$ = $1;
+      // $$ = create_node(TYPE);
+      // add_tree_node($$, $1);
     }
   | type_number  {
-      $$ = create_node(TYPE);
-      add_tree_node($$, $1);
+    $$ = $1;
+      // $$ = create_node(TYPE);
+      // add_tree_node($$, $1);
     }
 ;
 
 type_lst:
   type_number T_LIST   {
       $$ = create_node(TYPE_LIST);
-      add_tree_node($$, $1);
+      // add_tree_node($$, $1);
+      $$ = $1;
       add_tree_token_node($$, &$2, LIST);
     }
 ;
@@ -527,12 +543,14 @@ type_number:
 
 operation:
   arith_binary {
-      $$ = create_node(OPERATION);
-      add_tree_node($$, $1);
+      $$ = $1;
+      // $$ = create_node(OPERATION);
+      // add_tree_node($$, $1);
     }
   | lst_binary {
-      $$ = create_node(OPERATION);
-      add_tree_node($$, $1);
+      $$ = $1;
+      // $$ = create_node(OPERATION);
+      // add_tree_node($$, $1);
     }
   | operation relational_op expression  {
       $$ = create_node(OPERATION);
@@ -550,12 +568,14 @@ operation:
 
 single_operation:
   arith_single {
-      $$ = create_node(SINGLE_OPERATION);
-      add_tree_node($$, $1);
+      $$ = $1;
+      // $$ = create_node(SINGLE_OPERATION);
+      // add_tree_node($$, $1);
     }
   | lst_single {
-      $$ = create_node(SINGLE_OPERATION);
-      add_tree_node($$, $1);
+      $$ = $1;
+      // $$ = create_node(SINGLE_OPERATION);
+      // add_tree_node($$, $1);
     }
   | '!' expression {
     $$ = create_node(SINGLE_OPERATION);
@@ -590,8 +610,9 @@ arith_binary:
       add_tree_node($$, $3);
     }
   | expression {
-       $$ = create_node(ARITHMETIC_BINARY);
-      add_tree_node($$, $1);
+      $$ = $1;
+      // $$ = create_node(ARITHMETIC_BINARY);
+      // add_tree_node($$, $1);
     }
 ;
 

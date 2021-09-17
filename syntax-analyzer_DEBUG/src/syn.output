@@ -35,7 +35,7 @@ Grammar
    20                       | operation
 
    21 block_commands: command block_commands
-   22               | %empty
+   22               | command
 
    23 command: var_declaration
    24        | init_variable
@@ -221,7 +221,7 @@ Nonterminals, with rules where they appear
         on right: 9 21 31
     command <node> (57)
         on left: 23 24 25 26 27 28 29 31 32
-        on right: 21 34 35 37
+        on right: 21 22 34 35 37
     $@3 (58)
         on left: 30
         on right: 31
@@ -584,7 +584,6 @@ State 27
     '!'             shift, and go to state 42
 
     '{'  reduce using rule 30 ($@3)
-    '}'  reduce using rule 22 (block_commands)
 
     var_declaration   go to state 43
     unq_declaration   go to state 44
@@ -927,6 +926,7 @@ State 45
 State 46
 
    21 block_commands: command • block_commands
+   22               | command •
 
     NUM_INT         shift, and go to state 28
     NUM_FLOAT       shift, and go to state 29
@@ -1724,7 +1724,6 @@ State 81
     '!'             shift, and go to state 42
 
     '{'  reduce using rule 30 ($@3)
-    '}'  reduce using rule 22 (block_commands)
 
     var_declaration   go to state 43
     unq_declaration   go to state 44
@@ -6737,7 +6736,6 @@ State 343
     '!'             shift, and go to state 42
 
     '{'  reduce using rule 30 ($@3)
-    '}'  reduce using rule 22 (block_commands)
 
     var_declaration   go to state 43
     unq_declaration   go to state 44
