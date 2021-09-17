@@ -1300,13 +1300,12 @@ YY_RULE_SETUP
   yylval.token.column = column;
   // yylval->token.scope = scope;
   column += yyleng;
-  
   return('{');
 }
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 420 "src/lex.l"
+#line 419 "src/lex.l"
 {
   // printf("CLOSE CURLY BRACKET:\n  Line: %d, Column: %d \t-->\t<DELIMITER, %s> \n\n", yylineno, column, yytext);
   sscanf(yytext, "%s", yylval.token.lexeme);
@@ -1321,7 +1320,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 432 "src/lex.l"
+#line 431 "src/lex.l"
 {
   // printf("COMMA:\n  Line: %d, Column: %d \t-->\t<PUNCTUATION, %s> \n\n", yylineno, column, yytext);
   column += yyleng;
@@ -1335,7 +1334,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 443 "src/lex.l"
+#line 442 "src/lex.l"
 {
   // printf("SEMICOLON:\n  Line: %d, Column: %d \t-->\t<PUNCTUATION, %s> \n\n", yylineno, column, yytext);
   sscanf(yytext, "%s", yylval.token.lexeme);
@@ -1348,7 +1347,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 453 "src/lex.l"
+#line 452 "src/lex.l"
 {
   // int position = add_table_node(yytext);
   // printf("IDENTIFIER:\n  Line: %d, Column: %d \t-->\t<ID, %s, position in symbol table: %d> \n\n", yylineno, column, yytext, position);
@@ -1363,7 +1362,7 @@ YY_RULE_SETUP
 case 45:
 /* rule 45 can match eol */
 YY_RULE_SETUP
-#line 464 "src/lex.l"
+#line 463 "src/lex.l"
 {
   yylineno++;
   column = 1;
@@ -1371,7 +1370,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 469 "src/lex.l"
+#line 468 "src/lex.l"
 { 
   lexical_errors++;
   show_error();
@@ -1380,10 +1379,10 @@ YY_RULE_SETUP
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 475 "src/lex.l"
+#line 474 "src/lex.l"
 ECHO;
 	YY_BREAK
-#line 1387 "src/lex.yy.c"
+#line 1386 "src/lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2351,7 +2350,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 475 "src/lex.l"
+#line 474 "src/lex.l"
 
 
 //********** C Functions **********
