@@ -466,10 +466,9 @@ id              [_a-zA-Z][_a-zA-Z0-9]*
 }
 
 . { 
-  errors++;
+  lexical_errors++;
   show_error();
-  column += yyleng; 
-  // return(OTHER);
+  column += yyleng;
 }
 
 %%

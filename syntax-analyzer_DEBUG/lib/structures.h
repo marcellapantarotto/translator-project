@@ -146,6 +146,8 @@ void print_children();
 
 void show_error();
 void total_lexical_errors();
+void total_syntax_errors();
+
 table create_table();
 void add_table_node(char *tok);
 table_node *verify_existing_symbol(table_node *symbol);
@@ -168,7 +170,8 @@ void destroy_tree(t_node *root);
 //===============================================================
 
 extern int column;
-extern int errors;
+extern int lexical_errors;
+extern int syntax_errors;
 extern table symbol_table;
 extern int id_counter;
 extern int g_scope;

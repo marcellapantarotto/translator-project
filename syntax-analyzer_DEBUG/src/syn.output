@@ -301,7 +301,7 @@ Nonterminals, with rules where they appear
 
 State 0
 
-    0 $accept: . program $end
+    0 $accept: • program $end
 
     error    shift, and go to state 1
     T_INT    shift, and go to state 2
@@ -322,7 +322,7 @@ State 0
 
 State 1
 
-    7 declaration: error .
+    7 declaration: error •
 
     $end     reduce using rule 7 (declaration)
     error    reduce using rule 7 (declaration)
@@ -332,7 +332,7 @@ State 1
 
 State 2
 
-   59 type_number: T_INT .
+   59 type_number: T_INT •
 
     ID      reduce using rule 59 (type_number)
     T_LIST  reduce using rule 59 (type_number)
@@ -340,7 +340,7 @@ State 2
 
 State 3
 
-   60 type_number: T_FLOAT .
+   60 type_number: T_FLOAT •
 
     ID      reduce using rule 60 (type_number)
     T_LIST  reduce using rule 60 (type_number)
@@ -348,22 +348,22 @@ State 3
 
 State 4
 
-    0 $accept: program . $end
+    0 $accept: program • $end
 
     $end  shift, and go to state 13
 
 
 State 5
 
-    1 program: lst_declarations .
+    1 program: lst_declarations •
 
     $end  reduce using rule 1 (program)
 
 
 State 6
 
-    3 lst_declarations: declaration . lst_declarations
-    4                 | declaration .
+    3 lst_declarations: declaration • lst_declarations
+    4                 | declaration •
 
     error    shift, and go to state 1
     T_INT    shift, and go to state 2
@@ -383,7 +383,7 @@ State 6
 
 State 7
 
-    5 declaration: func_declaration .
+    5 declaration: func_declaration •
 
     $end     reduce using rule 5 (declaration)
     error    reduce using rule 5 (declaration)
@@ -393,7 +393,7 @@ State 7
 
 State 8
 
-    6 declaration: var_declaration .
+    6 declaration: var_declaration •
 
     $end     reduce using rule 6 (declaration)
     error    reduce using rule 6 (declaration)
@@ -403,8 +403,8 @@ State 8
 
 State 9
 
-    9 func_declaration: unq_declaration . $@1 '(' parameters ')' '{' block_commands '}'
-   10 var_declaration: unq_declaration . ';'
+    9 func_declaration: unq_declaration • $@1 '(' parameters ')' '{' block_commands '}'
+   10 var_declaration: unq_declaration • ';'
 
     ';'  shift, and go to state 15
 
@@ -415,7 +415,7 @@ State 9
 
 State 10
 
-   12 unq_declaration: type . $@2 ID
+   12 unq_declaration: type • $@2 ID
 
     ID  reduce using rule 11 ($@2)
 
@@ -424,15 +424,15 @@ State 10
 
 State 11
 
-   56 type: type_lst .
+   56 type: type_lst •
 
     ID  reduce using rule 56 (type)
 
 
 State 12
 
-   57 type: type_number .
-   58 type_lst: type_number . T_LIST
+   57 type: type_number •
+   58 type_lst: type_number • T_LIST
 
     T_LIST  shift, and go to state 18
 
@@ -441,21 +441,21 @@ State 12
 
 State 13
 
-    0 $accept: program $end .
+    0 $accept: program $end •
 
     $default  accept
 
 
 State 14
 
-    3 lst_declarations: declaration lst_declarations .
+    3 lst_declarations: declaration lst_declarations •
 
     $end  reduce using rule 3 (lst_declarations)
 
 
 State 15
 
-   10 var_declaration: unq_declaration ';' .
+   10 var_declaration: unq_declaration ';' •
 
     $end     reduce using rule 10 (var_declaration)
     error    reduce using rule 10 (var_declaration)
@@ -465,28 +465,28 @@ State 15
 
 State 16
 
-    9 func_declaration: unq_declaration $@1 . '(' parameters ')' '{' block_commands '}'
+    9 func_declaration: unq_declaration $@1 • '(' parameters ')' '{' block_commands '}'
 
     '('  shift, and go to state 19
 
 
 State 17
 
-   12 unq_declaration: type $@2 . ID
+   12 unq_declaration: type $@2 • ID
 
     ID  shift, and go to state 20
 
 
 State 18
 
-   58 type_lst: type_number T_LIST .
+   58 type_lst: type_number T_LIST •
 
     ID  reduce using rule 58 (type_lst)
 
 
 State 19
 
-    9 func_declaration: unq_declaration $@1 '(' . parameters ')' '{' block_commands '}'
+    9 func_declaration: unq_declaration $@1 '(' • parameters ')' '{' block_commands '}'
 
     T_INT    shift, and go to state 2
     T_FLOAT  shift, and go to state 3
@@ -503,7 +503,7 @@ State 19
 
 State 20
 
-   12 unq_declaration: type $@2 ID .
+   12 unq_declaration: type $@2 ID •
 
     '('  reduce using rule 12 (unq_declaration)
     ';'  reduce using rule 12 (unq_declaration)
@@ -511,8 +511,8 @@ State 20
 
 State 21
 
-   15 lst_parameters: unq_declaration . ',' lst_parameters
-   16               | unq_declaration .
+   15 lst_parameters: unq_declaration • ',' lst_parameters
+   16               | unq_declaration •
 
     ','  shift, and go to state 24
 
@@ -521,21 +521,21 @@ State 21
 
 State 22
 
-    9 func_declaration: unq_declaration $@1 '(' parameters . ')' '{' block_commands '}'
+    9 func_declaration: unq_declaration $@1 '(' parameters • ')' '{' block_commands '}'
 
     ')'  shift, and go to state 25
 
 
 State 23
 
-   13 parameters: lst_parameters .
+   13 parameters: lst_parameters •
 
     ')'  reduce using rule 13 (parameters)
 
 
 State 24
 
-   15 lst_parameters: unq_declaration ',' . lst_parameters
+   15 lst_parameters: unq_declaration ',' • lst_parameters
 
     T_INT    shift, and go to state 2
     T_FLOAT  shift, and go to state 3
@@ -549,21 +549,21 @@ State 24
 
 State 25
 
-    9 func_declaration: unq_declaration $@1 '(' parameters ')' . '{' block_commands '}'
+    9 func_declaration: unq_declaration $@1 '(' parameters ')' • '{' block_commands '}'
 
     '{'  shift, and go to state 27
 
 
 State 26
 
-   15 lst_parameters: unq_declaration ',' lst_parameters .
+   15 lst_parameters: unq_declaration ',' lst_parameters •
 
     ')'  reduce using rule 15 (lst_parameters)
 
 
 State 27
 
-    9 func_declaration: unq_declaration $@1 '(' parameters ')' '{' . block_commands '}'
+    9 func_declaration: unq_declaration $@1 '(' parameters ')' '{' • block_commands '}'
 
     NUM_INT         shift, and go to state 28
     NUM_FLOAT       shift, and go to state 29
@@ -615,7 +615,7 @@ State 27
 
 State 28
 
-   54 number: NUM_INT .
+   54 number: NUM_INT •
 
     ';'         reduce using rule 54 (number)
     AND         reduce using rule 54 (number)
@@ -637,7 +637,7 @@ State 28
 
 State 29
 
-   55 number: NUM_FLOAT .
+   55 number: NUM_FLOAT •
 
     ';'         reduce using rule 55 (number)
     AND         reduce using rule 55 (number)
@@ -659,7 +659,7 @@ State 29
 
 State 30
 
-   53 const: NIL_CNST .
+   53 const: NIL_CNST •
 
     ';'         reduce using rule 53 (const)
     AND         reduce using rule 53 (const)
@@ -681,9 +681,9 @@ State 30
 
 State 31
 
-   39 init_stmt: ID . '=' operation
-   47 func_calling: ID . '(' calling_parameters ')'
-   51 expression: ID .
+   39 init_stmt: ID • '=' operation
+   47 func_calling: ID • '(' calling_parameters ')'
+   51 expression: ID •
 
     '('  shift, and go to state 65
     '='  shift, and go to state 66
@@ -708,7 +708,7 @@ State 31
 
 State 32
 
-   36 return_stmt: RETURN_STM . operation ';'
+   36 return_stmt: RETURN_STM • operation ';'
 
     NUM_INT    shift, and go to state 28
     NUM_FLOAT  shift, and go to state 29
@@ -734,45 +734,45 @@ State 32
 
 State 33
 
-   34 conditional_stmt: IF_STMT . '(' operation ')' command
-   35                 | IF_STMT . '(' operation ')' command ELSE_STMT command
+   34 conditional_stmt: IF_STMT • '(' operation ')' command
+   35                 | IF_STMT • '(' operation ')' command ELSE_STMT command
 
     '('  shift, and go to state 69
 
 
 State 34
 
-   37 iteration: FOR_STMT . '(' loop_condition ')' command
+   37 iteration: FOR_STMT • '(' loop_condition ')' command
 
     '('  shift, and go to state 70
 
 
 State 35
 
-   42 output: OUTPUT_WRITE . '(' operation ')' ';'
-   44       | OUTPUT_WRITE . '(' STRING ')' ';'
+   42 output: OUTPUT_WRITE • '(' operation ')' ';'
+   44       | OUTPUT_WRITE • '(' STRING ')' ';'
 
     '('  shift, and go to state 71
 
 
 State 36
 
-   43 output: OUTPUT_WRITELN . '(' operation ')' ';'
-   45       | OUTPUT_WRITELN . '(' STRING ')' ';'
+   43 output: OUTPUT_WRITELN • '(' operation ')' ';'
+   45       | OUTPUT_WRITELN • '(' STRING ')' ';'
 
     '('  shift, and go to state 72
 
 
 State 37
 
-   46 input: INPUT_READ . '(' expression ')' ';'
+   46 input: INPUT_READ • '(' expression ')' ';'
 
     '('  shift, and go to state 73
 
 
 State 38
 
-   73 arith_single: '+' . expression
+   73 arith_single: '+' • expression
 
     NUM_INT    shift, and go to state 28
     NUM_FLOAT  shift, and go to state 29
@@ -795,7 +795,7 @@ State 38
 
 State 39
 
-   74 arith_single: '-' . expression
+   74 arith_single: '-' • expression
 
     NUM_INT    shift, and go to state 28
     NUM_FLOAT  shift, and go to state 29
@@ -818,7 +818,7 @@ State 39
 
 State 40
 
-   75 lst_single: '%' . expression
+   75 lst_single: '%' • expression
 
     NUM_INT    shift, and go to state 28
     NUM_FLOAT  shift, and go to state 29
@@ -841,7 +841,7 @@ State 40
 
 State 41
 
-   76 lst_single: '?' . expression
+   76 lst_single: '?' • expression
 
     NUM_INT    shift, and go to state 28
     NUM_FLOAT  shift, and go to state 29
@@ -864,7 +864,7 @@ State 41
 
 State 42
 
-   67 single_operation: '!' . expression
+   67 single_operation: '!' • expression
 
     NUM_INT    shift, and go to state 28
     NUM_FLOAT  shift, and go to state 29
@@ -887,7 +887,7 @@ State 42
 
 State 43
 
-   23 command: var_declaration .
+   23 command: var_declaration •
 
     NUM_INT         reduce using rule 23 (command)
     NUM_FLOAT       reduce using rule 23 (command)
@@ -912,21 +912,21 @@ State 43
 
 State 44
 
-   10 var_declaration: unq_declaration . ';'
+   10 var_declaration: unq_declaration • ';'
 
     ';'  shift, and go to state 152
 
 
 State 45
 
-    9 func_declaration: unq_declaration $@1 '(' parameters ')' '{' block_commands . '}'
+    9 func_declaration: unq_declaration $@1 '(' parameters ')' '{' block_commands • '}'
 
     '}'  shift, and go to state 79
 
 
 State 46
 
-   21 block_commands: command . block_commands
+   21 block_commands: command • block_commands
 
     NUM_INT         shift, and go to state 28
     NUM_FLOAT       shift, and go to state 29
@@ -978,14 +978,14 @@ State 46
 
 State 47
 
-   31 command: $@3 . '{' block_commands '}'
+   31 command: $@3 • '{' block_commands '}'
 
     '{'  shift, and go to state 81
 
 
 State 48
 
-   24 command: init_variable .
+   24 command: init_variable •
 
     NUM_INT         reduce using rule 24 (command)
     NUM_FLOAT       reduce using rule 24 (command)
@@ -1010,7 +1010,7 @@ State 48
 
 State 49
 
-   25 command: conditional_stmt .
+   25 command: conditional_stmt •
 
     NUM_INT         reduce using rule 25 (command)
     NUM_FLOAT       reduce using rule 25 (command)
@@ -1035,7 +1035,7 @@ State 49
 
 State 50
 
-   26 command: return_stmt .
+   26 command: return_stmt •
 
     NUM_INT         reduce using rule 26 (command)
     NUM_FLOAT       reduce using rule 26 (command)
@@ -1060,7 +1060,7 @@ State 50
 
 State 51
 
-   27 command: iteration .
+   27 command: iteration •
 
     NUM_INT         reduce using rule 27 (command)
     NUM_FLOAT       reduce using rule 27 (command)
@@ -1085,14 +1085,14 @@ State 51
 
 State 52
 
-   33 init_variable: init_stmt . ';'
+   33 init_variable: init_stmt • ';'
 
     ';'  shift, and go to state 82
 
 
 State 53
 
-   29 command: output .
+   29 command: output •
 
     NUM_INT         reduce using rule 29 (command)
     NUM_FLOAT       reduce using rule 29 (command)
@@ -1117,7 +1117,7 @@ State 53
 
 State 54
 
-   28 command: input .
+   28 command: input •
 
     NUM_INT         reduce using rule 28 (command)
     NUM_FLOAT       reduce using rule 28 (command)
@@ -1142,7 +1142,7 @@ State 54
 
 State 55
 
-   48 expression: func_calling .
+   48 expression: func_calling •
 
     ';'         reduce using rule 48 (expression)
     AND         reduce using rule 48 (expression)
@@ -1164,10 +1164,10 @@ State 55
 
 State 56
 
-   72 arith_binary: expression .
-   77 lst_binary: expression . FILTER expression
-   78           | expression . MAP expression
-   79           | expression . ':' expression
+   72 arith_binary: expression •
+   77 lst_binary: expression • FILTER expression
+   78           | expression • MAP expression
+   79           | expression • ':' expression
 
     FILTER  shift, and go to state 83
     MAP     shift, and go to state 84
@@ -1190,7 +1190,7 @@ State 56
 
 State 57
 
-   50 expression: const .
+   50 expression: const •
 
     ';'         reduce using rule 50 (expression)
     AND         reduce using rule 50 (expression)
@@ -1212,7 +1212,7 @@ State 57
 
 State 58
 
-   52 const: number .
+   52 const: number •
 
     ';'         reduce using rule 52 (const)
     AND         reduce using rule 52 (const)
@@ -1234,9 +1234,9 @@ State 58
 
 State 59
 
-   32 command: operation . ';'
-   63 operation: operation . relational_op expression
-   64          | operation . logical_op expression
+   32 command: operation • ';'
+   63 operation: operation • relational_op expression
+   64          | operation • logical_op expression
 
     ';'         shift, and go to state 86
     AND         shift, and go to state 87
@@ -1254,7 +1254,7 @@ State 59
 
 State 60
 
-   49 expression: single_operation .
+   49 expression: single_operation •
 
     ';'         reduce using rule 49 (expression)
     AND         reduce using rule 49 (expression)
@@ -1276,11 +1276,11 @@ State 60
 
 State 61
 
-   61 operation: arith_binary .
-   68 arith_binary: arith_binary . '+' expression
-   69             | arith_binary . '-' expression
-   70             | arith_binary . '*' expression
-   71             | arith_binary . '/' expression
+   61 operation: arith_binary •
+   68 arith_binary: arith_binary • '+' expression
+   69             | arith_binary • '-' expression
+   70             | arith_binary • '*' expression
+   71             | arith_binary • '/' expression
 
     '+'  shift, and go to state 97
     '-'  shift, and go to state 98
@@ -1300,7 +1300,7 @@ State 61
 
 State 62
 
-   65 single_operation: arith_single .
+   65 single_operation: arith_single •
 
     ';'         reduce using rule 65 (single_operation)
     AND         reduce using rule 65 (single_operation)
@@ -1322,7 +1322,7 @@ State 62
 
 State 63
 
-   66 single_operation: lst_single .
+   66 single_operation: lst_single •
 
     ';'         reduce using rule 66 (single_operation)
     AND         reduce using rule 66 (single_operation)
@@ -1344,7 +1344,7 @@ State 63
 
 State 64
 
-   62 operation: lst_binary .
+   62 operation: lst_binary •
 
     ';'         reduce using rule 62 (operation)
     AND         reduce using rule 62 (operation)
@@ -1359,7 +1359,7 @@ State 64
 
 State 65
 
-   47 func_calling: ID '(' . calling_parameters ')'
+   47 func_calling: ID '(' • calling_parameters ')'
 
     NUM_INT    shift, and go to state 153
     NUM_FLOAT  shift, and go to state 154
@@ -1389,7 +1389,7 @@ State 65
 
 State 66
 
-   39 init_stmt: ID '=' . operation
+   39 init_stmt: ID '=' • operation
 
     NUM_INT    shift, and go to state 28
     NUM_FLOAT  shift, and go to state 29
@@ -1415,8 +1415,8 @@ State 66
 
 State 67
 
-   47 func_calling: ID . '(' calling_parameters ')'
-   51 expression: ID .
+   47 func_calling: ID • '(' calling_parameters ')'
+   51 expression: ID •
 
     '('  shift, and go to state 65
 
@@ -1440,9 +1440,9 @@ State 67
 
 State 68
 
-   36 return_stmt: RETURN_STM operation . ';'
-   63 operation: operation . relational_op expression
-   64          | operation . logical_op expression
+   36 return_stmt: RETURN_STM operation • ';'
+   63 operation: operation • relational_op expression
+   64          | operation • logical_op expression
 
     ';'         shift, and go to state 105
     AND         shift, and go to state 87
@@ -1460,8 +1460,8 @@ State 68
 
 State 69
 
-   34 conditional_stmt: IF_STMT '(' . operation ')' command
-   35                 | IF_STMT '(' . operation ')' command ELSE_STMT command
+   34 conditional_stmt: IF_STMT '(' • operation ')' command
+   35                 | IF_STMT '(' • operation ')' command ELSE_STMT command
 
     NUM_INT    shift, and go to state 171
     NUM_FLOAT  shift, and go to state 172
@@ -1487,7 +1487,7 @@ State 69
 
 State 70
 
-   37 iteration: FOR_STMT '(' . loop_condition ')' command
+   37 iteration: FOR_STMT '(' • loop_condition ')' command
 
     ID  shift, and go to state 107
 
@@ -1497,8 +1497,8 @@ State 70
 
 State 71
 
-   42 output: OUTPUT_WRITE '(' . operation ')' ';'
-   44       | OUTPUT_WRITE '(' . STRING ')' ';'
+   42 output: OUTPUT_WRITE '(' • operation ')' ';'
+   44       | OUTPUT_WRITE '(' • STRING ')' ';'
 
     NUM_INT    shift, and go to state 171
     NUM_FLOAT  shift, and go to state 172
@@ -1525,8 +1525,8 @@ State 71
 
 State 72
 
-   43 output: OUTPUT_WRITELN '(' . operation ')' ';'
-   45       | OUTPUT_WRITELN '(' . STRING ')' ';'
+   43 output: OUTPUT_WRITELN '(' • operation ')' ';'
+   45       | OUTPUT_WRITELN '(' • STRING ')' ';'
 
     NUM_INT    shift, and go to state 171
     NUM_FLOAT  shift, and go to state 172
@@ -1553,7 +1553,7 @@ State 72
 
 State 73
 
-   46 input: INPUT_READ '(' . expression ')' ';'
+   46 input: INPUT_READ '(' • expression ')' ';'
 
     NUM_INT    shift, and go to state 189
     NUM_FLOAT  shift, and go to state 190
@@ -1576,7 +1576,7 @@ State 73
 
 State 74
 
-   73 arith_single: '+' expression .
+   73 arith_single: '+' expression •
 
     ';'         reduce using rule 73 (arith_single)
     AND         reduce using rule 73 (arith_single)
@@ -1598,7 +1598,7 @@ State 74
 
 State 75
 
-   74 arith_single: '-' expression .
+   74 arith_single: '-' expression •
 
     ';'         reduce using rule 74 (arith_single)
     AND         reduce using rule 74 (arith_single)
@@ -1620,7 +1620,7 @@ State 75
 
 State 76
 
-   75 lst_single: '%' expression .
+   75 lst_single: '%' expression •
 
     ';'         reduce using rule 75 (lst_single)
     AND         reduce using rule 75 (lst_single)
@@ -1642,7 +1642,7 @@ State 76
 
 State 77
 
-   76 lst_single: '?' expression .
+   76 lst_single: '?' expression •
 
     ';'         reduce using rule 76 (lst_single)
     AND         reduce using rule 76 (lst_single)
@@ -1664,7 +1664,7 @@ State 77
 
 State 78
 
-   67 single_operation: '!' expression .
+   67 single_operation: '!' expression •
 
     ';'         reduce using rule 67 (single_operation)
     AND         reduce using rule 67 (single_operation)
@@ -1686,7 +1686,7 @@ State 78
 
 State 79
 
-    9 func_declaration: unq_declaration $@1 '(' parameters ')' '{' block_commands '}' .
+    9 func_declaration: unq_declaration $@1 '(' parameters ')' '{' block_commands '}' •
 
     $end     reduce using rule 9 (func_declaration)
     error    reduce using rule 9 (func_declaration)
@@ -1696,14 +1696,14 @@ State 79
 
 State 80
 
-   21 block_commands: command block_commands .
+   21 block_commands: command block_commands •
 
     '}'  reduce using rule 21 (block_commands)
 
 
 State 81
 
-   31 command: $@3 '{' . block_commands '}'
+   31 command: $@3 '{' • block_commands '}'
 
     NUM_INT         shift, and go to state 28
     NUM_FLOAT       shift, and go to state 29
@@ -1755,7 +1755,7 @@ State 81
 
 State 82
 
-   33 init_variable: init_stmt ';' .
+   33 init_variable: init_stmt ';' •
 
     NUM_INT         reduce using rule 33 (init_variable)
     NUM_FLOAT       reduce using rule 33 (init_variable)
@@ -1780,7 +1780,7 @@ State 82
 
 State 83
 
-   77 lst_binary: expression FILTER . expression
+   77 lst_binary: expression FILTER • expression
 
     NUM_INT    shift, and go to state 204
     NUM_FLOAT  shift, and go to state 205
@@ -1803,7 +1803,7 @@ State 83
 
 State 84
 
-   78 lst_binary: expression MAP . expression
+   78 lst_binary: expression MAP • expression
 
     NUM_INT    shift, and go to state 204
     NUM_FLOAT  shift, and go to state 205
@@ -1826,7 +1826,7 @@ State 84
 
 State 85
 
-   79 lst_binary: expression ':' . expression
+   79 lst_binary: expression ':' • expression
 
     NUM_INT    shift, and go to state 204
     NUM_FLOAT  shift, and go to state 205
@@ -1849,7 +1849,7 @@ State 85
 
 State 86
 
-   32 command: operation ';' .
+   32 command: operation ';' •
 
     NUM_INT         reduce using rule 32 (command)
     NUM_FLOAT       reduce using rule 32 (command)
@@ -1874,7 +1874,7 @@ State 86
 
 State 87
 
-   80 logical_op: AND .
+   80 logical_op: AND •
 
     NUM_INT    reduce using rule 80 (logical_op)
     NUM_FLOAT  reduce using rule 80 (logical_op)
@@ -1889,7 +1889,7 @@ State 87
 
 State 88
 
-   81 logical_op: OR .
+   81 logical_op: OR •
 
     NUM_INT    reduce using rule 81 (logical_op)
     NUM_FLOAT  reduce using rule 81 (logical_op)
@@ -1904,7 +1904,7 @@ State 88
 
 State 89
 
-   82 relational_op: GREATER .
+   82 relational_op: GREATER •
 
     NUM_INT    reduce using rule 82 (relational_op)
     NUM_FLOAT  reduce using rule 82 (relational_op)
@@ -1919,7 +1919,7 @@ State 89
 
 State 90
 
-   83 relational_op: GREATER_EQ .
+   83 relational_op: GREATER_EQ •
 
     NUM_INT    reduce using rule 83 (relational_op)
     NUM_FLOAT  reduce using rule 83 (relational_op)
@@ -1934,7 +1934,7 @@ State 90
 
 State 91
 
-   84 relational_op: LESS .
+   84 relational_op: LESS •
 
     NUM_INT    reduce using rule 84 (relational_op)
     NUM_FLOAT  reduce using rule 84 (relational_op)
@@ -1949,7 +1949,7 @@ State 91
 
 State 92
 
-   85 relational_op: LESS_EQ .
+   85 relational_op: LESS_EQ •
 
     NUM_INT    reduce using rule 85 (relational_op)
     NUM_FLOAT  reduce using rule 85 (relational_op)
@@ -1964,7 +1964,7 @@ State 92
 
 State 93
 
-   86 relational_op: EQUAL .
+   86 relational_op: EQUAL •
 
     NUM_INT    reduce using rule 86 (relational_op)
     NUM_FLOAT  reduce using rule 86 (relational_op)
@@ -1979,7 +1979,7 @@ State 93
 
 State 94
 
-   87 relational_op: NOT_EQ .
+   87 relational_op: NOT_EQ •
 
     NUM_INT    reduce using rule 87 (relational_op)
     NUM_FLOAT  reduce using rule 87 (relational_op)
@@ -1994,7 +1994,7 @@ State 94
 
 State 95
 
-   64 operation: operation logical_op . expression
+   64 operation: operation logical_op • expression
 
     NUM_INT    shift, and go to state 204
     NUM_FLOAT  shift, and go to state 205
@@ -2017,7 +2017,7 @@ State 95
 
 State 96
 
-   63 operation: operation relational_op . expression
+   63 operation: operation relational_op • expression
 
     NUM_INT    shift, and go to state 204
     NUM_FLOAT  shift, and go to state 205
@@ -2040,7 +2040,7 @@ State 96
 
 State 97
 
-   68 arith_binary: arith_binary '+' . expression
+   68 arith_binary: arith_binary '+' • expression
 
     NUM_INT    shift, and go to state 219
     NUM_FLOAT  shift, and go to state 220
@@ -2063,7 +2063,7 @@ State 97
 
 State 98
 
-   69 arith_binary: arith_binary '-' . expression
+   69 arith_binary: arith_binary '-' • expression
 
     NUM_INT    shift, and go to state 219
     NUM_FLOAT  shift, and go to state 220
@@ -2086,7 +2086,7 @@ State 98
 
 State 99
 
-   70 arith_binary: arith_binary '*' . expression
+   70 arith_binary: arith_binary '*' • expression
 
     NUM_INT    shift, and go to state 219
     NUM_FLOAT  shift, and go to state 220
@@ -2109,7 +2109,7 @@ State 99
 
 State 100
 
-   71 arith_binary: arith_binary '/' . expression
+   71 arith_binary: arith_binary '/' • expression
 
     NUM_INT    shift, and go to state 219
     NUM_FLOAT  shift, and go to state 220
@@ -2132,24 +2132,24 @@ State 100
 
 State 101
 
-   47 func_calling: ID '(' calling_parameters . ')'
+   47 func_calling: ID '(' calling_parameters • ')'
 
     ')'  shift, and go to state 125
 
 
 State 102
 
-   17 calling_parameters: lst_calling_parameters .
+   17 calling_parameters: lst_calling_parameters •
 
     ')'  reduce using rule 17 (calling_parameters)
 
 
 State 103
 
-   19 lst_calling_parameters: operation . ',' lst_calling_parameters
-   20                       | operation .
-   63 operation: operation . relational_op expression
-   64          | operation . logical_op expression
+   19 lst_calling_parameters: operation • ',' lst_calling_parameters
+   20                       | operation •
+   63 operation: operation • relational_op expression
+   64          | operation • logical_op expression
 
     ','         shift, and go to state 126
     AND         shift, and go to state 87
@@ -2169,9 +2169,9 @@ State 103
 
 State 104
 
-   39 init_stmt: ID '=' operation .
-   63 operation: operation . relational_op expression
-   64          | operation . logical_op expression
+   39 init_stmt: ID '=' operation •
+   63 operation: operation • relational_op expression
+   64          | operation • logical_op expression
 
     AND         shift, and go to state 87
     OR          shift, and go to state 88
@@ -2190,7 +2190,7 @@ State 104
 
 State 105
 
-   36 return_stmt: RETURN_STM operation ';' .
+   36 return_stmt: RETURN_STM operation ';' •
 
     NUM_INT         reduce using rule 36 (return_stmt)
     NUM_FLOAT       reduce using rule 36 (return_stmt)
@@ -2215,10 +2215,10 @@ State 105
 
 State 106
 
-   34 conditional_stmt: IF_STMT '(' operation . ')' command
-   35                 | IF_STMT '(' operation . ')' command ELSE_STMT command
-   63 operation: operation . relational_op expression
-   64          | operation . logical_op expression
+   34 conditional_stmt: IF_STMT '(' operation • ')' command
+   35                 | IF_STMT '(' operation • ')' command ELSE_STMT command
+   63 operation: operation • relational_op expression
+   64          | operation • logical_op expression
 
     ')'         shift, and go to state 127
     AND         shift, and go to state 87
@@ -2236,37 +2236,37 @@ State 106
 
 State 107
 
-   39 init_stmt: ID . '=' operation
+   39 init_stmt: ID • '=' operation
 
     '='  shift, and go to state 66
 
 
 State 108
 
-   37 iteration: FOR_STMT '(' loop_condition . ')' command
+   37 iteration: FOR_STMT '(' loop_condition • ')' command
 
     ')'  shift, and go to state 128
 
 
 State 109
 
-   38 loop_condition: init_stmt . ';' operation ';' update_stmt
+   38 loop_condition: init_stmt • ';' operation ';' update_stmt
 
     ';'  shift, and go to state 129
 
 
 State 110
 
-   44 output: OUTPUT_WRITE '(' STRING . ')' ';'
+   44 output: OUTPUT_WRITE '(' STRING • ')' ';'
 
     ')'  shift, and go to state 130
 
 
 State 111
 
-   42 output: OUTPUT_WRITE '(' operation . ')' ';'
-   63 operation: operation . relational_op expression
-   64          | operation . logical_op expression
+   42 output: OUTPUT_WRITE '(' operation • ')' ';'
+   63 operation: operation • relational_op expression
+   64          | operation • logical_op expression
 
     ')'         shift, and go to state 131
     AND         shift, and go to state 87
@@ -2284,16 +2284,16 @@ State 111
 
 State 112
 
-   45 output: OUTPUT_WRITELN '(' STRING . ')' ';'
+   45 output: OUTPUT_WRITELN '(' STRING • ')' ';'
 
     ')'  shift, and go to state 132
 
 
 State 113
 
-   43 output: OUTPUT_WRITELN '(' operation . ')' ';'
-   63 operation: operation . relational_op expression
-   64          | operation . logical_op expression
+   43 output: OUTPUT_WRITELN '(' operation • ')' ';'
+   63 operation: operation • relational_op expression
+   64          | operation • logical_op expression
 
     ')'         shift, and go to state 133
     AND         shift, and go to state 87
@@ -2311,21 +2311,21 @@ State 113
 
 State 114
 
-   46 input: INPUT_READ '(' expression . ')' ';'
+   46 input: INPUT_READ '(' expression • ')' ';'
 
     ')'  shift, and go to state 134
 
 
 State 115
 
-   31 command: $@3 '{' block_commands . '}'
+   31 command: $@3 '{' block_commands • '}'
 
     '}'  shift, and go to state 135
 
 
 State 116
 
-   77 lst_binary: expression FILTER expression .
+   77 lst_binary: expression FILTER expression •
 
     ';'         reduce using rule 77 (lst_binary)
     AND         reduce using rule 77 (lst_binary)
@@ -2340,7 +2340,7 @@ State 116
 
 State 117
 
-   78 lst_binary: expression MAP expression .
+   78 lst_binary: expression MAP expression •
 
     ';'         reduce using rule 78 (lst_binary)
     AND         reduce using rule 78 (lst_binary)
@@ -2355,7 +2355,7 @@ State 117
 
 State 118
 
-   79 lst_binary: expression ':' expression .
+   79 lst_binary: expression ':' expression •
 
     ';'         reduce using rule 79 (lst_binary)
     AND         reduce using rule 79 (lst_binary)
@@ -2370,7 +2370,7 @@ State 118
 
 State 119
 
-   64 operation: operation logical_op expression .
+   64 operation: operation logical_op expression •
 
     ';'         reduce using rule 64 (operation)
     AND         reduce using rule 64 (operation)
@@ -2385,7 +2385,7 @@ State 119
 
 State 120
 
-   63 operation: operation relational_op expression .
+   63 operation: operation relational_op expression •
 
     ';'         reduce using rule 63 (operation)
     AND         reduce using rule 63 (operation)
@@ -2400,7 +2400,7 @@ State 120
 
 State 121
 
-   68 arith_binary: arith_binary '+' expression .
+   68 arith_binary: arith_binary '+' expression •
 
     ';'         reduce using rule 68 (arith_binary)
     AND         reduce using rule 68 (arith_binary)
@@ -2419,7 +2419,7 @@ State 121
 
 State 122
 
-   69 arith_binary: arith_binary '-' expression .
+   69 arith_binary: arith_binary '-' expression •
 
     ';'         reduce using rule 69 (arith_binary)
     AND         reduce using rule 69 (arith_binary)
@@ -2438,7 +2438,7 @@ State 122
 
 State 123
 
-   70 arith_binary: arith_binary '*' expression .
+   70 arith_binary: arith_binary '*' expression •
 
     ';'         reduce using rule 70 (arith_binary)
     AND         reduce using rule 70 (arith_binary)
@@ -2457,7 +2457,7 @@ State 123
 
 State 124
 
-   71 arith_binary: arith_binary '/' expression .
+   71 arith_binary: arith_binary '/' expression •
 
     ';'         reduce using rule 71 (arith_binary)
     AND         reduce using rule 71 (arith_binary)
@@ -2476,7 +2476,7 @@ State 124
 
 State 125
 
-   47 func_calling: ID '(' calling_parameters ')' .
+   47 func_calling: ID '(' calling_parameters ')' •
 
     ';'         reduce using rule 47 (func_calling)
     AND         reduce using rule 47 (func_calling)
@@ -2498,7 +2498,7 @@ State 125
 
 State 126
 
-   19 lst_calling_parameters: operation ',' . lst_calling_parameters
+   19 lst_calling_parameters: operation ',' • lst_calling_parameters
 
     NUM_INT    shift, and go to state 153
     NUM_FLOAT  shift, and go to state 154
@@ -2525,8 +2525,8 @@ State 126
 
 State 127
 
-   34 conditional_stmt: IF_STMT '(' operation ')' . command
-   35                 | IF_STMT '(' operation ')' . command ELSE_STMT command
+   34 conditional_stmt: IF_STMT '(' operation ')' • command
+   35                 | IF_STMT '(' operation ')' • command ELSE_STMT command
 
     NUM_INT         shift, and go to state 28
     NUM_FLOAT       shift, and go to state 29
@@ -2576,7 +2576,7 @@ State 127
 
 State 128
 
-   37 iteration: FOR_STMT '(' loop_condition ')' . command
+   37 iteration: FOR_STMT '(' loop_condition ')' • command
 
     NUM_INT         shift, and go to state 28
     NUM_FLOAT       shift, and go to state 29
@@ -2626,7 +2626,7 @@ State 128
 
 State 129
 
-   38 loop_condition: init_stmt ';' . operation ';' update_stmt
+   38 loop_condition: init_stmt ';' • operation ';' update_stmt
 
     NUM_INT    shift, and go to state 28
     NUM_FLOAT  shift, and go to state 29
@@ -2652,42 +2652,42 @@ State 129
 
 State 130
 
-   44 output: OUTPUT_WRITE '(' STRING ')' . ';'
+   44 output: OUTPUT_WRITE '(' STRING ')' • ';'
 
     ';'  shift, and go to state 140
 
 
 State 131
 
-   42 output: OUTPUT_WRITE '(' operation ')' . ';'
+   42 output: OUTPUT_WRITE '(' operation ')' • ';'
 
     ';'  shift, and go to state 141
 
 
 State 132
 
-   45 output: OUTPUT_WRITELN '(' STRING ')' . ';'
+   45 output: OUTPUT_WRITELN '(' STRING ')' • ';'
 
     ';'  shift, and go to state 142
 
 
 State 133
 
-   43 output: OUTPUT_WRITELN '(' operation ')' . ';'
+   43 output: OUTPUT_WRITELN '(' operation ')' • ';'
 
     ';'  shift, and go to state 143
 
 
 State 134
 
-   46 input: INPUT_READ '(' expression ')' . ';'
+   46 input: INPUT_READ '(' expression ')' • ';'
 
     ';'  shift, and go to state 144
 
 
 State 135
 
-   31 command: $@3 '{' block_commands '}' .
+   31 command: $@3 '{' block_commands '}' •
 
     NUM_INT         reduce using rule 31 (command)
     NUM_FLOAT       reduce using rule 31 (command)
@@ -2712,15 +2712,15 @@ State 135
 
 State 136
 
-   19 lst_calling_parameters: operation ',' lst_calling_parameters .
+   19 lst_calling_parameters: operation ',' lst_calling_parameters •
 
     ')'  reduce using rule 19 (lst_calling_parameters)
 
 
 State 137
 
-   34 conditional_stmt: IF_STMT '(' operation ')' command .
-   35                 | IF_STMT '(' operation ')' command . ELSE_STMT command
+   34 conditional_stmt: IF_STMT '(' operation ')' command •
+   35                 | IF_STMT '(' operation ')' command • ELSE_STMT command
 
     ELSE_STMT  shift, and go to state 145
 
@@ -2747,7 +2747,7 @@ State 137
 
 State 138
 
-   37 iteration: FOR_STMT '(' loop_condition ')' command .
+   37 iteration: FOR_STMT '(' loop_condition ')' command •
 
     NUM_INT         reduce using rule 37 (iteration)
     NUM_FLOAT       reduce using rule 37 (iteration)
@@ -2772,9 +2772,9 @@ State 138
 
 State 139
 
-   38 loop_condition: init_stmt ';' operation . ';' update_stmt
-   63 operation: operation . relational_op expression
-   64          | operation . logical_op expression
+   38 loop_condition: init_stmt ';' operation • ';' update_stmt
+   63 operation: operation • relational_op expression
+   64          | operation • logical_op expression
 
     ';'         shift, and go to state 146
     AND         shift, and go to state 87
@@ -2792,7 +2792,7 @@ State 139
 
 State 140
 
-   44 output: OUTPUT_WRITE '(' STRING ')' ';' .
+   44 output: OUTPUT_WRITE '(' STRING ')' ';' •
 
     NUM_INT         reduce using rule 44 (output)
     NUM_FLOAT       reduce using rule 44 (output)
@@ -2817,7 +2817,7 @@ State 140
 
 State 141
 
-   42 output: OUTPUT_WRITE '(' operation ')' ';' .
+   42 output: OUTPUT_WRITE '(' operation ')' ';' •
 
     NUM_INT         reduce using rule 42 (output)
     NUM_FLOAT       reduce using rule 42 (output)
@@ -2842,7 +2842,7 @@ State 141
 
 State 142
 
-   45 output: OUTPUT_WRITELN '(' STRING ')' ';' .
+   45 output: OUTPUT_WRITELN '(' STRING ')' ';' •
 
     NUM_INT         reduce using rule 45 (output)
     NUM_FLOAT       reduce using rule 45 (output)
@@ -2867,7 +2867,7 @@ State 142
 
 State 143
 
-   43 output: OUTPUT_WRITELN '(' operation ')' ';' .
+   43 output: OUTPUT_WRITELN '(' operation ')' ';' •
 
     NUM_INT         reduce using rule 43 (output)
     NUM_FLOAT       reduce using rule 43 (output)
@@ -2892,7 +2892,7 @@ State 143
 
 State 144
 
-   46 input: INPUT_READ '(' expression ')' ';' .
+   46 input: INPUT_READ '(' expression ')' ';' •
 
     NUM_INT         reduce using rule 46 (input)
     NUM_FLOAT       reduce using rule 46 (input)
@@ -2917,7 +2917,7 @@ State 144
 
 State 145
 
-   35 conditional_stmt: IF_STMT '(' operation ')' command ELSE_STMT . command
+   35 conditional_stmt: IF_STMT '(' operation ')' command ELSE_STMT • command
 
     NUM_INT         shift, and go to state 28
     NUM_FLOAT       shift, and go to state 29
@@ -2967,7 +2967,7 @@ State 145
 
 State 146
 
-   38 loop_condition: init_stmt ';' operation ';' . update_stmt
+   38 loop_condition: init_stmt ';' operation ';' • update_stmt
 
     ID  shift, and go to state 255
 
@@ -2979,7 +2979,7 @@ State 146
 
 State 147
 
-   35 conditional_stmt: IF_STMT '(' operation ')' command ELSE_STMT command .
+   35 conditional_stmt: IF_STMT '(' operation ')' command ELSE_STMT command •
 
     NUM_INT         reduce using rule 35 (conditional_stmt)
     NUM_FLOAT       reduce using rule 35 (conditional_stmt)
@@ -3004,21 +3004,21 @@ State 147
 
 State 148
 
-   40 update_stmt: init_stmt .
+   40 update_stmt: init_stmt •
 
     ')'  reduce using rule 40 (update_stmt)
 
 
 State 149
 
-   38 loop_condition: init_stmt ';' operation ';' update_stmt .
+   38 loop_condition: init_stmt ';' operation ';' update_stmt •
 
     ')'  reduce using rule 38 (loop_condition)
 
 
 State 150
 
-   12 unq_declaration: type . $@2 ID
+   12 unq_declaration: type • $@2 ID
 
     ID  reduce using rule 11 ($@2)
 
@@ -3027,7 +3027,7 @@ State 150
 
 State 151
 
-   12 unq_declaration: type . $@2 ID
+   12 unq_declaration: type • $@2 ID
 
     ID  reduce using rule 11 ($@2)
 
@@ -3036,7 +3036,7 @@ State 151
 
 State 152
 
-   10 var_declaration: unq_declaration ';' .
+   10 var_declaration: unq_declaration ';' •
 
     NUM_INT         reduce using rule 10 (var_declaration)
     NUM_FLOAT       reduce using rule 10 (var_declaration)
@@ -3061,7 +3061,7 @@ State 152
 
 State 153
 
-   54 number: NUM_INT .
+   54 number: NUM_INT •
 
     ')'         reduce using rule 54 (number)
     ','         reduce using rule 54 (number)
@@ -3084,7 +3084,7 @@ State 153
 
 State 154
 
-   55 number: NUM_FLOAT .
+   55 number: NUM_FLOAT •
 
     ')'         reduce using rule 55 (number)
     ','         reduce using rule 55 (number)
@@ -3107,7 +3107,7 @@ State 154
 
 State 155
 
-   53 const: NIL_CNST .
+   53 const: NIL_CNST •
 
     ')'         reduce using rule 53 (const)
     ','         reduce using rule 53 (const)
@@ -3130,8 +3130,8 @@ State 155
 
 State 156
 
-   47 func_calling: ID . '(' calling_parameters ')'
-   51 expression: ID .
+   47 func_calling: ID • '(' calling_parameters ')'
+   51 expression: ID •
 
     '('  shift, and go to state 258
 
@@ -3156,7 +3156,7 @@ State 156
 
 State 157
 
-   73 arith_single: '+' . expression
+   73 arith_single: '+' • expression
 
     NUM_INT    shift, and go to state 153
     NUM_FLOAT  shift, and go to state 154
@@ -3179,7 +3179,7 @@ State 157
 
 State 158
 
-   74 arith_single: '-' . expression
+   74 arith_single: '-' • expression
 
     NUM_INT    shift, and go to state 153
     NUM_FLOAT  shift, and go to state 154
@@ -3202,7 +3202,7 @@ State 158
 
 State 159
 
-   75 lst_single: '%' . expression
+   75 lst_single: '%' • expression
 
     NUM_INT    shift, and go to state 153
     NUM_FLOAT  shift, and go to state 154
@@ -3225,7 +3225,7 @@ State 159
 
 State 160
 
-   76 lst_single: '?' . expression
+   76 lst_single: '?' • expression
 
     NUM_INT    shift, and go to state 153
     NUM_FLOAT  shift, and go to state 154
@@ -3248,7 +3248,7 @@ State 160
 
 State 161
 
-   67 single_operation: '!' . expression
+   67 single_operation: '!' • expression
 
     NUM_INT    shift, and go to state 153
     NUM_FLOAT  shift, and go to state 154
@@ -3271,7 +3271,7 @@ State 161
 
 State 162
 
-   48 expression: func_calling .
+   48 expression: func_calling •
 
     ')'         reduce using rule 48 (expression)
     ','         reduce using rule 48 (expression)
@@ -3294,10 +3294,10 @@ State 162
 
 State 163
 
-   72 arith_binary: expression .
-   77 lst_binary: expression . FILTER expression
-   78           | expression . MAP expression
-   79           | expression . ':' expression
+   72 arith_binary: expression •
+   77 lst_binary: expression • FILTER expression
+   78           | expression • MAP expression
+   79           | expression • ':' expression
 
     FILTER  shift, and go to state 264
     MAP     shift, and go to state 265
@@ -3321,7 +3321,7 @@ State 163
 
 State 164
 
-   50 expression: const .
+   50 expression: const •
 
     ')'         reduce using rule 50 (expression)
     ','         reduce using rule 50 (expression)
@@ -3344,7 +3344,7 @@ State 164
 
 State 165
 
-   52 const: number .
+   52 const: number •
 
     ')'         reduce using rule 52 (const)
     ','         reduce using rule 52 (const)
@@ -3367,7 +3367,7 @@ State 165
 
 State 166
 
-   49 expression: single_operation .
+   49 expression: single_operation •
 
     ')'         reduce using rule 49 (expression)
     ','         reduce using rule 49 (expression)
@@ -3390,11 +3390,11 @@ State 166
 
 State 167
 
-   61 operation: arith_binary .
-   68 arith_binary: arith_binary . '+' expression
-   69             | arith_binary . '-' expression
-   70             | arith_binary . '*' expression
-   71             | arith_binary . '/' expression
+   61 operation: arith_binary •
+   68 arith_binary: arith_binary • '+' expression
+   69             | arith_binary • '-' expression
+   70             | arith_binary • '*' expression
+   71             | arith_binary • '/' expression
 
     '+'  shift, and go to state 267
     '-'  shift, and go to state 268
@@ -3415,7 +3415,7 @@ State 167
 
 State 168
 
-   65 single_operation: arith_single .
+   65 single_operation: arith_single •
 
     ')'         reduce using rule 65 (single_operation)
     ','         reduce using rule 65 (single_operation)
@@ -3438,7 +3438,7 @@ State 168
 
 State 169
 
-   66 single_operation: lst_single .
+   66 single_operation: lst_single •
 
     ')'         reduce using rule 66 (single_operation)
     ','         reduce using rule 66 (single_operation)
@@ -3461,7 +3461,7 @@ State 169
 
 State 170
 
-   62 operation: lst_binary .
+   62 operation: lst_binary •
 
     ')'         reduce using rule 62 (operation)
     ','         reduce using rule 62 (operation)
@@ -3477,7 +3477,7 @@ State 170
 
 State 171
 
-   54 number: NUM_INT .
+   54 number: NUM_INT •
 
     ')'         reduce using rule 54 (number)
     AND         reduce using rule 54 (number)
@@ -3499,7 +3499,7 @@ State 171
 
 State 172
 
-   55 number: NUM_FLOAT .
+   55 number: NUM_FLOAT •
 
     ')'         reduce using rule 55 (number)
     AND         reduce using rule 55 (number)
@@ -3521,7 +3521,7 @@ State 172
 
 State 173
 
-   53 const: NIL_CNST .
+   53 const: NIL_CNST •
 
     ')'         reduce using rule 53 (const)
     AND         reduce using rule 53 (const)
@@ -3543,8 +3543,8 @@ State 173
 
 State 174
 
-   47 func_calling: ID . '(' calling_parameters ')'
-   51 expression: ID .
+   47 func_calling: ID • '(' calling_parameters ')'
+   51 expression: ID •
 
     '('  shift, and go to state 271
 
@@ -3568,7 +3568,7 @@ State 174
 
 State 175
 
-   73 arith_single: '+' . expression
+   73 arith_single: '+' • expression
 
     NUM_INT    shift, and go to state 171
     NUM_FLOAT  shift, and go to state 172
@@ -3591,7 +3591,7 @@ State 175
 
 State 176
 
-   74 arith_single: '-' . expression
+   74 arith_single: '-' • expression
 
     NUM_INT    shift, and go to state 171
     NUM_FLOAT  shift, and go to state 172
@@ -3614,7 +3614,7 @@ State 176
 
 State 177
 
-   75 lst_single: '%' . expression
+   75 lst_single: '%' • expression
 
     NUM_INT    shift, and go to state 171
     NUM_FLOAT  shift, and go to state 172
@@ -3637,7 +3637,7 @@ State 177
 
 State 178
 
-   76 lst_single: '?' . expression
+   76 lst_single: '?' • expression
 
     NUM_INT    shift, and go to state 171
     NUM_FLOAT  shift, and go to state 172
@@ -3660,7 +3660,7 @@ State 178
 
 State 179
 
-   67 single_operation: '!' . expression
+   67 single_operation: '!' • expression
 
     NUM_INT    shift, and go to state 171
     NUM_FLOAT  shift, and go to state 172
@@ -3683,7 +3683,7 @@ State 179
 
 State 180
 
-   48 expression: func_calling .
+   48 expression: func_calling •
 
     ')'         reduce using rule 48 (expression)
     AND         reduce using rule 48 (expression)
@@ -3705,10 +3705,10 @@ State 180
 
 State 181
 
-   72 arith_binary: expression .
-   77 lst_binary: expression . FILTER expression
-   78           | expression . MAP expression
-   79           | expression . ':' expression
+   72 arith_binary: expression •
+   77 lst_binary: expression • FILTER expression
+   78           | expression • MAP expression
+   79           | expression • ':' expression
 
     FILTER  shift, and go to state 277
     MAP     shift, and go to state 278
@@ -3731,7 +3731,7 @@ State 181
 
 State 182
 
-   50 expression: const .
+   50 expression: const •
 
     ')'         reduce using rule 50 (expression)
     AND         reduce using rule 50 (expression)
@@ -3753,7 +3753,7 @@ State 182
 
 State 183
 
-   52 const: number .
+   52 const: number •
 
     ')'         reduce using rule 52 (const)
     AND         reduce using rule 52 (const)
@@ -3775,7 +3775,7 @@ State 183
 
 State 184
 
-   49 expression: single_operation .
+   49 expression: single_operation •
 
     ')'         reduce using rule 49 (expression)
     AND         reduce using rule 49 (expression)
@@ -3797,11 +3797,11 @@ State 184
 
 State 185
 
-   61 operation: arith_binary .
-   68 arith_binary: arith_binary . '+' expression
-   69             | arith_binary . '-' expression
-   70             | arith_binary . '*' expression
-   71             | arith_binary . '/' expression
+   61 operation: arith_binary •
+   68 arith_binary: arith_binary • '+' expression
+   69             | arith_binary • '-' expression
+   70             | arith_binary • '*' expression
+   71             | arith_binary • '/' expression
 
     '+'  shift, and go to state 280
     '-'  shift, and go to state 281
@@ -3821,7 +3821,7 @@ State 185
 
 State 186
 
-   65 single_operation: arith_single .
+   65 single_operation: arith_single •
 
     ')'         reduce using rule 65 (single_operation)
     AND         reduce using rule 65 (single_operation)
@@ -3843,7 +3843,7 @@ State 186
 
 State 187
 
-   66 single_operation: lst_single .
+   66 single_operation: lst_single •
 
     ')'         reduce using rule 66 (single_operation)
     AND         reduce using rule 66 (single_operation)
@@ -3865,7 +3865,7 @@ State 187
 
 State 188
 
-   62 operation: lst_binary .
+   62 operation: lst_binary •
 
     ')'         reduce using rule 62 (operation)
     AND         reduce using rule 62 (operation)
@@ -3880,29 +3880,29 @@ State 188
 
 State 189
 
-   54 number: NUM_INT .
+   54 number: NUM_INT •
 
     ')'  reduce using rule 54 (number)
 
 
 State 190
 
-   55 number: NUM_FLOAT .
+   55 number: NUM_FLOAT •
 
     ')'  reduce using rule 55 (number)
 
 
 State 191
 
-   53 const: NIL_CNST .
+   53 const: NIL_CNST •
 
     ')'  reduce using rule 53 (const)
 
 
 State 192
 
-   47 func_calling: ID . '(' calling_parameters ')'
-   51 expression: ID .
+   47 func_calling: ID • '(' calling_parameters ')'
+   51 expression: ID •
 
     '('  shift, and go to state 284
 
@@ -3911,7 +3911,7 @@ State 192
 
 State 193
 
-   73 arith_single: '+' . expression
+   73 arith_single: '+' • expression
 
     NUM_INT    shift, and go to state 189
     NUM_FLOAT  shift, and go to state 190
@@ -3934,7 +3934,7 @@ State 193
 
 State 194
 
-   74 arith_single: '-' . expression
+   74 arith_single: '-' • expression
 
     NUM_INT    shift, and go to state 189
     NUM_FLOAT  shift, and go to state 190
@@ -3957,7 +3957,7 @@ State 194
 
 State 195
 
-   75 lst_single: '%' . expression
+   75 lst_single: '%' • expression
 
     NUM_INT    shift, and go to state 189
     NUM_FLOAT  shift, and go to state 190
@@ -3980,7 +3980,7 @@ State 195
 
 State 196
 
-   76 lst_single: '?' . expression
+   76 lst_single: '?' • expression
 
     NUM_INT    shift, and go to state 189
     NUM_FLOAT  shift, and go to state 190
@@ -4003,7 +4003,7 @@ State 196
 
 State 197
 
-   67 single_operation: '!' . expression
+   67 single_operation: '!' • expression
 
     NUM_INT    shift, and go to state 189
     NUM_FLOAT  shift, and go to state 190
@@ -4026,49 +4026,49 @@ State 197
 
 State 198
 
-   48 expression: func_calling .
+   48 expression: func_calling •
 
     ')'  reduce using rule 48 (expression)
 
 
 State 199
 
-   50 expression: const .
+   50 expression: const •
 
     ')'  reduce using rule 50 (expression)
 
 
 State 200
 
-   52 const: number .
+   52 const: number •
 
     ')'  reduce using rule 52 (const)
 
 
 State 201
 
-   49 expression: single_operation .
+   49 expression: single_operation •
 
     ')'  reduce using rule 49 (expression)
 
 
 State 202
 
-   65 single_operation: arith_single .
+   65 single_operation: arith_single •
 
     ')'  reduce using rule 65 (single_operation)
 
 
 State 203
 
-   66 single_operation: lst_single .
+   66 single_operation: lst_single •
 
     ')'  reduce using rule 66 (single_operation)
 
 
 State 204
 
-   54 number: NUM_INT .
+   54 number: NUM_INT •
 
     ';'         reduce using rule 54 (number)
     AND         reduce using rule 54 (number)
@@ -4083,7 +4083,7 @@ State 204
 
 State 205
 
-   55 number: NUM_FLOAT .
+   55 number: NUM_FLOAT •
 
     ';'         reduce using rule 55 (number)
     AND         reduce using rule 55 (number)
@@ -4098,7 +4098,7 @@ State 205
 
 State 206
 
-   53 const: NIL_CNST .
+   53 const: NIL_CNST •
 
     ';'         reduce using rule 53 (const)
     AND         reduce using rule 53 (const)
@@ -4113,8 +4113,8 @@ State 206
 
 State 207
 
-   47 func_calling: ID . '(' calling_parameters ')'
-   51 expression: ID .
+   47 func_calling: ID • '(' calling_parameters ')'
+   51 expression: ID •
 
     '('  shift, and go to state 290
 
@@ -4131,7 +4131,7 @@ State 207
 
 State 208
 
-   73 arith_single: '+' . expression
+   73 arith_single: '+' • expression
 
     NUM_INT    shift, and go to state 204
     NUM_FLOAT  shift, and go to state 205
@@ -4154,7 +4154,7 @@ State 208
 
 State 209
 
-   74 arith_single: '-' . expression
+   74 arith_single: '-' • expression
 
     NUM_INT    shift, and go to state 204
     NUM_FLOAT  shift, and go to state 205
@@ -4177,7 +4177,7 @@ State 209
 
 State 210
 
-   75 lst_single: '%' . expression
+   75 lst_single: '%' • expression
 
     NUM_INT    shift, and go to state 204
     NUM_FLOAT  shift, and go to state 205
@@ -4200,7 +4200,7 @@ State 210
 
 State 211
 
-   76 lst_single: '?' . expression
+   76 lst_single: '?' • expression
 
     NUM_INT    shift, and go to state 204
     NUM_FLOAT  shift, and go to state 205
@@ -4223,7 +4223,7 @@ State 211
 
 State 212
 
-   67 single_operation: '!' . expression
+   67 single_operation: '!' • expression
 
     NUM_INT    shift, and go to state 204
     NUM_FLOAT  shift, and go to state 205
@@ -4246,7 +4246,7 @@ State 212
 
 State 213
 
-   48 expression: func_calling .
+   48 expression: func_calling •
 
     ';'         reduce using rule 48 (expression)
     AND         reduce using rule 48 (expression)
@@ -4261,7 +4261,7 @@ State 213
 
 State 214
 
-   50 expression: const .
+   50 expression: const •
 
     ';'         reduce using rule 50 (expression)
     AND         reduce using rule 50 (expression)
@@ -4276,7 +4276,7 @@ State 214
 
 State 215
 
-   52 const: number .
+   52 const: number •
 
     ';'         reduce using rule 52 (const)
     AND         reduce using rule 52 (const)
@@ -4291,7 +4291,7 @@ State 215
 
 State 216
 
-   49 expression: single_operation .
+   49 expression: single_operation •
 
     ';'         reduce using rule 49 (expression)
     AND         reduce using rule 49 (expression)
@@ -4306,7 +4306,7 @@ State 216
 
 State 217
 
-   65 single_operation: arith_single .
+   65 single_operation: arith_single •
 
     ';'         reduce using rule 65 (single_operation)
     AND         reduce using rule 65 (single_operation)
@@ -4321,7 +4321,7 @@ State 217
 
 State 218
 
-   66 single_operation: lst_single .
+   66 single_operation: lst_single •
 
     ';'         reduce using rule 66 (single_operation)
     AND         reduce using rule 66 (single_operation)
@@ -4336,7 +4336,7 @@ State 218
 
 State 219
 
-   54 number: NUM_INT .
+   54 number: NUM_INT •
 
     ';'         reduce using rule 54 (number)
     AND         reduce using rule 54 (number)
@@ -4355,7 +4355,7 @@ State 219
 
 State 220
 
-   55 number: NUM_FLOAT .
+   55 number: NUM_FLOAT •
 
     ';'         reduce using rule 55 (number)
     AND         reduce using rule 55 (number)
@@ -4374,7 +4374,7 @@ State 220
 
 State 221
 
-   53 const: NIL_CNST .
+   53 const: NIL_CNST •
 
     ';'         reduce using rule 53 (const)
     AND         reduce using rule 53 (const)
@@ -4393,8 +4393,8 @@ State 221
 
 State 222
 
-   47 func_calling: ID . '(' calling_parameters ')'
-   51 expression: ID .
+   47 func_calling: ID • '(' calling_parameters ')'
+   51 expression: ID •
 
     '('  shift, and go to state 296
 
@@ -4415,7 +4415,7 @@ State 222
 
 State 223
 
-   73 arith_single: '+' . expression
+   73 arith_single: '+' • expression
 
     NUM_INT    shift, and go to state 219
     NUM_FLOAT  shift, and go to state 220
@@ -4438,7 +4438,7 @@ State 223
 
 State 224
 
-   74 arith_single: '-' . expression
+   74 arith_single: '-' • expression
 
     NUM_INT    shift, and go to state 219
     NUM_FLOAT  shift, and go to state 220
@@ -4461,7 +4461,7 @@ State 224
 
 State 225
 
-   75 lst_single: '%' . expression
+   75 lst_single: '%' • expression
 
     NUM_INT    shift, and go to state 219
     NUM_FLOAT  shift, and go to state 220
@@ -4484,7 +4484,7 @@ State 225
 
 State 226
 
-   76 lst_single: '?' . expression
+   76 lst_single: '?' • expression
 
     NUM_INT    shift, and go to state 219
     NUM_FLOAT  shift, and go to state 220
@@ -4507,7 +4507,7 @@ State 226
 
 State 227
 
-   67 single_operation: '!' . expression
+   67 single_operation: '!' • expression
 
     NUM_INT    shift, and go to state 219
     NUM_FLOAT  shift, and go to state 220
@@ -4530,7 +4530,7 @@ State 227
 
 State 228
 
-   48 expression: func_calling .
+   48 expression: func_calling •
 
     ';'         reduce using rule 48 (expression)
     AND         reduce using rule 48 (expression)
@@ -4549,7 +4549,7 @@ State 228
 
 State 229
 
-   50 expression: const .
+   50 expression: const •
 
     ';'         reduce using rule 50 (expression)
     AND         reduce using rule 50 (expression)
@@ -4568,7 +4568,7 @@ State 229
 
 State 230
 
-   52 const: number .
+   52 const: number •
 
     ';'         reduce using rule 52 (const)
     AND         reduce using rule 52 (const)
@@ -4587,7 +4587,7 @@ State 230
 
 State 231
 
-   49 expression: single_operation .
+   49 expression: single_operation •
 
     ';'         reduce using rule 49 (expression)
     AND         reduce using rule 49 (expression)
@@ -4606,7 +4606,7 @@ State 231
 
 State 232
 
-   65 single_operation: arith_single .
+   65 single_operation: arith_single •
 
     ';'         reduce using rule 65 (single_operation)
     AND         reduce using rule 65 (single_operation)
@@ -4625,7 +4625,7 @@ State 232
 
 State 233
 
-   66 single_operation: lst_single .
+   66 single_operation: lst_single •
 
     ';'         reduce using rule 66 (single_operation)
     AND         reduce using rule 66 (single_operation)
@@ -4644,7 +4644,7 @@ State 233
 
 State 234
 
-   64 operation: operation logical_op . expression
+   64 operation: operation logical_op • expression
 
     NUM_INT    shift, and go to state 302
     NUM_FLOAT  shift, and go to state 303
@@ -4667,7 +4667,7 @@ State 234
 
 State 235
 
-   63 operation: operation relational_op . expression
+   63 operation: operation relational_op • expression
 
     NUM_INT    shift, and go to state 302
     NUM_FLOAT  shift, and go to state 303
@@ -4690,7 +4690,7 @@ State 235
 
 State 236
 
-   64 operation: operation logical_op . expression
+   64 operation: operation logical_op • expression
 
     NUM_INT    shift, and go to state 319
     NUM_FLOAT  shift, and go to state 320
@@ -4713,7 +4713,7 @@ State 236
 
 State 237
 
-   63 operation: operation relational_op . expression
+   63 operation: operation relational_op • expression
 
     NUM_INT    shift, and go to state 319
     NUM_FLOAT  shift, and go to state 320
@@ -4736,7 +4736,7 @@ State 237
 
 State 238
 
-   36 return_stmt: RETURN_STM . operation ';'
+   36 return_stmt: RETURN_STM • operation ';'
 
     NUM_INT    shift, and go to state 28
     NUM_FLOAT  shift, and go to state 29
@@ -4762,45 +4762,45 @@ State 238
 
 State 239
 
-   34 conditional_stmt: IF_STMT . '(' operation ')' command
-   35                 | IF_STMT . '(' operation ')' command ELSE_STMT command
+   34 conditional_stmt: IF_STMT • '(' operation ')' command
+   35                 | IF_STMT • '(' operation ')' command ELSE_STMT command
 
     '('  shift, and go to state 337
 
 
 State 240
 
-   37 iteration: FOR_STMT . '(' loop_condition ')' command
+   37 iteration: FOR_STMT • '(' loop_condition ')' command
 
     '('  shift, and go to state 338
 
 
 State 241
 
-   42 output: OUTPUT_WRITE . '(' operation ')' ';'
-   44       | OUTPUT_WRITE . '(' STRING ')' ';'
+   42 output: OUTPUT_WRITE • '(' operation ')' ';'
+   44       | OUTPUT_WRITE • '(' STRING ')' ';'
 
     '('  shift, and go to state 339
 
 
 State 242
 
-   43 output: OUTPUT_WRITELN . '(' operation ')' ';'
-   45       | OUTPUT_WRITELN . '(' STRING ')' ';'
+   43 output: OUTPUT_WRITELN • '(' operation ')' ';'
+   45       | OUTPUT_WRITELN • '(' STRING ')' ';'
 
     '('  shift, and go to state 340
 
 
 State 243
 
-   46 input: INPUT_READ . '(' expression ')' ';'
+   46 input: INPUT_READ • '(' expression ')' ';'
 
     '('  shift, and go to state 341
 
 
 State 244
 
-   23 command: var_declaration .
+   23 command: var_declaration •
 
     NUM_INT         reduce using rule 23 (command)
     NUM_FLOAT       reduce using rule 23 (command)
@@ -4826,21 +4826,21 @@ State 244
 
 State 245
 
-   10 var_declaration: unq_declaration . ';'
+   10 var_declaration: unq_declaration • ';'
 
     ';'  shift, and go to state 342
 
 
 State 246
 
-   31 command: $@3 . '{' block_commands '}'
+   31 command: $@3 • '{' block_commands '}'
 
     '{'  shift, and go to state 343
 
 
 State 247
 
-   24 command: init_variable .
+   24 command: init_variable •
 
     NUM_INT         reduce using rule 24 (command)
     NUM_FLOAT       reduce using rule 24 (command)
@@ -4866,7 +4866,7 @@ State 247
 
 State 248
 
-   25 command: conditional_stmt .
+   25 command: conditional_stmt •
 
     NUM_INT         reduce using rule 25 (command)
     NUM_FLOAT       reduce using rule 25 (command)
@@ -4892,7 +4892,7 @@ State 248
 
 State 249
 
-   26 command: return_stmt .
+   26 command: return_stmt •
 
     NUM_INT         reduce using rule 26 (command)
     NUM_FLOAT       reduce using rule 26 (command)
@@ -4918,7 +4918,7 @@ State 249
 
 State 250
 
-   27 command: iteration .
+   27 command: iteration •
 
     NUM_INT         reduce using rule 27 (command)
     NUM_FLOAT       reduce using rule 27 (command)
@@ -4944,14 +4944,14 @@ State 250
 
 State 251
 
-   33 init_variable: init_stmt . ';'
+   33 init_variable: init_stmt • ';'
 
     ';'  shift, and go to state 344
 
 
 State 252
 
-   29 command: output .
+   29 command: output •
 
     NUM_INT         reduce using rule 29 (command)
     NUM_FLOAT       reduce using rule 29 (command)
@@ -4977,7 +4977,7 @@ State 252
 
 State 253
 
-   28 command: input .
+   28 command: input •
 
     NUM_INT         reduce using rule 28 (command)
     NUM_FLOAT       reduce using rule 28 (command)
@@ -5003,9 +5003,9 @@ State 253
 
 State 254
 
-   32 command: operation . ';'
-   63 operation: operation . relational_op expression
-   64          | operation . logical_op expression
+   32 command: operation • ';'
+   63 operation: operation • relational_op expression
+   64          | operation • logical_op expression
 
     ';'         shift, and go to state 345
     AND         shift, and go to state 87
@@ -5023,28 +5023,28 @@ State 254
 
 State 255
 
-   39 init_stmt: ID . '=' operation
+   39 init_stmt: ID • '=' operation
 
     '='  shift, and go to state 346
 
 
 State 256
 
-   12 unq_declaration: type $@2 . ID
+   12 unq_declaration: type $@2 • ID
 
     ID  shift, and go to state 347
 
 
 State 257
 
-   12 unq_declaration: type $@2 . ID
+   12 unq_declaration: type $@2 • ID
 
     ID  shift, and go to state 348
 
 
 State 258
 
-   47 func_calling: ID '(' . calling_parameters ')'
+   47 func_calling: ID '(' • calling_parameters ')'
 
     NUM_INT    shift, and go to state 153
     NUM_FLOAT  shift, and go to state 154
@@ -5074,7 +5074,7 @@ State 258
 
 State 259
 
-   73 arith_single: '+' expression .
+   73 arith_single: '+' expression •
 
     ')'         reduce using rule 73 (arith_single)
     ','         reduce using rule 73 (arith_single)
@@ -5097,7 +5097,7 @@ State 259
 
 State 260
 
-   74 arith_single: '-' expression .
+   74 arith_single: '-' expression •
 
     ')'         reduce using rule 74 (arith_single)
     ','         reduce using rule 74 (arith_single)
@@ -5120,7 +5120,7 @@ State 260
 
 State 261
 
-   75 lst_single: '%' expression .
+   75 lst_single: '%' expression •
 
     ')'         reduce using rule 75 (lst_single)
     ','         reduce using rule 75 (lst_single)
@@ -5143,7 +5143,7 @@ State 261
 
 State 262
 
-   76 lst_single: '?' expression .
+   76 lst_single: '?' expression •
 
     ')'         reduce using rule 76 (lst_single)
     ','         reduce using rule 76 (lst_single)
@@ -5166,7 +5166,7 @@ State 262
 
 State 263
 
-   67 single_operation: '!' expression .
+   67 single_operation: '!' expression •
 
     ')'         reduce using rule 67 (single_operation)
     ','         reduce using rule 67 (single_operation)
@@ -5189,7 +5189,7 @@ State 263
 
 State 264
 
-   77 lst_binary: expression FILTER . expression
+   77 lst_binary: expression FILTER • expression
 
     NUM_INT    shift, and go to state 302
     NUM_FLOAT  shift, and go to state 303
@@ -5212,7 +5212,7 @@ State 264
 
 State 265
 
-   78 lst_binary: expression MAP . expression
+   78 lst_binary: expression MAP • expression
 
     NUM_INT    shift, and go to state 302
     NUM_FLOAT  shift, and go to state 303
@@ -5235,7 +5235,7 @@ State 265
 
 State 266
 
-   79 lst_binary: expression ':' . expression
+   79 lst_binary: expression ':' • expression
 
     NUM_INT    shift, and go to state 302
     NUM_FLOAT  shift, and go to state 303
@@ -5258,7 +5258,7 @@ State 266
 
 State 267
 
-   68 arith_binary: arith_binary '+' . expression
+   68 arith_binary: arith_binary '+' • expression
 
     NUM_INT    shift, and go to state 353
     NUM_FLOAT  shift, and go to state 354
@@ -5281,7 +5281,7 @@ State 267
 
 State 268
 
-   69 arith_binary: arith_binary '-' . expression
+   69 arith_binary: arith_binary '-' • expression
 
     NUM_INT    shift, and go to state 353
     NUM_FLOAT  shift, and go to state 354
@@ -5304,7 +5304,7 @@ State 268
 
 State 269
 
-   70 arith_binary: arith_binary '*' . expression
+   70 arith_binary: arith_binary '*' • expression
 
     NUM_INT    shift, and go to state 353
     NUM_FLOAT  shift, and go to state 354
@@ -5327,7 +5327,7 @@ State 269
 
 State 270
 
-   71 arith_binary: arith_binary '/' . expression
+   71 arith_binary: arith_binary '/' • expression
 
     NUM_INT    shift, and go to state 353
     NUM_FLOAT  shift, and go to state 354
@@ -5350,7 +5350,7 @@ State 270
 
 State 271
 
-   47 func_calling: ID '(' . calling_parameters ')'
+   47 func_calling: ID '(' • calling_parameters ')'
 
     NUM_INT    shift, and go to state 153
     NUM_FLOAT  shift, and go to state 154
@@ -5380,7 +5380,7 @@ State 271
 
 State 272
 
-   73 arith_single: '+' expression .
+   73 arith_single: '+' expression •
 
     ')'         reduce using rule 73 (arith_single)
     AND         reduce using rule 73 (arith_single)
@@ -5402,7 +5402,7 @@ State 272
 
 State 273
 
-   74 arith_single: '-' expression .
+   74 arith_single: '-' expression •
 
     ')'         reduce using rule 74 (arith_single)
     AND         reduce using rule 74 (arith_single)
@@ -5424,7 +5424,7 @@ State 273
 
 State 274
 
-   75 lst_single: '%' expression .
+   75 lst_single: '%' expression •
 
     ')'         reduce using rule 75 (lst_single)
     AND         reduce using rule 75 (lst_single)
@@ -5446,7 +5446,7 @@ State 274
 
 State 275
 
-   76 lst_single: '?' expression .
+   76 lst_single: '?' expression •
 
     ')'         reduce using rule 76 (lst_single)
     AND         reduce using rule 76 (lst_single)
@@ -5468,7 +5468,7 @@ State 275
 
 State 276
 
-   67 single_operation: '!' expression .
+   67 single_operation: '!' expression •
 
     ')'         reduce using rule 67 (single_operation)
     AND         reduce using rule 67 (single_operation)
@@ -5490,7 +5490,7 @@ State 276
 
 State 277
 
-   77 lst_binary: expression FILTER . expression
+   77 lst_binary: expression FILTER • expression
 
     NUM_INT    shift, and go to state 319
     NUM_FLOAT  shift, and go to state 320
@@ -5513,7 +5513,7 @@ State 277
 
 State 278
 
-   78 lst_binary: expression MAP . expression
+   78 lst_binary: expression MAP • expression
 
     NUM_INT    shift, and go to state 319
     NUM_FLOAT  shift, and go to state 320
@@ -5536,7 +5536,7 @@ State 278
 
 State 279
 
-   79 lst_binary: expression ':' . expression
+   79 lst_binary: expression ':' • expression
 
     NUM_INT    shift, and go to state 319
     NUM_FLOAT  shift, and go to state 320
@@ -5559,7 +5559,7 @@ State 279
 
 State 280
 
-   68 arith_binary: arith_binary '+' . expression
+   68 arith_binary: arith_binary '+' • expression
 
     NUM_INT    shift, and go to state 376
     NUM_FLOAT  shift, and go to state 377
@@ -5582,7 +5582,7 @@ State 280
 
 State 281
 
-   69 arith_binary: arith_binary '-' . expression
+   69 arith_binary: arith_binary '-' • expression
 
     NUM_INT    shift, and go to state 376
     NUM_FLOAT  shift, and go to state 377
@@ -5605,7 +5605,7 @@ State 281
 
 State 282
 
-   70 arith_binary: arith_binary '*' . expression
+   70 arith_binary: arith_binary '*' • expression
 
     NUM_INT    shift, and go to state 376
     NUM_FLOAT  shift, and go to state 377
@@ -5628,7 +5628,7 @@ State 282
 
 State 283
 
-   71 arith_binary: arith_binary '/' . expression
+   71 arith_binary: arith_binary '/' • expression
 
     NUM_INT    shift, and go to state 376
     NUM_FLOAT  shift, and go to state 377
@@ -5651,7 +5651,7 @@ State 283
 
 State 284
 
-   47 func_calling: ID '(' . calling_parameters ')'
+   47 func_calling: ID '(' • calling_parameters ')'
 
     NUM_INT    shift, and go to state 153
     NUM_FLOAT  shift, and go to state 154
@@ -5681,42 +5681,42 @@ State 284
 
 State 285
 
-   73 arith_single: '+' expression .
+   73 arith_single: '+' expression •
 
     ')'  reduce using rule 73 (arith_single)
 
 
 State 286
 
-   74 arith_single: '-' expression .
+   74 arith_single: '-' expression •
 
     ')'  reduce using rule 74 (arith_single)
 
 
 State 287
 
-   75 lst_single: '%' expression .
+   75 lst_single: '%' expression •
 
     ')'  reduce using rule 75 (lst_single)
 
 
 State 288
 
-   76 lst_single: '?' expression .
+   76 lst_single: '?' expression •
 
     ')'  reduce using rule 76 (lst_single)
 
 
 State 289
 
-   67 single_operation: '!' expression .
+   67 single_operation: '!' expression •
 
     ')'  reduce using rule 67 (single_operation)
 
 
 State 290
 
-   47 func_calling: ID '(' . calling_parameters ')'
+   47 func_calling: ID '(' • calling_parameters ')'
 
     NUM_INT    shift, and go to state 153
     NUM_FLOAT  shift, and go to state 154
@@ -5746,7 +5746,7 @@ State 290
 
 State 291
 
-   73 arith_single: '+' expression .
+   73 arith_single: '+' expression •
 
     ';'         reduce using rule 73 (arith_single)
     AND         reduce using rule 73 (arith_single)
@@ -5761,7 +5761,7 @@ State 291
 
 State 292
 
-   74 arith_single: '-' expression .
+   74 arith_single: '-' expression •
 
     ';'         reduce using rule 74 (arith_single)
     AND         reduce using rule 74 (arith_single)
@@ -5776,7 +5776,7 @@ State 292
 
 State 293
 
-   75 lst_single: '%' expression .
+   75 lst_single: '%' expression •
 
     ';'         reduce using rule 75 (lst_single)
     AND         reduce using rule 75 (lst_single)
@@ -5791,7 +5791,7 @@ State 293
 
 State 294
 
-   76 lst_single: '?' expression .
+   76 lst_single: '?' expression •
 
     ';'         reduce using rule 76 (lst_single)
     AND         reduce using rule 76 (lst_single)
@@ -5806,7 +5806,7 @@ State 294
 
 State 295
 
-   67 single_operation: '!' expression .
+   67 single_operation: '!' expression •
 
     ';'         reduce using rule 67 (single_operation)
     AND         reduce using rule 67 (single_operation)
@@ -5821,7 +5821,7 @@ State 295
 
 State 296
 
-   47 func_calling: ID '(' . calling_parameters ')'
+   47 func_calling: ID '(' • calling_parameters ')'
 
     NUM_INT    shift, and go to state 153
     NUM_FLOAT  shift, and go to state 154
@@ -5851,7 +5851,7 @@ State 296
 
 State 297
 
-   73 arith_single: '+' expression .
+   73 arith_single: '+' expression •
 
     ';'         reduce using rule 73 (arith_single)
     AND         reduce using rule 73 (arith_single)
@@ -5870,7 +5870,7 @@ State 297
 
 State 298
 
-   74 arith_single: '-' expression .
+   74 arith_single: '-' expression •
 
     ';'         reduce using rule 74 (arith_single)
     AND         reduce using rule 74 (arith_single)
@@ -5889,7 +5889,7 @@ State 298
 
 State 299
 
-   75 lst_single: '%' expression .
+   75 lst_single: '%' expression •
 
     ';'         reduce using rule 75 (lst_single)
     AND         reduce using rule 75 (lst_single)
@@ -5908,7 +5908,7 @@ State 299
 
 State 300
 
-   76 lst_single: '?' expression .
+   76 lst_single: '?' expression •
 
     ';'         reduce using rule 76 (lst_single)
     AND         reduce using rule 76 (lst_single)
@@ -5927,7 +5927,7 @@ State 300
 
 State 301
 
-   67 single_operation: '!' expression .
+   67 single_operation: '!' expression •
 
     ';'         reduce using rule 67 (single_operation)
     AND         reduce using rule 67 (single_operation)
@@ -5946,7 +5946,7 @@ State 301
 
 State 302
 
-   54 number: NUM_INT .
+   54 number: NUM_INT •
 
     ')'         reduce using rule 54 (number)
     ','         reduce using rule 54 (number)
@@ -5962,7 +5962,7 @@ State 302
 
 State 303
 
-   55 number: NUM_FLOAT .
+   55 number: NUM_FLOAT •
 
     ')'         reduce using rule 55 (number)
     ','         reduce using rule 55 (number)
@@ -5978,7 +5978,7 @@ State 303
 
 State 304
 
-   53 const: NIL_CNST .
+   53 const: NIL_CNST •
 
     ')'         reduce using rule 53 (const)
     ','         reduce using rule 53 (const)
@@ -5994,8 +5994,8 @@ State 304
 
 State 305
 
-   47 func_calling: ID . '(' calling_parameters ')'
-   51 expression: ID .
+   47 func_calling: ID • '(' calling_parameters ')'
+   51 expression: ID •
 
     '('  shift, and go to state 398
 
@@ -6013,7 +6013,7 @@ State 305
 
 State 306
 
-   73 arith_single: '+' . expression
+   73 arith_single: '+' • expression
 
     NUM_INT    shift, and go to state 302
     NUM_FLOAT  shift, and go to state 303
@@ -6036,7 +6036,7 @@ State 306
 
 State 307
 
-   74 arith_single: '-' . expression
+   74 arith_single: '-' • expression
 
     NUM_INT    shift, and go to state 302
     NUM_FLOAT  shift, and go to state 303
@@ -6059,7 +6059,7 @@ State 307
 
 State 308
 
-   75 lst_single: '%' . expression
+   75 lst_single: '%' • expression
 
     NUM_INT    shift, and go to state 302
     NUM_FLOAT  shift, and go to state 303
@@ -6082,7 +6082,7 @@ State 308
 
 State 309
 
-   76 lst_single: '?' . expression
+   76 lst_single: '?' • expression
 
     NUM_INT    shift, and go to state 302
     NUM_FLOAT  shift, and go to state 303
@@ -6105,7 +6105,7 @@ State 309
 
 State 310
 
-   67 single_operation: '!' . expression
+   67 single_operation: '!' • expression
 
     NUM_INT    shift, and go to state 302
     NUM_FLOAT  shift, and go to state 303
@@ -6128,7 +6128,7 @@ State 310
 
 State 311
 
-   48 expression: func_calling .
+   48 expression: func_calling •
 
     ')'         reduce using rule 48 (expression)
     ','         reduce using rule 48 (expression)
@@ -6144,7 +6144,7 @@ State 311
 
 State 312
 
-   64 operation: operation logical_op expression .
+   64 operation: operation logical_op expression •
 
     ')'         reduce using rule 64 (operation)
     ','         reduce using rule 64 (operation)
@@ -6160,7 +6160,7 @@ State 312
 
 State 313
 
-   50 expression: const .
+   50 expression: const •
 
     ')'         reduce using rule 50 (expression)
     ','         reduce using rule 50 (expression)
@@ -6176,7 +6176,7 @@ State 313
 
 State 314
 
-   52 const: number .
+   52 const: number •
 
     ')'         reduce using rule 52 (const)
     ','         reduce using rule 52 (const)
@@ -6192,7 +6192,7 @@ State 314
 
 State 315
 
-   49 expression: single_operation .
+   49 expression: single_operation •
 
     ')'         reduce using rule 49 (expression)
     ','         reduce using rule 49 (expression)
@@ -6208,7 +6208,7 @@ State 315
 
 State 316
 
-   65 single_operation: arith_single .
+   65 single_operation: arith_single •
 
     ')'         reduce using rule 65 (single_operation)
     ','         reduce using rule 65 (single_operation)
@@ -6224,7 +6224,7 @@ State 316
 
 State 317
 
-   66 single_operation: lst_single .
+   66 single_operation: lst_single •
 
     ')'         reduce using rule 66 (single_operation)
     ','         reduce using rule 66 (single_operation)
@@ -6240,7 +6240,7 @@ State 317
 
 State 318
 
-   63 operation: operation relational_op expression .
+   63 operation: operation relational_op expression •
 
     ')'         reduce using rule 63 (operation)
     ','         reduce using rule 63 (operation)
@@ -6256,7 +6256,7 @@ State 318
 
 State 319
 
-   54 number: NUM_INT .
+   54 number: NUM_INT •
 
     ')'         reduce using rule 54 (number)
     AND         reduce using rule 54 (number)
@@ -6271,7 +6271,7 @@ State 319
 
 State 320
 
-   55 number: NUM_FLOAT .
+   55 number: NUM_FLOAT •
 
     ')'         reduce using rule 55 (number)
     AND         reduce using rule 55 (number)
@@ -6286,7 +6286,7 @@ State 320
 
 State 321
 
-   53 const: NIL_CNST .
+   53 const: NIL_CNST •
 
     ')'         reduce using rule 53 (const)
     AND         reduce using rule 53 (const)
@@ -6301,8 +6301,8 @@ State 321
 
 State 322
 
-   47 func_calling: ID . '(' calling_parameters ')'
-   51 expression: ID .
+   47 func_calling: ID • '(' calling_parameters ')'
+   51 expression: ID •
 
     '('  shift, and go to state 404
 
@@ -6319,7 +6319,7 @@ State 322
 
 State 323
 
-   73 arith_single: '+' . expression
+   73 arith_single: '+' • expression
 
     NUM_INT    shift, and go to state 319
     NUM_FLOAT  shift, and go to state 320
@@ -6342,7 +6342,7 @@ State 323
 
 State 324
 
-   74 arith_single: '-' . expression
+   74 arith_single: '-' • expression
 
     NUM_INT    shift, and go to state 319
     NUM_FLOAT  shift, and go to state 320
@@ -6365,7 +6365,7 @@ State 324
 
 State 325
 
-   75 lst_single: '%' . expression
+   75 lst_single: '%' • expression
 
     NUM_INT    shift, and go to state 319
     NUM_FLOAT  shift, and go to state 320
@@ -6388,7 +6388,7 @@ State 325
 
 State 326
 
-   76 lst_single: '?' . expression
+   76 lst_single: '?' • expression
 
     NUM_INT    shift, and go to state 319
     NUM_FLOAT  shift, and go to state 320
@@ -6411,7 +6411,7 @@ State 326
 
 State 327
 
-   67 single_operation: '!' . expression
+   67 single_operation: '!' • expression
 
     NUM_INT    shift, and go to state 319
     NUM_FLOAT  shift, and go to state 320
@@ -6434,7 +6434,7 @@ State 327
 
 State 328
 
-   48 expression: func_calling .
+   48 expression: func_calling •
 
     ')'         reduce using rule 48 (expression)
     AND         reduce using rule 48 (expression)
@@ -6449,7 +6449,7 @@ State 328
 
 State 329
 
-   64 operation: operation logical_op expression .
+   64 operation: operation logical_op expression •
 
     ')'         reduce using rule 64 (operation)
     AND         reduce using rule 64 (operation)
@@ -6464,7 +6464,7 @@ State 329
 
 State 330
 
-   50 expression: const .
+   50 expression: const •
 
     ')'         reduce using rule 50 (expression)
     AND         reduce using rule 50 (expression)
@@ -6479,7 +6479,7 @@ State 330
 
 State 331
 
-   52 const: number .
+   52 const: number •
 
     ')'         reduce using rule 52 (const)
     AND         reduce using rule 52 (const)
@@ -6494,7 +6494,7 @@ State 331
 
 State 332
 
-   49 expression: single_operation .
+   49 expression: single_operation •
 
     ')'         reduce using rule 49 (expression)
     AND         reduce using rule 49 (expression)
@@ -6509,7 +6509,7 @@ State 332
 
 State 333
 
-   65 single_operation: arith_single .
+   65 single_operation: arith_single •
 
     ')'         reduce using rule 65 (single_operation)
     AND         reduce using rule 65 (single_operation)
@@ -6524,7 +6524,7 @@ State 333
 
 State 334
 
-   66 single_operation: lst_single .
+   66 single_operation: lst_single •
 
     ')'         reduce using rule 66 (single_operation)
     AND         reduce using rule 66 (single_operation)
@@ -6539,7 +6539,7 @@ State 334
 
 State 335
 
-   63 operation: operation relational_op expression .
+   63 operation: operation relational_op expression •
 
     ')'         reduce using rule 63 (operation)
     AND         reduce using rule 63 (operation)
@@ -6554,9 +6554,9 @@ State 335
 
 State 336
 
-   36 return_stmt: RETURN_STM operation . ';'
-   63 operation: operation . relational_op expression
-   64          | operation . logical_op expression
+   36 return_stmt: RETURN_STM operation • ';'
+   63 operation: operation • relational_op expression
+   64          | operation • logical_op expression
 
     ';'         shift, and go to state 410
     AND         shift, and go to state 87
@@ -6574,8 +6574,8 @@ State 336
 
 State 337
 
-   34 conditional_stmt: IF_STMT '(' . operation ')' command
-   35                 | IF_STMT '(' . operation ')' command ELSE_STMT command
+   34 conditional_stmt: IF_STMT '(' • operation ')' command
+   35                 | IF_STMT '(' • operation ')' command ELSE_STMT command
 
     NUM_INT    shift, and go to state 171
     NUM_FLOAT  shift, and go to state 172
@@ -6601,7 +6601,7 @@ State 337
 
 State 338
 
-   37 iteration: FOR_STMT '(' . loop_condition ')' command
+   37 iteration: FOR_STMT '(' • loop_condition ')' command
 
     ID  shift, and go to state 107
 
@@ -6611,8 +6611,8 @@ State 338
 
 State 339
 
-   42 output: OUTPUT_WRITE '(' . operation ')' ';'
-   44       | OUTPUT_WRITE '(' . STRING ')' ';'
+   42 output: OUTPUT_WRITE '(' • operation ')' ';'
+   44       | OUTPUT_WRITE '(' • STRING ')' ';'
 
     NUM_INT    shift, and go to state 171
     NUM_FLOAT  shift, and go to state 172
@@ -6639,8 +6639,8 @@ State 339
 
 State 340
 
-   43 output: OUTPUT_WRITELN '(' . operation ')' ';'
-   45       | OUTPUT_WRITELN '(' . STRING ')' ';'
+   43 output: OUTPUT_WRITELN '(' • operation ')' ';'
+   45       | OUTPUT_WRITELN '(' • STRING ')' ';'
 
     NUM_INT    shift, and go to state 171
     NUM_FLOAT  shift, and go to state 172
@@ -6667,7 +6667,7 @@ State 340
 
 State 341
 
-   46 input: INPUT_READ '(' . expression ')' ';'
+   46 input: INPUT_READ '(' • expression ')' ';'
 
     NUM_INT    shift, and go to state 189
     NUM_FLOAT  shift, and go to state 190
@@ -6690,7 +6690,7 @@ State 341
 
 State 342
 
-   10 var_declaration: unq_declaration ';' .
+   10 var_declaration: unq_declaration ';' •
 
     NUM_INT         reduce using rule 10 (var_declaration)
     NUM_FLOAT       reduce using rule 10 (var_declaration)
@@ -6716,7 +6716,7 @@ State 342
 
 State 343
 
-   31 command: $@3 '{' . block_commands '}'
+   31 command: $@3 '{' • block_commands '}'
 
     NUM_INT         shift, and go to state 28
     NUM_FLOAT       shift, and go to state 29
@@ -6768,7 +6768,7 @@ State 343
 
 State 344
 
-   33 init_variable: init_stmt ';' .
+   33 init_variable: init_stmt ';' •
 
     NUM_INT         reduce using rule 33 (init_variable)
     NUM_FLOAT       reduce using rule 33 (init_variable)
@@ -6794,7 +6794,7 @@ State 344
 
 State 345
 
-   32 command: operation ';' .
+   32 command: operation ';' •
 
     NUM_INT         reduce using rule 32 (command)
     NUM_FLOAT       reduce using rule 32 (command)
@@ -6820,7 +6820,7 @@ State 345
 
 State 346
 
-   39 init_stmt: ID '=' . operation
+   39 init_stmt: ID '=' • operation
 
     NUM_INT    shift, and go to state 171
     NUM_FLOAT  shift, and go to state 172
@@ -6846,7 +6846,7 @@ State 346
 
 State 347
 
-   12 unq_declaration: type $@2 ID .
+   12 unq_declaration: type $@2 ID •
 
     ')'  reduce using rule 12 (unq_declaration)
     ','  reduce using rule 12 (unq_declaration)
@@ -6854,21 +6854,21 @@ State 347
 
 State 348
 
-   12 unq_declaration: type $@2 ID .
+   12 unq_declaration: type $@2 ID •
 
     ';'  reduce using rule 12 (unq_declaration)
 
 
 State 349
 
-   47 func_calling: ID '(' calling_parameters . ')'
+   47 func_calling: ID '(' calling_parameters • ')'
 
     ')'  shift, and go to state 420
 
 
 State 350
 
-   77 lst_binary: expression FILTER expression .
+   77 lst_binary: expression FILTER expression •
 
     ')'         reduce using rule 77 (lst_binary)
     ','         reduce using rule 77 (lst_binary)
@@ -6884,7 +6884,7 @@ State 350
 
 State 351
 
-   78 lst_binary: expression MAP expression .
+   78 lst_binary: expression MAP expression •
 
     ')'         reduce using rule 78 (lst_binary)
     ','         reduce using rule 78 (lst_binary)
@@ -6900,7 +6900,7 @@ State 351
 
 State 352
 
-   79 lst_binary: expression ':' expression .
+   79 lst_binary: expression ':' expression •
 
     ')'         reduce using rule 79 (lst_binary)
     ','         reduce using rule 79 (lst_binary)
@@ -6916,7 +6916,7 @@ State 352
 
 State 353
 
-   54 number: NUM_INT .
+   54 number: NUM_INT •
 
     ')'         reduce using rule 54 (number)
     ','         reduce using rule 54 (number)
@@ -6936,7 +6936,7 @@ State 353
 
 State 354
 
-   55 number: NUM_FLOAT .
+   55 number: NUM_FLOAT •
 
     ')'         reduce using rule 55 (number)
     ','         reduce using rule 55 (number)
@@ -6956,7 +6956,7 @@ State 354
 
 State 355
 
-   53 const: NIL_CNST .
+   53 const: NIL_CNST •
 
     ')'         reduce using rule 53 (const)
     ','         reduce using rule 53 (const)
@@ -6976,8 +6976,8 @@ State 355
 
 State 356
 
-   47 func_calling: ID . '(' calling_parameters ')'
-   51 expression: ID .
+   47 func_calling: ID • '(' calling_parameters ')'
+   51 expression: ID •
 
     '('  shift, and go to state 421
 
@@ -6999,7 +6999,7 @@ State 356
 
 State 357
 
-   73 arith_single: '+' . expression
+   73 arith_single: '+' • expression
 
     NUM_INT    shift, and go to state 353
     NUM_FLOAT  shift, and go to state 354
@@ -7022,7 +7022,7 @@ State 357
 
 State 358
 
-   74 arith_single: '-' . expression
+   74 arith_single: '-' • expression
 
     NUM_INT    shift, and go to state 353
     NUM_FLOAT  shift, and go to state 354
@@ -7045,7 +7045,7 @@ State 358
 
 State 359
 
-   75 lst_single: '%' . expression
+   75 lst_single: '%' • expression
 
     NUM_INT    shift, and go to state 353
     NUM_FLOAT  shift, and go to state 354
@@ -7068,7 +7068,7 @@ State 359
 
 State 360
 
-   76 lst_single: '?' . expression
+   76 lst_single: '?' • expression
 
     NUM_INT    shift, and go to state 353
     NUM_FLOAT  shift, and go to state 354
@@ -7091,7 +7091,7 @@ State 360
 
 State 361
 
-   67 single_operation: '!' . expression
+   67 single_operation: '!' • expression
 
     NUM_INT    shift, and go to state 353
     NUM_FLOAT  shift, and go to state 354
@@ -7114,7 +7114,7 @@ State 361
 
 State 362
 
-   48 expression: func_calling .
+   48 expression: func_calling •
 
     ')'         reduce using rule 48 (expression)
     ','         reduce using rule 48 (expression)
@@ -7134,7 +7134,7 @@ State 362
 
 State 363
 
-   68 arith_binary: arith_binary '+' expression .
+   68 arith_binary: arith_binary '+' expression •
 
     ')'         reduce using rule 68 (arith_binary)
     ','         reduce using rule 68 (arith_binary)
@@ -7154,7 +7154,7 @@ State 363
 
 State 364
 
-   50 expression: const .
+   50 expression: const •
 
     ')'         reduce using rule 50 (expression)
     ','         reduce using rule 50 (expression)
@@ -7174,7 +7174,7 @@ State 364
 
 State 365
 
-   52 const: number .
+   52 const: number •
 
     ')'         reduce using rule 52 (const)
     ','         reduce using rule 52 (const)
@@ -7194,7 +7194,7 @@ State 365
 
 State 366
 
-   49 expression: single_operation .
+   49 expression: single_operation •
 
     ')'         reduce using rule 49 (expression)
     ','         reduce using rule 49 (expression)
@@ -7214,7 +7214,7 @@ State 366
 
 State 367
 
-   65 single_operation: arith_single .
+   65 single_operation: arith_single •
 
     ')'         reduce using rule 65 (single_operation)
     ','         reduce using rule 65 (single_operation)
@@ -7234,7 +7234,7 @@ State 367
 
 State 368
 
-   66 single_operation: lst_single .
+   66 single_operation: lst_single •
 
     ')'         reduce using rule 66 (single_operation)
     ','         reduce using rule 66 (single_operation)
@@ -7254,7 +7254,7 @@ State 368
 
 State 369
 
-   69 arith_binary: arith_binary '-' expression .
+   69 arith_binary: arith_binary '-' expression •
 
     ')'         reduce using rule 69 (arith_binary)
     ','         reduce using rule 69 (arith_binary)
@@ -7274,7 +7274,7 @@ State 369
 
 State 370
 
-   70 arith_binary: arith_binary '*' expression .
+   70 arith_binary: arith_binary '*' expression •
 
     ')'         reduce using rule 70 (arith_binary)
     ','         reduce using rule 70 (arith_binary)
@@ -7294,7 +7294,7 @@ State 370
 
 State 371
 
-   71 arith_binary: arith_binary '/' expression .
+   71 arith_binary: arith_binary '/' expression •
 
     ')'         reduce using rule 71 (arith_binary)
     ','         reduce using rule 71 (arith_binary)
@@ -7314,14 +7314,14 @@ State 371
 
 State 372
 
-   47 func_calling: ID '(' calling_parameters . ')'
+   47 func_calling: ID '(' calling_parameters • ')'
 
     ')'  shift, and go to state 427
 
 
 State 373
 
-   77 lst_binary: expression FILTER expression .
+   77 lst_binary: expression FILTER expression •
 
     ')'         reduce using rule 77 (lst_binary)
     AND         reduce using rule 77 (lst_binary)
@@ -7336,7 +7336,7 @@ State 373
 
 State 374
 
-   78 lst_binary: expression MAP expression .
+   78 lst_binary: expression MAP expression •
 
     ')'         reduce using rule 78 (lst_binary)
     AND         reduce using rule 78 (lst_binary)
@@ -7351,7 +7351,7 @@ State 374
 
 State 375
 
-   79 lst_binary: expression ':' expression .
+   79 lst_binary: expression ':' expression •
 
     ')'         reduce using rule 79 (lst_binary)
     AND         reduce using rule 79 (lst_binary)
@@ -7366,7 +7366,7 @@ State 375
 
 State 376
 
-   54 number: NUM_INT .
+   54 number: NUM_INT •
 
     ')'         reduce using rule 54 (number)
     AND         reduce using rule 54 (number)
@@ -7385,7 +7385,7 @@ State 376
 
 State 377
 
-   55 number: NUM_FLOAT .
+   55 number: NUM_FLOAT •
 
     ')'         reduce using rule 55 (number)
     AND         reduce using rule 55 (number)
@@ -7404,7 +7404,7 @@ State 377
 
 State 378
 
-   53 const: NIL_CNST .
+   53 const: NIL_CNST •
 
     ')'         reduce using rule 53 (const)
     AND         reduce using rule 53 (const)
@@ -7423,8 +7423,8 @@ State 378
 
 State 379
 
-   47 func_calling: ID . '(' calling_parameters ')'
-   51 expression: ID .
+   47 func_calling: ID • '(' calling_parameters ')'
+   51 expression: ID •
 
     '('  shift, and go to state 428
 
@@ -7445,7 +7445,7 @@ State 379
 
 State 380
 
-   73 arith_single: '+' . expression
+   73 arith_single: '+' • expression
 
     NUM_INT    shift, and go to state 376
     NUM_FLOAT  shift, and go to state 377
@@ -7468,7 +7468,7 @@ State 380
 
 State 381
 
-   74 arith_single: '-' . expression
+   74 arith_single: '-' • expression
 
     NUM_INT    shift, and go to state 376
     NUM_FLOAT  shift, and go to state 377
@@ -7491,7 +7491,7 @@ State 381
 
 State 382
 
-   75 lst_single: '%' . expression
+   75 lst_single: '%' • expression
 
     NUM_INT    shift, and go to state 376
     NUM_FLOAT  shift, and go to state 377
@@ -7514,7 +7514,7 @@ State 382
 
 State 383
 
-   76 lst_single: '?' . expression
+   76 lst_single: '?' • expression
 
     NUM_INT    shift, and go to state 376
     NUM_FLOAT  shift, and go to state 377
@@ -7537,7 +7537,7 @@ State 383
 
 State 384
 
-   67 single_operation: '!' . expression
+   67 single_operation: '!' • expression
 
     NUM_INT    shift, and go to state 376
     NUM_FLOAT  shift, and go to state 377
@@ -7560,7 +7560,7 @@ State 384
 
 State 385
 
-   48 expression: func_calling .
+   48 expression: func_calling •
 
     ')'         reduce using rule 48 (expression)
     AND         reduce using rule 48 (expression)
@@ -7579,7 +7579,7 @@ State 385
 
 State 386
 
-   68 arith_binary: arith_binary '+' expression .
+   68 arith_binary: arith_binary '+' expression •
 
     ')'         reduce using rule 68 (arith_binary)
     AND         reduce using rule 68 (arith_binary)
@@ -7598,7 +7598,7 @@ State 386
 
 State 387
 
-   50 expression: const .
+   50 expression: const •
 
     ')'         reduce using rule 50 (expression)
     AND         reduce using rule 50 (expression)
@@ -7617,7 +7617,7 @@ State 387
 
 State 388
 
-   52 const: number .
+   52 const: number •
 
     ')'         reduce using rule 52 (const)
     AND         reduce using rule 52 (const)
@@ -7636,7 +7636,7 @@ State 388
 
 State 389
 
-   49 expression: single_operation .
+   49 expression: single_operation •
 
     ')'         reduce using rule 49 (expression)
     AND         reduce using rule 49 (expression)
@@ -7655,7 +7655,7 @@ State 389
 
 State 390
 
-   65 single_operation: arith_single .
+   65 single_operation: arith_single •
 
     ')'         reduce using rule 65 (single_operation)
     AND         reduce using rule 65 (single_operation)
@@ -7674,7 +7674,7 @@ State 390
 
 State 391
 
-   66 single_operation: lst_single .
+   66 single_operation: lst_single •
 
     ')'         reduce using rule 66 (single_operation)
     AND         reduce using rule 66 (single_operation)
@@ -7693,7 +7693,7 @@ State 391
 
 State 392
 
-   69 arith_binary: arith_binary '-' expression .
+   69 arith_binary: arith_binary '-' expression •
 
     ')'         reduce using rule 69 (arith_binary)
     AND         reduce using rule 69 (arith_binary)
@@ -7712,7 +7712,7 @@ State 392
 
 State 393
 
-   70 arith_binary: arith_binary '*' expression .
+   70 arith_binary: arith_binary '*' expression •
 
     ')'         reduce using rule 70 (arith_binary)
     AND         reduce using rule 70 (arith_binary)
@@ -7731,7 +7731,7 @@ State 393
 
 State 394
 
-   71 arith_binary: arith_binary '/' expression .
+   71 arith_binary: arith_binary '/' expression •
 
     ')'         reduce using rule 71 (arith_binary)
     AND         reduce using rule 71 (arith_binary)
@@ -7750,28 +7750,28 @@ State 394
 
 State 395
 
-   47 func_calling: ID '(' calling_parameters . ')'
+   47 func_calling: ID '(' calling_parameters • ')'
 
     ')'  shift, and go to state 434
 
 
 State 396
 
-   47 func_calling: ID '(' calling_parameters . ')'
+   47 func_calling: ID '(' calling_parameters • ')'
 
     ')'  shift, and go to state 435
 
 
 State 397
 
-   47 func_calling: ID '(' calling_parameters . ')'
+   47 func_calling: ID '(' calling_parameters • ')'
 
     ')'  shift, and go to state 436
 
 
 State 398
 
-   47 func_calling: ID '(' . calling_parameters ')'
+   47 func_calling: ID '(' • calling_parameters ')'
 
     NUM_INT    shift, and go to state 153
     NUM_FLOAT  shift, and go to state 154
@@ -7801,7 +7801,7 @@ State 398
 
 State 399
 
-   73 arith_single: '+' expression .
+   73 arith_single: '+' expression •
 
     ')'         reduce using rule 73 (arith_single)
     ','         reduce using rule 73 (arith_single)
@@ -7817,7 +7817,7 @@ State 399
 
 State 400
 
-   74 arith_single: '-' expression .
+   74 arith_single: '-' expression •
 
     ')'         reduce using rule 74 (arith_single)
     ','         reduce using rule 74 (arith_single)
@@ -7833,7 +7833,7 @@ State 400
 
 State 401
 
-   75 lst_single: '%' expression .
+   75 lst_single: '%' expression •
 
     ')'         reduce using rule 75 (lst_single)
     ','         reduce using rule 75 (lst_single)
@@ -7849,7 +7849,7 @@ State 401
 
 State 402
 
-   76 lst_single: '?' expression .
+   76 lst_single: '?' expression •
 
     ')'         reduce using rule 76 (lst_single)
     ','         reduce using rule 76 (lst_single)
@@ -7865,7 +7865,7 @@ State 402
 
 State 403
 
-   67 single_operation: '!' expression .
+   67 single_operation: '!' expression •
 
     ')'         reduce using rule 67 (single_operation)
     ','         reduce using rule 67 (single_operation)
@@ -7881,7 +7881,7 @@ State 403
 
 State 404
 
-   47 func_calling: ID '(' . calling_parameters ')'
+   47 func_calling: ID '(' • calling_parameters ')'
 
     NUM_INT    shift, and go to state 153
     NUM_FLOAT  shift, and go to state 154
@@ -7911,7 +7911,7 @@ State 404
 
 State 405
 
-   73 arith_single: '+' expression .
+   73 arith_single: '+' expression •
 
     ')'         reduce using rule 73 (arith_single)
     AND         reduce using rule 73 (arith_single)
@@ -7926,7 +7926,7 @@ State 405
 
 State 406
 
-   74 arith_single: '-' expression .
+   74 arith_single: '-' expression •
 
     ')'         reduce using rule 74 (arith_single)
     AND         reduce using rule 74 (arith_single)
@@ -7941,7 +7941,7 @@ State 406
 
 State 407
 
-   75 lst_single: '%' expression .
+   75 lst_single: '%' expression •
 
     ')'         reduce using rule 75 (lst_single)
     AND         reduce using rule 75 (lst_single)
@@ -7956,7 +7956,7 @@ State 407
 
 State 408
 
-   76 lst_single: '?' expression .
+   76 lst_single: '?' expression •
 
     ')'         reduce using rule 76 (lst_single)
     AND         reduce using rule 76 (lst_single)
@@ -7971,7 +7971,7 @@ State 408
 
 State 409
 
-   67 single_operation: '!' expression .
+   67 single_operation: '!' expression •
 
     ')'         reduce using rule 67 (single_operation)
     AND         reduce using rule 67 (single_operation)
@@ -7986,7 +7986,7 @@ State 409
 
 State 410
 
-   36 return_stmt: RETURN_STM operation ';' .
+   36 return_stmt: RETURN_STM operation ';' •
 
     NUM_INT         reduce using rule 36 (return_stmt)
     NUM_FLOAT       reduce using rule 36 (return_stmt)
@@ -8012,10 +8012,10 @@ State 410
 
 State 411
 
-   34 conditional_stmt: IF_STMT '(' operation . ')' command
-   35                 | IF_STMT '(' operation . ')' command ELSE_STMT command
-   63 operation: operation . relational_op expression
-   64          | operation . logical_op expression
+   34 conditional_stmt: IF_STMT '(' operation • ')' command
+   35                 | IF_STMT '(' operation • ')' command ELSE_STMT command
+   63 operation: operation • relational_op expression
+   64          | operation • logical_op expression
 
     ')'         shift, and go to state 439
     AND         shift, and go to state 87
@@ -8033,23 +8033,23 @@ State 411
 
 State 412
 
-   37 iteration: FOR_STMT '(' loop_condition . ')' command
+   37 iteration: FOR_STMT '(' loop_condition • ')' command
 
     ')'  shift, and go to state 440
 
 
 State 413
 
-   44 output: OUTPUT_WRITE '(' STRING . ')' ';'
+   44 output: OUTPUT_WRITE '(' STRING • ')' ';'
 
     ')'  shift, and go to state 441
 
 
 State 414
 
-   42 output: OUTPUT_WRITE '(' operation . ')' ';'
-   63 operation: operation . relational_op expression
-   64          | operation . logical_op expression
+   42 output: OUTPUT_WRITE '(' operation • ')' ';'
+   63 operation: operation • relational_op expression
+   64          | operation • logical_op expression
 
     ')'         shift, and go to state 442
     AND         shift, and go to state 87
@@ -8067,16 +8067,16 @@ State 414
 
 State 415
 
-   45 output: OUTPUT_WRITELN '(' STRING . ')' ';'
+   45 output: OUTPUT_WRITELN '(' STRING • ')' ';'
 
     ')'  shift, and go to state 443
 
 
 State 416
 
-   43 output: OUTPUT_WRITELN '(' operation . ')' ';'
-   63 operation: operation . relational_op expression
-   64          | operation . logical_op expression
+   43 output: OUTPUT_WRITELN '(' operation • ')' ';'
+   63 operation: operation • relational_op expression
+   64          | operation • logical_op expression
 
     ')'         shift, and go to state 444
     AND         shift, and go to state 87
@@ -8094,23 +8094,23 @@ State 416
 
 State 417
 
-   46 input: INPUT_READ '(' expression . ')' ';'
+   46 input: INPUT_READ '(' expression • ')' ';'
 
     ')'  shift, and go to state 445
 
 
 State 418
 
-   31 command: $@3 '{' block_commands . '}'
+   31 command: $@3 '{' block_commands • '}'
 
     '}'  shift, and go to state 446
 
 
 State 419
 
-   39 init_stmt: ID '=' operation .
-   63 operation: operation . relational_op expression
-   64          | operation . logical_op expression
+   39 init_stmt: ID '=' operation •
+   63 operation: operation • relational_op expression
+   64          | operation • logical_op expression
 
     AND         shift, and go to state 87
     OR          shift, and go to state 88
@@ -8129,7 +8129,7 @@ State 419
 
 State 420
 
-   47 func_calling: ID '(' calling_parameters ')' .
+   47 func_calling: ID '(' calling_parameters ')' •
 
     ')'         reduce using rule 47 (func_calling)
     ','         reduce using rule 47 (func_calling)
@@ -8152,7 +8152,7 @@ State 420
 
 State 421
 
-   47 func_calling: ID '(' . calling_parameters ')'
+   47 func_calling: ID '(' • calling_parameters ')'
 
     NUM_INT    shift, and go to state 153
     NUM_FLOAT  shift, and go to state 154
@@ -8182,7 +8182,7 @@ State 421
 
 State 422
 
-   73 arith_single: '+' expression .
+   73 arith_single: '+' expression •
 
     ')'         reduce using rule 73 (arith_single)
     ','         reduce using rule 73 (arith_single)
@@ -8202,7 +8202,7 @@ State 422
 
 State 423
 
-   74 arith_single: '-' expression .
+   74 arith_single: '-' expression •
 
     ')'         reduce using rule 74 (arith_single)
     ','         reduce using rule 74 (arith_single)
@@ -8222,7 +8222,7 @@ State 423
 
 State 424
 
-   75 lst_single: '%' expression .
+   75 lst_single: '%' expression •
 
     ')'         reduce using rule 75 (lst_single)
     ','         reduce using rule 75 (lst_single)
@@ -8242,7 +8242,7 @@ State 424
 
 State 425
 
-   76 lst_single: '?' expression .
+   76 lst_single: '?' expression •
 
     ')'         reduce using rule 76 (lst_single)
     ','         reduce using rule 76 (lst_single)
@@ -8262,7 +8262,7 @@ State 425
 
 State 426
 
-   67 single_operation: '!' expression .
+   67 single_operation: '!' expression •
 
     ')'         reduce using rule 67 (single_operation)
     ','         reduce using rule 67 (single_operation)
@@ -8282,7 +8282,7 @@ State 426
 
 State 427
 
-   47 func_calling: ID '(' calling_parameters ')' .
+   47 func_calling: ID '(' calling_parameters ')' •
 
     ')'         reduce using rule 47 (func_calling)
     AND         reduce using rule 47 (func_calling)
@@ -8304,7 +8304,7 @@ State 427
 
 State 428
 
-   47 func_calling: ID '(' . calling_parameters ')'
+   47 func_calling: ID '(' • calling_parameters ')'
 
     NUM_INT    shift, and go to state 153
     NUM_FLOAT  shift, and go to state 154
@@ -8334,7 +8334,7 @@ State 428
 
 State 429
 
-   73 arith_single: '+' expression .
+   73 arith_single: '+' expression •
 
     ')'         reduce using rule 73 (arith_single)
     AND         reduce using rule 73 (arith_single)
@@ -8353,7 +8353,7 @@ State 429
 
 State 430
 
-   74 arith_single: '-' expression .
+   74 arith_single: '-' expression •
 
     ')'         reduce using rule 74 (arith_single)
     AND         reduce using rule 74 (arith_single)
@@ -8372,7 +8372,7 @@ State 430
 
 State 431
 
-   75 lst_single: '%' expression .
+   75 lst_single: '%' expression •
 
     ')'         reduce using rule 75 (lst_single)
     AND         reduce using rule 75 (lst_single)
@@ -8391,7 +8391,7 @@ State 431
 
 State 432
 
-   76 lst_single: '?' expression .
+   76 lst_single: '?' expression •
 
     ')'         reduce using rule 76 (lst_single)
     AND         reduce using rule 76 (lst_single)
@@ -8410,7 +8410,7 @@ State 432
 
 State 433
 
-   67 single_operation: '!' expression .
+   67 single_operation: '!' expression •
 
     ')'         reduce using rule 67 (single_operation)
     AND         reduce using rule 67 (single_operation)
@@ -8429,14 +8429,14 @@ State 433
 
 State 434
 
-   47 func_calling: ID '(' calling_parameters ')' .
+   47 func_calling: ID '(' calling_parameters ')' •
 
     ')'  reduce using rule 47 (func_calling)
 
 
 State 435
 
-   47 func_calling: ID '(' calling_parameters ')' .
+   47 func_calling: ID '(' calling_parameters ')' •
 
     ';'         reduce using rule 47 (func_calling)
     AND         reduce using rule 47 (func_calling)
@@ -8451,7 +8451,7 @@ State 435
 
 State 436
 
-   47 func_calling: ID '(' calling_parameters ')' .
+   47 func_calling: ID '(' calling_parameters ')' •
 
     ';'         reduce using rule 47 (func_calling)
     AND         reduce using rule 47 (func_calling)
@@ -8470,22 +8470,22 @@ State 436
 
 State 437
 
-   47 func_calling: ID '(' calling_parameters . ')'
+   47 func_calling: ID '(' calling_parameters • ')'
 
     ')'  shift, and go to state 449
 
 
 State 438
 
-   47 func_calling: ID '(' calling_parameters . ')'
+   47 func_calling: ID '(' calling_parameters • ')'
 
     ')'  shift, and go to state 450
 
 
 State 439
 
-   34 conditional_stmt: IF_STMT '(' operation ')' . command
-   35                 | IF_STMT '(' operation ')' . command ELSE_STMT command
+   34 conditional_stmt: IF_STMT '(' operation ')' • command
+   35                 | IF_STMT '(' operation ')' • command ELSE_STMT command
 
     NUM_INT         shift, and go to state 28
     NUM_FLOAT       shift, and go to state 29
@@ -8535,7 +8535,7 @@ State 439
 
 State 440
 
-   37 iteration: FOR_STMT '(' loop_condition ')' . command
+   37 iteration: FOR_STMT '(' loop_condition ')' • command
 
     NUM_INT         shift, and go to state 28
     NUM_FLOAT       shift, and go to state 29
@@ -8585,42 +8585,42 @@ State 440
 
 State 441
 
-   44 output: OUTPUT_WRITE '(' STRING ')' . ';'
+   44 output: OUTPUT_WRITE '(' STRING ')' • ';'
 
     ';'  shift, and go to state 453
 
 
 State 442
 
-   42 output: OUTPUT_WRITE '(' operation ')' . ';'
+   42 output: OUTPUT_WRITE '(' operation ')' • ';'
 
     ';'  shift, and go to state 454
 
 
 State 443
 
-   45 output: OUTPUT_WRITELN '(' STRING ')' . ';'
+   45 output: OUTPUT_WRITELN '(' STRING ')' • ';'
 
     ';'  shift, and go to state 455
 
 
 State 444
 
-   43 output: OUTPUT_WRITELN '(' operation ')' . ';'
+   43 output: OUTPUT_WRITELN '(' operation ')' • ';'
 
     ';'  shift, and go to state 456
 
 
 State 445
 
-   46 input: INPUT_READ '(' expression ')' . ';'
+   46 input: INPUT_READ '(' expression ')' • ';'
 
     ';'  shift, and go to state 457
 
 
 State 446
 
-   31 command: $@3 '{' block_commands '}' .
+   31 command: $@3 '{' block_commands '}' •
 
     NUM_INT         reduce using rule 31 (command)
     NUM_FLOAT       reduce using rule 31 (command)
@@ -8646,21 +8646,21 @@ State 446
 
 State 447
 
-   47 func_calling: ID '(' calling_parameters . ')'
+   47 func_calling: ID '(' calling_parameters • ')'
 
     ')'  shift, and go to state 458
 
 
 State 448
 
-   47 func_calling: ID '(' calling_parameters . ')'
+   47 func_calling: ID '(' calling_parameters • ')'
 
     ')'  shift, and go to state 459
 
 
 State 449
 
-   47 func_calling: ID '(' calling_parameters ')' .
+   47 func_calling: ID '(' calling_parameters ')' •
 
     ')'         reduce using rule 47 (func_calling)
     ','         reduce using rule 47 (func_calling)
@@ -8676,7 +8676,7 @@ State 449
 
 State 450
 
-   47 func_calling: ID '(' calling_parameters ')' .
+   47 func_calling: ID '(' calling_parameters ')' •
 
     ')'         reduce using rule 47 (func_calling)
     AND         reduce using rule 47 (func_calling)
@@ -8691,8 +8691,8 @@ State 450
 
 State 451
 
-   34 conditional_stmt: IF_STMT '(' operation ')' command .
-   35                 | IF_STMT '(' operation ')' command . ELSE_STMT command
+   34 conditional_stmt: IF_STMT '(' operation ')' command •
+   35                 | IF_STMT '(' operation ')' command • ELSE_STMT command
 
     ELSE_STMT  shift, and go to state 460
 
@@ -8719,7 +8719,7 @@ State 451
 
 State 452
 
-   37 iteration: FOR_STMT '(' loop_condition ')' command .
+   37 iteration: FOR_STMT '(' loop_condition ')' command •
 
     NUM_INT         reduce using rule 37 (iteration)
     NUM_FLOAT       reduce using rule 37 (iteration)
@@ -8745,7 +8745,7 @@ State 452
 
 State 453
 
-   44 output: OUTPUT_WRITE '(' STRING ')' ';' .
+   44 output: OUTPUT_WRITE '(' STRING ')' ';' •
 
     NUM_INT         reduce using rule 44 (output)
     NUM_FLOAT       reduce using rule 44 (output)
@@ -8771,7 +8771,7 @@ State 453
 
 State 454
 
-   42 output: OUTPUT_WRITE '(' operation ')' ';' .
+   42 output: OUTPUT_WRITE '(' operation ')' ';' •
 
     NUM_INT         reduce using rule 42 (output)
     NUM_FLOAT       reduce using rule 42 (output)
@@ -8797,7 +8797,7 @@ State 454
 
 State 455
 
-   45 output: OUTPUT_WRITELN '(' STRING ')' ';' .
+   45 output: OUTPUT_WRITELN '(' STRING ')' ';' •
 
     NUM_INT         reduce using rule 45 (output)
     NUM_FLOAT       reduce using rule 45 (output)
@@ -8823,7 +8823,7 @@ State 455
 
 State 456
 
-   43 output: OUTPUT_WRITELN '(' operation ')' ';' .
+   43 output: OUTPUT_WRITELN '(' operation ')' ';' •
 
     NUM_INT         reduce using rule 43 (output)
     NUM_FLOAT       reduce using rule 43 (output)
@@ -8849,7 +8849,7 @@ State 456
 
 State 457
 
-   46 input: INPUT_READ '(' expression ')' ';' .
+   46 input: INPUT_READ '(' expression ')' ';' •
 
     NUM_INT         reduce using rule 46 (input)
     NUM_FLOAT       reduce using rule 46 (input)
@@ -8875,7 +8875,7 @@ State 457
 
 State 458
 
-   47 func_calling: ID '(' calling_parameters ')' .
+   47 func_calling: ID '(' calling_parameters ')' •
 
     ')'         reduce using rule 47 (func_calling)
     ','         reduce using rule 47 (func_calling)
@@ -8895,7 +8895,7 @@ State 458
 
 State 459
 
-   47 func_calling: ID '(' calling_parameters ')' .
+   47 func_calling: ID '(' calling_parameters ')' •
 
     ')'         reduce using rule 47 (func_calling)
     AND         reduce using rule 47 (func_calling)
@@ -8914,7 +8914,7 @@ State 459
 
 State 460
 
-   35 conditional_stmt: IF_STMT '(' operation ')' command ELSE_STMT . command
+   35 conditional_stmt: IF_STMT '(' operation ')' command ELSE_STMT • command
 
     NUM_INT         shift, and go to state 28
     NUM_FLOAT       shift, and go to state 29
@@ -8964,7 +8964,7 @@ State 460
 
 State 461
 
-   35 conditional_stmt: IF_STMT '(' operation ')' command ELSE_STMT command .
+   35 conditional_stmt: IF_STMT '(' operation ')' command ELSE_STMT command •
 
     NUM_INT         reduce using rule 35 (conditional_stmt)
     NUM_FLOAT       reduce using rule 35 (conditional_stmt)

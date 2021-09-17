@@ -1372,18 +1372,17 @@ case 46:
 YY_RULE_SETUP
 #line 468 "src/lex.l"
 { 
-  errors++;
+  lexical_errors++;
   show_error();
-  column += yyleng; 
-  // return(OTHER);
+  column += yyleng;
 }
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 475 "src/lex.l"
+#line 474 "src/lex.l"
 ECHO;
 	YY_BREAK
-#line 1387 "src/lex.yy.c"
+#line 1386 "src/lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2351,7 +2350,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 475 "src/lex.l"
+#line 474 "src/lex.l"
 
 
 //********** C Functions **********

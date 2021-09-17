@@ -17,7 +17,7 @@
   extern int yylineno;
   extern int yylex();
   extern int yylex_destroy();
-  extern int yyerror(char *s);
+  extern int yyerror(const char *s);
   extern FILE *yyin;
 
   t_node *root;
@@ -128,6 +128,9 @@
 %type <node> logical_op
 %type <node> relational_op
 
+%define parse.lac full
+%define parse.error verbose
+
 /********** Brigde between Lex and Y **********/
 %union {
   t_token token;
@@ -176,8 +179,9 @@ declaration:
       add_tree_node($$, $1);
     }
   | error {
+      yyerrok;
       $$ = create_node(DECLARATION); 
-      printf("**error** \n");
+      syntax_errors++;
     }
 ;
 
@@ -677,8 +681,8 @@ relational_op:
 
 %%
 //********** C Functions **********
-int yyerror(char *s) {
-  fprintf(stderr, BHRED "\nError: %s in line: %d, column: %d\n\n" reset "\n", s, yylineno, column-yyleng);
+int yyerror(const char *s) {
+  fprintf(stderr, BHRED "\nError: in line: %d, column: %d - %s " reset "\n", yylineno, column-yyleng, s);
   return 0;
 }
 
@@ -699,6 +703,7 @@ int main(int argc, char **argv) {
     yyin = stdin;
   
   total_lexical_errors();
+  total_syntax_errors();
 
   // printf("\n~~~~ ABSTRACT TREE ~~~~\n\n");
   printf("\n====================================================\n");

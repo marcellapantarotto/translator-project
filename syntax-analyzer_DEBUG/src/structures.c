@@ -4,7 +4,8 @@
 #include "../lib/structures.h"
 
 int column;
-int errors;
+int lexical_errors = 0;
+int syntax_errors = 0;
 table symbol_table;
 int id_counter;
 int g_scope = 0;
@@ -179,7 +180,6 @@ void increment_scope()  {
 
 // decrements scope of symbols
 void decrement_scope() {
-  // return;
   g_scope = scope_node_curr->parent->scope_number;
   t_scope_node *temp = scope_node_curr;
   scope_node_curr = scope_node_curr->parent;
@@ -207,10 +207,20 @@ void destroy_table() {
   free(curr);
 }
 
+//===============================================================
+// ERROR SECTION
+//===============================================================
+
 // print total number of lexical errors
 void total_lexical_errors() {
-  printf(BHRED "\nTotal number of lexical errors: %d \n\n" reset, errors);
+  printf(BHRED "\n\nTotal number of lexical errors: %d \n" reset, lexical_errors);
 }
+
+// print total number of lexical errors
+void total_syntax_errors() {
+  printf(BHRED "Total number of syntax errors: %d \n\n" reset, syntax_errors);
+}
+
 
 //===============================================================
 // TREE SECTION
@@ -258,6 +268,7 @@ t_node token_to_node(t_token *t, int type) {
   node->token = *t;
   node->type = type;
   node->children = NULL;
+  // free(t);
   return *node;
 }
 
@@ -296,10 +307,15 @@ void destroy_tree(t_node *root) {
     return;
   }
   tree_node *curr = root->children;
+  tree_node *next;
   while(curr != NULL) {
+    next = curr->sibilings;
     destroy_tree(curr->child);
-    curr = curr->sibilings;
+    // curr = curr->sibilings;
+    free(curr);
+    curr = next;
+
   }
-  free(root->children);
+  // free(root->children);
   free(root);
 }
