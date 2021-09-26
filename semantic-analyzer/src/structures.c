@@ -268,7 +268,6 @@ t_node token_to_node(t_token *t, int type) {
   node->token = *t;
   node->type = type;
   node->children = NULL;
-  // free(t);
   return *node;
 }
 
@@ -312,11 +311,8 @@ void destroy_tree(t_node *root) {
   while(curr != NULL) {
     next = curr->sibilings;
     destroy_tree(curr->child);
-    // curr = curr->sibilings;
     free(curr);
     curr = next;
-
   }
-  // free(root->children);
   free(root);
 }
