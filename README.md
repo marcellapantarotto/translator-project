@@ -9,6 +9,20 @@ Execution of Lexical Analyzer:
 > ./tradutor tests/<test_name>.c
 ```
 
+Execution of Syntax Analyzer:
+
+```bash
+> cd syntax-analyzer
+> make && make run
+```
+
+Execution of Semantic Analyzer:
+
+```bash
+> cd semantic-analyzer
+> make && make run
+```
+
 C-IPL Language Prerequisites: (in Portuguese)
 
 - [x] Os tipos de dados da linguagem são int, float e list. Os tipos int e float são simples. A declaração de uma variável do tipo list se dá pela definição do tipo básico da lista (ver exemplos abaixo).
