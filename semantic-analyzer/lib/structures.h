@@ -147,6 +147,7 @@ void print_children();
 void show_error();
 void total_lexical_errors();
 void total_syntax_errors();
+void total_semantic_errors();
 
 table create_table();
 void add_table_node(char *tok);
@@ -162,8 +163,12 @@ t_node *create_node(int type);
 void add_tree_node(t_node *root, t_node *node);
 t_node token_to_node(t_token *t, int type);
 void add_tree_token_node(t_node *root, t_token *tok, int type);
-void print_tree(t_node *root, int height);
+void print_t(t_node *root, int height);
+void print_tree();
 void destroy_tree(t_node *root);
+
+void semantic_parser();
+int find_main();
 
 //===============================================================
 // VARIABLE DECLARATIONS
@@ -172,11 +177,13 @@ void destroy_tree(t_node *root);
 extern int column;
 extern int lexical_errors;
 extern int syntax_errors;
+extern int semantic_errors;
 extern table symbol_table;
 extern int id_counter;
 extern int g_scope;
 extern int scope_counter;
 extern t_scope_node *root_scope_tree;
 extern t_scope_node *scope_node_curr;
+extern t_node *root;
 
 #endif

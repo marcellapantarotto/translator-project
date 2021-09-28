@@ -2356,5 +2356,5 @@ void yyfree (void * ptr )
 
 //********** C Functions **********
 void show_error() {
-  printf(BHRED "ERROR! Not a token!" reset "\n  Line: %d, Column: %d \t-->\t<%s>" reset " \n\n", yylineno, column, yytext);
+  printf(BHRED "LEXICAL ERROR: Not a token!" reset "\n  Line: %d, Column: %d \t-->\t<%s>" reset " \n\n", yylineno, column, yytext);
 }

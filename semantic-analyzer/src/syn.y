@@ -20,7 +20,7 @@
   extern int yyerror(const char *s);
   extern FILE *yyin;
 
-  t_node *root;
+  // extern t_node *root;
 %}
 
 /********** Tokens **********/
@@ -590,6 +590,9 @@ arith_binary:
       add_tree_node($$, $1);
       add_tree_token_node($$, &$2, ADD_OP);
       add_tree_node($$, $3);
+
+      // convert_numbers($1, $3, '+');
+
     }
   | arith_binary '-' expression {
       $$ = create_node(ARITHMETIC_BINARY);
@@ -703,7 +706,7 @@ relational_op:
 %%
 //********** C Functions **********
 int yyerror(const char *s) {
-  fprintf(stderr, BHRED "\nError: in line: %d, column: %d - %s " reset "\n", yylineno, column-yyleng, s);
+  fprintf(stderr, BHRED "\nSYNTAX ERROR: line: %d, column: %d - %s " reset "\n", yylineno, column-yyleng, s);
   return 0;
 }
 
@@ -723,22 +726,26 @@ int main(int argc, char **argv) {
   else
     yyin = stdin;
   
-  total_lexical_errors();
-  total_syntax_errors();
+  
 
-  // printf("\n~~~~ ABSTRACT TREE ~~~~\n\n");
-  printf("\n====================================================\n");
-  printf("\t\t    ABSTRACT TREE");
-  printf("\n====================================================\n\n");
+  // printf("\n====================================================\n");
+  // printf("\t\t    ABSTRACT TREE");
+  // printf("\n====================================================\n\n");
   print_tree(root, 1);
 
-  printf("\n\n====================================================\n");
-  printf("\t\t    SYMBOL TABLE");
-  printf("\n====================================================\n");
-  printf("  ID\t|  TOKENS\t\t\t|  SCOPE");
-  printf("\n====================================================\n");
+  // printf("\n\n====================================================\n");
+  // printf("\t\t    SYMBOL TABLE");
+  // printf("\n====================================================\n");
+  // printf("  ID\t|  TOKENS\t\t\t|  SCOPE");
+  // printf("\n====================================================\n");
   print_table();
-  printf("====================================================\n\n");
+  // printf("====================================================\n\n");
+
+  semantic_parser();
+
+  total_lexical_errors();
+  total_syntax_errors();
+  total_semantic_errors();
 
   destroy_tree(root);
   destroy_table();

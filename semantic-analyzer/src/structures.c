@@ -6,12 +6,14 @@
 int column;
 int lexical_errors = 0;
 int syntax_errors = 0;
+int semantic_errors = 0;
 table symbol_table;
 int id_counter;
 int g_scope = 0;
 int scope_counter = 0;
 t_scope_node *root_scope_tree;
 t_scope_node *scope_node_curr;
+t_node *root;
 
 const char *rule_label[] = {
   "PROGRAM",
@@ -189,10 +191,16 @@ void decrement_scope() {
 // print symbol table
 void print_table() {
   table_node *aux = symbol_table.beginning;
+  printf("\n\n====================================================\n");
+  printf("\t\t    SYMBOL TABLE");
+  printf("\n====================================================\n");
+  printf("  ID\t|  TOKENS\t\t\t|  SCOPE");
+  printf("\n====================================================\n");
   while(aux->next != NULL) {
     aux = aux->next;
     printf("  %d\t|  %-15s\t\t|  %d\n", aux->id, aux->token, aux->scope);
   }
+  printf("====================================================\n\n\n");
 }
 
 // destroy symbol table
@@ -213,14 +221,18 @@ void destroy_table() {
 
 // print total number of lexical errors
 void total_lexical_errors() {
-  printf(BHRED "\n\nTotal number of lexical errors: %d \n" reset, lexical_errors);
+  printf(BHRED "\nTotal number of lexical errors: %d \n" reset, lexical_errors);
 }
 
-// print total number of lexical errors
+// print total number of syntax errors
 void total_syntax_errors() {
-  printf(BHRED "Total number of syntax errors: %d \n\n" reset, syntax_errors);
+  printf(BHRED "Total number of syntax errors: %d \n" reset, syntax_errors);
 }
 
+// print total number of semantic errors
+void total_semantic_errors() {
+  printf(BHRED "Total number of semantic errors: %d \n\n" reset, semantic_errors);
+}
 
 //===============================================================
 // TREE SECTION
@@ -278,8 +290,16 @@ void add_tree_token_node(t_node *root, t_token *tok, int type) {
   add_tree_node(root, node);
 }
 
+// print tree header
+void print_tree() {
+  printf("\n====================================================\n");
+  printf("\t\t    ABSTRACT TREE");
+  printf("\n====================================================\n\n");
+  print_t(root, 1);
+}
+
 // print whole tree
-void print_tree(t_node *root, int height) {
+void print_t(t_node *root, int height) {
   int i;
   printf(" |");
   for(i = 0; i < height-1; i++) {
@@ -293,10 +313,9 @@ void print_tree(t_node *root, int height) {
   } else {
     printf("\n");
   }
-
   tree_node *curr = root->children;
   while(curr != NULL) {
-    print_tree(curr->child, height+1);
+    print_t(curr->child, height+1);
     curr = curr->sibilings;
   }
 }
@@ -316,3 +335,80 @@ void destroy_tree(t_node *root) {
   }
   free(root);
 }
+
+//===============================================================
+// SEMANTIC ERROR CHECKING
+//===============================================================
+
+void semantic_parser() {
+  find_main();
+}
+
+int find_main() {
+  int found = 0;
+  table_node *aux = symbol_table.beginning;
+
+  while(aux->next != NULL) {
+    aux = aux->next;
+    if(strcmp("main", aux->token) == 0) {
+      found = 1;
+    }
+  }
+  if(!found) {
+    printf(BHRED "SEMANTIC ERROR: No function main! \n\n" reset);
+    semantic_errors++;
+    return 1;
+  }
+  return 0;
+}
+
+//===============================================================
+// NUMBER CONVERTION
+//===============================================================
+
+// double int_to_float(t_node num1, t_node num2, char* operation) {
+//   double num_float;
+//   double aux1 = atof(num1.token.lexeme);
+//   double aux2 = atof(num2.token.lexeme);
+//   char *aux_lexeme;
+
+//   // find a way to verify is number is floating point number
+//   if (num1.type == NUMBER_INT) {
+//     num_float = strtof(num1.token.lexeme, NULL);
+//     return num_float;
+//   } else if(num2 == aux2) {
+//     num_float = strtof(num2.token.lexeme, NULL);
+//     return num_float;
+//   }
+   
+// }
+
+// int int_to_char(int num_int, t_node node) {
+//   return itoa(num_int, node.token.lexeme, 200)
+// }
+
+// float char_to_float(char *c) {}
+
+// double float_to_int(t_node num1, t_node num2, char* operation) {
+//   double num_int;
+//   double aux1 = atof(num1.token.lexeme);
+//   double aux2 = atof(num2.token.lexeme);
+//   char *aux_lexeme;
+
+//   // find a way to verify is number is floating point number
+//   // if returns the number converted to integer and then to string
+//   if (num1 == aux1) {
+//     num_int = itoa(aux1, num1.token.lexeme, 200);
+//     return num_int;
+//   } else if(num2 == aux2) {
+//     num_int = itoa(aux2, num1.token.lexeme, 200);
+//     return num_int;
+//   }
+
+//   // atoll() is meant for integers.
+//   printf("float value : %4.8f\n", atof(num1.token.lexeme)); 
+// }
+
+
+// // atof()/strtof() is for floats.
+// printf("float value : %4.8f\n" ,strtof(num1.token.lexeme, NULL)); 
