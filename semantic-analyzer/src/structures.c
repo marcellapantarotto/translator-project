@@ -3,6 +3,7 @@
 #include <string.h>
 #include "../lib/structures.h"
 
+extern int yylineno;
 int column;
 int lexical_errors = 0;
 int syntax_errors = 0;
@@ -102,7 +103,8 @@ void print_token(t_token *t) {
   printf("(Token ");
   printf("lexeme: %s; ", t->lexeme);
   printf("line: %d; ", t->line);
-  printf("column: %d;)", t->column);
+  printf("column: %d; ", t->column);
+  // printf("scope: %d;)", t->scope);
 }
 
 void print_node(t_node *n) {
@@ -149,6 +151,8 @@ void add_table_node(char *tok) {
   strcpy(node->token,tok);
   node->next = NULL;
   node->scope = g_scope;
+  node->line = yylineno;
+  node->column = column;
   
   table_node *x = verify_existing_symbol(node);
   if (x == NULL) {
@@ -191,16 +195,16 @@ void decrement_scope() {
 // print symbol table
 void print_table() {
   table_node *aux = symbol_table.beginning;
-  printf("\n\n====================================================\n");
+  printf("\n\n========================================================\n");
   printf("\t\t    SYMBOL TABLE");
-  printf("\n====================================================\n");
-  printf("  ID\t|  TOKENS\t\t\t|  SCOPE");
-  printf("\n====================================================\n");
+  printf("\n========================================================\n");
+  printf(" ID  |  TOKENS\t\t\t| SCOPE | LINE | COLUMN");
+  printf("\n========================================================\n");
   while(aux->next != NULL) {
     aux = aux->next;
-    printf("  %d\t|  %-15s\t\t|  %d\n", aux->id, aux->token, aux->scope);
+    printf(" %-2d  |  %-15s\t\t|  %-2d\t|  %-2d   |  %d\n", aux->id, aux->token, aux->scope, aux->line, aux->column );
   }
-  printf("====================================================\n\n\n");
+  printf("========================================================\n\n\n");
 }
 
 // destroy symbol table
@@ -244,7 +248,7 @@ t_token null_token() {
   t.line = -1;
   t.column = -1;
   strcpy(t.lexeme, "");
-  // t->scope = -1;
+  // t.scope = -1;
   return t;
 }
 
@@ -292,9 +296,9 @@ void add_tree_token_node(t_node *root, t_token *tok, int type) {
 
 // print tree header
 void print_tree() {
-  printf("\n====================================================\n");
+  printf("\n========================================================\n");
   printf("\t\t    ABSTRACT TREE");
-  printf("\n====================================================\n\n");
+  printf("\n========================================================\n\n");
   print_t(root, 1);
 }
 
@@ -347,7 +351,6 @@ void semantic_parser() {
 int find_main() {
   int found = 0;
   table_node *aux = symbol_table.beginning;
-
   while(aux->next != NULL) {
     aux = aux->next;
     if(strcmp("main", aux->token) == 0) {

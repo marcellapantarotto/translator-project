@@ -94,6 +94,8 @@ typedef struct table_node {
   char token[31];
   struct table_node *next;
   int scope;
+  int line;
+  int column;
 } table_node;
 
 // symbol table (pointers to beginning and end)
