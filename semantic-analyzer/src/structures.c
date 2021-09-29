@@ -202,7 +202,7 @@ void print_table() {
   printf("\n========================================================\n");
   while(aux->next != NULL) {
     aux = aux->next;
-    printf(" %-2d  |  %-15s\t\t|  %-2d\t|  %-2d   |  %d\n", aux->id, aux->token, aux->scope, aux->line, aux->column );
+    printf(" %-2d  |  %-15s\t\t|  %-2d\t|  %-2d  |  %d\n", aux->id, aux->token, aux->scope, aux->line, aux->column );
   }
   printf("========================================================\n\n\n");
 }
