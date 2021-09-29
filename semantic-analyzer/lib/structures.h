@@ -113,7 +113,6 @@ typedef struct t_token {
   char lexeme[200];
   int line;
   int column;
-  // int scope;
 } t_token;
 
 // tree structure
@@ -153,7 +152,7 @@ void total_semantic_errors();
 
 table create_table();
 void add_table_node(char *tok);
-table_node *verify_existing_symbol(table_node *symbol);
+int verify_existing_symbol(table_node *symbol);
 void increment_scope();
 void decrement_scope();
 void print_table();

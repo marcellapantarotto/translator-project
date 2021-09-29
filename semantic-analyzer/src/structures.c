@@ -103,8 +103,7 @@ void print_token(t_token *t) {
   printf("(Token ");
   printf("lexeme: %s; ", t->lexeme);
   printf("line: %d; ", t->line);
-  printf("column: %d; ", t->column);
-  // printf("scope: %d;)", t->scope);
+  printf("column: %d;)", t->column);
 }
 
 void print_node(t_node *n) {
@@ -154,8 +153,8 @@ void add_table_node(char *tok) {
   node->line = yylineno;
   node->column = column;
   
-  table_node *x = verify_existing_symbol(node);
-  if (x == NULL) {
+  int x = verify_existing_symbol(node);
+  if (x == 0) {
     symbol_table.final->next = node;
     symbol_table.final = node;
     id_counter++;
@@ -163,15 +162,17 @@ void add_table_node(char *tok) {
 }
 
 // verifies if symbol with same scope already exists in symbol table
-table_node *verify_existing_symbol(table_node *symbol){
+int verify_existing_symbol(table_node *symbol){
   table_node *aux = symbol_table.beginning;
   while(aux->next != NULL) {
     aux = aux->next;
     if(strcmp(symbol->token, aux->token) == 0 && symbol->scope == aux->scope) {
-      return aux;
+      printf(BHRED "\nSEMANTIC ERROR: Redeclaration of variable or function inside scope (symbol: %s, line: %d, column: %d) \n" reset, symbol->token, symbol->line, symbol->column);
+      semantic_errors++;
+      return 1;
     }
   }
-  return NULL;
+  return 0;
 }
 
 // increments scope of symbols
@@ -204,7 +205,7 @@ void print_table() {
     aux = aux->next;
     printf(" %-2d  |  %-15s\t\t|  %-2d\t|  %-2d  |  %d\n", aux->id, aux->token, aux->scope, aux->line, aux->column );
   }
-  printf("========================================================\n\n\n");
+  printf("========================================================\n");
 }
 
 // destroy symbol table
@@ -298,7 +299,7 @@ void add_tree_token_node(t_node *root, t_token *tok, int type) {
 void print_tree() {
   printf("\n========================================================\n");
   printf("\t\t    ABSTRACT TREE");
-  printf("\n========================================================\n\n");
+  printf("\n========================================================\n");
   print_t(root, 1);
 }
 
@@ -358,7 +359,7 @@ int find_main() {
     }
   }
   if(!found) {
-    printf(BHRED "SEMANTIC ERROR: No function main! \n\n" reset);
+    printf(BHRED "\nSEMANTIC ERROR: No function main! \n\n" reset);
     semantic_errors++;
     return 1;
   }

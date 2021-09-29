@@ -827,20 +827,18 @@ YY_RULE_SETUP
   sscanf(yytext, "%s", yylval.token.lexeme);
   yylval.token.line = yylineno;
   yylval.token.column = column;
-  // yylval.token.scope = scope;
   column += yyleng;
   return(NUM_INT);
 }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 57 "src/lex.l"
+#line 56 "src/lex.l"
 {
   // printf("FLOAT CONSTANT:\n  Line: %d, Column: %d \t-->\t<NUMBER, %s> \n\n", yylineno, column, yytext);
   sscanf(yytext, "%s", yylval.token.lexeme);
   yylval.token.line = yylineno;
   yylval.token.column = column;
-  // yylval.token.scope = scope;
   column += yyleng;
   return(NUM_FLOAT);
 }
@@ -848,97 +846,102 @@ YY_RULE_SETUP
 case 6:
 /* rule 6 can match eol */
 YY_RULE_SETUP
-#line 67 "src/lex.l"
+#line 65 "src/lex.l"
 {
   // printf("STRING:\n  Line: %d, Column: %d \t-->\t<STRING, %s> \n\n", yylineno, column, yytext);
   strcpy(yylval.token.lexeme, yytext);  // to get the whole string
   yylval.token.line = yylineno;
-  yylval.token.column = column;
-  // yylval->token.scope = scope;
+  yylval.token.column = column;// yylval->token.scope = scope;
   column += yyleng;
   return(STRING);
 }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 77 "src/lex.l"
+#line 74 "src/lex.l"
 {
   // printf("CONSTANT NIL:\n  Line: %d, Column: %d \t-->\t<CONSTANT, %s> \n\n", yylineno, column, yytext);
   sscanf(yytext, "%s", yylval.token.lexeme);
   yylval.token.line = yylineno;
   yylval.token.column = column;
-  // yylval.token.scope = scope;
   column += yyleng;
   return(NIL_CNST);
 }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 87 "src/lex.l"
+#line 83 "src/lex.l"
 {
   // int position = add_table_node(yytext);
   // printf("FUNCTION MAIN:\n  Line: %d, Column: %d \t-->\t<MAIN, %s, position in symbol table: %d> \n\n", yylineno, column, yytext, position);
   sscanf(yytext, "%s", yylval.token.lexeme);
   yylval.token.line = yylineno;
   yylval.token.column = column;
-  // yylval.token.scope = scope;
   column += yyleng;
   return(ID);
 }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 98 "src/lex.l"
+#line 93 "src/lex.l"
 {
   // printf("RETURN STATEMENT:\n  Line: %d, Column: %d \t-->\t<%s> \n\n", yylineno, column, yytext);
   sscanf(yytext, "%s", yylval.token.lexeme);
   yylval.token.line = yylineno;
-  yylval.token.column = column;
-  // yylval->token.scope = scope;
+  yylval.token.column = column;// yylval->token.scope = scope;
   column += yyleng;
   return(RETURN_STM);
 }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 108 "src/lex.l"
+#line 102 "src/lex.l"
 {
   // printf("TYPE INT:\n  Line: %d, Column: %d \t-->\t<TYPE, %s> \n\n", yylineno, column, yytext);
   sscanf(yytext, "%s", yylval.token.lexeme);
   yylval.token.line = yylineno;
   yylval.token.column = column;
-  // yylval.token.scope = scope;
   column += yyleng;
   return(T_INT);
 }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 118 "src/lex.l"
+#line 111 "src/lex.l"
 {
   // printf("TYPE FLOAT:\n  Line: %d, Column: %d \t-->\t<TYPE, %s> \n\n", yylineno, column, yytext);
   sscanf(yytext, "%s", yylval.token.lexeme);
   yylval.token.line = yylineno;
   yylval.token.column = column;
-  // yylval.token.scope = scope;
   column += yyleng;
   return(T_FLOAT);
 }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 128 "src/lex.l"
+#line 120 "src/lex.l"
 {
   // printf("TYPE LIST:\n  Line: %d, Column: %d \t-->\t<TYPE, %s> \n\n", yylineno, column, yytext);
   sscanf(yytext, "%s", yylval.token.lexeme);
   yylval.token.line = yylineno;
   yylval.token.column = column;
-  // yylval.token.scope = scope;
   column += yyleng;
   return(T_LIST);
 }
 	YY_BREAK
 case 13:
+YY_RULE_SETUP
+#line 129 "src/lex.l"
+{
+  // printf("CONDITIONAL:\n  Line: %d, Column: %d \t-->\t<CONDITIONAL, %s> \n\n", yylineno, column, yytext);
+  sscanf(yytext, "%s", yylval.token.lexeme);
+  yylval.token.line = yylineno;
+  yylval.token.column = column;
+  column += yyleng;
+  return(IF_STMT);
+}
+	YY_BREAK
+case 14:
 YY_RULE_SETUP
 #line 138 "src/lex.l"
 {
@@ -946,359 +949,319 @@ YY_RULE_SETUP
   sscanf(yytext, "%s", yylval.token.lexeme);
   yylval.token.line = yylineno;
   yylval.token.column = column;
-  // yylval.token.scope = scope;
-  column += yyleng;
-  return(IF_STMT);
-}
-	YY_BREAK
-case 14:
-YY_RULE_SETUP
-#line 148 "src/lex.l"
-{
-  // printf("CONDITIONAL:\n  Line: %d, Column: %d \t-->\t<CONDITIONAL, %s> \n\n", yylineno, column, yytext);
-  sscanf(yytext, "%s", yylval.token.lexeme);
-  yylval.token.line = yylineno;
-  yylval.token.column = column;
-  // yylval.token.scope = scope;
   column += yyleng;
   return(ELSE_STMT);
 }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 158 "src/lex.l"
+#line 147 "src/lex.l"
 {
   // printf("INTERATION:\n  Line: %d, Column: %d \t-->\t<INTERATION, %s> \n\n", yylineno, column, yytext);
   sscanf(yytext, "%s", yylval.token.lexeme);
   yylval.token.line = yylineno;
   yylval.token.column = column;
-  // yylval.token.scope = scope;
   column += yyleng;
   return(FOR_STMT);
 }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 168 "src/lex.l"
+#line 156 "src/lex.l"
 {
   // printf("OUTPUT WRITE:\n  Line: %d, Column: %d \t-->\t<OUTPUT, %s> \n\n", yylineno, column, yytext);
   sscanf(yytext, "%s", yylval.token.lexeme);
   yylval.token.line = yylineno;
   yylval.token.column = column;
-  // yylval.token.scope = scope;
   column += yyleng;
   return(OUTPUT_WRITE);
 }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 178 "src/lex.l"
+#line 165 "src/lex.l"
 {
   // printf("OUTPUT WRITELN:\n  Line: %d, Column: %d \t-->\t<OUTPUT, %s> \n\n", yylineno, column, yytext);
   sscanf(yytext, "%s", yylval.token.lexeme);
   yylval.token.line = yylineno;
   yylval.token.column = column;
-  // yylval.token.scope = scope;
   column += yyleng;
   return(OUTPUT_WRITELN);
 }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 188 "src/lex.l"
+#line 174 "src/lex.l"
 {
   // printf("INPUT READ:\n  Line: %d, Column: %d \t-->\t<INPUT, %s> \n\n", yylineno, column, yytext);
   sscanf(yytext, "%s", yylval.token.lexeme);
   yylval.token.line = yylineno;
   yylval.token.column = column;
-  // yylval.token.scope = scope;
   column += yyleng;
   return(INPUT_READ);
 }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 198 "src/lex.l"
+#line 183 "src/lex.l"
 {
   // printf("ADDITION:\n  Line: %d, Column: %d \t-->\t<ARITHMETIC_OP, %s> \n\n", yylineno, column, yytext);
   sscanf(yytext, "%s", yylval.token.lexeme);
   yylval.token.line = yylineno;
-  yylval.token.column = column;
-  // yylval->token.scope = scope;
+  yylval.token.column = column;// yylval->token.scope = scope;
   column += yyleng;
   return('+');
 }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 208 "src/lex.l"
+#line 192 "src/lex.l"
 {
   // printf("SUBTRACTION:\n  Line: %d, Column: %d \t-->\t<ARITHMETIC_OP, %s> \n\n", yylineno, column, yytext);
   sscanf(yytext, "%s", yylval.token.lexeme);
   yylval.token.line = yylineno;
-  yylval.token.column = column;
-  // yylval->token.scope = scope;
+  yylval.token.column = column;// yylval->token.scope = scope;
   column += yyleng;
   return('-');
 }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 218 "src/lex.l"
+#line 201 "src/lex.l"
 {
   // printf("MULTIPLICATION:\n  Line: %d, Column: %d \t-->\t<ARITHMETIC_OP, %s> \n\n", yylineno, column, yytext);
   sscanf(yytext, "%s", yylval.token.lexeme);
   yylval.token.line = yylineno;
-  yylval.token.column = column;
-  // yylval->token.scope = scope;
+  yylval.token.column = column;// yylval->token.scope = scope;
   column += yyleng;
   return('*');
 }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 228 "src/lex.l"
+#line 210 "src/lex.l"
 {
   // printf("DIVISION:\n  Line: %d, Column: %d \t-->\t<ARITHMETIC_OP, %s> \n\n", yylineno, column, yytext);
   sscanf(yytext, "%s", yylval.token.lexeme);
   yylval.token.line = yylineno;
-  yylval.token.column = column;
-  // yylval->token.scope = scope;
+  yylval.token.column = column;// yylval->token.scope = scope;
   column += yyleng;
   return('/');
 }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 238 "src/lex.l"
+#line 219 "src/lex.l"
 {
   // printf("EQUAL:\n  Line: %d, Column: %d \t-->\t<RELATIONAL_OP, %s> \n\n", yylineno, column, yytext);
   sscanf(yytext, "%s", yylval.token.lexeme);
   yylval.token.line = yylineno;
-  yylval.token.column = column;
-  // yylval->token.scope = scope;
+  yylval.token.column = column;// yylval->token.scope = scope;
   column += yyleng;
   return(EQUAL);
 }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 248 "src/lex.l"
+#line 228 "src/lex.l"
 {
   // printf("LESS THAN:\n  Line: %d, Column: %d \t-->\t<RELATIONAL_OP, %s> \n\n", yylineno, column, yytext);
   sscanf(yytext, "%s", yylval.token.lexeme);
   yylval.token.line = yylineno;
-  yylval.token.column = column;
-  // yylval->token.scope = scope;
+  yylval.token.column = column;// yylval->token.scope = scope;
   column += yyleng;
   return(LESS);
 }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 258 "src/lex.l"
+#line 237 "src/lex.l"
 {
   // printf("GREATER THAN:\n  Line: %d, Column: %d \t-->\t<RELATIONAL_OP, %s> \n\n", yylineno, column, yytext);
   sscanf(yytext, "%s", yylval.token.lexeme);
   yylval.token.line = yylineno;
-  yylval.token.column = column;
-  // yylval->token.scope = scope;
+  yylval.token.column = column;// yylval->token.scope = scope;
   column += yyleng;
   return(GREATER);
 }
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 268 "src/lex.l"
+#line 246 "src/lex.l"
 {
   // printf("LESS OR EQUAL THAN:\n  Line: %d, Column: %d \t-->\t<RELATIONAL_OP, %s> \n\n", yylineno, column, yytext);
   column += yyleng;
   sscanf(yytext, "%s", yylval.token.lexeme);
   yylval.token.line = yylineno;
-  yylval.token.column = column;
-  // yylval->token.scope = scope;
+  yylval.token.column = column;// yylval->token.scope = scope;
   column += yyleng;
   return(LESS_EQ);
 }
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 279 "src/lex.l"
+#line 256 "src/lex.l"
 {
   // printf("GREATER OR EQUAL THAN:\n  Line: %d, Column: %d \t-->\t<RELATIONAL_OP, %s> \n\n", yylineno, column, yytext);
   sscanf(yytext, "%s", yylval.token.lexeme);
   yylval.token.line = yylineno;
-  yylval.token.column = column;
-  // yylval->token.scope = scope;
+  yylval.token.column = column;// yylval->token.scope = scope;
   column += yyleng;
   return(GREATER_EQ);
 }
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 289 "src/lex.l"
+#line 265 "src/lex.l"
 {
   // printf("DIFFERENT THAN:\n  Line: %d, Column: %d \t-->\t<RELATIONAL_OP, %s> \n\n", yylineno, column, yytext);
   sscanf(yytext, "%s", yylval.token.lexeme);
   yylval.token.line = yylineno;
-  yylval.token.column = column;
-  // yylval->token.scope = scope;
+  yylval.token.column = column;// yylval->token.scope = scope;
   column += yyleng;
   return(NOT_EQ);
 }
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 299 "src/lex.l"
+#line 274 "src/lex.l"
 {
   // printf("AND:\n  Line: %d, Column: %d \t-->\t<LOGICAL_OP, %s> \n\n", yylineno, column, yytext);
   sscanf(yytext, "%s", yylval.token.lexeme);
   yylval.token.line = yylineno;
-  yylval.token.column = column;
-  // yylval->token.scope = scope;
+  yylval.token.column = column;// yylval->token.scope = scope;
   column += yyleng;
   return(AND);
 }
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 309 "src/lex.l"
+#line 283 "src/lex.l"
 {
   // printf("OR:\n  Line: %d, Column: %d \t-->\t<LOGICAL_OP, %s> \n\n", yylineno, column, yytext);
   sscanf(yytext, "%s", yylval.token.lexeme);
   yylval.token.line = yylineno;
-  yylval.token.column = column;
-  // yylval->token.scope = scope;
+  yylval.token.column = column;// yylval->token.scope = scope;
   column += yyleng;
   return(OR);
 }
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 319 "src/lex.l"
+#line 292 "src/lex.l"
 {
   // printf("ASSIGNMENT:\n  Line: %d, Column: %d \t-->\t<ASSIGN, %s> \n\n", yylineno, column, yytext);
   sscanf(yytext, "%s", yylval.token.lexeme);
   yylval.token.line = yylineno;
   yylval.token.column = column;
-  // yylval.token.scope = scope;
   column += yyleng;
   return('=');
 }
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 329 "src/lex.l"
+#line 301 "src/lex.l"
 {
   // printf("NAGATION OR LIST TAIL:\n  Line: %d, Column: %d \t-->\t<RELATIONAL_OP OR LIST_OP, %s> \n\n", yylineno, column, yytext);
   sscanf(yytext, "%s", yylval.token.lexeme);
   yylval.token.line = yylineno;
-  yylval.token.column = column;
-  // yylval->token.scope = scope;
+  yylval.token.column = column;// yylval->token.scope = scope;
   column += yyleng;
   return('!');
 }
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 339 "src/lex.l"
+#line 310 "src/lex.l"
 {
   // printf("HEADER OF LIST:\n  Line: %d, Column: %d \t-->\t<LIST_OP, %s> \n\n", yylineno, column, yytext);
   sscanf(yytext, "%s", yylval.token.lexeme);
   yylval.token.line = yylineno;
-  yylval.token.column = column;
-  // yylval->token.scope = scope;
+  yylval.token.column = column;// yylval->token.scope = scope;
   column += yyleng;
   return('?');
 }
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 349 "src/lex.l"
+#line 319 "src/lex.l"
 {
   // printf("POP:\n  Line: %d, Column: %d \t-->\t<LIST_OP, %s> \n\n", yylineno, column, yytext);
   sscanf(yytext, "%s", yylval.token.lexeme);
   yylval.token.line = yylineno;
-  yylval.token.column = column;
-  // yylval->token.scope = scope;
+  yylval.token.column = column;// yylval->token.scope = scope;
   column += yyleng;
   return('%');
 }
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 359 "src/lex.l"
+#line 328 "src/lex.l"
 {
   // printf("LIST CONSTRUCTOR:\n  Line: %d, Column: %d \t-->\t<LIST_OP, %s> \n\n", yylineno, column, yytext);
   sscanf(yytext, "%s", yylval.token.lexeme);
   yylval.token.line = yylineno;
-  yylval.token.column = column;
-  // yylval->token.scope = scope;
+  yylval.token.column = column;// yylval->token.scope = scope;
   column += yyleng;
   return(':');
 }
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 369 "src/lex.l"
+#line 337 "src/lex.l"
 {
   // printf("MAP:\n  Line: %d, Column: %d \t-->\t<LIST_OP, %s> \n\n", yylineno, column, yytext);
   sscanf(yytext, "%s", yylval.token.lexeme);
   yylval.token.line = yylineno;
-  yylval.token.column = column;
-  // yylval->token.scope = scope;
+  yylval.token.column = column;// yylval->token.scope = scope;
   column += yyleng;
   return(MAP);
 }
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 379 "src/lex.l"
+#line 346 "src/lex.l"
 {
   // printf("FILTER:\n  Line: %d, Column: %d \t-->\t<LIST_OP, %s> \n\n", yylineno, column, yytext);
   sscanf(yytext, "%s", yylval.token.lexeme);
   yylval.token.line = yylineno;
-  yylval.token.column = column;
-  // yylval->token.scope = scope;
+  yylval.token.column = column;// yylval->token.scope = scope;
   column += yyleng;
   return(FILTER);
 }
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 389 "src/lex.l"
+#line 355 "src/lex.l"
 {
   // printf("OPEN PARENTHESES:\n  Line: %d, Column: %d \t-->\t<DELIMITER, %s> \n\n", yylineno, column, yytext);
   sscanf(yytext, "%s", yylval.token.lexeme);
   yylval.token.line = yylineno;
-  yylval.token.column = column;
-  // yylval->token.scope = scope;
+  yylval.token.column = column;// yylval->token.scope = scope;
   column += yyleng;
   return('(');
 }
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 399 "src/lex.l"
+#line 364 "src/lex.l"
 {
   // printf("CLOSE PARENTHESES:\n  Line: %d, Column: %d \t-->\t<DELIMITER, %s> \n\n", yylineno, column, yytext);
   sscanf(yytext, "%s", yylval.token.lexeme);
   yylval.token.line = yylineno;
-  yylval.token.column = column;
-  // yylval->token.scope = scope;
+  yylval.token.column = column;// yylval->token.scope = scope;
   column += yyleng;
   return(')');
 }
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 409 "src/lex.l"
+#line 373 "src/lex.l"
 {
   // printf("OPEN CURLY BRACKET:\n  Line: %d, Column: %d \t-->\t<DELIMITER, %s> \n\n", yylineno, column, yytext);
   sscanf(yytext, "%s", yylval.token.lexeme);
   yylval.token.line = yylineno;
-  yylval.token.column = column;
-  // yylval->token.scope = scope;
+  yylval.token.column = column;// yylval->token.scope = scope;
   column += yyleng;
   
   return('{');
@@ -1306,13 +1269,12 @@ YY_RULE_SETUP
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 420 "src/lex.l"
+#line 383 "src/lex.l"
 {
   // printf("CLOSE CURLY BRACKET:\n  Line: %d, Column: %d \t-->\t<DELIMITER, %s> \n\n", yylineno, column, yytext);
   sscanf(yytext, "%s", yylval.token.lexeme);
   yylval.token.line = yylineno;
-  yylval.token.column = column;
-  // yylval->token.scope = scope;
+  yylval.token.column = column;// yylval->token.scope = scope;
   column += yyleng;
 
   decrement_scope();
@@ -1321,41 +1283,38 @@ YY_RULE_SETUP
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 432 "src/lex.l"
+#line 394 "src/lex.l"
 {
   // printf("COMMA:\n  Line: %d, Column: %d \t-->\t<PUNCTUATION, %s> \n\n", yylineno, column, yytext);
   column += yyleng;
   sscanf(yytext, "%s", yylval.token.lexeme);
   yylval.token.line = yylineno;
-  yylval.token.column = column;
-  // yylval->token.scope = scope;
+  yylval.token.column = column;// yylval->token.scope = scope;
   column += yyleng;
   return(',');
 }
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 443 "src/lex.l"
+#line 404 "src/lex.l"
 {
   // printf("SEMICOLON:\n  Line: %d, Column: %d \t-->\t<PUNCTUATION, %s> \n\n", yylineno, column, yytext);
   sscanf(yytext, "%s", yylval.token.lexeme);
   yylval.token.line = yylineno;
-  yylval.token.column = column;
-  // yylval->token.scope = scope;
+  yylval.token.column = column;// yylval->token.scope = scope;
   column += yyleng;
   return(';');
 }
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 453 "src/lex.l"
+#line 413 "src/lex.l"
 {
   // int position = add_table_node(yytext);
   // printf("IDENTIFIER:\n  Line: %d, Column: %d \t-->\t<ID, %s, position in symbol table: %d> \n\n", yylineno, column, yytext, position);
   sscanf(yytext, "%s", yylval.token.lexeme);
   yylval.token.line = yylineno;
-  yylval.token.column = column;
-  // yylval->token.scope = scope;
+  yylval.token.column = column;// yylval->token.scope = scope;
   column += yyleng;
   return(ID);
 }
@@ -1363,7 +1322,7 @@ YY_RULE_SETUP
 case 45:
 /* rule 45 can match eol */
 YY_RULE_SETUP
-#line 464 "src/lex.l"
+#line 423 "src/lex.l"
 {
   yylineno++;
   column = 1;
@@ -1371,7 +1330,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 469 "src/lex.l"
+#line 428 "src/lex.l"
 { 
   lexical_errors++;
   show_error();
@@ -1380,10 +1339,10 @@ YY_RULE_SETUP
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 475 "src/lex.l"
+#line 434 "src/lex.l"
 ECHO;
 	YY_BREAK
-#line 1387 "src/lex.yy.c"
+#line 1346 "src/lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2351,7 +2310,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 475 "src/lex.l"
+#line 434 "src/lex.l"
 
 
 //********** C Functions **********
