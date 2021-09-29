@@ -149,7 +149,7 @@ program:
     }
   | %empty {
       $$ = create_node(PROGRAM);
-      printf("epsilon (program) \n");
+      // printf("epsilon (program) \n");
     }
 ;
 
@@ -222,7 +222,7 @@ parameters:
     }
   | %empty {
       $$ = create_node(PARAMETERS);
-      printf("epsilon (parameters) \n");
+      // printf("epsilon (parameters) \n");
     }
 ;
 
@@ -247,7 +247,7 @@ calling_parameters:
     }
   | %empty {
       $$ = create_node(CALLING_PARAMETERS);
-      printf("epsilon (calling_parameters) \n");
+      // printf("epsilon (calling_parameters) \n");
     }
 ;
 
@@ -403,7 +403,7 @@ update_stmt:
     }
   | %empty {
       $$ = create_node(UPDATE_STMT);
-      printf("epsilon (update_stmt) \n");
+      // printf("epsilon (update_stmt) \n");
     }
 ;
 
