@@ -96,6 +96,8 @@ typedef struct table_node {
   int scope;
   int line;
   int column;
+  enum rule_type type;
+  char s_type[9];
 } table_node;
 
 // symbol table (pointers to beginning and end)
@@ -170,6 +172,8 @@ void destroy_tree(t_node *root);
 
 void semantic_parser();
 int find_main();
+void store_type(char list_types[100][10], int i, char *name);
+int verify_amount_params(t_node *root, int height);
 
 //===============================================================
 // VARIABLE DECLARATIONS
@@ -186,5 +190,6 @@ extern int scope_counter;
 extern t_scope_node *root_scope_tree;
 extern t_scope_node *scope_node_curr;
 extern t_node *root;
+extern int idx;
 
 #endif

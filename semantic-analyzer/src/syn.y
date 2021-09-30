@@ -210,6 +210,9 @@ unq_declaration:
       $$ = create_node(UNIQUE_DECLARATION);
       add_tree_node($$, $1);
       add_tree_token_node($$, &$3, IDENTIFIER);
+
+      get_type($1, idx);
+      idx++;
     }
 ;
 
@@ -723,7 +726,7 @@ int main(int argc, char **argv) {
     yyin = stdin;
   
 
-  print_tree(root, 1);
+  // print_tree(root, 1);
   print_table();
 
   semantic_parser();

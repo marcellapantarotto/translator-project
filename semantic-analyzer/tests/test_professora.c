@@ -19,15 +19,9 @@ float succ(int i) {
 	return i+1;
 }
 
-float succ(int i) {
-	return i+1;
-}
-
-
 int leq_10(float x) {
 	return x <= 10;
 }
-
 
 int main() {
 

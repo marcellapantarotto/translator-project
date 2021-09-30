@@ -15,6 +15,7 @@ int scope_counter = 0;
 t_scope_node *root_scope_tree;
 t_scope_node *scope_node_curr;
 t_node *root;
+int idx = 0;
 
 const char *rule_label[] = {
   "PROGRAM",
@@ -166,6 +167,7 @@ int verify_existing_symbol(table_node *symbol){
   table_node *aux = symbol_table.beginning;
   while(aux->next != NULL) {
     aux = aux->next;
+    symbol->type = aux->type;
     if(strcmp(symbol->token, aux->token) == 0 && symbol->scope == aux->scope) {
       printf(BHRED "\nSEMANTIC ERROR: Redeclaration of variable or function inside scope (symbol: %s, line: %d, column: %d) \n" reset, symbol->token, symbol->line, symbol->column);
       semantic_errors++;
@@ -196,16 +198,17 @@ void decrement_scope() {
 // print symbol table
 void print_table() {
   table_node *aux = symbol_table.beginning;
-  printf("\n\n========================================================\n");
-  printf("\t\t    SYMBOL TABLE");
-  printf("\n========================================================\n");
-  printf(" ID  |  TOKENS\t\t\t| SCOPE | LINE | COLUMN");
-  printf("\n========================================================\n");
+  printf("\n\n========================================================================\n");
+  printf("\t\t\t\tSYMBOL TABLE");
+  printf("\n========================================================================\n");
+  printf(" ID  |  TOKENS\t\t\t|  TYPE\t\t| SCOPE | LINE | COLUMN");
+  printf("\n========================================================================\n");
   while(aux->next != NULL) {
     aux = aux->next;
-    printf(" %-2d  |  %-15s\t\t|  %-2d\t|  %-2d  |  %d\n", aux->id, aux->token, aux->scope, aux->line, aux->column );
+    printf(" %-2d  |  %-15s\t\t| %s\t\t|  %-2d\t|  %-2d  |  %d\n", aux->id, aux->token, aux->s_type, aux->scope, aux->line, aux->column );
+    // printf("type: %s\n" , rule_label[aux->type]);
   }
-  printf("========================================================\n");
+  printf("========================================================================\n");
 }
 
 // destroy symbol table
@@ -249,7 +252,6 @@ t_token null_token() {
   t.line = -1;
   t.column = -1;
   strcpy(t.lexeme, "");
-  // t.scope = -1;
   return t;
 }
 
@@ -347,6 +349,7 @@ void destroy_tree(t_node *root) {
 
 void semantic_parser() {
   find_main();
+  verify_amount_params(root, 1);
 }
 
 int find_main() {
@@ -363,6 +366,78 @@ int find_main() {
     semantic_errors++;
     return 1;
   }
+  return 0;
+}
+
+void store_type(char list_types[100][10], int i, char *name) {
+  // tree_node *curr = node->children; // curr->child->token.lexeme
+  table_node *aux = symbol_table.beginning; // aux->token
+  if(strcmp(name, "INT" ) == 0 || strcmp(name, "FLOAT" ) == 0) {
+    printf("\n");
+    printf("%d ", i);
+    strcpy(list_types[i], name);
+  }
+  
+  if(strcmp(name, "LIST" ) == 0) {
+    printf(" ");
+    strcpy(list_types[i], name);
+  }
+  strcpy(list_types[i], name);
+  printf("%s", name);
+
+  
+
+  while(aux->next != NULL) {
+    // if(strcmp(aux->token, curr->child->token.lexeme) == 0){
+    // printf("aux: %s\n" , aux->token);
+    //   // printf("curr: %s\n" , curr->child->token.lexeme);
+    // }
+    aux = aux->next;    
+  }
+
+  
+}
+
+void get_type(t_node *node, int i) {
+  tree_node *curr = node->children; // curr->child->token.lexeme
+  table_node *aux = symbol_table.beginning; // aux->token
+  char buff[20][10];
+
+  while(curr != NULL) {
+    strcpy(buff[i], "");
+    strcpy(aux->s_type, "");
+    
+    if(strcmp(rule_label[curr->child->type], "LIST") == 0) {
+      strcat(buff[i], " ");  
+      strcat(buff[i], rule_label[curr->child->type]);
+    } else if(strcmp(rule_label[curr->child->type], "INT" ) == 0 || strcmp(rule_label[curr->child->type], "FLOAT" ) == 0) {
+      strcat(buff[i], rule_label[curr->child->type]);
+      printf("\n%d: ", i);      
+    } 
+    // printf("%s", buff[i]);
+    strcat(aux->s_type, buff[i]);
+    printf("%s", aux->s_type);
+    aux = aux->next;
+    curr = curr->sibilings;
+  } 
+
+}
+
+int count_amount_params() {
+  return 0;
+}
+
+int verify_amount_params(t_node *root, int height) {
+  // tree_node *curr = root->children;
+  // while(curr != NULL) {
+  //   printf("curr->child->type = %s\n", rule_label[curr->child->type]);
+  //   curr = curr->sibilings;
+  // }
+
+  return 0;
+}
+
+int find_scope() {
   return 0;
 }
 
