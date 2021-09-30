@@ -420,7 +420,6 @@ void get_type(t_node *node, int i) {
     aux = aux->next;
     curr = curr->sibilings;
   } 
-
 }
 
 int count_amount_params() {
