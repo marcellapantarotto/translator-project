@@ -87,7 +87,7 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 135 "src/syn.y"
+#line 137 "src/syn.y"
 
   t_token token;
   t_node *node;

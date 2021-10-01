@@ -153,7 +153,7 @@ void total_syntax_errors();
 void total_semantic_errors();
 
 table create_table();
-void add_table_node(char *tok);
+void add_table_node(char *tok, t_node *n, int i);
 int verify_existing_symbol(table_node *symbol);
 void increment_scope();
 void decrement_scope();
@@ -172,7 +172,7 @@ void destroy_tree(t_node *root);
 
 void semantic_parser();
 int find_main();
-void store_type(char list_types[100][10], int i, char *name);
+char *get_type(t_node *node, int i);
 int verify_amount_params(t_node *root, int height);
 
 //===============================================================

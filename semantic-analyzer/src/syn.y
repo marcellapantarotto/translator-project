@@ -20,6 +20,8 @@
   extern int yyerror(const char *s);
   extern FILE *yyin;
 
+  char *id_buff;
+
   // extern t_node *root;
 %}
 
@@ -206,12 +208,17 @@ var_declaration:
 ;
 
 unq_declaration:
-  type {add_table_node(yytext);} ID {
+  type {} ID {
       $$ = create_node(UNIQUE_DECLARATION);
       add_tree_node($$, $1);
       add_tree_token_node($$, &$3, IDENTIFIER);
 
-      get_type($1, idx);
+      // printf("== %s", $3.lexeme);
+
+      add_table_node($3.lexeme, $1, idx);
+      // get_type($1, idx);
+      // char aux_type = get_type($1, idx);
+      // store_type(aux_type, idx);
       idx++;
     }
 ;
@@ -726,10 +733,9 @@ int main(int argc, char **argv) {
     yyin = stdin;
   
 
-  // print_tree(root, 1);
-  print_table();
-
+  print_tree(root, 1);
   semantic_parser();
+  print_table();
 
   total_lexical_errors();
   total_syntax_errors();

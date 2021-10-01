@@ -145,7 +145,9 @@ table create_table() {
 }
 
 // add node to symbol table
-void add_table_node(char *tok) {
+void add_table_node(char *tok, t_node *n, int i) {
+  char *ty = get_type(n, i);
+
   table_node *node = (table_node*) malloc(sizeof(table_node));
   node->id = id_counter;
   strcpy(node->token,tok);
@@ -153,7 +155,8 @@ void add_table_node(char *tok) {
   node->scope = g_scope;
   node->line = yylineno;
   node->column = column;
-  
+  strcpy(node->s_type,ty);
+
   int x = verify_existing_symbol(node);
   if (x == 0) {
     symbol_table.final->next = node;
@@ -205,7 +208,7 @@ void print_table() {
   printf("\n========================================================================\n");
   while(aux->next != NULL) {
     aux = aux->next;
-    printf(" %-2d  |  %-15s\t\t| %s\t\t|  %-2d\t|  %-2d  |  %d\n", aux->id, aux->token, aux->s_type, aux->scope, aux->line, aux->column );
+    printf(" %-2d  |  %-15s\t\t| %-10s\t|  %-2d\t|  %-2d  |  %d\n", aux->id, aux->token, aux->s_type, aux->scope, aux->line, aux->column );
     // printf("type: %s\n" , rule_label[aux->type]);
   }
   printf("========================================================================\n");
@@ -369,57 +372,26 @@ int find_main() {
   return 0;
 }
 
-void store_type(char list_types[100][10], int i, char *name) {
-  // tree_node *curr = node->children; // curr->child->token.lexeme
-  table_node *aux = symbol_table.beginning; // aux->token
-  if(strcmp(name, "INT" ) == 0 || strcmp(name, "FLOAT" ) == 0) {
-    printf("\n");
-    printf("%d ", i);
-    strcpy(list_types[i], name);
-  }
-  
-  if(strcmp(name, "LIST" ) == 0) {
-    printf(" ");
-    strcpy(list_types[i], name);
-  }
-  strcpy(list_types[i], name);
-  printf("%s", name);
-
-  
-
-  while(aux->next != NULL) {
-    // if(strcmp(aux->token, curr->child->token.lexeme) == 0){
-    // printf("aux: %s\n" , aux->token);
-    //   // printf("curr: %s\n" , curr->child->token.lexeme);
-    // }
-    aux = aux->next;    
-  }
-
-  
-}
-
-void get_type(t_node *node, int i) {
-  tree_node *curr = node->children; // curr->child->token.lexeme
-  table_node *aux = symbol_table.beginning; // aux->token
+char *get_type(t_node *node, int i) {
+  tree_node *curr = node->children;
+  char *aux;
   char buff[20][10];
 
+  strcpy(buff[i], "");
+
   while(curr != NULL) {
-    strcpy(buff[i], "");
-    strcpy(aux->s_type, "");
-    
-    if(strcmp(rule_label[curr->child->type], "LIST") == 0) {
+    if(strcmp(rule_label[curr->child->type], "INT" ) == 0 || strcmp(rule_label[curr->child->type], "FLOAT" ) == 0) {
+      strcat(buff[i], rule_label[curr->child->type]);
+    } else if(strcmp(rule_label[curr->child->type], "LIST") == 0) {
       strcat(buff[i], " ");  
       strcat(buff[i], rule_label[curr->child->type]);
-    } else if(strcmp(rule_label[curr->child->type], "INT" ) == 0 || strcmp(rule_label[curr->child->type], "FLOAT" ) == 0) {
-      strcat(buff[i], rule_label[curr->child->type]);
-      printf("\n%d: ", i);      
-    } 
-    // printf("%s", buff[i]);
-    strcat(aux->s_type, buff[i]);
-    printf("%s", aux->s_type);
-    aux = aux->next;
+    }
     curr = curr->sibilings;
   } 
+  // strcpy(aux, buff[i]);
+  printf("== '%s'\n", buff[i]);
+  aux = buff[i];
+  return aux;
 }
 
 int count_amount_params() {
