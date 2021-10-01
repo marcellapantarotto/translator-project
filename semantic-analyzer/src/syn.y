@@ -208,17 +208,11 @@ var_declaration:
 ;
 
 unq_declaration:
-  type {} ID {
+  type ID {
       $$ = create_node(UNIQUE_DECLARATION);
       add_tree_node($$, $1);
-      add_tree_token_node($$, &$3, IDENTIFIER);
-
-      // printf("== %s", $3.lexeme);
-
-      add_table_node($3.lexeme, $1, idx);
-      // get_type($1, idx);
-      // char aux_type = get_type($1, idx);
-      // store_type(aux_type, idx);
+      add_tree_token_node($$, &$2, IDENTIFIER);
+      add_table_node($2.lexeme, $1, idx);
       idx++;
     }
 ;
@@ -733,7 +727,7 @@ int main(int argc, char **argv) {
     yyin = stdin;
   
 
-  print_tree(root, 1);
+  // print_tree(root, 1);
   semantic_parser();
   print_table();
 

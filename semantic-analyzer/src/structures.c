@@ -146,8 +146,6 @@ table create_table() {
 
 // add node to symbol table
 void add_table_node(char *tok, t_node *n, int i) {
-  char *ty = get_type(n, i);
-
   table_node *node = (table_node*) malloc(sizeof(table_node));
   node->id = id_counter;
   strcpy(node->token,tok);
@@ -155,7 +153,7 @@ void add_table_node(char *tok, t_node *n, int i) {
   node->scope = g_scope;
   node->line = yylineno;
   node->column = column;
-  strcpy(node->s_type,ty);
+  strcpy(node->s_type, get_type(n, i));
 
   int x = verify_existing_symbol(node);
   if (x == 0) {
@@ -201,17 +199,17 @@ void decrement_scope() {
 // print symbol table
 void print_table() {
   table_node *aux = symbol_table.beginning;
-  printf("\n\n========================================================================\n");
+  printf("\n\n=======================================================================\n");
   printf("\t\t\t\tSYMBOL TABLE");
-  printf("\n========================================================================\n");
-  printf(" ID  |  TOKENS\t\t\t|  TYPE\t\t| SCOPE | LINE | COLUMN");
-  printf("\n========================================================================\n");
+  printf("\n=======================================================================\n");
+  printf(" ID  |  TOKENS\t\t\t| TYPE        | SCOPE | LINE  | COLUMN");
+  printf("\n=======================================================================\n");
   while(aux->next != NULL) {
     aux = aux->next;
-    printf(" %-2d  |  %-15s\t\t| %-10s\t|  %-2d\t|  %-2d  |  %d\n", aux->id, aux->token, aux->s_type, aux->scope, aux->line, aux->column );
+    printf(" %-3d |  %-15s\t\t| %-10s  |  %-2d   |  %-3d  |  %-3d\n", aux->id, aux->token, aux->s_type, aux->scope, aux->line, aux->column );
     // printf("type: %s\n" , rule_label[aux->type]);
   }
-  printf("========================================================================\n");
+  printf("=======================================================================\n");
 }
 
 // destroy symbol table
@@ -387,9 +385,7 @@ char *get_type(t_node *node, int i) {
       strcat(buff[i], rule_label[curr->child->type]);
     }
     curr = curr->sibilings;
-  } 
-  // strcpy(aux, buff[i]);
-  printf("== '%s'\n", buff[i]);
+  }
   aux = buff[i];
   return aux;
 }
