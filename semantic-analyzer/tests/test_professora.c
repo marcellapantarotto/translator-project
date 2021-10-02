@@ -1,8 +1,9 @@
 int list IL;
 float list FL;
 
-int list read_list(int n) {
+int list read_list(int n, int y) {
 	int i;
+	y = 1;
 	i =  -435.7;
 	int list new;
 	new = NIL;

@@ -196,7 +196,7 @@ func_declaration:
       add_tree_node($$, $7);
       // add_tree_token_node($$, &$8, CLOSE_CURLY_BRACKET);
       
-      get_parameters($4);
+      // get_parameters($4);
     }
 ;
 
@@ -211,7 +211,12 @@ var_declaration:
 
 unq_declaration:
   type ID {
+      // if($$->type == LIST_PARAMETERS){
+      //   printf("here\n");
+      // }
+    
       $$ = create_node(UNIQUE_DECLARATION);
+
       add_tree_node($$, $1);
       add_tree_token_node($$, &$2, IDENTIFIER);
       add_table_node($2.lexeme, $1, idx);
@@ -224,6 +229,7 @@ parameters:
       $$ = $1;
       // $$ = create_node(PARAMETERS);
       // add_tree_node($$, $1);
+      // get_parameters($1);
     }
   | %empty {
       $$ = create_node(PARAMETERS);
@@ -236,11 +242,13 @@ lst_parameters:
       add_tree_node($$, $1);
       // add_tree_token_node($$, &$2, COMMA);
       add_tree_node($$, $3);
+      get_parameters($1);
     }
   | unq_declaration {
       $$ = $1;
       // $$ = create_node(LIST_PARAMETERS);
       // add_tree_node($$, $1);
+      get_parameters($1);
     }
 ;
 

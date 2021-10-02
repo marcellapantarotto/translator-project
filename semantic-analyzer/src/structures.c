@@ -154,6 +154,7 @@ void add_table_node(char *tok, t_node *n, int i) {
   node->line = yylineno;
   node->column = column;
   strcpy(node->s_type, get_type(n, i));
+  strcpy(node->vfp,"");
 
   int x = verify_existing_symbol(node);
   if (x == 0) {
@@ -202,11 +203,11 @@ void print_table() {
   printf("\n\n=======================================================================\n");
   printf("\t\t\t\tSYMBOL TABLE");
   printf("\n=======================================================================\n");
-  printf(" ID  |  TOKENS\t\t\t| TYPE        | SCOPE | LINE  | COLUMN");
+  printf(" ID  |  TOKENS\t\t\t| TYPE        | SCOPE | LINE  | COLUMN | V/F/P");
   printf("\n=======================================================================\n");
   while(aux->next != NULL) {
     aux = aux->next;
-    printf(" %-3d |  %-15s\t\t| %-10s  |  %-2d   |  %-3d  |  %-3d\n", aux->id, aux->token, aux->s_type, aux->scope, aux->line, aux->column );
+    printf(" %-3d |  %-15s\t\t| %-10s  |  %-2d   |  %-3d  |  %-3d  | %s\n", aux->id, aux->token, aux->s_type, aux->scope, aux->line, aux->column, aux->vfp );
     // printf("type: %s\n" , rule_label[aux->type]);
   }
   printf("=======================================================================\n");
@@ -350,7 +351,7 @@ void destroy_tree(t_node *root) {
 
 void semantic_parser() {
   find_main();
-  verify_amount_params(root, 1);
+  // verify_amount_params(root, 1);
 }
 
 int find_main() {
@@ -394,15 +395,19 @@ int get_parameters(t_node *node) {
   tree_node *curr = node->children;
   int params_counter = 0;
   while(curr != NULL) {
-    printf("\n %s \n", rule_label[curr->child->type]);
+    printf("\n %s \t", rule_label[curr->child->type]);
     // print_token(&curr->child->token);
+    if(strcmp(rule_label[curr->child->type], "UNIQUE_DECLARATION") == 0) {
+      curr = curr->sibilings;
+    }
+
     if(strcmp(curr->child->token.lexeme, "") != 0) {
       params_counter++;
       printf("parameter: %s - scope: %d\n", curr->child->token.lexeme, g_scope);
     } else {
-      printf("type: %s\n", rule_label[curr->child->children->child->type]);
+      printf("type: %s\t", rule_label[curr->child->children->child->type]);
     }
-     curr = curr->sibilings;
+    curr = curr->sibilings;
   }
 
 

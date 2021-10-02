@@ -98,6 +98,7 @@ typedef struct table_node {
   int column;
   enum rule_type type;
   char s_type[9];
+  char vfp[1];
 } table_node;
 
 // symbol table (pointers to beginning and end)
