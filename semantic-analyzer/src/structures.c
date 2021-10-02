@@ -201,17 +201,17 @@ void decrement_scope() {
 // print symbol table
 void print_table() {
   table_node *aux = symbol_table.beginning;
-  printf("\n\n===============================================================================\n");
+  printf("\n\n==========================================================================================\n");
   printf("\t\t\t\tSYMBOL TABLE");
-  printf("\n===============================================================================\n");
-  printf(" ID  |  TOKENS\t\t\t| TYPE        | SCOPE | LINE  | COLUMN | V/F/P");
-  printf("\n===============================================================================\n");
+  printf("\n==========================================================================================\n");
+  printf(" ID  |  TOKENS\t\t\t| TYPE        | SCOPE | LINE  | COLUMN | V/F/P | # PARAMS");
+  printf("\n==========================================================================================\n");
   while(aux->next != NULL) {
     aux = aux->next;
-    printf(" %-3d |  %-15s\t\t| %-10s  |  %-2d   |  %-3d  |  %-3d   | %s\n", aux->id, aux->token, aux->s_type, aux->scope, aux->line, aux->column, aux->vfp );
+    printf(" %-3d |  %-15s\t\t| %-10s  |  %-2d   |  %-3d  |  %-3d   | %-5s |  0-\n", aux->id, aux->token, aux->s_type, aux->scope, aux->line, aux->column, aux->vfp );
     // printf("type: %s\n" , rule_label[aux->type]);
   }
-  printf("===============================================================================\n");
+  printf("==========================================================================================\n");
 }
 
 // destroy symbol table
@@ -396,7 +396,7 @@ int get_parameters(t_node *node) {
   tree_node *curr = node->children;
   
   while(curr != NULL) {
-    printf("\n %s \t", rule_label[curr->child->type]);
+    // printf("\n %s \t", rule_label[curr->child->type]);
     // print_token(&curr->child->token);
     if(strcmp(rule_label[curr->child->type], "UNIQUE_DECLARATION") == 0) {
       curr = curr->sibilings;
@@ -404,13 +404,13 @@ int get_parameters(t_node *node) {
 
     if(strcmp(curr->child->token.lexeme, "") != 0) {
       params_counter++;
-      printf("parameter: %s - scope: %d\n", curr->child->token.lexeme, g_scope);
+      printf("%s (scope: %d)\t", curr->child->token.lexeme, g_scope);
     } else {
-      printf("type: %s\t", rule_label[curr->child->children->child->type]);
+      printf("\n%s ", rule_label[curr->child->children->child->type]);
     }
     curr = curr->sibilings;
   }
-  printf("amount of parameters: %d\n", params_counter);
+  printf("total parameters: %d\n", params_counter);
   return 0;
 }
 
