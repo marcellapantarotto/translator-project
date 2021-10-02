@@ -195,6 +195,8 @@ func_declaration:
       // add_tree_token_node($$, &$6, OPEN_CURLY_BRACKET);
       add_tree_node($$, $7);
       // add_tree_token_node($$, &$8, CLOSE_CURLY_BRACKET);
+      
+      get_parameters($4);
     }
 ;
 

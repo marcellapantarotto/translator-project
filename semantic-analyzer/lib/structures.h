@@ -173,6 +173,7 @@ void destroy_tree(t_node *root);
 void semantic_parser();
 int find_main();
 char *get_type(t_node *node, int i);
+int get_parameters(t_node *node) ;
 int verify_amount_params(t_node *root, int height);
 
 //===============================================================

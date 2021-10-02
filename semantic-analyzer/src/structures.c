@@ -373,7 +373,7 @@ int find_main() {
 char *get_type(t_node *node, int i) {
   tree_node *curr = node->children;
   char *aux;
-  char buff[20][10];
+  char buff[200][10];
 
   strcpy(buff[i], "");
 
@@ -390,7 +390,23 @@ char *get_type(t_node *node, int i) {
   return aux;
 }
 
-int count_amount_params() {
+int get_parameters(t_node *node) {
+  tree_node *curr = node->children;
+  int params_counter = 0;
+  while(curr != NULL) {
+    printf("\n %s \n", rule_label[curr->child->type]);
+    // print_token(&curr->child->token);
+    if(strcmp(curr->child->token.lexeme, "") != 0) {
+      params_counter++;
+      printf("parameter: %s - scope: %d\n", curr->child->token.lexeme, g_scope);
+    } else {
+      printf("type: %s\n", rule_label[curr->child->children->child->type]);
+    }
+     curr = curr->sibilings;
+  }
+
+
+  printf("amount of parameters: %d\n", params_counter);
   return 0;
 }
 
