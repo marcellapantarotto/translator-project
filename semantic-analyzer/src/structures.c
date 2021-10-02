@@ -17,7 +17,6 @@ t_scope_node *scope_node_curr;
 t_node *root;
 int idx = 0;
 int params_counter = 0;
-char VFP[10];
 
 const char *rule_label[] = {
   "PROGRAM",
@@ -156,7 +155,8 @@ void add_table_node(char *tok, t_node *n, int i) {
   node->line = yylineno;
   node->column = column;
   strcpy(node->s_type, get_type(n, i));
-  strcpy(node->vfp,"");
+  strcpy(node->vfp,"Variable");
+  
 
   int x = verify_existing_symbol(node);
   if (x == 0) {
@@ -209,8 +209,7 @@ void print_table() {
   printf("\n==============================================================================================\n");
   while(aux->next != NULL) {
     aux = aux->next;
-    printf(" %-3d |  %-15s\t\t| %-10s  |  %-2d   |  %-3d  |  %-3d   | %-10s |  -\n", aux->id, aux->token, aux->s_type, aux->scope, aux->line, aux->column, aux->vfp );
-    // printf("type: %s\n" , rule_label[aux->type]);
+    printf(" %-3d |  %-15s\t\t| %-10s  |  %-2d   |  %-3d  |  %-3d   | %-9s |  -\n", aux->id, aux->token, aux->s_type, aux->scope, aux->line, aux->column, aux->vfp );
   }
   printf("==============================================================================================\n");
 }
@@ -414,29 +413,21 @@ int get_parameters(t_node *node) {
 
 void set_F_table(t_node *node) {
   table_node *aux = symbol_table.beginning;
-  strcpy(VFP, "Function");
-
   while(aux->next != NULL) {
     aux = aux->next;
     if (strcmp(aux->token, node->token.lexeme) == 0) {
-      strcpy(aux->vfp, VFP);
+      strcpy(aux->vfp, "Function");
     }
   }
-
-  strcpy(VFP, "");
 }
 
 void set_P_table(t_node *node) {
   table_node *aux = symbol_table.beginning;
-  strcpy(VFP, "Parameter");
-
   while(aux->next != NULL) {
     aux = aux->next;
     if (strcmp(aux->token, node->children->sibilings->child->token.lexeme) == 0 &&
         aux->scope  == g_scope) {
-      printf("> %s\n", aux->token);
-      printf(">> %s\n", node->children->sibilings->child->token.lexeme);
-      strcpy(aux->vfp, VFP);
+      strcpy(aux->vfp, "Parameter");
     }
   }
 }

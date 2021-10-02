@@ -242,7 +242,6 @@ lst_parameters:
       
       get_parameters($1);
       set_P_table($1);
-      // printf("type: %s\n", rule_label[$$->children->child->type]);
     }
   | unq_declaration {
       $$ = $1;
@@ -251,7 +250,6 @@ lst_parameters:
       
       get_parameters($1);
       set_P_table($1);
-      //  printf("type: %s\n", rule_label[$$->type]);
     }
 ;
 
