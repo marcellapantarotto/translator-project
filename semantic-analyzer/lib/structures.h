@@ -193,5 +193,6 @@ extern t_scope_node *root_scope_tree;
 extern t_scope_node *scope_node_curr;
 extern t_node *root;
 extern int idx;
+extern int params_counter;
 
 #endif

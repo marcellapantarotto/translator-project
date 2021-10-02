@@ -186,14 +186,14 @@ declaration:
 ;
 
 func_declaration:
-  unq_declaration {increment_scope();} '(' parameters ')' '{' block_commands '}' {
+  unq_declaration {increment_scope();} '(' parameters ')' {params_counter = 0;} '{' block_commands '}' {
       $$ = create_node(FUNCTION_DECLARATION);    
       add_tree_node($$, $1);
       // add_tree_token_node($$, &$3, OPEN_PARENTHESES);
       add_tree_node($$, $4);
       // add_tree_token_node($$, &$5, CLOSE_PARENTHESES);
       // add_tree_token_node($$, &$6, OPEN_CURLY_BRACKET);
-      add_tree_node($$, $7);
+      add_tree_node($$, $8);
       // add_tree_token_node($$, &$8, CLOSE_CURLY_BRACKET);
       
       // get_parameters($4);
@@ -230,6 +230,7 @@ parameters:
       // $$ = create_node(PARAMETERS);
       // add_tree_node($$, $1);
       // get_parameters($1);
+      
     }
   | %empty {
       $$ = create_node(PARAMETERS);
@@ -243,6 +244,7 @@ lst_parameters:
       // add_tree_token_node($$, &$2, COMMA);
       add_tree_node($$, $3);
       get_parameters($1);
+      
     }
   | unq_declaration {
       $$ = $1;

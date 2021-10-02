@@ -1,7 +1,7 @@
 int list IL;
 float list FL;
 
-int list read_list(int n, int y) {
+int list read_list(int n, int y, float t) {
 	int i;
 	y = 1;
 	i =  -435.7;
