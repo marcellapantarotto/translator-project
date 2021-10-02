@@ -17,6 +17,7 @@ t_scope_node *scope_node_curr;
 t_node *root;
 int idx = 0;
 int params_counter = 0;
+char VFP[10];
 
 const char *rule_label[] = {
   "PROGRAM",
@@ -111,7 +112,7 @@ void print_token(t_token *t) {
 void print_node(t_node *n) {
   printf("(Node ");
   print_token(&n->token);
-  printf("type: %s ",  rule_label[n->type]);
+  printf(" type: %s ",  rule_label[n->type]);
   // printf("(CHILDREN ");
   // print_children(n->children);
   printf(")\n");
@@ -201,17 +202,17 @@ void decrement_scope() {
 // print symbol table
 void print_table() {
   table_node *aux = symbol_table.beginning;
-  printf("\n\n==========================================================================================\n");
+  printf("\n\n==============================================================================================\n");
   printf("\t\t\t\tSYMBOL TABLE");
-  printf("\n==========================================================================================\n");
-  printf(" ID  |  TOKENS\t\t\t| TYPE        | SCOPE | LINE  | COLUMN | V/F/P | # PARAMS");
-  printf("\n==========================================================================================\n");
+  printf("\n==============================================================================================\n");
+  printf(" ID  |  TOKENS\t\t\t| TYPE        | SCOPE | LINE  | COLUMN |  V/F/P    | # PARAMS");
+  printf("\n==============================================================================================\n");
   while(aux->next != NULL) {
     aux = aux->next;
-    printf(" %-3d |  %-15s\t\t| %-10s  |  %-2d   |  %-3d  |  %-3d   | %-5s |  0-\n", aux->id, aux->token, aux->s_type, aux->scope, aux->line, aux->column, aux->vfp );
+    printf(" %-3d |  %-15s\t\t| %-10s  |  %-2d   |  %-3d  |  %-3d   | %-10s |  -\n", aux->id, aux->token, aux->s_type, aux->scope, aux->line, aux->column, aux->vfp );
     // printf("type: %s\n" , rule_label[aux->type]);
   }
-  printf("==========================================================================================\n");
+  printf("==============================================================================================\n");
 }
 
 // destroy symbol table
@@ -394,14 +395,10 @@ char *get_type(t_node *node, int i) {
 
 int get_parameters(t_node *node) {
   tree_node *curr = node->children;
-  
   while(curr != NULL) {
-    // printf("\n %s \t", rule_label[curr->child->type]);
-    // print_token(&curr->child->token);
     if(strcmp(rule_label[curr->child->type], "UNIQUE_DECLARATION") == 0) {
       curr = curr->sibilings;
     }
-
     if(strcmp(curr->child->token.lexeme, "") != 0) {
       params_counter++;
       printf("%s (scope: %d)\t", curr->child->token.lexeme, g_scope);
@@ -411,7 +408,41 @@ int get_parameters(t_node *node) {
     curr = curr->sibilings;
   }
   printf("total parameters: %d\n", params_counter);
+
   return 0;
+}
+
+void set_F_table(t_node *node) {
+  table_node *aux = symbol_table.beginning;
+  strcpy(VFP, "Function");
+
+  while(aux->next != NULL) {
+    aux = aux->next;
+    if (strcmp(aux->token, node->token.lexeme) == 0) {
+      strcpy(aux->vfp, VFP);
+    }
+  }
+
+  strcpy(VFP, "");
+}
+
+void set_P_table(t_node *node) {
+  table_node *aux = symbol_table.beginning;
+  strcpy(VFP, "Parameter");
+
+  while(aux->next != NULL) {
+    aux = aux->next;
+    if (strcmp(aux->token, node->children->sibilings->child->token.lexeme) == 0 &&
+        aux->scope  == g_scope) {
+      printf("> %s\n", aux->token);
+      printf(">> %s\n", node->children->sibilings->child->token.lexeme);
+      strcpy(aux->vfp, VFP);
+    }
+  }
+}
+
+void store_params() {
+  
 }
 
 int verify_amount_params(t_node *root, int height) {
