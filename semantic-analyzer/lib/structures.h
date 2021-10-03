@@ -99,6 +99,7 @@ typedef struct table_node {
   enum rule_type type;
   char s_type[10];
   char vfp[10];
+  int params;
 } table_node;
 
 // symbol table (pointers to beginning and end)
@@ -174,11 +175,13 @@ void destroy_tree(t_node *root);
 void semantic_parser();
 int find_main();
 char *get_type(t_node *node, int i);
-int get_parameters(t_node *node) ;
+int get_amount_params(t_node *node) ;
+void set_amount_params(char *func, int x);
 int verify_amount_params(t_node *root, int height);
 void set_F_table(t_node *node);
 void set_P_table(t_node *node);
 void set_V_table();
+
 
 //===============================================================
 // VARIABLE DECLARATIONS
@@ -197,5 +200,6 @@ extern t_scope_node *scope_node_curr;
 extern t_node *root;
 extern int idx;
 extern int params_counter;
+extern char func_name[];
 
 #endif

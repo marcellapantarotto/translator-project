@@ -156,6 +156,8 @@ void add_table_node(char *tok, t_node *n, int i) {
   node->column = column;
   strcpy(node->s_type, get_type(n, i));
   strcpy(node->vfp,"Variable");
+  node->params = 0;
+  
   
 
   int x = verify_existing_symbol(node);
@@ -209,7 +211,7 @@ void print_table() {
   printf("\n==============================================================================================\n");
   while(aux->next != NULL) {
     aux = aux->next;
-    printf(" %-3d |  %-15s\t\t| %-10s  |  %-2d   |  %-3d  |  %-3d   | %-9s |  -\n", aux->id, aux->token, aux->s_type, aux->scope, aux->line, aux->column, aux->vfp );
+    printf(" %-3d |  %-15s\t\t| %-10s  |  %-2d   |  %-3d  |  %-3d   | %-9s |  %d\n", aux->id, aux->token, aux->s_type, aux->scope, aux->line, aux->column, aux->vfp, aux->params );
   }
   printf("==============================================================================================\n");
 }
@@ -353,6 +355,7 @@ void destroy_tree(t_node *root) {
 void semantic_parser() {
   find_main();
   // verify_amount_params(root, 1);
+  
 }
 
 int find_main() {
@@ -392,12 +395,16 @@ char *get_type(t_node *node, int i) {
   return aux;
 }
 
-int get_parameters(t_node *node) {
+int get_amount_params(t_node *node) {
   tree_node *curr = node->children;
   while(curr != NULL) {
     if(strcmp(rule_label[curr->child->type], "UNIQUE_DECLARATION") == 0) {
       curr = curr->sibilings;
-    }
+    } 
+    // if(strcmp(rule_label[curr->child->type], "TYPE_NUMBER") == 0) {
+    //   curr = curr->sibilings;
+    // }
+
     if(strcmp(curr->child->token.lexeme, "") != 0) {
       params_counter++;
       printf("%s (scope: %d)\t", curr->child->token.lexeme, g_scope);
@@ -405,10 +412,21 @@ int get_parameters(t_node *node) {
       printf("\n%s ", rule_label[curr->child->children->child->type]);
     }
     curr = curr->sibilings;
-  }
-  printf("total parameters: %d\n", params_counter);
+    }
+  printf("total parameters: %d , func_name: %s\n", params_counter, func_name);
+  return params_counter;
+}
 
-  return 0;
+void set_amount_params(char *func, int x) {
+  table_node *aux = symbol_table.beginning;
+  while(aux->next != NULL) {
+    aux = aux->next;
+    if (strcmp(aux->token, func) == 0) {
+      // int y = aux->id - x;
+      // printf("> %s, %d\n", func,params_counter);
+      aux->params = params_counter;
+    }
+  }
 }
 
 void set_F_table(t_node *node) {
@@ -417,6 +435,8 @@ void set_F_table(t_node *node) {
     aux = aux->next;
     if (strcmp(aux->token, node->token.lexeme) == 0) {
       strcpy(aux->vfp, "Function");
+      params_counter += params_counter;
+      aux->params = params_counter;
     }
   }
 }
@@ -430,10 +450,6 @@ void set_P_table(t_node *node) {
       strcpy(aux->vfp, "Parameter");
     }
   }
-}
-
-void store_params() {
-  
 }
 
 int verify_amount_params(t_node *root, int height) {

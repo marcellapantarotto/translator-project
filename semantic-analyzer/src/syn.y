@@ -20,7 +20,7 @@
   extern int yyerror(const char *s);
   extern FILE *yyin;
 
-  char *id_buff;
+  char func_name[50];
 
   // extern t_node *root;
 %}
@@ -195,11 +195,19 @@ func_declaration:
       // add_tree_token_node($$, &$6, OPEN_CURLY_BRACKET);
       add_tree_node($$, $8);
       // add_tree_token_node($$, &$8, CLOSE_CURLY_BRACKET);
-      
-      // get_parameters($4);
-      printf("= %s , %s\n", $1->children->sibilings->child->token.lexeme, rule_label[$1->children->sibilings->child->type]);
 
+
+      // if(strcmp($1->children->sibilings->child->token.lexeme, "")) {
+      //   strcpy(func_name, $1->children->sibilings->sibilings->child->children->child->token.lexeme);
+      //   printf("%s \n", func_name);
+      // } else {
+      //   strcpy(func_name, $1->children->sibilings->child->token.lexeme);
+      //   printf("-%s \n", func_name);
+      // }
+      strcpy(func_name, $1->children->sibilings->child->token.lexeme);
       set_F_table($1->children->sibilings->child);
+      // printf("func_name: %s - params: %d", func_name, get_amount_params($4));
+      // set_amount_params($1->children->sibilings->child, get_amount_params($4));
     }
 ;
 
@@ -225,6 +233,7 @@ unq_declaration:
 parameters:
   lst_parameters {
       $$ = $1;
+      
       // $$ = create_node(PARAMETERS);
       // add_tree_node($$, $1);
     }
@@ -239,17 +248,18 @@ lst_parameters:
       add_tree_node($$, $1);
       // add_tree_token_node($$, &$2, COMMA);
       add_tree_node($$, $3);
-      
-      get_parameters($1);
+
       set_P_table($1);
+      set_amount_params(func_name, get_amount_params($1));
+
     }
   | unq_declaration {
       $$ = $1;
       // $$ = create_node(LIST_PARAMETERS);
       // add_tree_node($$, $1);
-      
-      get_parameters($1);
+
       set_P_table($1);
+      set_amount_params(func_name, get_amount_params($1));
     }
 ;
 
