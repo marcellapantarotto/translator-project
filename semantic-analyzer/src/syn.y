@@ -186,14 +186,14 @@ declaration:
 ;
 
 func_declaration:
-  unq_declaration {increment_scope();} '(' parameters ')' {params_counter = 0;} '{' block_commands '}' {
+  unq_declaration {increment_scope();} '(' parameters ')' '{' block_commands '}' {
       $$ = create_node(FUNCTION_DECLARATION);    
       add_tree_node($$, $1);
       // add_tree_token_node($$, &$3, OPEN_PARENTHESES);
       add_tree_node($$, $4);
       // add_tree_token_node($$, &$5, CLOSE_PARENTHESES);
       // add_tree_token_node($$, &$6, OPEN_CURLY_BRACKET);
-      add_tree_node($$, $8);
+      add_tree_node($$, $7);
       // add_tree_token_node($$, &$8, CLOSE_CURLY_BRACKET);
 
 
@@ -204,7 +204,8 @@ func_declaration:
       //   strcpy(func_name, $1->children->sibilings->child->token.lexeme);
       //   printf("-%s \n", func_name);
       // }
-      strcpy(func_name, $1->children->sibilings->child->token.lexeme);
+      printf("funcation\n");
+      // strcpy(func_name, $1->children->sibilings->child->token.lexeme);
       set_F_table($1->children->sibilings->child);
       // printf("func_name: %s - params: %d", func_name, get_amount_params($4));
       // set_amount_params($1->children->sibilings->child, get_amount_params($4));
@@ -250,6 +251,7 @@ lst_parameters:
       add_tree_node($$, $3);
 
       set_P_table($1);
+      printf("parameter1\n");
       set_amount_params(func_name, get_amount_params($1));
 
     }
@@ -259,6 +261,8 @@ lst_parameters:
       // add_tree_node($$, $1);
 
       set_P_table($1);
+      printf("parameter2\n");
+      strcpy(func_name, $1->children->sibilings->child->token.lexeme);
       set_amount_params(func_name, get_amount_params($1));
     }
 ;
@@ -748,7 +752,7 @@ int main(int argc, char **argv) {
     yyin = stdin;
   
 
-  // print_tree(root, 1);
+  print_tree(root, 1);
   semantic_parser();
   print_table();
 

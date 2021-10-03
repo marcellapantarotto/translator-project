@@ -190,6 +190,7 @@ void increment_scope()  {
   temp->scope_number = g_scope;
   temp->parent = scope_node_curr;
   scope_node_curr = temp;
+  params_counter = 0; 
 }
 
 // decrements scope of symbols
@@ -384,7 +385,6 @@ char *get_type(t_node *node, int i) {
   while(curr != NULL) {
     if(strcmp(rule_label[curr->child->type], "INT" ) == 0 || strcmp(rule_label[curr->child->type], "FLOAT" ) == 0) {
       strcpy(buff[i], rule_label[curr->child->type]);
-      // printf("\n~~%s", buff[i]);
     } else if(strcmp(rule_label[curr->child->type], "LIST") == 0) {
       strcat(buff[i], " ");  
       strcat(buff[i], rule_label[curr->child->type]);      
@@ -403,9 +403,6 @@ int get_amount_params(t_node *node) {
     if(strcmp(rule_label[curr->child->type], "UNIQUE_DECLARATION") == 0) {
       curr = curr->sibilings;
     } 
-    // if(strcmp(rule_label[curr->child->type], "TYPE_NUMBER") == 0) {
-    //   curr = curr->sibilings;
-    // }
 
     if(strcmp(curr->child->token.lexeme, "") != 0) {
       params_counter++;
@@ -420,12 +417,13 @@ int get_amount_params(t_node *node) {
 }
 
 void set_amount_params(char *func, int x) {
+  printf("> %s, %d, %d\n", func, params_counter, x);
   table_node *aux = symbol_table.beginning;
   while(aux->next != NULL) {
     aux = aux->next;
     if (strcmp(aux->token, func) == 0) {
       // int y = aux->id - x;
-      // printf("> %s, %d\n", func,params_counter);
+      
       aux->params = params_counter;
     }
   }
