@@ -97,7 +97,7 @@ typedef struct table_node {
   int line;
   int column;
   enum rule_type type;
-  char s_type[10];
+  char s_type[11];
   char vfp[10];
   int params;
 } table_node;

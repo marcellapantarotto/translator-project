@@ -156,10 +156,9 @@ void add_table_node(char *tok, t_node *n, int i) {
   node->column = column;
   strcpy(node->s_type, get_type(n, i));
   strcpy(node->vfp,"Variable");
+  
   node->params = 0;
   
-  
-
   int x = verify_existing_symbol(node);
   if (x == 0) {
     symbol_table.final->next = node;
@@ -207,11 +206,11 @@ void print_table() {
   printf("\n\n==============================================================================================\n");
   printf("\t\t\t\tSYMBOL TABLE");
   printf("\n==============================================================================================\n");
-  printf(" ID  |  TOKENS\t\t\t| TYPE        | SCOPE | LINE  | COLUMN |  V/F/P    | # PARAMS");
+  printf(" ID  |  TOKENS\t\t\t| TYPE       | SCOPE | LINE  | COLUMN |  V/F/P    | # PARAMS");
   printf("\n==============================================================================================\n");
   while(aux->next != NULL) {
     aux = aux->next;
-    printf(" %-3d |  %-15s\t\t| %-10s  |  %-2d   |  %-3d  |  %-3d   | %-9s |  %d\n", aux->id, aux->token, aux->s_type, aux->scope, aux->line, aux->column, aux->vfp, aux->params );
+    printf(" %-3d |  %-15s\t\t| %-11s|  %-2d   |  %-3d  |  %-3d   | %-9s |  %d\n", aux->id, aux->token, aux->s_type, aux->scope, aux->line, aux->column, aux->vfp, aux->params );
   }
   printf("==============================================================================================\n");
 }
@@ -384,14 +383,17 @@ char *get_type(t_node *node, int i) {
 
   while(curr != NULL) {
     if(strcmp(rule_label[curr->child->type], "INT" ) == 0 || strcmp(rule_label[curr->child->type], "FLOAT" ) == 0) {
-      strcat(buff[i], rule_label[curr->child->type]);
+      strcpy(buff[i], rule_label[curr->child->type]);
+      // printf("\n~~%s", buff[i]);
     } else if(strcmp(rule_label[curr->child->type], "LIST") == 0) {
       strcat(buff[i], " ");  
-      strcat(buff[i], rule_label[curr->child->type]);
+      strcat(buff[i], rule_label[curr->child->type]);      
     }
     curr = curr->sibilings;
   }
+  
   aux = buff[i];
+  
   return aux;
 }
 
@@ -435,9 +437,12 @@ void set_F_table(t_node *node) {
     aux = aux->next;
     if (strcmp(aux->token, node->token.lexeme) == 0) {
       strcpy(aux->vfp, "Function");
-      params_counter += params_counter;
+      params_counter += 1;
       aux->params = params_counter;
     }
+    // if (strcmp(aux->vfp, "") == 0) {
+    //   strcpy(aux->vfp, "Variable");
+    // }
   }
 }
 
