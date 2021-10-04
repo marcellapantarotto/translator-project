@@ -196,9 +196,7 @@ func_declaration:
       add_tree_node($$, $7);
       // add_tree_token_node($$, &$8, CLOSE_CURLY_BRACKET);
 
-      // strcpy(func_name, $1->children->sibilings->child->token.lexeme);
       set_F_table($1->children->sibilings->child);
-      // set_amount_params($1->children->sibilings->child, get_amount_params($4));
     }
 ;
 
@@ -218,7 +216,6 @@ unq_declaration:
       add_tree_token_node($$, &$2, IDENTIFIER);
       add_table_node($2.lexeme, $1, idx);
       idx++;
-      // strcpy(func_name, $2.lexeme);
     }
 ;
 
@@ -341,6 +338,12 @@ command:
       $$ = create_node(COMMAND);
       add_tree_node($$, $1);
       // add_tree_token_node($$, &$2, SEMICOLON);
+    }
+
+  | error {
+      yyerrok;
+      $$ = create_node(COMMAND); 
+      syntax_errors++;
     }
 ;
 

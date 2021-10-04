@@ -128,7 +128,6 @@ typedef struct t_node {
 
 // tree node struct
 typedef struct tree_node {
-  struct t_node *parent;
   struct t_node *child;
   struct tree_node *sibilings;
 } tree_node;

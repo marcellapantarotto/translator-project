@@ -115,9 +115,6 @@ void print_node(t_node *n) {
   printf(" type: %s ",  rule_label[n->type]);
   // printf("(CHILDREN ");
   // print_children(n->children);
-  if(n->children->parent != NULL){
-    printf("\t tem parent");
-  }
   printf(")\n");
    
 }
@@ -195,9 +192,6 @@ void increment_scope()  {
   temp->scope_number = g_scope;
   temp->parent = scope_node_curr;
   scope_node_curr = temp;
-  
-  // set_amount_params(func_name, params_counter);
-
   params_counter = 0; 
 }
 
@@ -212,16 +206,16 @@ void decrement_scope() {
 // print symbol table
 void print_table() {
   table_node *aux = symbol_table.beginning;
-  printf("\n\n==============================================================================================\n");
-  printf("\t\t\t\tSYMBOL TABLE");
-  printf("\n==============================================================================================\n");
-  printf(" ID  |  TOKENS\t\t\t| TYPE       | SCOPE | LINE  | COLUMN |  V/F/P    | # PARAMS");
-  printf("\n==============================================================================================\n");
+  printf("\n\n================================================================================================\n");
+  printf("\t\t\t\t\tSYMBOL TABLE");
+  printf("\n================================================================================================\n");
+  printf(" ID  |  TOKENS\t\t\t| TYPE       | SCOPE | LINE  | COLUMN |  V/F/P       | # PARAMS");
+  printf("\n================================================================================================\n");
   while(aux->next != NULL) {
     aux = aux->next;
-    printf(" %-3d |  %-15s\t\t| %-11s|  %-2d   |  %-3d  |  %-3d   | %-9s |  %d\n", aux->id, aux->token, aux->s_type, aux->scope, aux->line, aux->column, aux->vfp, aux->params );
+    printf(" %-3d |  %-15s\t\t| %-11s|  %-2d   |  %-3d  |  %-3d   | %-12s |  %d\n", aux->id, aux->token, aux->s_type, aux->scope, aux->line, aux->column, aux->vfp, aux->params );
   }
-  printf("==============================================================================================\n");
+  printf("================================================================================================\n");
 }
 
 // destroy symbol table
@@ -279,11 +273,9 @@ t_node *create_node(int type) {
 
 // add node to the tree
 void add_tree_node(t_node *root, t_node *node) {
-  // node->parent = root;
   struct tree_node *aux = (struct tree_node*)malloc(sizeof(tree_node));
   aux->child = node;
   aux->sibilings = NULL;
-  aux->parent = root;
 
   if(root->children == NULL) {
     root->children = aux;   // node
@@ -309,7 +301,6 @@ t_node token_to_node(t_token *t, int type) {
 void add_tree_token_node(t_node *root, t_token *tok, int type) {
   struct t_node *node = (struct t_node*)malloc(sizeof(t_node));
   *node = token_to_node(tok, type);
-  // node->parent = root;
   add_tree_node(root, node);
 }
 
@@ -323,7 +314,6 @@ void print_tree() {
 
 // print whole tree
 void print_t(t_node *root, int height) {
-  // if(root->parent) printf("parent %s\t", rule_label[root->parent->type]);
   int i;
   printf(" |");
   for(i = 0; i < height-1; i++) {
@@ -392,8 +382,6 @@ char *get_type(t_node *node, int i) {
   char *aux;
   char buff[200][10];
 
-  strcpy(buff[i], "");
-
   while(curr != NULL) {
     if(strcmp(rule_label[curr->child->type], "INT" ) == 0 || strcmp(rule_label[curr->child->type], "FLOAT" ) == 0) {
       strcpy(buff[i], rule_label[curr->child->type]);
@@ -402,10 +390,8 @@ char *get_type(t_node *node, int i) {
       strcat(buff[i], rule_label[curr->child->type]);      
     }
     curr = curr->sibilings;
-  }
-  
+  }  
   aux = buff[i];
-  
   return aux;
 }
 
@@ -415,23 +401,16 @@ int get_amount_params(t_node *node) {
     if(strcmp(rule_label[curr->child->type], "UNIQUE_DECLARATION") == 0) {
       curr = curr->sibilings;
     } 
-
     if(strcmp(curr->child->token.lexeme, "") != 0) {
       params_counter++;
-      printf("%s (scope: %d)\t", curr->child->token.lexeme, g_scope);
-    } else {
-      printf("\n%s ", rule_label[curr->child->children->child->type]);
     }
     curr = curr->sibilings;
     }
-  printf("total parameters: %d, func_name: %s\n", params_counter, func_name);
   set_amount_params(func_name, params_counter);
   return params_counter;
 }
 
 void set_amount_params(char *func, int x) {
-  printf("> %s, %d, %d\n", func, params_counter, x);
-
   table_node *aux = symbol_table.beginning;
   while(aux->next != NULL) {
     aux = aux->next;
@@ -457,7 +436,7 @@ void set_P_table(t_node *node) {
     aux = aux->next;
     if (strcmp(aux->token, node->children->sibilings->child->token.lexeme) == 0 &&
         aux->scope  == g_scope) {
-      strcpy(aux->vfp, "Var (P)");
+      strcpy(aux->vfp, "Variable (P)");
     }
   }
 }
