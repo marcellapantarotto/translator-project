@@ -239,9 +239,7 @@ lst_parameters:
       add_tree_node($$, $3);
 
       set_P_table($1);
-      // set_amount_params(func_name, get_amount_params($1));
-      get_amount_params($1);
-
+      set_amount_params(func_name, get_amount_params($1));
     }
   | unq_declaration {
       $$ = $1;
@@ -249,10 +247,7 @@ lst_parameters:
       // add_tree_node($$, $1);
 
       set_P_table($1);
-      // strcpy(func_name, $1->children->sibilings->child->token.lexeme);
-      // set_amount_params(func_name, get_amount_params($1));
-      // printf("");
-      get_amount_params($1);
+      set_amount_params(func_name, get_amount_params($1));
     }
 ;
 
@@ -272,10 +267,12 @@ lst_calling_parameters:
       add_tree_node($$, $1);
       // add_tree_token_node($$, &$2, COMMA);
       add_tree_node($$, $3);
+      calling_params_counter += 1;
     }
   | operation {
       $$ = create_node(LIST_CALLING_PARAMETERS);
       add_tree_node($$, $1);
+      calling_params_counter += 1;
     }
 ;
 
@@ -474,12 +471,12 @@ input:
 ;
 
 func_calling: 
-  ID '(' calling_parameters ')' {
+  ID  '(' {calling_params_counter = 0;} calling_parameters {verify_amount_params($4, &$1);} ')'  {
       $$ = create_node(FUNCTION_CALLING);
       add_tree_token_node($$, &$1, IDENTIFIER);
       // add_tree_token_node($$, &$2, OPEN_PARENTHESES);
-      add_tree_node($$, $3);
-      // add_tree_token_node($$, &$4, CLOSE_PARENTHESES);
+      add_tree_node($$, $4);
+      // add_tree_token_node($$, &$4, CLOSE_PARENTHESES);      
     }
 ;
 

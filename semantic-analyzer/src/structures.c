@@ -4,6 +4,7 @@
 #include "../lib/structures.h"
 
 extern int yylineno;
+extern int yyleng;
 int column;
 int lexical_errors = 0;
 int syntax_errors = 0;
@@ -17,6 +18,7 @@ t_scope_node *scope_node_curr;
 t_node *root;
 int idx = 0;
 int params_counter = 0;
+int calling_params_counter = 0;
 
 const char *rule_label[] = {
   "PROGRAM",
@@ -406,7 +408,6 @@ int get_amount_params(t_node *node) {
     }
     curr = curr->sibilings;
     }
-  set_amount_params(func_name, params_counter);
   return params_counter;
 }
 
@@ -418,6 +419,26 @@ void set_amount_params(char *func, int x) {
       aux->params = x;
     }
   }
+}
+
+int verify_amount_params(t_node *node, t_token *func) {
+  // printf("\n> %s %d - %s", rule_label[node->children->child->children->child->type], calling_params_counter, func->lexeme);
+  table_node *aux = symbol_table.beginning;
+  while(aux->next != NULL) {
+    aux = aux->next;
+    if(strcmp(func->lexeme, aux->token) == 0) {
+      if (calling_params_counter < aux->params) {
+        printf(BHRED "\nSEMANTIC ERROR (line: %d, column: %d): Amount of parameters passed is lower then the amount expected by the function! \n" reset, yylineno, column-yyleng);
+        semantic_errors++;
+        return 1;
+      } else if (calling_params_counter > aux->params) {
+        printf(BHRED "\nSEMANTIC ERROR (line: %d, column: %d): Amount of parameters passed is bigger then the amount expected by the function! \n" reset, yylineno, column-yyleng);
+        semantic_errors++;
+        return 1;
+      } 
+    }
+  } 
+  return 0;
 }
 
 void set_F_table(t_node *node) {
@@ -439,16 +460,6 @@ void set_P_table(t_node *node) {
       strcpy(aux->vfp, "Variable (P)");
     }
   }
-}
-
-int verify_amount_params(t_node *root, int height) {
-  // tree_node *curr = root->children;
-  // while(curr != NULL) {
-  //   printf("curr->child->type = %s\n", rule_label[curr->child->type]);
-  //   curr = curr->sibilings;
-  // }
-
-  return 0;
 }
 
 int find_scope() {

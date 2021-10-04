@@ -177,7 +177,7 @@ int find_main();
 char *get_type(t_node *node, int i);
 int get_amount_params(t_node *node) ;
 void set_amount_params(char *func, int x);
-int verify_amount_params(t_node *root, int height);
+int verify_amount_params(t_node *root, t_token *func);
 void set_F_table(t_node *node);
 void set_P_table(t_node *node);
 void set_V_table();
@@ -188,6 +188,7 @@ void set_V_table();
 //===============================================================
 
 extern int column;
+extern int line;
 extern int lexical_errors;
 extern int syntax_errors;
 extern int semantic_errors;
@@ -200,6 +201,7 @@ extern t_scope_node *scope_node_curr;
 extern t_node *root;
 extern int idx;
 extern int params_counter;
+extern int calling_params_counter;
 extern char func_name[];
 
 #endif
