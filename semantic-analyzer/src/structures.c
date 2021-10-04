@@ -109,12 +109,17 @@ void print_token(t_token *t) {
 }
 
 void print_node(t_node *n) {
+ 
   printf("(Node ");
   print_token(&n->token);
   printf(" type: %s ",  rule_label[n->type]);
   // printf("(CHILDREN ");
   // print_children(n->children);
+  if(n->children->parent != NULL){
+    printf("\t tem parent");
+  }
   printf(")\n");
+   
 }
 
 // void print_children(tree_node *c) {
@@ -190,6 +195,9 @@ void increment_scope()  {
   temp->scope_number = g_scope;
   temp->parent = scope_node_curr;
   scope_node_curr = temp;
+  
+  // set_amount_params(func_name, params_counter);
+
   params_counter = 0; 
 }
 
@@ -271,9 +279,11 @@ t_node *create_node(int type) {
 
 // add node to the tree
 void add_tree_node(t_node *root, t_node *node) {
+  // node->parent = root;
   struct tree_node *aux = (struct tree_node*)malloc(sizeof(tree_node));
   aux->child = node;
   aux->sibilings = NULL;
+  aux->parent = root;
 
   if(root->children == NULL) {
     root->children = aux;   // node
@@ -299,6 +309,7 @@ t_node token_to_node(t_token *t, int type) {
 void add_tree_token_node(t_node *root, t_token *tok, int type) {
   struct t_node *node = (struct t_node*)malloc(sizeof(t_node));
   *node = token_to_node(tok, type);
+  // node->parent = root;
   add_tree_node(root, node);
 }
 
@@ -312,6 +323,7 @@ void print_tree() {
 
 // print whole tree
 void print_t(t_node *root, int height) {
+  // if(root->parent) printf("parent %s\t", rule_label[root->parent->type]);
   int i;
   printf(" |");
   for(i = 0; i < height-1; i++) {
@@ -412,19 +424,19 @@ int get_amount_params(t_node *node) {
     }
     curr = curr->sibilings;
     }
-  printf("total parameters: %d , func_name: %s\n", params_counter, func_name);
+  printf("total parameters: %d, func_name: %s\n", params_counter, func_name);
+  set_amount_params(func_name, params_counter);
   return params_counter;
 }
 
 void set_amount_params(char *func, int x) {
   printf("> %s, %d, %d\n", func, params_counter, x);
+
   table_node *aux = symbol_table.beginning;
   while(aux->next != NULL) {
     aux = aux->next;
     if (strcmp(aux->token, func) == 0) {
-      // int y = aux->id - x;
-      
-      aux->params = params_counter;
+      aux->params = x;
     }
   }
 }
@@ -435,12 +447,7 @@ void set_F_table(t_node *node) {
     aux = aux->next;
     if (strcmp(aux->token, node->token.lexeme) == 0) {
       strcpy(aux->vfp, "Function");
-      params_counter += 1;
-      aux->params = params_counter;
     }
-    // if (strcmp(aux->vfp, "") == 0) {
-    //   strcpy(aux->vfp, "Variable");
-    // }
   }
 }
 
@@ -450,7 +457,7 @@ void set_P_table(t_node *node) {
     aux = aux->next;
     if (strcmp(aux->token, node->children->sibilings->child->token.lexeme) == 0 &&
         aux->scope  == g_scope) {
-      strcpy(aux->vfp, "Parameter");
+      strcpy(aux->vfp, "Var (P)");
     }
   }
 }

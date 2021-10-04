@@ -186,7 +186,7 @@ declaration:
 ;
 
 func_declaration:
-  unq_declaration {increment_scope();} '(' parameters ')' '{' block_commands '}' {
+  unq_declaration {increment_scope(); strcpy(func_name, $1->children->sibilings->child->token.lexeme);} '(' parameters ')' '{' block_commands '}' {
       $$ = create_node(FUNCTION_DECLARATION);    
       add_tree_node($$, $1);
       // add_tree_token_node($$, &$3, OPEN_PARENTHESES);
@@ -196,18 +196,8 @@ func_declaration:
       add_tree_node($$, $7);
       // add_tree_token_node($$, &$8, CLOSE_CURLY_BRACKET);
 
-
-      // if(strcmp($1->children->sibilings->child->token.lexeme, "")) {
-      //   strcpy(func_name, $1->children->sibilings->sibilings->child->children->child->token.lexeme);
-      //   printf("%s \n", func_name);
-      // } else {
-      //   strcpy(func_name, $1->children->sibilings->child->token.lexeme);
-      //   printf("-%s \n", func_name);
-      // }
-      printf("funcation\n");
       // strcpy(func_name, $1->children->sibilings->child->token.lexeme);
       set_F_table($1->children->sibilings->child);
-      // printf("func_name: %s - params: %d", func_name, get_amount_params($4));
       // set_amount_params($1->children->sibilings->child, get_amount_params($4));
     }
 ;
@@ -228,6 +218,7 @@ unq_declaration:
       add_tree_token_node($$, &$2, IDENTIFIER);
       add_table_node($2.lexeme, $1, idx);
       idx++;
+      // strcpy(func_name, $2.lexeme);
     }
 ;
 
@@ -251,8 +242,8 @@ lst_parameters:
       add_tree_node($$, $3);
 
       set_P_table($1);
-      printf("parameter1\n");
-      set_amount_params(func_name, get_amount_params($1));
+      // set_amount_params(func_name, get_amount_params($1));
+      get_amount_params($1);
 
     }
   | unq_declaration {
@@ -261,9 +252,10 @@ lst_parameters:
       // add_tree_node($$, $1);
 
       set_P_table($1);
-      printf("parameter2\n");
-      strcpy(func_name, $1->children->sibilings->child->token.lexeme);
-      set_amount_params(func_name, get_amount_params($1));
+      // strcpy(func_name, $1->children->sibilings->child->token.lexeme);
+      // set_amount_params(func_name, get_amount_params($1));
+      // printf("");
+      get_amount_params($1);
     }
 ;
 
@@ -752,7 +744,7 @@ int main(int argc, char **argv) {
     yyin = stdin;
   
 
-  print_tree(root, 1);
+  // print_tree(root, 1);
   semantic_parser();
   print_table();
 
