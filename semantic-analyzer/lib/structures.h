@@ -99,7 +99,7 @@ typedef struct table_node {
   int line;
   int column;
   enum rule_type type;
-  char s_type[11];
+  char s_type[15];
   char vfp[10];
   int params;
 } table_node;
@@ -205,5 +205,6 @@ extern int idx;
 extern int params_counter;
 extern int calling_params_counter;
 extern char func_name[];
+extern char curr_type[];
 
 #endif

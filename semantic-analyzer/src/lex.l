@@ -105,6 +105,7 @@ id              [_a-zA-Z][_a-zA-Z0-9]*
   yylval.token.line = yylineno;
   yylval.token.column = column;
   column += yyleng;
+  strcpy(curr_type, "int");
   return(T_INT);
 }
 
@@ -114,6 +115,7 @@ id              [_a-zA-Z][_a-zA-Z0-9]*
   yylval.token.line = yylineno;
   yylval.token.column = column;
   column += yyleng;
+  strcpy(curr_type, "float");
   return(T_FLOAT);
 }
 
@@ -123,6 +125,8 @@ id              [_a-zA-Z][_a-zA-Z0-9]*
   yylval.token.line = yylineno;
   yylval.token.column = column;
   column += yyleng;
+  if(strcmp(curr_type, "int") == 0) strcpy(curr_type, "list (int)");
+  else strcpy(curr_type, "list (float)");
   return(T_LIST);
 }
 

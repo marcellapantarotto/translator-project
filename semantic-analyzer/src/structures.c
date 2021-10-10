@@ -19,6 +19,7 @@ t_node *root;
 int idx = 0;
 int params_counter = 0;
 int calling_params_counter = 0;
+char curr_type[] = "";
 
 const char *rule_label[] = {
   "PROGRAM",
@@ -161,7 +162,8 @@ void add_table_node(char *tok, t_node *n, int i) {
   node->line = yylineno;
   node->column = column;
   // node->s_type = (char*) malloc(sizeof(strlen(get_type(n, i))+1));
-  strcpy(node->s_type, get_type(n, i)); //
+  strcpy(node->s_type, curr_type); //
+  // get_type(n, i
   strcpy(node->vfp,"Variable"); //
   
   node->params = 0;
@@ -211,16 +213,16 @@ void decrement_scope() {
 // print symbol table
 void print_table() {
   table_node *aux = symbol_table.beginning;
-  printf("\n\n================================================================================================\n");
+  printf("\n\n==================================================================================================\n");
   printf("\t\t\t\t\tSYMBOL TABLE");
-  printf("\n================================================================================================\n");
-  printf(" ID  |  TOKENS\t\t\t| TYPE       | SCOPE | LINE  | COLUMN |  V/F/P       | # PARAMS");
-  printf("\n================================================================================================\n");
+  printf("\n==================================================================================================\n");
+  printf(" ID  |  TOKENS\t\t\t| TYPE         | SCOPE | LINE  | COLUMN |  V/F/P       | # PARAMS");
+  printf("\n==================================================================================================\n");
   while(aux->next != NULL) {
     aux = aux->next;
-    printf(" %-3d |  %-15s\t\t| %-11s|  %-2d   |  %-3d  |  %-3d   | %-12s |  %d\n", aux->id, aux->token, aux->s_type, aux->scope, aux->line, aux->column, aux->vfp, aux->params );
+    printf(" %-3d |  %-15s\t\t| %-13s|  %-2d   |  %-3d  |  %-3d   | %-12s |  %d\n", aux->id, aux->token, aux->s_type, aux->scope, aux->line, aux->column, aux->vfp, aux->params );
   }
-  printf("================================================================================================\n");
+  printf("==================================================================================================\n");
 }
 
 // destroy symbol table
