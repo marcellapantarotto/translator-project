@@ -26,10 +26,10 @@ Execution of Semantic Analyzer:
 C-IPL Language Prerequisites: (in Portuguese)
 
 - [x] Os tipos de dados da linguagem são int, float e list. Os tipos int e float são simples. A declaração de uma variável do tipo list se dá pela definição do tipo básico da lista (ver exemplos abaixo).
-  - [ ] Como restrição em relação à sintaxe usual de C, a declaração de variáveis não poderá ser seguida de atribuição.
+  - [x] Como restrição em relação à sintaxe usual de C, a declaração de variáveis não poderá ser seguida de atribuição.
 
 - [x] A linguagem contém constantes numéricas (para inteiros e reais (sim, isso inclui números negativos)) e a constante NIL (para listas); 
-  - [ ] constantes do tipo string são usadas tão somente para impressão.
+  - [x] constantes do tipo string são usadas tão somente para impressão.
 
 - [x] As operações binárias aritméticas são adição, subtração, multiplicação e divisão, 
   - [ ] com regras de precedência e semântica usuais.
@@ -42,13 +42,14 @@ C-IPL Language Prerequisites: (in Portuguese)
 
 - [ ] Conversões implícitas entre expressões aritméticas devem ser tratadas de forma usual, permitindo tanto a ampliação (no caso de cálculo e comparação aritméticos, passagem de parâmetro por cópia e retorno de função) quanto redução de tipo (no caso de atribuição, passagem de parâmetros por cópia e retorno de função). Não há conversão de tipo entre listas e os demais tipos (ou vice-versa). Se for possível identificar a tentativa de realização de operações entre operandos que não admitem conversão entre si, o tradutor deve emitir aviso de que a operação é indefinida. A conversão de float para int se dá pelo descarte da parte decimal (não pelo arrendondamento; overflow, como usual, corresponde a comportamento indefinido).
 
-- [ ] Um programa consiste de uma sequência de declarações de variáveis e funções, onde cada função declarada é seguida de sua definição (ou seja, um bloco de comandos, contendo declarações de variáveis e blocos de comandos). Toda função tem um tipo de retorno declarado que pode ser quaisquer um dos tipos primitivos da nova linguagem (int, float, list). Diferentemente de C, qualquer função pode ter zero argumentos (note que não há o tipo VOID na linguagem; mas isso deve ser especificado como uma lista vazia de parâmetros).
+- [x] Um programa consiste de uma sequência de declarações de variáveis e funções, onde cada função declarada é seguida de sua definição (ou seja, um bloco de comandos, contendo declarações de variáveis e blocos de comandos). 
+  - [ ] Toda função tem um tipo de retorno declarado que pode ser quaisquer um dos tipos primitivos da nova linguagem (int, float, list). Diferentemente de C, qualquer função pode ter zero argumentos (note que não há o tipo VOID na linguagem; mas isso deve ser especificado como uma lista vazia de parâmetros).
 
 - [x] Necessariamente, o programa deve conter uma função "main".
 
 - [ ] As regras de escopo são as mesmas de C. Uma variável ou função só podem ser usadas depois de declaradas e em seus respectivos escopos.
 
-- [ ] O comando de atribuição tem a sintaxe usual. No caso da variável ser inteira ou real, a semântica é a usual. Para listas, ver abaixo.
+- [x] O comando de atribuição tem a sintaxe usual. No caso da variável ser inteira ou real, a semântica é a usual. Para listas, ver abaixo.
 
 - [x] Os comandos da linguagem para controle de fluxo são restritos aos seguintes: condicionais (if, if-else), iteração (for), chamada de função e retorno. Todos os comandos têm a semântica usual para o fragmento da linguagem C.
 
@@ -64,7 +65,8 @@ C-IPL Language Prerequisites: (in Portuguese)
 
   - [ ] atribuição: a atribuição é feita por referência.
 
-  - [x] construtores (associativos à direita): a constante NIL já foi mencionada; o operador : é o construtor binário infixo de listas: o operando esquerdo é uma expressão (rvalue) e o o operando à esquerda é uma lista (lvalue). O elemento é sempre acrescentado ao início da lista.
+  - [x] construtores (associativos à direita): a constante NIL já foi mencionada; o operador : é o construtor binário infixo de listas: o operando esquerdo é uma expressão (rvalue) e o operando à esquerda é uma lista (lvalue). 
+    - [ ] O elemento é sempre acrescentado ao início da lista.
 
   - [x] operadores (associativos à direita)
 

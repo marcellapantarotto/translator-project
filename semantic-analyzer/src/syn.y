@@ -744,7 +744,7 @@ int main(int argc, char **argv) {
     yyin = stdin;
   
 
-  // print_tree(root, 1);
+  print_tree(root, 1);
   semantic_parser();
   print_table();
 

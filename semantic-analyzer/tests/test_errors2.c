@@ -7,18 +7,17 @@ int func(int x, int y){
 }
 
 int output(int x){
-    write(x);
+    write(x+y);
 }
 
-int main() {
+float main() {
     int list my_list; 
     my_list = NIL;
     int elem;
-    elem % my_list;   // error
-    else {            // error
-        p = func(2);
-        write(p);
-    }
+    elem % my_list;
+
+    p = func(2);
+    write(p);
     output(p, elem);
     return my_list;
 }

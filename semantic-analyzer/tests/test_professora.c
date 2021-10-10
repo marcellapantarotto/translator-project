@@ -1,9 +1,8 @@
 int list IL;
 float list FL;
 
-int list read_list(int n, int y, float t) {
+int list read_list(int n) {
 	int i;
-	y = 1;
 	i =  -435.7;
 	int list new;
 	new = NIL;
@@ -32,7 +31,7 @@ int main() {
 	float list FL10;
 	read(n);
 	
-	IL  = read_list(n);
+	// IL  = read_list(n);
 	FL = succ >> IL;
 
 	FL10 = leq_10 <<  FL;
