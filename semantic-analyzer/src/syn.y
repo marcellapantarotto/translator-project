@@ -129,6 +129,7 @@
 %type <node> lst_binary
 %type <node> lst_single
 %type <node> term
+%type <node> iden
 
 %define parse.lac full
 %define parse.error verbose
@@ -278,7 +279,6 @@ lst_calling_parameters:
 
 block_commands: 
   command block_commands  {
-      // $$ = $1;
       $$ = create_node(BLOCK_COMMANDS);
       add_tree_node($$, $1);
       add_tree_node($$, $2);
@@ -325,7 +325,6 @@ command:
       // add_tree_node($$, $1);
     }
   | {increment_scope();} '{' block_commands '}' {
-    // $$ = $2;
       $$ = create_node(COMMAND);
       // add_tree_token_node($$, &$2, OPEN_CURLY_BRACKET);
       add_tree_node($$, $3);
@@ -496,13 +495,19 @@ expression:
       // $$ = create_node(EXPRESSION);
       // add_tree_node($$, $1);
     }
-  | ID {
-      $$ = create_node(EXPRESSION);
+  | iden {
+    $$ = $1;
+  }
+  | '(' operation ')' {
+    $$ = $2;
+  }
+;
+
+iden: 
+  ID {
+      $$ = create_node(IDEN);
       add_tree_token_node($$, &$1, IDENTIFIER);
     }
-  | '(' operation ')' {
-     $$ = $2;
-  }
 ;
 
 const: 
@@ -544,8 +549,7 @@ type:
 type_lst:
   type_number T_LIST   {
       $$ = create_node(TYPE_LIST);
-      // add_tree_node($$, $1);
-      $$ = $1;
+      add_tree_node($$, $1);
       add_tree_token_node($$, &$2, LIST);
     }
 ;
@@ -603,9 +607,6 @@ operation:
       add_tree_token_node($$, &$2, NE_OP);
       add_tree_node($$, $3);
     }
-
-
-
   | operation AND operation {
       $$ = create_node(OPERATION);
       add_tree_node($$, $1);
@@ -652,18 +653,6 @@ arith_binary:
       add_tree_token_node($$, &$2, MINUS_OP);
       add_tree_node($$, $3);
     }
-  // | arith_binary '*' term {
-  //     $$ = create_node(ARITHMETIC_BINARY);
-  //     add_tree_node($$, $1);
-  //     add_tree_token_node($$, &$2, MULTIPLY_OP);
-  //     add_tree_node($$, $3);
-  //   }
-  // | arith_binary '/' term {
-  //      $$ = create_node(ARITHMETIC_BINARY);
-  //     add_tree_node($$, $1);
-  //     add_tree_token_node($$, &$2, DIVISION_OP);
-  //     add_tree_node($$, $3);
-  //   }
   | term {
       $$ = $1;
       // $$ = create_node(ARITHMETIC_BINARY);
@@ -722,6 +711,7 @@ lst_binary:
       $$ = create_node(LIST_BINARY);
       add_tree_node($$, $1);
       add_tree_token_node($$, &$2, FILTER_OP);
+      add_tree_node($$, $3);
     }
   | lst_binary MAP lst_binary {
       $$ = create_node(LIST_BINARY);

@@ -83,6 +83,7 @@ enum rule_type {
   CLOSE_CURLY_BRACKET,
   ASSIGN,
   TERM,
+  IDEN,
 };
 
 //===============================================================
@@ -167,7 +168,7 @@ t_token null_token();
 t_token create_token(t_token *t);
 t_node *create_node(int type);
 void add_tree_node(t_node *root, t_node *node);
-t_node token_to_node(t_token *t, int type);
+t_node *token_to_node(t_token *t, int type);
 void add_tree_token_node(t_node *root, t_token *tok, int type);
 void print_t(t_node *root, int height);
 void print_tree();

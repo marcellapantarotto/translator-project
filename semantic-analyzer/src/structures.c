@@ -98,6 +98,7 @@ const char *rule_label[] = {
   "CLOSE_CURLY_BRACKET",
   "ASSIGN",
   "TERM",
+  "IDEN",
 };
 
 //===============================================================
@@ -154,13 +155,14 @@ table create_table() {
 void add_table_node(char *tok, t_node *n, int i) {
   table_node *node = (table_node*) malloc(sizeof(table_node));
   node->id = id_counter;
-  strcpy(node->token,tok);
+  strcpy(node->token,tok); //
   node->next = NULL;
   node->scope = g_scope;
   node->line = yylineno;
   node->column = column;
-  strcpy(node->s_type, get_type(n, i));
-  strcpy(node->vfp,"Variable");
+  // node->s_type = (char*) malloc(sizeof(strlen(get_type(n, i))+1));
+  strcpy(node->s_type, get_type(n, i)); //
+  strcpy(node->vfp,"Variable"); //
   
   node->params = 0;
   
@@ -292,18 +294,18 @@ void add_tree_node(t_node *root, t_node *node) {
 }
 
 // converting token into node so it can be added to the tree
-t_node token_to_node(t_token *t, int type) {
+t_node *token_to_node(t_token *t, int type) {
   struct t_node *node = (struct t_node*)malloc(sizeof(t_node));
   node->token = *t;
   node->type = type;
   node->children = NULL;
-  return *node;
+  return node;
 }
 
 // add a token (converted into node) to the tree
 void add_tree_token_node(t_node *root, t_token *tok, int type) {
-  struct t_node *node = (struct t_node*)malloc(sizeof(t_node));
-  *node = token_to_node(tok, type);
+  struct t_node *node;
+  node = token_to_node(tok, type);
   add_tree_node(root, node);
 }
 
