@@ -1,6 +1,12 @@
+int input(){
+  read(a);
+  return a;
+}
+
 int main() {
-  int a;
-  a = (1 + 2) * 3;
+  if(4+9+0 > 3-9+20){
+    input();
+  }
 
   return a;
 }

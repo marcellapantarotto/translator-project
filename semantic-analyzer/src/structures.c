@@ -97,6 +97,7 @@ const char *rule_label[] = {
   "OPEN_CURLY_BRACKET",
   "CLOSE_CURLY_BRACKET",
   "ASSIGN",
+  "TERM",
 };
 
 //===============================================================

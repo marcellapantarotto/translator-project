@@ -38,7 +38,8 @@
 %token FILTER MAP ':' '%' '?' '!'
 
 %left AND OR
-%left GREATER GREATER_EQ LESS LESS_EQ EQUAL NOT_EQ
+%left EQUAL NOT_EQ
+%left GREATER GREATER_EQ LESS LESS_EQ 
 %right FILTER MAP ':' 
 %left '+' '-'
 %left '*' '/'
@@ -127,8 +128,7 @@
 %type <node> arith_single
 %type <node> lst_binary
 %type <node> lst_single
-%type <node> logical_op
-%type <node> relational_op
+%type <node> term
 
 %define parse.lac full
 %define parse.error verbose
@@ -460,7 +460,7 @@ output:
 ;
 
 input:
-  INPUT_READ '(' expression ')' ';' {
+  INPUT_READ '(' operation ')' ';' {
       $$ = create_node(INPUT_OPERATION);
       add_tree_token_node($$, &$1, READ);
       // add_tree_token_node($$, &$2, OPEN_PARENTHESES);
@@ -500,6 +500,9 @@ expression:
       $$ = create_node(EXPRESSION);
       add_tree_token_node($$, &$1, IDENTIFIER);
     }
+  | '(' operation ')' {
+     $$ = $2;
+  }
 ;
 
 const: 
@@ -559,26 +562,60 @@ type_number:
 ;
 
 operation:
-  arith_binary {
+  lst_binary {
       $$ = $1;
       // $$ = create_node(OPERATION);
       // add_tree_node($$, $1);
     }
-  | lst_binary {
-      $$ = $1;
-      // $$ = create_node(OPERATION);
-      // add_tree_node($$, $1);
-    }
-  | operation relational_op expression  {
+  | operation GREATER operation  {
       $$ = create_node(OPERATION);
       add_tree_node($$, $1);
-      add_tree_node($$, $2);
+      add_tree_token_node($$, &$2, GT_OP);
       add_tree_node($$, $3);
     }
-  | operation logical_op expression {
+  | operation GREATER_EQ operation  {
       $$ = create_node(OPERATION);
       add_tree_node($$, $1);
-      add_tree_node($$, $2);
+      add_tree_token_node($$, &$2, GE_OP);
+      add_tree_node($$, $3);
+    }
+  | operation LESS operation  {
+      $$ = create_node(OPERATION);
+      add_tree_node($$, $1);
+      add_tree_token_node($$, &$2, LT_OP);
+      add_tree_node($$, $3);
+    }
+  | operation LESS_EQ operation  {
+      $$ = create_node(OPERATION);
+      add_tree_node($$, $1);
+      add_tree_token_node($$, &$2, LE_OP);
+      add_tree_node($$, $3);
+    }
+  | operation EQUAL operation  {
+      $$ = create_node(OPERATION);
+      add_tree_node($$, $1);
+      add_tree_token_node($$, &$2, EQ_OP);
+      add_tree_node($$, $3);
+    }
+  | operation NOT_EQ operation  {
+      $$ = create_node(OPERATION);
+      add_tree_node($$, $1);
+      add_tree_token_node($$, &$2, NE_OP);
+      add_tree_node($$, $3);
+    }
+
+
+
+  | operation AND operation {
+      $$ = create_node(OPERATION);
+      add_tree_node($$, $1);
+      add_tree_token_node($$, &$2, AND_OP);
+      add_tree_node($$, $3);
+    }
+  | operation OR operation {
+      $$ = create_node(OPERATION);
+      add_tree_node($$, $1);
+      add_tree_token_node($$, &$2, OR_OP);
       add_tree_node($$, $3);
     }
 ;
@@ -602,36 +639,54 @@ single_operation:
 ;
 
 arith_binary:
-  arith_binary '+' expression {
+  arith_binary '+' term {
       $$ = create_node(ARITHMETIC_BINARY);
       add_tree_node($$, $1);
       add_tree_token_node($$, &$2, ADD_OP);
       add_tree_node($$, $3);
-
       // convert_numbers($1, $3, '+');
-
     }
-  | arith_binary '-' expression {
+  | arith_binary '-' term {
       $$ = create_node(ARITHMETIC_BINARY);
       add_tree_node($$, $1);
       add_tree_token_node($$, &$2, MINUS_OP);
       add_tree_node($$, $3);
     }
-  | arith_binary '*' expression {
-      $$ = create_node(ARITHMETIC_BINARY);
+  // | arith_binary '*' term {
+  //     $$ = create_node(ARITHMETIC_BINARY);
+  //     add_tree_node($$, $1);
+  //     add_tree_token_node($$, &$2, MULTIPLY_OP);
+  //     add_tree_node($$, $3);
+  //   }
+  // | arith_binary '/' term {
+  //      $$ = create_node(ARITHMETIC_BINARY);
+  //     add_tree_node($$, $1);
+  //     add_tree_token_node($$, &$2, DIVISION_OP);
+  //     add_tree_node($$, $3);
+  //   }
+  | term {
+      $$ = $1;
+      // $$ = create_node(ARITHMETIC_BINARY);
+      // add_tree_node($$, $1);
+    }
+;
+
+term: 
+  term '*' expression {
+      $$ = create_node(TERM);
       add_tree_node($$, $1);
       add_tree_token_node($$, &$2, MULTIPLY_OP);
       add_tree_node($$, $3);
     }
-  | arith_binary '/' expression {
-       $$ = create_node(ARITHMETIC_BINARY);
+  | term '/' expression {
+      $$ = create_node(TERM);
       add_tree_node($$, $1);
       add_tree_token_node($$, &$2, DIVISION_OP);
       add_tree_node($$, $3);
     }
   | expression {
       $$ = $1;
-      // $$ = create_node(ARITHMETIC_BINARY);
+      // $$ = create_node(TERM);
       // add_tree_node($$, $1);
     }
 ;
@@ -663,60 +718,27 @@ lst_single:
 ;
 
 lst_binary: 
-  expression FILTER expression {
+  lst_binary FILTER lst_binary {
       $$ = create_node(LIST_BINARY);
       add_tree_node($$, $1);
       add_tree_token_node($$, &$2, FILTER_OP);
     }
-  | expression MAP expression {
+  | lst_binary MAP lst_binary {
       $$ = create_node(LIST_BINARY);
       add_tree_node($$, $1);
       add_tree_token_node($$, &$2, MAP_OP);
       add_tree_node($$, $3);
     }
-  | expression ':' expression {
+  | lst_binary ':' lst_binary {
       $$ = create_node(LIST_BINARY);
       add_tree_node($$, $1);
       add_tree_token_node($$, &$2, CONSTRUCTOR_OP);
       add_tree_node($$, $3);
     }
-;
-
-logical_op:
-  AND {
-      $$ = create_node(LOGIC_OPERATOR);
-      add_tree_token_node($$, &$1, AND_OP);
-    }
-  | OR {
-      $$ = create_node(LOGIC_OPERATOR);
-      add_tree_token_node($$, &$1, OR_OP);
-    }
-;
-
-relational_op:
-  GREATER {
-      $$ = create_node(RELATIONAL_OPERATOR);
-      add_tree_token_node($$, &$1, GT_OP);
-    }
-  | GREATER_EQ {
-      $$ = create_node(RELATIONAL_OPERATOR);
-      add_tree_token_node($$, &$1, GE_OP);
-    }
-  | LESS {
-      $$ = create_node(RELATIONAL_OPERATOR);
-      add_tree_token_node($$, &$1, LT_OP);
-    }
-  | LESS_EQ {
-      $$ = create_node(RELATIONAL_OPERATOR);
-      add_tree_token_node($$, &$1, LE_OP);
-    }
-  | EQUAL {
-      $$ = create_node(RELATIONAL_OPERATOR);
-      add_tree_token_node($$, &$1, EQ_OP);
-    }
-  | NOT_EQ {
-      $$ = create_node(RELATIONAL_OPERATOR);
-      add_tree_token_node($$, &$1, NE_OP);
+  | arith_binary {
+      $$ = $1;
+      // $$ = create_node(OPERATION);
+      // add_tree_node($$, $1);
     }
 ;
 

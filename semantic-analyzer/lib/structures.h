@@ -82,6 +82,7 @@ enum rule_type {
   OPEN_CURLY_BRACKET,
   CLOSE_CURLY_BRACKET,
   ASSIGN,
+  TERM,
 };
 
 //===============================================================
