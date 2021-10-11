@@ -100,8 +100,8 @@ typedef struct table_node {
   int line;
   int column;
   enum rule_label label;
-  char type[15];
-  char vfp[10];
+  char type[13];
+  char vfp[12];
   int params;
 } table_node;
 

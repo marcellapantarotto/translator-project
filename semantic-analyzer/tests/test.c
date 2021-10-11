@@ -1,8 +1,8 @@
-// int main() {
-//    int a;
-//    a = 5.32 + 10;
-//    return a;
-// }
+int function(int a) {
+   
+   a = 5.32 + 10;
+   return a;
+}
 
 // int f(,int a) { x = x + 1; }
 // int f(,int a) { x = f(x) + 1; }
@@ -16,7 +16,7 @@ int main(){
    // << l;
    // l >>;
 
-   int i;
+   float list i;
    // int i;
    for (i = 0; ; i = i+1) {
       writeln(i);
