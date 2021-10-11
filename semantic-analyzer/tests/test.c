@@ -17,6 +17,7 @@ int main(){
    // l >>;
 
    int i;
+   // int i;
    for (i = 0; ; i = i+1) {
       writeln(i);
       x = 9.65;

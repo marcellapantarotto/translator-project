@@ -99,8 +99,8 @@ typedef struct table_node {
   int scope;
   int line;
   int column;
-  enum rule_type type;
-  char s_type[15];
+  enum rule_type label;
+  char type[15];
   char vfp[10];
   int params;
 } table_node;
@@ -125,7 +125,7 @@ typedef struct t_token {
 // tree structure
 typedef struct t_node {
   struct t_token token; //--------> value (for node = NULL; for token = terminal)
-  enum rule_type type;
+  enum rule_type label;
 	struct tree_node *children;
 } t_node;
 
@@ -167,10 +167,10 @@ void destroy_table();
 
 t_token null_token();
 t_token create_token(t_token *t);
-t_node *create_node(int type);
+t_node *create_node(int label);
 void add_tree_node(t_node *root, t_node *node);
-t_node *token_to_node(t_token *t, int type);
-void add_tree_token_node(t_node *root, t_token *tok, int type);
+t_node *token_to_node(t_token *t, int label);
+void add_tree_token_node(t_node *root, t_token *tok, int label);
 void print_ast(t_node *root, int height);
 void print_ast_tree();
 void destroy_tree(t_node *root);

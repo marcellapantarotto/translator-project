@@ -118,7 +118,7 @@ void print_node(t_node *n) {
  
   printf("(Node ");
   print_astoken(&n->token);
-  printf(" type: %s ",  rule_label[n->type]);
+  printf(" label: %s ",  rule_label[n->label]);
   // printf("(CHILDREN ");
   // print_children(n->children);
   printf(")\n");
@@ -162,8 +162,8 @@ void add_table_node(char *tok, t_node *n, int i) {
   node->scope = g_scope;
   node->line = yylineno;
   node->column = column;
-  // node->s_type = (char*) malloc(sizeof(strlen(get_type(n, i))+1));
-  strcpy(node->s_type, curr_type); //
+  // node->type = (char*) malloc(sizeof(strlen(get_type(n, i))+1));
+  strcpy(node->type, curr_type); //
   // get_type(n, i
   strcpy(node->vfp,"Variable"); //
   
@@ -182,7 +182,7 @@ int verify_existing_symbol(table_node *symbol){
   table_node *aux = symbol_table.beginning;
   while(aux->next != NULL) {
     aux = aux->next;
-    symbol->type = aux->type;
+    symbol->label = aux->label;
     if(strcmp(symbol->token, aux->token) == 0 && symbol->scope == aux->scope) {
       printf(BHRED "SEMANTIC ERROR (line: %d, column: %d): Redeclaration of variable or function <%s> inside scope! \n" reset, symbol->line, symbol->column, symbol->token);
       semantic_errors++;
@@ -221,7 +221,7 @@ void print_table() {
   printf("\n==================================================================================================\n");
   while(aux->next != NULL) {
     aux = aux->next;
-    printf(" %-3d |  %-15s\t\t| %-13s|  %-2d   |  %-3d  |  %-3d   | %-12s |  %d\n", aux->id, aux->token, aux->s_type, aux->scope, aux->line, aux->column, aux->vfp, aux->params );
+    printf(" %-3d |  %-15s\t\t| %-13s|  %-2d   |  %-3d  |  %-3d   | %-12s |  %d\n", aux->id, aux->token, aux->type, aux->scope, aux->line, aux->column, aux->vfp, aux->params );
   }
   printf("==================================================================================================\n");
 }
@@ -271,10 +271,10 @@ t_token null_token() {
 }
 
 // create new node in tree with the token that is bening passed
-t_node *create_node(int type) {
+t_node *create_node(int label) {
   struct t_node *node = (struct t_node*)malloc(sizeof(t_node));
   node->token = null_token();
-  node->type = type;
+  node->label = label;
   node->children = NULL;
   return node;
 }
@@ -297,18 +297,18 @@ void add_tree_node(t_node *root, t_node *node) {
 }
 
 // converting token into node so it can be added to the tree
-t_node *token_to_node(t_token *t, int type) {
+t_node *token_to_node(t_token *t, int label) {
   struct t_node *node = (struct t_node*)malloc(sizeof(t_node));
   node->token = *t;
-  node->type = type;
+  node->label = label;
   node->children = NULL;
   return node;
 }
 
 // add a token (converted into node) to the tree
-void add_tree_token_node(t_node *root, t_token *tok, int type) {
+void add_tree_token_node(t_node *root, t_token *tok, int label) {
   struct t_node *node;
-  node = token_to_node(tok, type);
+  node = token_to_node(tok, label);
   add_tree_node(root, node);
 }
 
@@ -327,10 +327,10 @@ void print_ast(t_node *root, int height) {
   for(i = 0; i < height-1; i++) {
     printf(" |");
   }
-  printf("- %s", rule_label[root->type]);
+  printf("- %s", rule_label[root->label]);
 
   if(root->token.line != -1) {  
-    // printf("- %s", rule_label[root->type]);
+    // printf("- %s", rule_label[root->label]);
     printf(": " BHBLU "%s  (line: %d, column: %d)\n" reset, root->token.lexeme, root->token.line, root->token.column);
   } else {
     printf("\n");
@@ -389,11 +389,11 @@ char *get_type(t_node *node, int i) {
   char buff[200][10];
 
   while(curr != NULL) {
-    if(strcmp(rule_label[curr->child->type], "INT" ) == 0 || strcmp(rule_label[curr->child->type], "FLOAT" ) == 0) {
-      strcpy(buff[i], rule_label[curr->child->type]);
-    } else if(strcmp(rule_label[curr->child->type], "LIST") == 0) {
+    if(strcmp(rule_label[curr->child->label], "INT" ) == 0 || strcmp(rule_label[curr->child->label], "FLOAT" ) == 0) {
+      strcpy(buff[i], rule_label[curr->child->label]);
+    } else if(strcmp(rule_label[curr->child->label], "LIST") == 0) {
       strcat(buff[i], " ");  
-      strcat(buff[i], rule_label[curr->child->type]);      
+      strcat(buff[i], rule_label[curr->child->label]);      
     }
     curr = curr->sibilings;
   }  
@@ -404,7 +404,7 @@ char *get_type(t_node *node, int i) {
 int get_amount_params(t_node *node) {
   tree_node *curr = node->children;
   while(curr != NULL) {
-    if(strcmp(rule_label[curr->child->type], "UNIQUE_DECLARATION") == 0) {
+    if(strcmp(rule_label[curr->child->label], "UNIQUE_DECLARATION") == 0) {
       curr = curr->sibilings;
     } 
     if(strcmp(curr->child->token.lexeme, "") != 0) {
@@ -426,7 +426,6 @@ void set_amount_params(char *func, int x) {
 }
 
 int verify_amount_params(t_node *node, t_token *func) {
-  // printf("\n> %s %d - %s", rule_label[node->children->child->children->child->type], calling_params_counter, func->lexeme);
   table_node *aux = symbol_table.beginning;
   while(aux->next != NULL) {
     aux = aux->next;
@@ -514,20 +513,18 @@ void print_annotated(t_node *root, int height) {
     return;
   }
 
-  
-
   if(root->token.line != -1) {  
-    if (strcmp(rule_label[root->type], "IDENTIFIER") == 0) {
+    if (strcmp(rule_label[root->label], "IDENTIFIER") == 0) {
       for(int i = 0; i < height-3; i++) {
         printf(" |");
       }
       printf("- " BHBLU "%s  (line: %d, column: %d)\n" reset, root->token.lexeme, root->token.line, root->token.column);
-    } else if (strcmp(rule_label[root->type], "NUMBER_INT") == 0) {
+    } else if (strcmp(rule_label[root->label], "NUMBER_INT") == 0) {
       for(int i = 0; i < height-3; i++) {
         printf(" |");
       }
       printf("- int: " BHBLU "%s  (line: %d, column: %d)\n" reset, root->token.lexeme, root->token.line, root->token.column);
-    }  else if (strcmp(rule_label[root->type], "NUMBER_FLOAT") == 0) {
+    }  else if (strcmp(rule_label[root->label], "NUMBER_FLOAT") == 0) {
       for(int i = 0; i < height-3; i++) {
         printf(" |");
       }
@@ -537,7 +534,7 @@ void print_annotated(t_node *root, int height) {
       for(int i = 0; i < height-3; i++) {
         printf(" |");
       } 
-      printf("- %s  (line: %d, column: %d)\n", rule_label[root->type], root->token.line, root->token.column);
+      printf("- %s  (line: %d, column: %d)\n", rule_label[root->label], root->token.line, root->token.column);
     }
   } 
   
@@ -552,6 +549,10 @@ void print_annotated(t_node *root, int height) {
   }
 }
 
+// void type_check(t_node *node1, t_node *node2, t_token *op) {
+  
+// }
+
 //===============================================================
 // NUMBER CONVERTION
 //===============================================================
@@ -563,7 +564,7 @@ void print_annotated(t_node *root, int height) {
 //   char *aux_lexeme;
 
 //   // find a way to verify is number is floating point number
-//   if (num1.type == NUMBER_INT) {
+//   if (num1.label == NUMBER_INT) {
 //     num_float = strtof(num1.token.lexeme, NULL);
 //     return num_float;
 //   } else if(num2 == aux2) {
