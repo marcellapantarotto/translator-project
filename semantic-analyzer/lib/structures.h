@@ -5,7 +5,7 @@
 #define BHBLU "\e[1;94m"  // blue
 #define reset "\e[0m"
 
-enum rule_type {
+enum rule_label {
   PROGRAM,
   LIST_DECLARATIONS,
   DECLARATION,
@@ -99,7 +99,7 @@ typedef struct table_node {
   int scope;
   int line;
   int column;
-  enum rule_type label;
+  enum rule_label label;
   char type[15];
   char vfp[10];
   int params;
@@ -125,7 +125,7 @@ typedef struct t_token {
 // tree structure
 typedef struct t_node {
   struct t_token token; //--------> value (for node = NULL; for token = terminal)
-  enum rule_type label;
+  enum rule_label label;
 	struct tree_node *children;
 } t_node;
 
