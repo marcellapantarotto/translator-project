@@ -183,7 +183,8 @@ int verify_amount_params(t_node *root, t_token *func);
 void set_F_table(t_node *node);
 void set_P_table(t_node *node);
 void set_V_table();
-
+int verify_existing_variable(t_token *tok);
+int verify_existing_function(t_token *tok);
 
 //===============================================================
 // VARIABLE DECLARATIONS

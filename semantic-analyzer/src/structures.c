@@ -465,7 +465,37 @@ void set_P_table(t_node *node) {
   }
 }
 
-int find_scope() {
+int verify_existing_variable(t_token *tok) {
+  int found = 0;
+  table_node *aux = symbol_table.beginning;
+  while(aux->next != NULL) {
+    aux = aux->next;
+    if(strcmp(tok->lexeme, aux->token) == 0) {
+      found = 1;
+    }
+  }
+  if(!found) {
+    printf(BHRED "\nSEMANTIC ERROR (line: %d, column: %d): Variable <%s> was not declared! \n\n" reset, tok->line, tok->column, tok->lexeme);
+    semantic_errors++;
+    return 1;
+  }
+  return 0;
+}
+
+int verify_existing_function(t_token *tok) {
+  int found = 0;
+  table_node *aux = symbol_table.beginning;
+  while(aux->next != NULL) {
+    aux = aux->next;
+    if(strcmp(tok->lexeme, aux->token) == 0) {
+      found = 1;
+    }
+  }
+  if(!found) {
+    printf(BHRED "\nSEMANTIC ERROR (line: %d, column: %d): Function <%s> was not declared! \n\n" reset, tok->line, tok->column, tok->lexeme);
+    semantic_errors++;
+    return 1;
+  }
   return 0;
 }
 

@@ -409,6 +409,7 @@ init_stmt:
       add_tree_token_node($$, &$1, IDENTIFIER);
       // add_tree_token_node($$, &$2, ASSIGN);
       add_tree_node($$, $3);
+      verify_existing_variable(&$1);
     }
 ;
 
@@ -476,6 +477,7 @@ func_calling:
       // add_tree_token_node($$, &$2, OPEN_PARENTHESES);
       add_tree_node($$, $4);
       // add_tree_token_node($$, &$4, CLOSE_PARENTHESES);      
+      verify_existing_function(&$1);
     }
 ;
 
@@ -507,6 +509,7 @@ iden:
   ID {
       $$ = create_node(IDEN);
       add_tree_token_node($$, &$1, IDENTIFIER);
+      verify_existing_variable(&$1);
     }
 ;
 
