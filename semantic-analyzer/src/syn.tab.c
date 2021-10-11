@@ -3671,7 +3671,7 @@ yyreduce:
       add_tree_node((yyval.node), (yyvsp[-2].node));
       add_tree_token_node((yyval.node), &(yyvsp[-1].token), ADD_OP);
       add_tree_node((yyval.node), (yyvsp[0].node));
-      // type_check($1, $3, '+');
+      type_check((yyvsp[-2].node), (yyvsp[0].node), ADD_OP);
     }
 #line 3677 "src/syn.tab.c"
     break;

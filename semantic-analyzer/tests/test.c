@@ -1,6 +1,8 @@
 int function(int a) {
-   
-   a = 5.32 + 10;
+   int b;
+   b = 3;
+   b = 6.589 + 0.001;
+   a = 10 + 6;
    return a;
 }
 
@@ -16,11 +18,13 @@ int main(){
    // << l;
    // l >>;
 
-   float list i;
-   // int i;
-   for (i = 0; ; i = i+1) {
-      writeln(i);
-      x = 9.65;
-   }
+   function(1);
+
+   // float list i;
+   // // int i;
+   // for (i = 0; ; i = i+1) {
+   //    writeln(i);
+   //    x = 9.65;
+   // }
    return 0;
 }

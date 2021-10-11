@@ -660,7 +660,7 @@ arith_binary:
       add_tree_node($$, $1);
       add_tree_token_node($$, &$2, ADD_OP);
       add_tree_node($$, $3);
-      // type_check($1, $3, '+');
+      type_check($1, $3, ADD_OP);
     }
   | arith_binary '-' term {
       $$ = create_node(ARITHMETIC_BINARY);

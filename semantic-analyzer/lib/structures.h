@@ -126,6 +126,7 @@ typedef struct t_token {
 typedef struct t_node {
   struct t_token token; //--------> value (for node = NULL; for token = terminal)
   enum rule_label label;
+  char type[13];
 	struct tree_node *children;
 } t_node;
 
