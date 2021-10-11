@@ -106,7 +106,7 @@ const char *rule_label[] = {
 // DEBUG SECTION
 //===============================================================
 
-void print_token(t_token *t) {
+void print_astoken(t_token *t) {
   printf("(Token ");
   printf("lexeme: %s; ", t->lexeme);
   printf("line: %d; ", t->line);
@@ -116,7 +116,7 @@ void print_token(t_token *t) {
 void print_node(t_node *n) {
  
   printf("(Node ");
-  print_token(&n->token);
+  print_astoken(&n->token);
   printf(" type: %s ",  rule_label[n->type]);
   // printf("(CHILDREN ");
   // print_children(n->children);
@@ -183,7 +183,7 @@ int verify_existing_symbol(table_node *symbol){
     aux = aux->next;
     symbol->type = aux->type;
     if(strcmp(symbol->token, aux->token) == 0 && symbol->scope == aux->scope) {
-      printf(BHRED "\nSEMANTIC ERROR: Redeclaration of variable or function inside scope (symbol: %s, line: %d, column: %d) \n" reset, symbol->token, symbol->line, symbol->column);
+      printf(BHRED "SEMANTIC ERROR (line: %d, column: %d): Redeclaration of variable or function <%s> inside scope! \n" reset, symbol->line, symbol->column, symbol->token);
       semantic_errors++;
       return 1;
     }
@@ -312,15 +312,15 @@ void add_tree_token_node(t_node *root, t_token *tok, int type) {
 }
 
 // print tree header
-void print_tree() {
+void print_ast_tree() {
   printf("\n========================================================\n");
   printf("\t\t    ABSTRACT TREE");
   printf("\n========================================================\n");
-  print_t(root, 1);
+  print_ast(root, 1);
 }
 
-// print whole tree
-void print_t(t_node *root, int height) {
+// print whole AST tree
+void print_ast(t_node *root, int height) {
   int i;
   printf(" |");
   for(i = 0; i < height-1; i++) {
@@ -336,7 +336,7 @@ void print_t(t_node *root, int height) {
   }
   tree_node *curr = root->children;
   while(curr != NULL) {
-    print_t(curr->child, height+1);
+    print_ast(curr->child, height+1);
     curr = curr->sibilings;
   }
 }
@@ -375,7 +375,7 @@ int find_main() {
     }
   }
   if(!found) {
-    printf(BHRED "\nSEMANTIC ERROR: No function main! \n\n" reset);
+    printf(BHRED "\n\nSEMANTIC ERROR: No function main! \n" reset);
     semantic_errors++;
     return 1;
   }
@@ -431,11 +431,11 @@ int verify_amount_params(t_node *node, t_token *func) {
     aux = aux->next;
     if(strcmp(func->lexeme, aux->token) == 0) {
       if (calling_params_counter < aux->params) {
-        printf(BHRED "\nSEMANTIC ERROR (line: %d, column: %d): Amount of parameters passed is lower then the amount expected by the function! \n" reset, yylineno, column-yyleng);
+        printf(BHRED "SEMANTIC ERROR (line: %d, column: %d): Amount of parameters passed is lower then the amount expected by the function! \n" reset, yylineno, column-yyleng);
         semantic_errors++;
         return 1;
       } else if (calling_params_counter > aux->params) {
-        printf(BHRED "\nSEMANTIC ERROR (line: %d, column: %d): Amount of parameters passed is bigger then the amount expected by the function! \n" reset, yylineno, column-yyleng);
+        printf(BHRED "SEMANTIC ERROR (line: %d, column: %d): Amount of parameters passed is higher then the amount expected by the function! \n" reset, yylineno, column-yyleng);
         semantic_errors++;
         return 1;
       } 
@@ -475,7 +475,7 @@ int verify_existing_variable(t_token *tok) {
     }
   }
   if(!found) {
-    printf(BHRED "\nSEMANTIC ERROR (line: %d, column: %d): Variable <%s> was not declared! \n\n" reset, tok->line, tok->column, tok->lexeme);
+    printf(BHRED "SEMANTIC ERROR (line: %d, column: %d): Variable <%s> was not declared! \n" reset, tok->line, tok->column, tok->lexeme);
     semantic_errors++;
     return 1;
   }
@@ -492,11 +492,53 @@ int verify_existing_function(t_token *tok) {
     }
   }
   if(!found) {
-    printf(BHRED "\nSEMANTIC ERROR (line: %d, column: %d): Function <%s> was not declared! \n\n" reset, tok->line, tok->column, tok->lexeme);
+    printf(BHRED "SEMANTIC ERROR (line: %d, column: %d): Function <%s> was not declared! \n" reset, tok->line, tok->column, tok->lexeme);
     semantic_errors++;
     return 1;
   }
   return 0;
+}
+
+// print tree header
+void print_annotated_tree() {
+  printf("\n========================================================\n");
+  printf("\t\t    ANNOTATED TREE");
+  printf("\n========================================================\n");
+  print_annotated(root, 1);
+}
+
+// print whole anonotated tree
+void print_annotated(t_node *root, int height) {
+  if(root == NULL) {
+    return;
+  }
+
+  
+
+  if(root->token.line != -1) {  
+    if (strcmp(rule_label[root->type], "IDENTIFIER") == 0) {
+      for(int i = 0; i < height; i++) {
+        printf(" |");
+      }
+      printf("- " BHBLU "%s  (line: %d, column: %d)\n" reset, root->token.lexeme, root->token.line, root->token.column);
+    } else {     
+      for(int i = 0; i < height; i++) {
+        printf(" |");
+      } 
+      printf("- %s  (line: %d, column: %d)\n", rule_label[root->type], root->token.line, root->token.column);
+    }
+  } 
+
+  
+  tree_node *curr = root->children;
+  while(curr != NULL) {
+    if (root->token.line != -1) {
+      print_annotated(curr->child, height);
+    } else {
+      print_annotated(curr->child, height+1);
+    }
+    curr = curr->sibilings;
+  }
 }
 
 //===============================================================

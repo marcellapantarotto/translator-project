@@ -1,6 +1,4 @@
-int main() {
-  read();
-  write();
-  writeln();
-  return 0;
+int main(){
+   << l;
+   l >>;
 }

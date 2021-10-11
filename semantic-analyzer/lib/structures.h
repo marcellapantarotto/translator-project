@@ -170,8 +170,8 @@ t_node *create_node(int type);
 void add_tree_node(t_node *root, t_node *node);
 t_node *token_to_node(t_token *t, int type);
 void add_tree_token_node(t_node *root, t_token *tok, int type);
-void print_t(t_node *root, int height);
-void print_tree();
+void print_ast(t_node *root, int height);
+void print_ast_tree();
 void destroy_tree(t_node *root);
 
 void semantic_parser();
@@ -185,6 +185,9 @@ void set_P_table(t_node *node);
 void set_V_table();
 int verify_existing_variable(t_token *tok);
 int verify_existing_function(t_token *tok);
+
+void print_annotated(t_node *root, int height);
+void print_annotated_tree();
 
 //===============================================================
 // VARIABLE DECLARATIONS

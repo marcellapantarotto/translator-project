@@ -324,6 +324,11 @@ command:
       add_tree_node($$, $1);
       // add_tree_token_node($$, &$2, SEMICOLON);
     }
+  | error ';' {
+      yyerrok;
+      $$ = create_node(COMMAND); 
+      syntax_errors++;
+    }
 ;
 
 init_variable: 

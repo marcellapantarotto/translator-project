@@ -336,7 +336,7 @@ command:
       // add_tree_token_node($$, &$2, SEMICOLON);
     }
 
-  | error {
+  | error ';' {
       yyerrok;
       $$ = create_node(COMMAND); 
       syntax_errors++;
@@ -407,7 +407,7 @@ init_stmt:
   ID '=' operation  {
       $$ = create_node(INIT_STMT);
       add_tree_token_node($$, &$1, IDENTIFIER);
-      // add_tree_token_node($$, &$2, ASSIGN);
+      add_tree_token_node($$, &$2, ASSIGN);
       add_tree_node($$, $3);
       verify_existing_variable(&$1);
     }
@@ -738,7 +738,7 @@ lst_binary:
 %%
 //********** C Functions **********
 int yyerror(const char *s) {
-  fprintf(stderr, BHRED "\nSYNTAX ERROR: line: %d, column: %d - %s " reset "\n", yylineno, column-yyleng, s);
+  fprintf(stderr, BHRED "SYNTAX ERROR   (line: %d, column: %d): %s " reset "\n", yylineno, column-yyleng, s);
   return 0;
 }
 
@@ -753,13 +753,15 @@ int main(int argc, char **argv) {
   
   if ( argc > 0 ) {
     yyin = fopen( argv[0], "r" );
+    printf("\n");
     yyparse();
   }
   else
     yyin = stdin;
   
 
-  print_tree(root, 1);
+  // print_ast_tree();
+  print_annotated_tree();
   semantic_parser();
   print_table();
 
