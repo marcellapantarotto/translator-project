@@ -130,6 +130,7 @@
 %type <node> lst_single
 %type <node> term
 %type <node> iden
+%type <node> stop_stmt
 
 %define parse.lac full
 %define parse.error verbose
@@ -351,6 +352,16 @@ init_variable:
     }
 ;
 
+init_stmt: 
+  ID '=' operation  {
+      $$ = create_node(INIT_STMT);
+      add_tree_token_node($$, &$1, IDENTIFIER);
+      add_tree_token_node($$, &$2, ASSIGN);
+      add_tree_node($$, $3);
+      verify_existing_variable(&$1);
+    }
+;
+
 conditional_stmt: 
   IF_STMT '(' operation ')' command %prec IF_STMT {
       $$ = create_node(CONDITIONAL_STMT);
@@ -393,23 +404,13 @@ iteration:
 ;
 
 loop_condition: 
-  init_stmt ';' operation ';' update_stmt {
+  update_stmt ';' stop_stmt ';' update_stmt {
       $$ = create_node(LOOP_CONDITION);
       add_tree_node($$, $1);
       // add_tree_token_node($$, &$2, SEMICOLON);
       add_tree_node($$, $3);
       // add_tree_token_node($$, &$4, SEMICOLON);
       add_tree_node($$, $5);
-    }
-;
-
-init_stmt: 
-  ID '=' operation  {
-      $$ = create_node(INIT_STMT);
-      add_tree_token_node($$, &$1, IDENTIFIER);
-      add_tree_token_node($$, &$2, ASSIGN);
-      add_tree_node($$, $3);
-      verify_existing_variable(&$1);
     }
 ;
 
@@ -421,6 +422,17 @@ update_stmt:
     }
   | %empty {
       $$ = create_node(UPDATE_STMT);
+    }
+;
+
+stop_stmt:
+  operation {
+      $$ = $1;
+      // $$ = create_node(STOP_STMT);
+      // add_tree_node($$, $1);
+    }
+  | %empty {
+      $$ = create_node(STOP_STMT);
     }
 ;
 
@@ -498,8 +510,8 @@ expression:
       // add_tree_node($$, $1);
     }
   | iden {
-    $$ = $1;
-  }
+      $$ = $1;
+    }
   | '(' operation ')' {
     $$ = $2;
   }

@@ -51,6 +51,7 @@ const char *rule_label[] = {
   "WRITELN",
   "LOOP_CONDITION",
   "UPDATE_STMT",
+  "STOP_STMT",
   "EXPRESSION",
   "CONSTANT",
   "NUMBER",
