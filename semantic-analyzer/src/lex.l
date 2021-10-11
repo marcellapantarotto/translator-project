@@ -46,7 +46,7 @@ id              [_a-zA-Z][_a-zA-Z0-9]*
 
 {int} {
   // printf("INT CONSTANT:\n  Line: %d, Column: %d \t-->\t<NUMBER, %s> \n\n", yylineno, column, yytext);
-  sscanf(yytext, "%s", yylval.token.lexeme);
+  strcpy(yylval.token.lexeme, yytext);  // to get the whole string
   yylval.token.line = yylineno;
   yylval.token.column = column;
   column += yyleng;
@@ -55,7 +55,7 @@ id              [_a-zA-Z][_a-zA-Z0-9]*
 
 {float} {
   // printf("FLOAT CONSTANT:\n  Line: %d, Column: %d \t-->\t<NUMBER, %s> \n\n", yylineno, column, yytext);
-  sscanf(yytext, "%s", yylval.token.lexeme);
+  strcpy(yylval.token.lexeme, yytext);  // to get the whole string
   yylval.token.line = yylineno;
   yylval.token.column = column;
   column += yyleng;

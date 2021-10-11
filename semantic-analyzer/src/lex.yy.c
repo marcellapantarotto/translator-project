@@ -824,7 +824,7 @@ YY_RULE_SETUP
 #line 47 "src/lex.l"
 {
   // printf("INT CONSTANT:\n  Line: %d, Column: %d \t-->\t<NUMBER, %s> \n\n", yylineno, column, yytext);
-  sscanf(yytext, "%s", yylval.token.lexeme);
+  strcpy(yylval.token.lexeme, yytext);  // to get the whole string
   yylval.token.line = yylineno;
   yylval.token.column = column;
   column += yyleng;
@@ -836,7 +836,7 @@ YY_RULE_SETUP
 #line 56 "src/lex.l"
 {
   // printf("FLOAT CONSTANT:\n  Line: %d, Column: %d \t-->\t<NUMBER, %s> \n\n", yylineno, column, yytext);
-  sscanf(yytext, "%s", yylval.token.lexeme);
+  strcpy(yylval.token.lexeme, yytext);  // to get the whole string
   yylval.token.line = yylineno;
   yylval.token.column = column;
   column += yyleng;

@@ -3428,8 +3428,8 @@ yyreduce:
   case 56: /* expression: iden  */
 #line 512 "src/syn.y"
          {
-    (yyval.node) = (yyvsp[0].node);
-  }
+      (yyval.node) = (yyvsp[0].node);
+    }
 #line 3434 "src/syn.tab.c"
     break;
 

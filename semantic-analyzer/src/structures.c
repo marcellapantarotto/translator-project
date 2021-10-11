@@ -518,18 +518,28 @@ void print_annotated(t_node *root, int height) {
 
   if(root->token.line != -1) {  
     if (strcmp(rule_label[root->type], "IDENTIFIER") == 0) {
-      for(int i = 0; i < height; i++) {
+      for(int i = 0; i < height-3; i++) {
         printf(" |");
       }
       printf("- " BHBLU "%s  (line: %d, column: %d)\n" reset, root->token.lexeme, root->token.line, root->token.column);
-    } else {     
-      for(int i = 0; i < height; i++) {
+    } else if (strcmp(rule_label[root->type], "NUMBER_INT") == 0) {
+      for(int i = 0; i < height-3; i++) {
+        printf(" |");
+      }
+      printf("- int: " BHBLU "%s  (line: %d, column: %d)\n" reset, root->token.lexeme, root->token.line, root->token.column);
+    }  else if (strcmp(rule_label[root->type], "NUMBER_FLOAT") == 0) {
+      for(int i = 0; i < height-3; i++) {
+        printf(" |");
+      }
+      printf("- float: " BHBLU "%s  (line: %d, column: %d)\n" reset, root->token.lexeme, root->token.line, root->token.column);
+    } 
+    else {     
+      for(int i = 0; i < height-3; i++) {
         printf(" |");
       } 
       printf("- %s  (line: %d, column: %d)\n", rule_label[root->type], root->token.line, root->token.column);
     }
   } 
-
   
   tree_node *curr = root->children;
   while(curr != NULL) {
