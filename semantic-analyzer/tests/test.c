@@ -1,7 +1,7 @@
 float function(int a) {
    int b;
    // b = 6.589 + 0.001;
-   a = 10 + 6;
+   a = 10.5 + 6 * 5;
    b = 6.589 + 1;
    // a = a / a + a;
    // return a + b;

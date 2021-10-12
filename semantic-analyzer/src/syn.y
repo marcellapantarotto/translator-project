@@ -668,7 +668,8 @@ arith_binary:
       add_tree_token_node($$, &$2, ADD_OP);
       add_tree_node($$, $3);
       
-      strcpy($$->type, type_check_num($1, $3, ADD_OP));
+      strcpy($$->type, type_check_num($1, $3, &$2, ADD_OP));
+      printf("> %s\n", $2.type);
       // strcpy(return_type, "");
     }
   | arith_binary '-' term {
@@ -677,7 +678,7 @@ arith_binary:
       add_tree_token_node($$, &$2, MINUS_OP);
       add_tree_node($$, $3);
 
-      strcpy($$->type, type_check_num($1, $3, MINUS_OP));
+      strcpy($$->type, type_check_num($1, $3, &$2, MINUS_OP));
       // strcpy(return_type, "");
     }
   | term {
@@ -695,7 +696,7 @@ term:
       add_tree_token_node($$, &$2, MULTIPLY_OP);
       add_tree_node($$, $3);
 
-      strcpy($$->type, type_check_num($1, $3, MULTIPLY_OP));
+      strcpy($$->type, type_check_num($1, $3, &$2, MULTIPLY_OP));
       // strcpy(return_type, "");
     }
   | term '/' expression {
@@ -704,7 +705,7 @@ term:
       add_tree_token_node($$, &$2, DIVISION_OP);
       add_tree_node($$, $3);
 
-      strcpy($$->type, type_check_num($1, $3, DIVISION_OP));
+      strcpy($$->type, type_check_num($1, $3, &$2, DIVISION_OP));
       // strcpy(return_type, "");
     }
   | expression {

@@ -193,7 +193,7 @@ int verify_existing_function(t_token *tok);
 
 void print_annotated(t_node *root, int height);
 void print_annotated_tree();
-char *type_check_num(t_node *node1, t_node *node2, int op);
+char *type_check_num(t_node *node1, t_node *node2, t_token *op_node, int op);
 char *type_check_id(t_token *token, t_node *node, int op);
 
 //===============================================================
