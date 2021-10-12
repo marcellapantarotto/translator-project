@@ -3,6 +3,7 @@
 
 #define BHRED "\e[1;91m"  // red
 #define BHBLU "\e[1;94m"  // blue
+#define BHMAG "\e[1;95m"  // magenta
 #define reset "\e[0m"
 
 enum rule_label {

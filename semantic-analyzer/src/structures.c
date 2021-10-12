@@ -193,6 +193,22 @@ int verify_existing_symbol(table_node *symbol){
   return 0;
 }
 
+int is_variable(t_node *node){
+  table_node *aux = symbol_table.beginning;
+  while(aux->next != NULL) {
+    aux = aux->next;
+    // node->label = aux->label;
+    if(strcmp(node->token.lexeme, aux->token) == 0 && 
+       strcmp(aux->vfp, "Variable") == 0) {
+      // printf(BHRED "SEMANTIC ERROR (line: %d, column: %d): Redeclaration of variable or function <%s> inside scope! \n" reset, symbol->line, symbol->column, symbol->token);
+      // semantic_errors++;
+      // strcpy(node->type, "**id");
+      return 1;
+    }
+  }
+  return 0;
+}
+
 // increments scope of symbols
 void increment_scope()  {
   scope_counter += 1;
@@ -276,7 +292,7 @@ t_node *create_node(int label) {
   struct t_node *node = (struct t_node*)malloc(sizeof(t_node));
   node->token = null_token();
   node->label = label;
-  // strcpy(node->type, "-");
+  strcpy(node->type, "-");
   node->children = NULL;
 
   return node;
@@ -302,8 +318,12 @@ void add_tree_node(t_node *root, t_node *node) {
     strcpy(root->type, "int");
   } else if(strcmp(rule_label[root->children->child->label], "NUMBER_FLOAT") == 0)  {
     strcpy(root->type, "float");
-  } else if(strcmp(rule_label[root->children->child->label], "IDENTIFIER") == 0) {
-    strcpy(root->type, "id");
+  } else if(strcmp(rule_label[root->children->child->label], "IDENTIFIER") == 0 ||
+            strcmp(rule_label[root->label], "IDENTIFIER") == 0 ||
+            strcmp(rule_label[node->label], "IDENTIFIER") == 0 ) {
+      if (is_variable(root->children->child)) {
+        strcpy(node->type, "**id");
+      }
   }
 }
 
@@ -345,7 +365,7 @@ void print_ast(t_node *root, int height) {
   for(i = 0; i < height-1; i++) {
     printf(" |");
   }
-  printf("- %s \t type: %s. \t", rule_label[root->label], root->type);
+  printf("- %s " BHMAG " type: %s " reset, rule_label[root->label], root->type);
 
   if(root->token.line != -1) {  
     // printf("- %s", rule_label[root->label]);
@@ -540,14 +560,14 @@ void print_annotated(t_node *root, int height) {
       printf(" |");
     }
     if (strcmp(rule_label[root->label], "IDENTIFIER") == 0) {
-      printf("- " BHBLU "%s  (line: %d, column: %d) \ttype: %s \n" reset, root->token.lexeme, root->token.line, root->token.column, root->type);
+      printf("- " BHBLU "%s  (line: %d, column: %d) " BHMAG " type: %s \n" reset, root->token.lexeme, root->token.line, root->token.column, root->type);
     } else if (strcmp(rule_label[root->label], "NUMBER_INT") == 0) {
-      printf("- int: " BHBLU "%s  (line: %d, column: %d) \t\ttype: %s \n" reset, root->token.lexeme, root->token.line, root->token.column, root->type);
+      printf("- int: " BHBLU "%s  (line: %d, column: %d) " BHMAG " type: %s \n" reset, root->token.lexeme, root->token.line, root->token.column, root->type);
     }  else if (strcmp(rule_label[root->label], "NUMBER_FLOAT") == 0) {
-      printf("- float: " BHBLU "%s  (line: %d, column: %d) \t\ttype: %s \n" reset, root->token.lexeme, root->token.line, root->token.column, root->type);
+      printf("- float: " BHBLU "%s  (line: %d, column: %d) " BHMAG " type: %s \n" reset, root->token.lexeme, root->token.line, root->token.column, root->type);
     } 
     else {     
-      printf("- %s  (line: %d, column: %d) \ttype: %s \n", rule_label[root->label], root->token.line, root->token.column, root->type);
+      printf("- %s  (line: %d, column: %d) " BHMAG " type: %s \n" reset, rule_label[root->label], root->token.line, root->token.column, root->type);
     }
   } 
   
@@ -593,6 +613,16 @@ char *type_check_num(t_node *node1, t_node *node2, int op) {
   // printf(">>>> return: %s\n", return_type);
   
   return return_type;
+}
+
+void get_type_id(t_token *func) {
+  table_node *aux = symbol_table.beginning;
+  while(aux->next != NULL) {
+    aux = aux->next;
+    if (strcmp(aux->token, func->lexeme) == 0) {
+      strcpy(func->type, aux->type);
+    }
+  }
 }
 
 // char *type_check_id(t_token *token, t_node *node, int op) {

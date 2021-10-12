@@ -1,9 +1,9 @@
-int function(int a) {
+float function(int a) {
    int b;
-   b = 6.589 + 0.001;
+   // b = 6.589 + 0.001;
    a = 10 + 6;
    b = 6.589 + 1;
-   a = a / a + a;
+   // a = a / a + a;
    // return a + b;
 }
 
@@ -11,7 +11,7 @@ int function(int a) {
 // int f(,int a) { x = f(x) + 1; }
 // int f(int a) { x = f(x,y) + 1; }
 
-int x;
+// int x;
 
 int main(){
    // if (1<3) $x+1;else x=1; else x = 1;

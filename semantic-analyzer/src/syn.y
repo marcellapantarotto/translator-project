@@ -218,8 +218,9 @@ unq_declaration:
       add_tree_id_node($$, &$2, IDENTIFIER, curr_type);
       add_table_node($2.lexeme, $1, idx);
 
-      // strcpy($2.type, curr_type);
-      // printf(">> %s\n", $2.type);
+
+      strcpy($1->type, get_type($1, idx));
+      strcpy($1->children->child->type, curr_type);
       idx++;
     }
 ;
@@ -490,11 +491,12 @@ input:
 func_calling: 
   ID  '(' {calling_params_counter = 0;} calling_parameters {verify_amount_params($4, &$1);} ')'  {
       $$ = create_node(FUNCTION_CALLING);
-      add_tree_token_node($$, &$1, IDENTIFIER);
+      add_tree_id_node($$, &$1, IDENTIFIER, curr_type);
       // add_tree_token_node($$, &$2, OPEN_PARENTHESES);
       add_tree_node($$, $4);
       // add_tree_token_node($$, &$4, CLOSE_PARENTHESES);      
       verify_existing_function(&$1);
+      strcpy($1.type, curr_type);
     }
 ;
 
@@ -789,7 +791,7 @@ int main(int argc, char **argv) {
     yyin = stdin;
   
 
-  // print_ast_tree();
+  print_ast_tree();
   print_annotated_tree();
   semantic_parser();
   print_table();
