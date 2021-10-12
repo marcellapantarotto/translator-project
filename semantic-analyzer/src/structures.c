@@ -20,6 +20,7 @@ int idx = 0;
 int params_counter = 0;
 int calling_params_counter = 0;
 char curr_type[] = "";
+char return_type[13] = "";
 
 const char *rule_label[] = {
   "PROGRAM",
@@ -275,7 +276,7 @@ t_node *create_node(int label) {
   struct t_node *node = (struct t_node*)malloc(sizeof(t_node));
   node->token = null_token();
   node->label = label;
-  strcat(node->type, "-");
+  // strcpy(node->type, "-");
   node->children = NULL;
 
   return node;
@@ -297,16 +298,13 @@ void add_tree_node(t_node *root, t_node *node) {
     youngest->sibilings = aux; // node
   }
 
-  if(strcmp(rule_label[root->children->child->label], "NUMBER_INT") == 0 ||
-     strcmp(rule_label[root->children->child->label], "T_INT") == 0 ||
-     strcmp(rule_label[root->children->child->label], "INT") == 0 ) {
+  if(strcmp(rule_label[root->children->child->label], "NUMBER_INT") == 0) {
     strcpy(root->type, "int");
   } else if(strcmp(rule_label[root->children->child->label], "NUMBER_FLOAT") == 0)  {
     strcpy(root->type, "float");
-  } else if(strcmp(rule_label[root->children->child->label], "T_LIST") == 0 ||
-     strcmp(rule_label[root->children->child->label], "LIST") == 0 )  {
-    strcpy(root->type, "float");
-  } 
+  } else if(strcmp(rule_label[root->children->child->label], "IDENTIFIER") == 0) {
+    strcpy(root->type, "id");
+  }
 }
 
 // converting token into node so it can be added to the tree
@@ -325,6 +323,13 @@ void add_tree_token_node(t_node *root, t_token *tok, int label) {
   add_tree_node(root, node);
 }
 
+void add_tree_id_node(t_node *root, t_token *tok, int label, char *type) {
+  struct t_node *node;
+  node = token_to_node(tok, label);
+  strcpy(node->type, type);
+  add_tree_node(root, node);
+}
+
 // print tree header
 void print_ast_tree() {
   printf("\n========================================================\n");
@@ -340,7 +345,7 @@ void print_ast(t_node *root, int height) {
   for(i = 0; i < height-1; i++) {
     printf(" |");
   }
-  printf("- %s", rule_label[root->label]);
+  printf("- %s \t type: %s. \t", rule_label[root->label], root->type);
 
   if(root->token.line != -1) {  
     // printf("- %s", rule_label[root->label]);
@@ -402,11 +407,15 @@ char *get_type(t_node *node, int i) {
   char buff[200][10];
 
   while(curr != NULL) {
-    if(strcmp(rule_label[curr->child->label], "INT" ) == 0 || strcmp(rule_label[curr->child->label], "FLOAT" ) == 0) {
-      strcpy(buff[i], rule_label[curr->child->label]);
+    if(strcmp(rule_label[curr->child->label], "INT" ) == 0) {
+      // strcpy(buff[i], rule_label[curr->child->label]);
+      strcpy(buff[i], "int");
+    } else if(strcmp(rule_label[curr->child->label], "FLOAT" ) == 0) {
+      strcpy(buff[i], "float");
     } else if(strcmp(rule_label[curr->child->label], "LIST") == 0) {
-      strcat(buff[i], " ");  
-      strcat(buff[i], rule_label[curr->child->label]);      
+      // strcat(buff[i], " ");  
+      // strcat(buff[i], rule_label[curr->child->label]);
+      strcat(buff[i], " list"); 
     }
     curr = curr->sibilings;
   }  
@@ -533,9 +542,9 @@ void print_annotated(t_node *root, int height) {
     if (strcmp(rule_label[root->label], "IDENTIFIER") == 0) {
       printf("- " BHBLU "%s  (line: %d, column: %d) \ttype: %s \n" reset, root->token.lexeme, root->token.line, root->token.column, root->type);
     } else if (strcmp(rule_label[root->label], "NUMBER_INT") == 0) {
-      printf("- int: " BHBLU "%s  (line: %d, column: %d) \ttype: %s \n" reset, root->token.lexeme, root->token.line, root->token.column, root->type);
+      printf("- int: " BHBLU "%s  (line: %d, column: %d) \t\ttype: %s \n" reset, root->token.lexeme, root->token.line, root->token.column, root->type);
     }  else if (strcmp(rule_label[root->label], "NUMBER_FLOAT") == 0) {
-      printf("- float: " BHBLU "%s  (line: %d, column: %d) \ttype: %s \n" reset, root->token.lexeme, root->token.line, root->token.column, root->type);
+      printf("- float: " BHBLU "%s  (line: %d, column: %d) \t\ttype: %s \n" reset, root->token.lexeme, root->token.line, root->token.column, root->type);
     } 
     else {     
       printf("- %s  (line: %d, column: %d) \ttype: %s \n", rule_label[root->label], root->token.line, root->token.column, root->type);
@@ -553,12 +562,71 @@ void print_annotated(t_node *root, int height) {
   }
 }
 
-void type_check(t_node *node1, t_node *node2, int op) {
-  printf("> %s\n", rule_label[op]);
-  printf(">> %s: %s (%s)\n", rule_label[node1->label], node1->children->child->token.lexeme, node1->type);
-  printf(">>> %s: %s (%s)\n", rule_label[node2->label], node2->children->child->token.lexeme, node2->type);
+char *type_check_num(t_node *node1, t_node *node2, int op) {
+  if (strcmp(node1->type, "int") == 0 && strcmp(node2->type, "float") == 0) {
+    strcpy(node1->type, "float");
+    strcpy(node1->children->child->type, "float");
+    strcpy(return_type, "float");
+    if (strcmp(rule_label[node1->label], "NUMBER") == 0) {
+      strcat(node1->children->child->token.lexeme, ".00");
+    }
+  } else if (strcmp(node1->type, "float") == 0 && strcmp(node2->type, "int") == 0) {
+    strcpy(node2->type, "float");
+    strcpy(node2->children->child->type, "float");
+    strcpy(return_type, "float");
+    if (strcmp(rule_label[node2->label], "NUMBER") == 0) {
+      strcat(node2->children->child->token.lexeme, ".00");
+    }
+  } else if (strcmp(node1->type, "float") == 0 && strcmp(node2->type, "float") == 0) {
+    strcpy(node1->children->child->type, "float");
+    strcpy(node2->children->child->type, "float");
+    strcpy(return_type, "float");
+  } else if (strcmp(node1->type, "int") == 0 && strcmp(node2->type, "int") == 0) {
+    strcpy(node1->children->child->type, "int");
+    strcpy(node2->children->child->type, "int");
+    strcpy(return_type, "int");
+  }
   
+  // printf("> %s\n", rule_label[op]);
+  // printf(">> %s: %s (%s)\n", rule_label[node1->label], node1->children->child->token.lexeme, node1->type);
+  // printf(">>> %s: %s (%s)\n", rule_label[node2->label], node2->children->child->token.lexeme, node2->type);
+  // printf(">>>> return: %s\n", return_type);
+  
+  return return_type;
 }
+
+// char *type_check_id(t_token *token, t_node *node, int op) {
+//   if (strcmp(token, "int") == 0 && strcmp(node->type, "float") == 0) {
+//     strcpy(token->type, "float");
+//     strcpy(token->children->child->type, "float");
+//     strcpy(return_type, "float");
+//     if (strcmp(rule_label[token->label], "NUMBER") == 0) {
+//       strcat(token->children->child->token.lexeme, ".00");
+//     }
+//   } else if (strcmp(token->type, "float") == 0 && strcmp(node->type, "int") == 0) {
+//     strcpy(node->type, "float");
+//     strcpy(node->children->child->type, "float");
+//     strcpy(return_type, "float");
+//     if (strcmp(rule_label[node->label], "NUMBER") == 0) {
+//       strcat(node->children->child->token.lexeme, ".00");
+//     }
+//   } else if (strcmp(token->type, "float") == 0 && strcmp(node->type, "float") == 0) {
+//     strcpy(token->children->child->type, "float");
+//     strcpy(node->children->child->type, "float");
+//     strcpy(return_type, "float");
+//   } else if (strcmp(token->type, "int") == 0 && strcmp(node->type, "int") == 0) {
+//     strcpy(token->children->child->type, "int");
+//     strcpy(node->children->child->type, "int");
+//     strcpy(return_type, "int");
+//   }
+  
+//   // printf("> %s\n", rule_label[op]);
+//   // printf(">> %s: %s (%s)\n", rule_label[token->label], token->children->child->token.lexeme, token->type);
+//   // printf(">>> %s: %s (%s)\n", rule_label[node->label], node->children->child->token.lexeme, node->type);
+//   // printf(">>>> return: %s\n", return_type);
+  
+//   return return_type;
+// }
 
 //===============================================================
 // NUMBER CONVERTION
@@ -610,3 +678,15 @@ void type_check(t_node *node1, t_node *node2, int op) {
 
 // // atof()/strtof() is for floats.
 // printf("float value : %4.8f\n" ,strtof(num1.token.lexeme, NULL)); 
+
+
+
+    // float my_float = 42.8;          // => my_float=42.000000
+    // int my_int;
+    // float other_float;
+    
+    // printf("%f\n", my_float);
+    // my_int = (int)my_float;         // => my_int=42
+    // printf("%d\n", my_int);
+    // other_float = (float)my_int;    // => other_float=42.000000
+    // printf("%f\n", other_float);

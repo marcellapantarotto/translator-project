@@ -1,9 +1,10 @@
 int function(int a) {
    int b;
-   b = 3;
    b = 6.589 + 0.001;
    a = 10 + 6;
-   return a;
+   b = 6.589 + 1;
+   a = a / a + a;
+   // return a + b;
 }
 
 // int f(,int a) { x = x + 1; }
@@ -17,6 +18,8 @@ int main(){
    // a - b -c;
    // << l;
    // l >>;
+   // int list help;
+   // help : NIL;
 
    function(1);
 

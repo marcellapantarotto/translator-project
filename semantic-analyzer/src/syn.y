@@ -215,8 +215,11 @@ unq_declaration:
   type ID {
       $$ = create_node(UNIQUE_DECLARATION);
       add_tree_node($$, $1);
-      add_tree_token_node($$, &$2, IDENTIFIER);
+      add_tree_id_node($$, &$2, IDENTIFIER, curr_type);
       add_table_node($2.lexeme, $1, idx);
+
+      // strcpy($2.type, curr_type);
+      // printf(">> %s\n", $2.type);
       idx++;
     }
 ;
@@ -359,6 +362,8 @@ init_stmt:
       add_tree_token_node($$, &$2, ASSIGN);
       add_tree_node($$, $3);
       verify_existing_variable(&$1);
+      // type_check_id($1, $3, ASSIGN);
+      // strcpy($$->type, type_check_num($1, $3, ASSIGN));
     }
 ;
 
@@ -660,13 +665,18 @@ arith_binary:
       add_tree_node($$, $1);
       add_tree_token_node($$, &$2, ADD_OP);
       add_tree_node($$, $3);
-      type_check($1, $3, ADD_OP);
+      
+      strcpy($$->type, type_check_num($1, $3, ADD_OP));
+      // strcpy(return_type, "");
     }
   | arith_binary '-' term {
       $$ = create_node(ARITHMETIC_BINARY);
       add_tree_node($$, $1);
       add_tree_token_node($$, &$2, MINUS_OP);
       add_tree_node($$, $3);
+
+      strcpy($$->type, type_check_num($1, $3, MINUS_OP));
+      // strcpy(return_type, "");
     }
   | term {
       $$ = $1;
@@ -677,16 +687,23 @@ arith_binary:
 
 term: 
   term '*' expression {
+    
       $$ = create_node(TERM);
       add_tree_node($$, $1);
       add_tree_token_node($$, &$2, MULTIPLY_OP);
       add_tree_node($$, $3);
+
+      strcpy($$->type, type_check_num($1, $3, MULTIPLY_OP));
+      // strcpy(return_type, "");
     }
   | term '/' expression {
       $$ = create_node(TERM);
       add_tree_node($$, $1);
       add_tree_token_node($$, &$2, DIVISION_OP);
       add_tree_node($$, $3);
+
+      strcpy($$->type, type_check_num($1, $3, DIVISION_OP));
+      // strcpy(return_type, "");
     }
   | expression {
       $$ = $1;

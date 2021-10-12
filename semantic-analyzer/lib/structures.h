@@ -120,6 +120,7 @@ typedef struct t_token {
   char lexeme[200];
   int line;
   int column;
+  char type[13];
 } t_token;
 
 // tree structure
@@ -172,6 +173,7 @@ t_node *create_node(int label);
 void add_tree_node(t_node *root, t_node *node);
 t_node *token_to_node(t_token *t, int label);
 void add_tree_token_node(t_node *root, t_token *tok, int label);
+void add_tree_id_node(t_node *root, t_token *tok, int label, char *type);
 void print_ast(t_node *root, int height);
 void print_ast_tree();
 void destroy_tree(t_node *root);
@@ -190,6 +192,8 @@ int verify_existing_function(t_token *tok);
 
 void print_annotated(t_node *root, int height);
 void print_annotated_tree();
+char *type_check_num(t_node *node1, t_node *node2, int op);
+char *type_check_id(t_token *token, t_node *node, int op);
 
 //===============================================================
 // VARIABLE DECLARATIONS
@@ -212,5 +216,6 @@ extern int params_counter;
 extern int calling_params_counter;
 extern char func_name[];
 extern char curr_type[];
+extern char return_type[];
 
 #endif
