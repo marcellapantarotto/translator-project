@@ -189,12 +189,14 @@ void set_F_table(t_node *node);
 void set_P_table(t_node *node);
 void set_V_table();
 int verify_existing_variable(t_token *tok);
-int verify_existing_function(t_token *tok);
+char *verify_existing_function(t_token *tok);
 
 void print_annotated(t_node *root, int height);
 void print_annotated_tree();
 char *type_check_num(t_node *node1, t_node *node2, t_token *op_node, int op);
 char *type_check_id(t_token *token, t_node *node, int op);
+int is_variable(t_node *node);
+char *return_var_type_from_table(t_node *node);
 
 //===============================================================
 // VARIABLE DECLARATIONS
@@ -218,5 +220,6 @@ extern int calling_params_counter;
 extern char func_name[];
 extern char curr_type[];
 extern char return_type[];
+extern char return_function[];
 
 #endif

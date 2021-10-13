@@ -188,7 +188,7 @@ declaration:
 ;
 
 func_declaration:
-  unq_declaration {increment_scope(); strcpy(func_name, $1->children->sibilings->child->token.lexeme);} '(' parameters ')' '{' block_commands '}' {
+  unq_declaration {strcpy(return_function, curr_type); increment_scope(); strcpy(func_name, $1->children->sibilings->child->token.lexeme);} '(' parameters ')' '{' block_commands '}' {
       $$ = create_node(FUNCTION_DECLARATION);    
       add_tree_node($$, $1);
       // add_tree_token_node($$, &$3, OPEN_PARENTHESES);
@@ -199,6 +199,7 @@ func_declaration:
       // add_tree_token_node($$, &$8, CLOSE_CURLY_BRACKET);
 
       set_F_table($1->children->sibilings->child);
+      
     }
 ;
 
@@ -359,10 +360,12 @@ init_variable:
 init_stmt: 
   ID '=' operation  {
       $$ = create_node(INIT_STMT);
-      add_tree_token_node($$, &$1, IDENTIFIER);
+      add_tree_id_node($$, &$1, IDENTIFIER, curr_type);
+      // add_tree_token_node($$, &$1, IDENTIFIER);
       add_tree_token_node($$, &$2, ASSIGN);
       add_tree_node($$, $3);
       verify_existing_variable(&$1);
+
       // type_check_id($1, $3, ASSIGN);
       // strcpy($$->type, type_check_num($1, $3, ASSIGN));
     }
@@ -392,9 +395,16 @@ conditional_stmt:
 return_stmt: 
   RETURN_STM operation ';'  {
       $$ = create_node(RETURN_STMT);
-      add_tree_token_node($$, &$1, RETURN);
+      // add_tree_token_node($$, &$1, RETURN);
+      add_tree_id_node($$, &$1, RETURN, return_function);
       add_tree_node($$, $2);
       // add_tree_token_node($$, &$3, SEMICOLON);
+
+      strcpy($2->type, $2->children->child->type);
+      if(strcmp($2->type, return_function) != 0) {
+        printf(BHRED "SEMANTIC ERROR (line: %d, column: %d): Type passed in the return is different from the expected type for the function return! Type passed: %s, expected: %s\n" reset, $1.line, $1.column+7, $2->type, return_function);
+        semantic_errors++;
+      }
     }
 ;
 
@@ -491,12 +501,12 @@ input:
 func_calling: 
   ID  '(' {calling_params_counter = 0;} calling_parameters {verify_amount_params($4, &$1);} ')'  {
       $$ = create_node(FUNCTION_CALLING);
-      add_tree_id_node($$, &$1, IDENTIFIER, curr_type);
+      add_tree_id_node($$, &$1, IDENTIFIER, verify_existing_function(&$1));
       // add_tree_token_node($$, &$2, OPEN_PARENTHESES);
       add_tree_node($$, $4);
       // add_tree_token_node($$, &$4, CLOSE_PARENTHESES);      
-      verify_existing_function(&$1);
-      strcpy($1.type, curr_type);
+      // verify_existing_function(&$1);
+      strcpy($1.type, verify_existing_function(&$1));
     }
 ;
 
@@ -665,12 +675,12 @@ arith_binary:
   arith_binary '+' term {
       $$ = create_node(ARITHMETIC_BINARY);
       add_tree_node($$, $1);
-      add_tree_token_node($$, &$2, ADD_OP);
+      // add_tree_token_node($$, &$2, ADD_OP);
+      add_tree_id_node($$, &$2, ADD_OP, curr_type); //// last
       add_tree_node($$, $3);
       
       strcpy($$->type, type_check_num($1, $3, &$2, ADD_OP));
-      printf("> %s\n", $2.type);
-      // strcpy(return_type, "");
+      // printf("> %s\n", $2.type);
     }
   | arith_binary '-' term {
       $$ = create_node(ARITHMETIC_BINARY);
@@ -679,7 +689,6 @@ arith_binary:
       add_tree_node($$, $3);
 
       strcpy($$->type, type_check_num($1, $3, &$2, MINUS_OP));
-      // strcpy(return_type, "");
     }
   | term {
       $$ = $1;
@@ -697,7 +706,6 @@ term:
       add_tree_node($$, $3);
 
       strcpy($$->type, type_check_num($1, $3, &$2, MULTIPLY_OP));
-      // strcpy(return_type, "");
     }
   | term '/' expression {
       $$ = create_node(TERM);
@@ -706,7 +714,6 @@ term:
       add_tree_node($$, $3);
 
       strcpy($$->type, type_check_num($1, $3, &$2, DIVISION_OP));
-      // strcpy(return_type, "");
     }
   | expression {
       $$ = $1;

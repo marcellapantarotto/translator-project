@@ -21,6 +21,7 @@ int params_counter = 0;
 int calling_params_counter = 0;
 char curr_type[] = "";
 char return_type[13] = "";
+char return_function[13] = "";
 
 const char *rule_label[] = {
   "PROGRAM",
@@ -205,6 +206,18 @@ int is_variable(t_node *node){
   return 0;
 }
 
+char *return_var_type_from_table(t_node *node){
+  table_node *aux = symbol_table.beginning;
+  while(aux->next != NULL) {
+    aux = aux->next;
+    if(strcmp(node->token.lexeme, aux->token) == 0 && 
+      strcmp(aux->vfp, "Variable") == 0) {
+      return aux->type;
+    }
+  }
+  return NULL;
+}
+
 // increments scope of symbols
 void increment_scope()  {
   scope_counter += 1;
@@ -310,18 +323,27 @@ void add_tree_node(t_node *root, t_node *node) {
     youngest->sibilings = aux; // node
   }
 
-  if(strcmp(rule_label[root->children->child->label], "NUMBER_INT") == 0) {
+  if(strcmp(rule_label[root->children->child->label], "NUMBER_INT") == 0 ||
+            strcmp(rule_label[root->label], "NUMBER_INT") == 0 ||
+            strcmp(rule_label[node->label], "NUMBER_INT") == 0 ) {
     strcpy(root->type, "int");
-  } else if(strcmp(rule_label[root->children->child->label], "NUMBER_FLOAT") == 0)  {
+    strcpy(root->children->child->type, "int");
+    strcpy(node->type, "int");
+  } else if(strcmp(rule_label[root->children->child->label], "NUMBER_FLOAT") == 0 ||
+            strcmp(rule_label[root->label], "NUMBER_FLOAT") == 0 ||
+            strcmp(rule_label[node->label], "NUMBER_FLOAT") == 0 ) {
     strcpy(root->type, "float");
-  } 
-  // else if(strcmp(rule_label[root->children->child->label], "IDENTIFIER") == 0 ||
-  //           strcmp(rule_label[root->label], "IDENTIFIER") == 0 ||
-  //           strcmp(rule_label[node->label], "IDENTIFIER") == 0 ) {
-  //     if (is_variable(root->children->child)) {
-  //       strcpy(node->type, "**id");
-  //     }
-  // }
+    strcpy(root->children->child->type, "float");
+    strcpy(node->type, "float");
+  } else if(strcmp(rule_label[root->children->child->label], "IDENTIFIER") == 0 ||
+            strcmp(rule_label[root->label], "IDENTIFIER") == 0 ||
+            strcmp(rule_label[node->label], "IDENTIFIER") == 0 ) {
+      if (is_variable(root->children->child)) {
+        strcpy(node->type, return_var_type_from_table(root->children->child)); strcat(node->type, "!!!");
+        strcpy(root->type, return_var_type_from_table(root->children->child)); strcat(root->type, "***");
+        strcpy(root->children->child->type, return_var_type_from_table(root->children->child));     
+      }
+  }
 }
 
 // converting token into node so it can be added to the tree
@@ -521,21 +543,22 @@ int verify_existing_variable(t_token *tok) {
   return 0;
 }
 
-int verify_existing_function(t_token *tok) {
+char *verify_existing_function(t_token *tok) {
   int found = 0;
   table_node *aux = symbol_table.beginning;
   while(aux->next != NULL) {
     aux = aux->next;
     if(strcmp(tok->lexeme, aux->token) == 0) {
       found = 1;
+      return aux->type;
     }
   }
   if(!found) {
     printf(BHRED "SEMANTIC ERROR (line: %d, column: %d): Function <%s> was not declared! \n" reset, tok->line, tok->column, tok->lexeme);
     semantic_errors++;
-    return 1;
+    return NULL;
   }
-  return 0;
+  return aux->type;
 }
 
 // print tree header
@@ -608,10 +631,10 @@ char *type_check_num(t_node *node1, t_node *node2, t_token *op_node, int op) {
     strcpy(return_type, "int");
   }
   
-  printf("> %s\n", rule_label[op]);
-  printf(">> %s: %s (%s)\n", rule_label[node1->label], node1->children->child->token.lexeme, node1->type);
-  printf(">>> %s: %s (%s)\n", rule_label[node2->label], node2->children->child->token.lexeme, node2->type);
-  printf(">>>> return: %s\n", return_type);
+  // printf("> %s\n", rule_label[op]);
+  // printf(">> %s: %s (%s)\n", rule_label[node1->label], node1->children->child->token.lexeme, node1->type);
+  // printf(">>> %s: %s (%s)\n", rule_label[node2->label], node2->children->child->token.lexeme, node2->type);
+  // printf(">>>> return: %s\n", return_type);
   
   return return_type;
 }
