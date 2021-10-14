@@ -73,7 +73,7 @@ Grammar
    46       | OUTPUT_WRITE '(' STRING ')' ';'
    47       | OUTPUT_WRITELN '(' STRING ')' ';'
 
-   48 input: INPUT_READ '(' operation ')' ';'
+   48 input: INPUT_READ '(' ID ')' ';'
 
    49 $@3: %empty
 
@@ -160,7 +160,7 @@ Terminals, with rules where they appear
     NUM_FLOAT <token> (259) 61
     STRING <token> (260) 46 47
     NIL_CNST <token> (261) 59
-    ID <token> (262) 11 34 51 57
+    ID <token> (262) 11 34 48 51 57
     RETURN_STM <token> (263) 37
     T_INT <token> (264) 65
     T_FLOAT <token> (265) 66
@@ -291,7 +291,7 @@ Nonterminals, with rules where they appear
         on right: 63 64
     operation <node> (78)
         on left: 67 68 69 70 71 72 73 74 75
-        on right: 18 19 31 34 35 36 37 42 44 45 48 56 68 69 70 71 72 73 74 75
+        on right: 18 19 31 34 35 36 37 42 44 45 56 68 69 70 71 72 73 74 75
     single_operation <node> (79)
         on left: 76 77 78
         on right: 53
@@ -782,7 +782,7 @@ State 36
 
 State 37
 
-   48 input: INPUT_READ • '(' operation ')' ';'
+   48 input: INPUT_READ • '(' ID ')' ';'
 
     '('  shift, and go to state 77
 
@@ -1714,31 +1714,9 @@ State 76
 
 State 77
 
-   48 input: INPUT_READ '(' • operation ')' ';'
+   48 input: INPUT_READ '(' • ID ')' ';'
 
-    NUM_INT    shift, and go to state 165
-    NUM_FLOAT  shift, and go to state 166
-    NIL_CNST   shift, and go to state 167
-    ID         shift, and go to state 168
-    '('        shift, and go to state 169
-    '+'        shift, and go to state 170
-    '-'        shift, and go to state 171
-    '%'        shift, and go to state 172
-    '?'        shift, and go to state 173
-    '!'        shift, and go to state 174
-
-    func_calling      go to state 175
-    expression        go to state 176
-    iden              go to state 177
-    const             go to state 178
-    number            go to state 179
-    operation         go to state 116
-    single_operation  go to state 180
-    arith_binary      go to state 181
-    term              go to state 182
-    arith_single      go to state 183
-    lst_single        go to state 184
-    lst_binary        go to state 185
+    ID  shift, and go to state 116
 
 
 State 78
@@ -2616,25 +2594,9 @@ State 115
 
 State 116
 
-   48 input: INPUT_READ '(' operation • ')' ';'
-   68 operation: operation • GREATER operation
-   69          | operation • GREATER_EQ operation
-   70          | operation • LESS operation
-   71          | operation • LESS_EQ operation
-   72          | operation • EQUAL operation
-   73          | operation • NOT_EQ operation
-   74          | operation • AND operation
-   75          | operation • OR operation
+   48 input: INPUT_READ '(' ID • ')' ';'
 
-    ')'         shift, and go to state 144
-    AND         shift, and go to state 187
-    OR          shift, and go to state 188
-    GREATER     shift, and go to state 189
-    GREATER_EQ  shift, and go to state 190
-    LESS        shift, and go to state 191
-    LESS_EQ     shift, and go to state 192
-    EQUAL       shift, and go to state 193
-    NOT_EQ      shift, and go to state 194
+    ')'  shift, and go to state 144
 
 
 State 117
@@ -3227,7 +3189,7 @@ State 143
 
 State 144
 
-   48 input: INPUT_READ '(' operation ')' • ';'
+   48 input: INPUT_READ '(' ID ')' • ';'
 
     ';'  shift, and go to state 156
 
@@ -3494,7 +3456,7 @@ State 155
 
 State 156
 
-   48 input: INPUT_READ '(' operation ')' ';' •
+   48 input: INPUT_READ '(' ID ')' ';' •
 
     error           reduce using rule 48 (input)
     NUM_INT         reduce using rule 48 (input)
@@ -5219,7 +5181,7 @@ State 229
 
 State 230
 
-   48 input: INPUT_READ • '(' operation ')' ';'
+   48 input: INPUT_READ • '(' ID ')' ';'
 
     '('  shift, and go to state 296
 
@@ -6716,31 +6678,9 @@ State 295
 
 State 296
 
-   48 input: INPUT_READ '(' • operation ')' ';'
+   48 input: INPUT_READ '(' • ID ')' ';'
 
-    NUM_INT    shift, and go to state 165
-    NUM_FLOAT  shift, and go to state 166
-    NIL_CNST   shift, and go to state 167
-    ID         shift, and go to state 168
-    '('        shift, and go to state 169
-    '+'        shift, and go to state 170
-    '-'        shift, and go to state 171
-    '%'        shift, and go to state 172
-    '?'        shift, and go to state 173
-    '!'        shift, and go to state 174
-
-    func_calling      go to state 175
-    expression        go to state 176
-    iden              go to state 177
-    const             go to state 178
-    number            go to state 179
-    operation         go to state 327
-    single_operation  go to state 180
-    arith_binary      go to state 181
-    term              go to state 182
-    arith_single      go to state 183
-    lst_single        go to state 184
-    lst_binary        go to state 185
+    ID  shift, and go to state 327
 
 
 State 297
@@ -7470,25 +7410,9 @@ State 326
 
 State 327
 
-   48 input: INPUT_READ '(' operation • ')' ';'
-   68 operation: operation • GREATER operation
-   69          | operation • GREATER_EQ operation
-   70          | operation • LESS operation
-   71          | operation • LESS_EQ operation
-   72          | operation • EQUAL operation
-   73          | operation • NOT_EQ operation
-   74          | operation • AND operation
-   75          | operation • OR operation
+   48 input: INPUT_READ '(' ID • ')' ';'
 
-    ')'         shift, and go to state 338
-    AND         shift, and go to state 187
-    OR          shift, and go to state 188
-    GREATER     shift, and go to state 189
-    GREATER_EQ  shift, and go to state 190
-    LESS        shift, and go to state 191
-    LESS_EQ     shift, and go to state 192
-    EQUAL       shift, and go to state 193
-    NOT_EQ      shift, and go to state 194
+    ')'  shift, and go to state 338
 
 
 State 328
@@ -7679,7 +7603,7 @@ State 337
 
 State 338
 
-   48 input: INPUT_READ '(' operation ')' • ';'
+   48 input: INPUT_READ '(' ID ')' • ';'
 
     ';'  shift, and go to state 348
 
@@ -7898,7 +7822,7 @@ State 347
 
 State 348
 
-   48 input: INPUT_READ '(' operation ')' ';' •
+   48 input: INPUT_READ '(' ID ')' ';' •
 
     error           reduce using rule 48 (input)
     NUM_INT         reduce using rule 48 (input)

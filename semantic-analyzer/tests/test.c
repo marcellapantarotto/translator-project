@@ -1,16 +1,25 @@
 float function(int a) {
    float b;
    // b = 6.589 + 0.001;
-   a = 10.5 + 6 * 5;
-   b = 6.589 + 1;
+   a = +3;
+   // b = 6.589 + 1;
    // a = a / a + a;
    // return a + b;
-   return b;
+   return -9.85;
 }
+
+// int list_g(int a, ) {
+//    for(a; a; a) {
+//       writeln;
+//       read;
+//    }
+//    read(a);
+// }
+
 int main() {
-   float a;
-   function(1);
-   return a;
+   // float a;
+   function(22);
+   return 0;
 }
 
 

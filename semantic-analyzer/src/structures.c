@@ -328,20 +328,20 @@ void add_tree_node(t_node *root, t_node *node) {
             strcmp(rule_label[node->label], "NUMBER_INT") == 0 ) {
     strcpy(root->type, "int");
     strcpy(root->children->child->type, "int");
-    strcpy(node->type, "int");
+    // strcpy(node->type, "int");
   } else if(strcmp(rule_label[root->children->child->label], "NUMBER_FLOAT") == 0 ||
             strcmp(rule_label[root->label], "NUMBER_FLOAT") == 0 ||
             strcmp(rule_label[node->label], "NUMBER_FLOAT") == 0 ) {
     strcpy(root->type, "float");
     strcpy(root->children->child->type, "float");
-    strcpy(node->type, "float");
-  } else if(strcmp(rule_label[root->children->child->label], "IDENTIFIER") == 0 ||
+    // strcpy(node->type, "float");
+  } 
+  else if(strcmp(rule_label[root->children->child->label], "IDENTIFIER") == 0 ||
             strcmp(rule_label[root->label], "IDENTIFIER") == 0 ||
             strcmp(rule_label[node->label], "IDENTIFIER") == 0 ) {
       if (is_variable(root->children->child)) {
-        strcpy(node->type, return_var_type_from_table(root->children->child)); strcat(node->type, "!!!");
-        strcpy(root->type, return_var_type_from_table(root->children->child)); strcat(root->type, "***");
-        strcpy(root->children->child->type, return_var_type_from_table(root->children->child));     
+        // strcpy(node->type, return_var_type_from_table(root->children->child));
+        strcpy(root->children->child->type, return_var_type_from_table(root->children->child));
       }
   }
 }
@@ -362,7 +362,7 @@ void add_tree_token_node(t_node *root, t_token *tok, int label) {
   add_tree_node(root, node);
 }
 
-void add_tree_id_node(t_node *root, t_token *tok, int label, char *type) {
+void add_tree_operation_leaf(t_node *root, t_token *tok, int label, char *type) {
   struct t_node *node;
   node = token_to_node(tok, label);
   strcpy(node->type, type);
@@ -499,7 +499,7 @@ int verify_amount_params(t_node *node, t_token *func) {
         printf(BHRED "SEMANTIC ERROR (line: %d, column: %d): Amount of parameters passed is higher then the amount expected by the function! \n" reset, yylineno, column-yyleng);
         semantic_errors++;
         return 1;
-      } 
+      }
     }
   } 
   return 0;
@@ -526,21 +526,22 @@ void set_P_table(t_node *node) {
   }
 }
 
-int verify_existing_variable(t_token *tok) {
+char *verify_existing_variable(t_token *tok) {
   int found = 0;
   table_node *aux = symbol_table.beginning;
   while(aux->next != NULL) {
     aux = aux->next;
     if(strcmp(tok->lexeme, aux->token) == 0) {
       found = 1;
+      return aux->type;
     }
   }
   if(!found) {
     printf(BHRED "SEMANTIC ERROR (line: %d, column: %d): Variable <%s> was not declared! \n" reset, tok->line, tok->column, tok->lexeme);
     semantic_errors++;
-    return 1;
+    return NULL;
   }
-  return 0;
+  return aux->type;
 }
 
 char *verify_existing_function(t_token *tok) {
@@ -602,39 +603,39 @@ void print_annotated(t_node *root, int height) {
   }
 }
 
-char *type_check_num(t_node *node1, t_node *node2, t_token *op_node, int op) {
+char *type_check_num(t_node *node1, t_node *node2, t_token *op_node) {
   if (strcmp(node1->type, "int") == 0 && strcmp(node2->type, "float") == 0) {
     strcpy(node1->type, "float");
     strcpy(node1->children->child->type, "float");
     strcpy(op_node->type, "float");
     strcpy(return_type, "float");
-    if (strcmp(rule_label[node1->label], "NUMBER") == 0) {
-      strcat(node1->children->child->token.lexeme, ".00");
-    }
+    
+    // if (strcmp(rule_label[node1->label], "NUMBER") == 0) {
+    //   strcat(node1->children->child->token.lexeme, ".000000");
+    // }
   } else if (strcmp(node1->type, "float") == 0 && strcmp(node2->type, "int") == 0) {
     strcpy(node2->type, "float");
     strcpy(node2->children->child->type, "float");
-    strcpy(return_type, "float");
     strcpy(op_node->type, "float");
-    if (strcmp(rule_label[node2->label], "NUMBER") == 0) {
-      strcat(node2->children->child->token.lexeme, ".00");
-    }
+    strcpy(return_type, "float");
+    
+    // if (strcmp(rule_label[node2->label], "NUMBER") == 0) {
+    //   strcat(node2->children->child->token.lexeme, ".000000");
+    // }
   } else if (strcmp(node1->type, "float") == 0 && strcmp(node2->type, "float") == 0) {
     strcpy(node1->children->child->type, "float");
     strcpy(node2->children->child->type, "float");
-    strcpy(return_type, "float");
     strcpy(op_node->type, "float");
+    strcpy(return_type, "float");
   } else if (strcmp(node1->type, "int") == 0 && strcmp(node2->type, "int") == 0) {
     strcpy(node1->children->child->type, "int");
     strcpy(node2->children->child->type, "int");
     strcpy(op_node->type, "int");
     strcpy(return_type, "int");
   }
-  
-  // printf("> %s\n", rule_label[op]);
-  // printf(">> %s: %s (%s)\n", rule_label[node1->label], node1->children->child->token.lexeme, node1->type);
-  // printf(">>> %s: %s (%s)\n", rule_label[node2->label], node2->children->child->token.lexeme, node2->type);
-  // printf(">>>> return: %s\n", return_type);
+  printf(">> %s: %s (%s)\n", rule_label[node1->label], node1->children->child->token.lexeme, node1->type);
+  printf(">>> %s: %s (%s)\n", rule_label[node2->label], node2->children->child->token.lexeme, node2->type);
+  printf(">>>> return: %s\n", return_type);
   
   return return_type;
 }

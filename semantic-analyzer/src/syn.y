@@ -216,7 +216,7 @@ unq_declaration:
   type ID {
       $$ = create_node(UNIQUE_DECLARATION);
       add_tree_node($$, $1);
-      add_tree_id_node($$, &$2, IDENTIFIER, curr_type);
+      add_tree_operation_leaf($$, &$2, IDENTIFIER, curr_type);
       add_table_node($2.lexeme, $1, idx);
 
 
@@ -347,6 +347,11 @@ command:
       $$ = create_node(COMMAND); 
       syntax_errors++;
     }
+  // | error {
+  //     yyerrok;
+  //     $$ = create_node(COMMAND); 
+  //     syntax_errors++;
+  //   }
 ;
 
 init_variable: 
@@ -360,12 +365,11 @@ init_variable:
 init_stmt: 
   ID '=' operation  {
       $$ = create_node(INIT_STMT);
-      add_tree_id_node($$, &$1, IDENTIFIER, curr_type);
+      add_tree_operation_leaf($$, &$1, IDENTIFIER, verify_existing_variable(&$1));
       // add_tree_token_node($$, &$1, IDENTIFIER);
-      add_tree_token_node($$, &$2, ASSIGN);
+      add_tree_operation_leaf($$, &$2, ASSIGN, verify_existing_variable(&$1));
+      // add_tree_token_node($$, &$2, ASSIGN);
       add_tree_node($$, $3);
-      verify_existing_variable(&$1);
-
       // type_check_id($1, $3, ASSIGN);
       // strcpy($$->type, type_check_num($1, $3, ASSIGN));
     }
@@ -396,7 +400,7 @@ return_stmt:
   RETURN_STM operation ';'  {
       $$ = create_node(RETURN_STMT);
       // add_tree_token_node($$, &$1, RETURN);
-      add_tree_id_node($$, &$1, RETURN, return_function);
+      add_tree_operation_leaf($$, &$1, RETURN, return_function);
       add_tree_node($$, $2);
       // add_tree_token_node($$, &$3, SEMICOLON);
 
@@ -488,11 +492,11 @@ output:
 ;
 
 input:
-  INPUT_READ '(' operation ')' ';' {
+  INPUT_READ '(' ID ')' ';' {
       $$ = create_node(INPUT_OPERATION);
       add_tree_token_node($$, &$1, READ);
       // add_tree_token_node($$, &$2, OPEN_PARENTHESES);
-      add_tree_node($$, $3);
+      add_tree_token_node($$, &$3, IDENTIFIER);
       // add_tree_token_node($$, &$4, CLOSE_PARENTHESES);
       // add_tree_token_node($$, &$5, SEMICOLON);
     }
@@ -501,7 +505,7 @@ input:
 func_calling: 
   ID  '(' {calling_params_counter = 0;} calling_parameters {verify_amount_params($4, &$1);} ')'  {
       $$ = create_node(FUNCTION_CALLING);
-      add_tree_id_node($$, &$1, IDENTIFIER, verify_existing_function(&$1));
+      add_tree_operation_leaf($$, &$1, IDENTIFIER, verify_existing_function(&$1));
       // add_tree_token_node($$, &$2, OPEN_PARENTHESES);
       add_tree_node($$, $4);
       // add_tree_token_node($$, &$4, CLOSE_PARENTHESES);      
@@ -537,8 +541,10 @@ expression:
 iden: 
   ID {
       $$ = create_node(IDEN);
-      add_tree_token_node($$, &$1, IDENTIFIER);
+      add_tree_operation_leaf($$, &$1, IDENTIFIER, verify_existing_variable(&$1));
+      // add_tree_token_node($$, &$1, IDENTIFIER);
       verify_existing_variable(&$1);
+      // printf(">>> %s %s\n",verify_existing_variable(&$1), $1.lexeme);
     }
 ;
 
@@ -675,20 +681,16 @@ arith_binary:
   arith_binary '+' term {
       $$ = create_node(ARITHMETIC_BINARY);
       add_tree_node($$, $1);
-      // add_tree_token_node($$, &$2, ADD_OP);
-      add_tree_id_node($$, &$2, ADD_OP, curr_type); //// last
+      add_tree_operation_leaf($$, &$2, ADD_OP, type_check_num($1, $3, &$2));
       add_tree_node($$, $3);
-      
-      strcpy($$->type, type_check_num($1, $3, &$2, ADD_OP));
-      // printf("> %s\n", $2.type);
+      strcpy($$->type, $1->type);
     }
   | arith_binary '-' term {
       $$ = create_node(ARITHMETIC_BINARY);
       add_tree_node($$, $1);
-      add_tree_token_node($$, &$2, MINUS_OP);
+      add_tree_operation_leaf($$, &$2, MINUS_OP, type_check_num($1, $3, &$2));
       add_tree_node($$, $3);
-
-      strcpy($$->type, type_check_num($1, $3, &$2, MINUS_OP));
+      strcpy($$->type, $1->type);
     }
   | term {
       $$ = $1;
@@ -699,21 +701,18 @@ arith_binary:
 
 term: 
   term '*' expression {
-    
       $$ = create_node(TERM);
       add_tree_node($$, $1);
-      add_tree_token_node($$, &$2, MULTIPLY_OP);
+      add_tree_operation_leaf($$, &$2, MULTIPLY_OP, type_check_num($1, $3, &$2));
       add_tree_node($$, $3);
-
-      strcpy($$->type, type_check_num($1, $3, &$2, MULTIPLY_OP));
+      strcpy($$->type, $1->type);
     }
   | term '/' expression {
       $$ = create_node(TERM);
       add_tree_node($$, $1);
-      add_tree_token_node($$, &$2, DIVISION_OP);
+      add_tree_operation_leaf($$, &$2, DIVISION_OP, type_check_num($1, $3, &$2));
       add_tree_node($$, $3);
-
-      strcpy($$->type, type_check_num($1, $3, &$2, DIVISION_OP));
+      strcpy($$->type, $1->type);
     }
   | expression {
       $$ = $1;
@@ -724,14 +723,16 @@ term:
 
 arith_single:
   '+' expression {
-    $$ = create_node(ARITHMETIC_SINGLE);
-    add_tree_token_node($$, &$1, ADD_OP);
-    add_tree_node($$, $2);
+      $$ = create_node(ARITHMETIC_SINGLE);
+      add_tree_operation_leaf($$, &$1, ADD_OP, type_check_num($2, $2, &$1));
+      add_tree_node($$, $2);
+      strcpy($$->type, $2->type);
     }
   | '-' expression {
       $$ = create_node(ARITHMETIC_SINGLE);
-      add_tree_token_node($$, &$1, MINUS_OP);
+      add_tree_operation_leaf($$, &$1, MINUS_OP, type_check_num($2, $2, &$1));
       add_tree_node($$, $2);
+      strcpy($$->type, $2->type);
     }
 ;
 
@@ -799,7 +800,7 @@ int main(int argc, char **argv) {
     yyin = stdin;
   
 
-  print_ast_tree();
+  // print_ast_tree();
   print_annotated_tree();
   semantic_parser();
   print_table();
