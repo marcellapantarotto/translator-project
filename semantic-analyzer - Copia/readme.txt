@@ -11,12 +11,6 @@ GCC should be in the version 11. If an update is needed do the following command
   $ gcc-11 --version
   $ sudo apt-get update gcc-11
 
-If you wish to compile in GCC instead of GCC-11, please change lines 3 through 6 of Makefile to:
-  $ gcc -o obj/structures.o -g -c src/structures.c
-	$ bison --defines=lib/syn.tab.h src/syn.y -o src/syn.tab.c
-	$ flex -o src/lex.yy.c src/lex.l
-	$ gcc -g -Wall -o tradutor -I lib/ src/syn.tab.c src/lex.yy.c
-
 Bison should be in the verison 3.7. If an update is needed do the following command:
   $ bison --version
   $ sudo apt-get update -y

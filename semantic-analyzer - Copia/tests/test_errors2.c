@@ -15,10 +15,9 @@ float main() {
     my_list = NIL;
     int elem;
     elem % my_list;
-    else {
-        func(2);
-    }
-    
-    output(3, 4);
+
+    p = func(2);
+    write(p);
+    output(p, elem);
     return my_list;
 }
