@@ -191,15 +191,18 @@ func_declaration:
   unq_declaration {strcpy(return_function, curr_type); increment_scope(); strcpy(func_name, $1->children->sibilings->child->token.lexeme);} '(' parameters ')' '{' block_commands '}' {
       $$ = create_node(FUNCTION_DECLARATION);    
       add_tree_node($$, $1);
-      // add_tree_token_node($$, &$3, OPEN_PARENTHESES);
       add_tree_node($$, $4);
-      // add_tree_token_node($$, &$5, CLOSE_PARENTHESES);
-      // add_tree_token_node($$, &$6, OPEN_CURLY_BRACKET);
       add_tree_node($$, $7);
-      // add_tree_token_node($$, &$8, CLOSE_CURLY_BRACKET);
-
       set_F_table($1->children->sibilings->child);
-      
+    }
+;
+
+func_calling: 
+  ID  '(' {calling_params_counter = 0;} calling_parameters {verify_amount_params($4, &$1);} ')'  {
+      $$ = create_node(FUNCTION_CALLING);
+      add_tree_operation_leaf($$, &$1, IDENTIFIER, verify_existing_function(&$1));
+      add_tree_node($$, $4);
+      strcpy($1.type, verify_existing_function(&$1));
     }
 ;
 
@@ -221,6 +224,34 @@ unq_declaration:
       strcpy($1->type, get_type($1, idx));
       strcpy($1->children->child->type, curr_type);
       idx++;
+    }
+;
+
+type:
+  type_lst  {
+      $$ = $1;
+    }
+  | type_number  {
+    $$ = $1;
+    }
+;
+
+type_lst:
+  type_number T_LIST   {
+      $$ = create_node(TYPE_LIST);
+      add_tree_node($$, $1);
+      add_tree_token_node($$, &$2, LIST);
+    }
+;
+
+type_number:
+  T_INT {
+      $$ = create_node(TYPE_NUMBER);
+      add_tree_token_node($$, &$1, INT);
+    }
+  | T_FLOAT {
+      $$ = create_node(TYPE_NUMBER);
+      add_tree_token_node($$, &$1, FLOAT);
     }
 ;
 
@@ -315,18 +346,12 @@ command:
     }
   | iteration {
       $$ = $1;
-      // $$ = create_node(COMMAND);
-      // add_tree_node($$, $1);
-    }
-  | input {
-      $$ = $1;
-      // $$ = create_node(COMMAND);
-      // add_tree_node($$, $1);
     }
   | output {
       $$ = $1;
-      // $$ = create_node(COMMAND);
-      // add_tree_node($$, $1);
+    }
+  | input {
+      $$ = $1;
     }
   | {increment_scope();} '{' block_commands '}' {
       $$ = create_node(COMMAND);
@@ -490,39 +515,6 @@ input:
     }
 ;
 
-func_calling: 
-  ID  '(' {calling_params_counter = 0;} calling_parameters {verify_amount_params($4, &$1);} ')'  {
-      $$ = create_node(FUNCTION_CALLING);
-      add_tree_operation_leaf($$, &$1, IDENTIFIER, verify_existing_function(&$1));
-      add_tree_node($$, $4);
-      strcpy($1.type, verify_existing_function(&$1));
-    }
-;
-
-expression: 
-  func_calling {
-    $$ = $1;
-    // $$ = create_node(EXPRESSION);
-    // add_tree_node($$, $1);
-    }
-  | single_operation {
-      $$ = $1;
-      // $$ = create_node(EXPRESSION);
-      // add_tree_node($$, $1);
-    }
-  | const {
-      $$ = $1;
-      // $$ = create_node(EXPRESSION);
-      // add_tree_node($$, $1);
-    }
-  | iden {
-      $$ = $1;
-    }
-  | '(' operation ')' {
-    $$ = $2;
-  }
-;
-
 iden: 
   ID {
       $$ = create_node(IDEN);
@@ -531,59 +523,6 @@ iden:
         printf(BHRED "SEMANTIC ERROR (line: %d, column: %d): Variable <%s> is being used in the wrong scope! \n" reset, $1.line, $1.column, $1.lexeme);
         semantic_errors++;
       }  
-    }
-;
-
-const: 
-  number {
-      $$ = $1;
-    }
-  | NIL_CNST {
-      $$ = create_node(CONSTANT);
-      add_tree_token_node($$, &$1, NIL);
-    }
-;
-
-number:
-  NUM_INT {
-      $$ = create_node(NUMBER);
-      add_tree_token_node($$, &$1, NUMBER_INT);
-    }
-  | NUM_FLOAT {
-      $$ = create_node(NUMBER);
-      add_tree_token_node($$, &$1, NUMBER_FLOAT);
-    }
-;
-
-type:
-  type_lst  {
-      $$ = $1;
-      // $$ = create_node(TYPE);
-      // add_tree_node($$, $1);
-    }
-  | type_number  {
-    $$ = $1;
-      // $$ = create_node(TYPE);
-      // add_tree_node($$, $1);
-    }
-;
-
-type_lst:
-  type_number T_LIST   {
-      $$ = create_node(TYPE_LIST);
-      add_tree_node($$, $1);
-      add_tree_token_node($$, &$2, LIST);
-    }
-;
-
-type_number:
-  T_INT {
-      $$ = create_node(TYPE_NUMBER);
-      add_tree_token_node($$, &$1, INT);
-    }
-  | T_FLOAT {
-      $$ = create_node(TYPE_NUMBER);
-      add_tree_token_node($$, &$1, FLOAT);
     }
 ;
 
@@ -643,22 +582,30 @@ operation:
     }
 ;
 
-single_operation:
-  arith_single {
+lst_binary: 
+  lst_binary FILTER lst_binary {
+      $$ = create_node(LIST_BINARY);
+      add_tree_node($$, $1);
+      add_tree_token_node($$, &$2, FILTER_OP);
+      add_tree_node($$, $3);
+    }
+  | lst_binary MAP lst_binary {
+      $$ = create_node(LIST_BINARY);
+      add_tree_node($$, $1);
+      add_tree_token_node($$, &$2, MAP_OP);
+      add_tree_node($$, $3);
+    }
+  | lst_binary ':' lst_binary {
+      $$ = create_node(LIST_BINARY);
+      add_tree_node($$, $1);
+      add_tree_token_node($$, &$2, CONSTRUCTOR_OP);
+      add_tree_node($$, $3);
+    }
+  | arith_binary {
       $$ = $1;
-      // $$ = create_node(SINGLE_OPERATION);
+      // $$ = create_node(OPERATION);
       // add_tree_node($$, $1);
     }
-  | lst_single {
-      $$ = $1;
-      // $$ = create_node(SINGLE_OPERATION);
-      // add_tree_node($$, $1);
-    }
-  | '!' expression {
-    $$ = create_node(SINGLE_OPERATION);
-    add_tree_token_node($$, &$1, NOT_OR_TAIL);
-    add_tree_node($$, $2);
-  }
 ;
 
 arith_binary:
@@ -705,6 +652,62 @@ term:
     }
 ;
 
+expression: 
+  func_calling {
+    $$ = $1;
+    }
+  | single_operation {
+      $$ = $1;
+    }
+  | const {
+      $$ = $1;
+    }
+  | iden {
+      $$ = $1;
+    }
+  | '(' operation ')' {
+    $$ = $2;
+  }
+;
+const: 
+  number {
+      $$ = $1;
+    }
+  | NIL_CNST {
+      $$ = create_node(CONSTANT);
+      add_tree_token_node($$, &$1, NIL);
+    }
+;
+
+number:
+  NUM_INT {
+      $$ = create_node(NUMBER);
+      add_tree_token_node($$, &$1, NUMBER_INT);
+    }
+  | NUM_FLOAT {
+      $$ = create_node(NUMBER);
+      add_tree_token_node($$, &$1, NUMBER_FLOAT);
+    }
+;
+
+single_operation:
+  arith_single {
+      $$ = $1;
+      // $$ = create_node(SINGLE_OPERATION);
+      // add_tree_node($$, $1);
+    }
+  | lst_single {
+      $$ = $1;
+      // $$ = create_node(SINGLE_OPERATION);
+      // add_tree_node($$, $1);
+    }
+  | '!' expression {
+    $$ = create_node(SINGLE_OPERATION);
+    add_tree_token_node($$, &$1, NOT_OR_TAIL);
+    add_tree_node($$, $2);
+  }
+;
+
 arith_single:
   '+' expression {
       $$ = create_node(ARITHMETIC_SINGLE);
@@ -730,32 +733,6 @@ lst_single:
       $$ = create_node(LIST_SINGLE);
       add_tree_token_node($$, &$1, HEAD_OP);
       add_tree_node($$, $2);
-    }
-;
-
-lst_binary: 
-  lst_binary FILTER lst_binary {
-      $$ = create_node(LIST_BINARY);
-      add_tree_node($$, $1);
-      add_tree_token_node($$, &$2, FILTER_OP);
-      add_tree_node($$, $3);
-    }
-  | lst_binary MAP lst_binary {
-      $$ = create_node(LIST_BINARY);
-      add_tree_node($$, $1);
-      add_tree_token_node($$, &$2, MAP_OP);
-      add_tree_node($$, $3);
-    }
-  | lst_binary ':' lst_binary {
-      $$ = create_node(LIST_BINARY);
-      add_tree_node($$, $1);
-      add_tree_token_node($$, &$2, CONSTRUCTOR_OP);
-      add_tree_node($$, $3);
-    }
-  | arith_binary {
-      $$ = $1;
-      // $$ = create_node(OPERATION);
-      // add_tree_node($$, $1);
     }
 ;
 

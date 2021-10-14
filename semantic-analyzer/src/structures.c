@@ -325,7 +325,7 @@ void add_tree_node(t_node *root, t_node *node) {
 }
 
 void set_type_node(t_node *root, t_node *node){
-    // if(strcmp(rule_label[root->children->child->label], "NUMBER_INT") == 0 ||
+  // if(strcmp(rule_label[root->children->child->label], "NUMBER_INT") == 0 ||
 
   if(strcmp(rule_label[root->children->child->label], "NUMBER_INT") == 0 ||
             strcmp(rule_label[root->label], "NUMBER_INT") == 0 ||
