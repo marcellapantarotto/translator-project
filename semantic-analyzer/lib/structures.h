@@ -121,7 +121,7 @@ typedef struct t_token {
   char lexeme[200];
   int line;
   int column;
-  char type[13];
+  char type[14];
   int scope;
 } t_token;
 
@@ -129,7 +129,7 @@ typedef struct t_token {
 typedef struct t_node {
   struct t_token token; //--------> value (for node = NULL; for token = terminal)
   enum rule_label label;
-  char type[13];
+  char type[14];
 	struct tree_node *children;
 } t_node;
 
@@ -147,6 +147,26 @@ typedef struct t_scope_node {
   struct t_scope_node *parent;
   int scope_number;
 } t_scope_node;
+
+
+//===============================================================
+// PARAMETER SECTION
+//===============================================================
+
+// symbol table_node
+typedef struct parameter {
+  char name[31];
+  char type[14];
+  char function[31];
+  struct parameter *next;
+} parameter;
+
+// symbol table (pointers to beginning and end)
+typedef struct parameter_list {
+  struct parameter *beginning;
+  struct parameter *final;
+} parameter_list;
+
 
 //===============================================================
 // FUNCTION DECLATARIONS
@@ -183,7 +203,7 @@ void destroy_tree(t_node *root);
 void semantic_parser();
 int find_main();
 char *get_type(t_node *node, int i);
-int get_amount_params(t_node *node) ;
+int get_amount_params(t_node *node, char *function);
 void set_amount_params(char *func, int x);
 int verify_amount_params(t_node *root, t_token *func);
 void set_F_table(t_node *node);
@@ -199,6 +219,9 @@ char *type_check_id(t_token *token, t_node *node, int op);
 int is_variable(t_node *node);
 char *return_var_type_from_table(t_node *node);
 void set_type_node(t_node *root, t_node *node);
+parameter *find_param(char *type);
+void remove_param_from_list(t_node *node);
+parameter_list create_params_list();
 
 //===============================================================
 // VARIABLE DECLARATIONS
@@ -222,6 +245,8 @@ extern int calling_params_counter;
 extern char func_name[];
 extern char curr_type[];
 extern char return_type[];
-extern char return_function[];
+extern char return_type_function[];
+extern char param_type[];
+extern parameter_list param_lst;
 
 #endif

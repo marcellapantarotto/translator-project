@@ -21,7 +21,9 @@ int params_counter = 0;
 int calling_params_counter = 0;
 char curr_type[] = "";
 char return_type[13] = "";
-char return_function[13] = "";
+char return_type_function[13] = "";
+char param_type[13] = "";
+parameter_list param_lst;
 
 const char *rule_label[] = {
   "PROGRAM",
@@ -159,14 +161,13 @@ table create_table() {
 void add_table_node(char *tok, t_node *n, int i) {
   table_node *node = (table_node*) malloc(sizeof(table_node));
   node->id = id_counter;
-  strcpy(node->token,tok); //
+  strcpy(node->token,tok);
   node->next = NULL;
   node->scope = g_scope;
   node->line = yylineno;
   node->column = column;
-  strcpy(node->type, curr_type); //
-  strcpy(node->vfp,"Variable"); //
-  
+  strcpy(node->type, curr_type);
+  strcpy(node->vfp,"Variable");
   node->params = 0;
   
   int x = verify_existing_symbol(node);
@@ -467,48 +468,6 @@ char *get_type(t_node *node, int i) {
   return aux;
 }
 
-int get_amount_params(t_node *node) {
-  tree_node *curr = node->children;
-  while(curr != NULL) {
-    if(strcmp(rule_label[curr->child->label], "UNIQUE_DECLARATION") == 0) {
-      curr = curr->sibilings;
-    } 
-    if(strcmp(curr->child->token.lexeme, "") != 0) {
-      params_counter++;
-    }
-    curr = curr->sibilings;
-    }
-  return params_counter;
-}
-
-void set_amount_params(char *func, int x) {
-  table_node *aux = symbol_table.beginning;
-  while(aux->next != NULL) {
-    aux = aux->next;
-    if (strcmp(aux->token, func) == 0) {
-      aux->params = x;
-    }
-  }
-}
-
-int verify_amount_params(t_node *node, t_token *func) {
-  table_node *aux = symbol_table.beginning;
-  while(aux->next != NULL) {
-    aux = aux->next;
-    if(strcmp(func->lexeme, aux->token) == 0) {
-      if (calling_params_counter < aux->params) {
-        printf(BHRED "SEMANTIC ERROR (line: %d, column: %d): Amount of parameters passed is lower then the amount expected by the function! \n" reset, yylineno, column-yyleng);
-        semantic_errors++;
-        return 1;
-      } else if (calling_params_counter > aux->params) {
-        printf(BHRED "SEMANTIC ERROR (line: %d, column: %d): Amount of parameters passed is higher then the amount expected by the function! \n" reset, yylineno, column-yyleng);
-        semantic_errors++;
-        return 1;
-      }
-    }
-  } 
-  return 0;
-}
 
 void set_F_table(t_node *node) {
   table_node *aux = symbol_table.beginning;
@@ -561,7 +520,6 @@ char *verify_existing_function(t_token *tok) {
   if(!found) {
     printf(BHRED "SEMANTIC ERROR (line: %d, column: %d): Function <%s> was not declared! \n" reset, tok->line, tok->column, tok->lexeme);
     semantic_errors++;
-    return NULL;
   }
   return aux->type;
 }
@@ -654,6 +612,120 @@ int get_scope_from_table(t_token *func) {
   }
   return -1;
 }
+
+
+//===============================================================
+// PARAMETERS
+//===============================================================
+
+int get_amount_params(t_node *node, char *function) {
+  // parameter *p = (parameter*) malloc(sizeof(parameter));
+  tree_node *curr = node->children;
+  while(curr != NULL) {
+    if(strcmp(rule_label[curr->child->label], "UNIQUE_DECLARATION") == 0) {
+      curr = curr->sibilings;
+    } 
+    if(strcmp(curr->child->token.lexeme, "") != 0) {
+      params_counter++;
+
+      // strcpy(p->name, curr->child->token.lexeme);
+      // strcpy(p->type, curr->child->type);
+      // strcpy(p->function, function);
+      // p->next = NULL;
+
+      // param_lst.final->next = p;
+      // param_lst.final = p;
+    }
+    curr = curr->sibilings;
+    }
+  return params_counter;
+}
+
+void set_amount_params(char *func, int x) {
+  table_node *aux = symbol_table.beginning;
+  while(aux->next != NULL) {
+    aux = aux->next;
+    if (strcmp(aux->token, func) == 0) {
+      aux->params = x;
+    }
+  }
+}
+
+int verify_amount_params(t_node *node, t_token *func) {
+  table_node *aux = symbol_table.beginning;
+  while(aux->next != NULL) {
+    aux = aux->next;
+    if(strcmp(func->lexeme, aux->token) == 0) {
+      if (calling_params_counter < aux->params) {
+        printf(BHRED "SEMANTIC ERROR (line: %d, column: %d): Amount of parameters passed is lower then the amount expected by the function! \n" reset, yylineno, column-yyleng);
+        semantic_errors++;
+        return 1;
+      } else if (calling_params_counter > aux->params) {
+        printf(BHRED "SEMANTIC ERROR (line: %d, column: %d): Amount of parameters passed is higher then the amount expected by the function! \n" reset, yylineno, column-yyleng);
+        semantic_errors++;
+        return 1;
+      }
+    }
+  } 
+  return 0;
+}
+
+parameter_list create_params_list() {
+  parameter_list lst;
+  lst.beginning = (parameter*)malloc(sizeof(parameter));
+  strcpy(lst.beginning->name,"");
+  strcpy(lst.beginning->type,"");
+  lst.beginning->next = NULL;
+  lst.final = lst.beginning;
+  return lst;
+}
+
+void remove_param_from_list(t_node *node) {
+  parameter *p = param_lst.beginning;
+  // parameter *next;
+  tree_node *curr = node->children;
+
+  while(curr != NULL) {
+    if(strcmp(curr->child->token.lexeme, "") != 0) {
+      printf("~~~~ %s %s \n", curr->child->token.lexeme, curr->child->type);
+      if(strcmp(curr->child->type, p->type) == 0){
+      //   next = p->next;
+        // free(p);
+        // p = next;
+        printf(" %-10s - %-13s - %-s \n", p->name, p->type, p->function );
+      }
+        
+    }
+    curr = curr->sibilings;
+  }
+}
+
+void print_params_list() {
+  parameter *aux = param_lst.beginning;
+  printf("\n\n========================================================\n");
+  printf("\t\tLIST OF PARAMETERS");
+  printf("\n========================================================\n");
+  printf(" NAME\t    | TYPE\t    | FUNCTION ");
+  printf("\n========================================================\n");
+  
+  while(aux->next != NULL) {
+    aux = aux->next;
+    printf(" %-10s | %-13s | %-s \n", aux->name, aux->type, aux->function );
+  }
+  printf("========================================================\n\n");
+}
+
+void destroy_params_list() {
+  parameter *curr = param_lst.beginning;
+  parameter *nxt;
+  while(curr->next != NULL) {
+    nxt = curr->next;
+    free(curr);
+    curr = nxt;
+  }
+  free(curr);
+}
+
 
 // char *type_check_id(t_token *token, t_node *node, int op) {
 //   if (strcmp(token, "int") == 0 && strcmp(node->type, "float") == 0) {

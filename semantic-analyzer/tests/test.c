@@ -1,12 +1,4 @@
-float function(int a) {
-   float b;
-   b = 6;
-   
-   // b = 6.589 + 0.001;
-   // a = +3;
-   // b = 6.589 + 1;
-   // a = a / a + a;
-   // return a + b;
+int function(int a, int b, float c) {
    return b;
 }
 
@@ -20,10 +12,7 @@ float function(int a) {
 
 int main() {
    float p;
-   function(22);
-   // x = 0.5;
-   // read(b);
-   s = p;
+   function(22, 3, 7.2);
    return 0;
 }
 

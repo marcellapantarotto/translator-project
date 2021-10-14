@@ -21,8 +21,6 @@
   extern FILE *yyin;
 
   char func_name[50];
-
-  // extern t_node *root;
 %}
 
 /********** Tokens **********/
@@ -188,21 +186,21 @@ declaration:
 ;
 
 func_declaration:
-  unq_declaration {strcpy(return_function, curr_type); increment_scope(); strcpy(func_name, $1->children->sibilings->child->token.lexeme);} '(' parameters ')' '{' block_commands '}' {
+  unq_declaration {strcpy(return_type_function, curr_type); increment_scope(); strcpy(func_name, $1->children->sibilings->child->token.lexeme);} '(' parameters ')' '{' block_commands '}' {
       $$ = create_node(FUNCTION_DECLARATION);    
       add_tree_node($$, $1);
       add_tree_node($$, $4);
       add_tree_node($$, $7);
       set_F_table($1->children->sibilings->child);
+      // param_lst = create_params_list();
     }
 ;
 
 func_calling: 
-  ID  '(' {calling_params_counter = 0;} calling_parameters {verify_amount_params($4, &$1);} ')'  {
+  ID  '(' {calling_params_counter = 0;} calling_parameters {verify_amount_params($4, &$1);} ')' {
       $$ = create_node(FUNCTION_CALLING);
       add_tree_operation_leaf($$, &$1, IDENTIFIER, verify_existing_function(&$1));
       add_tree_node($$, $4);
-      strcpy($1.type, verify_existing_function(&$1));
     }
 ;
 
@@ -268,22 +266,20 @@ parameters:
 ;
 
 lst_parameters: 
-  unq_declaration ',' lst_parameters  {
+  unq_declaration ',' lst_parameters {strcpy(param_type, $1->children->child->type);}  {
       $$ = create_node(LIST_PARAMETERS);
       add_tree_node($$, $1);
-      // add_tree_token_node($$, &$2, COMMA);
       add_tree_node($$, $3);
-
       set_P_table($1);
-      set_amount_params(func_name, get_amount_params($1));
+      set_amount_params(func_name, get_amount_params($1, func_name));
+
+      // printf(">>>> %s\n", $1->children->child->type);
     }
-  | unq_declaration {
+  | unq_declaration {strcpy(param_type, $1->children->child->type);} {
       $$ = $1;
-      // $$ = create_node(LIST_PARAMETERS);
-      // add_tree_node($$, $1);
-
       set_P_table($1);
-      set_amount_params(func_name, get_amount_params($1));
+      set_amount_params(func_name, get_amount_params($1, func_name));
+      // printf(">>>> %s\n", $1->children->child->type);     
     }
 ;
 
@@ -298,17 +294,30 @@ calling_parameters:
 ;
 
 lst_calling_parameters:
-  operation ',' lst_calling_parameters {
+  operation ',' lst_calling_parameters  {
       $$ = create_node(LIST_CALLING_PARAMETERS);
       add_tree_node($$, $1);
-      // add_tree_token_node($$, &$2, COMMA);
       add_tree_node($$, $3);
       calling_params_counter += 1;
+
+      // printf("<<< %s\n", $1->children->child->type);
+      // remove_param_from_list($1);
+      // else {
+      //   printf(BHRED "SEMANTIC ERROR (line: %d, column: %d): Type of parameter passed is different then the expected! Type passed: %s, expected: %s \n" reset, yylineno, column-yyleng, $1->children->child->type, param_type);
+      //   semantic_errors++;
+      // }
     }
-  | operation {
+  | operation  {
       $$ = create_node(LIST_CALLING_PARAMETERS);
       add_tree_node($$, $1);
       calling_params_counter += 1;
+
+      // printf("<<< %s\n", $1->children->child->type);
+      // remove_param_from_list($1);
+      //  else {
+      //   printf(BHRED "SEMANTIC ERROR (line: %d, column: %d): Type of parameter passed is different then the expected! Type passed: %s, expected: %s \n" reset, yylineno, column-yyleng, $1->children->child->type, param_type);
+      //   semantic_errors++;
+      // }
     }
 ;
 
@@ -418,11 +427,11 @@ conditional_stmt:
 return_stmt: 
   RETURN_STM operation ';'  {
       $$ = create_node(RETURN_STMT);
-      add_tree_operation_leaf($$, &$1, RETURN, return_function);
+      add_tree_operation_leaf($$, &$1, RETURN, return_type_function);
       add_tree_node($$, $2);
       strcpy($2->type, $2->children->child->type);
-      if(strcmp($2->type, return_function) != 0) {
-        printf(BHRED "SEMANTIC ERROR (line: %d, column: %d): Type passed in the return is different from the expected type for the function return! Type passed: %s, expected: %s\n" reset, $1.line, $1.column+7, $2->type, return_function);
+      if(strcmp($2->type, return_type_function) != 0) {
+        printf(BHRED "SEMANTIC ERROR (line: %d, column: %d): Type passed in the return is different from the expected type for the function return! Type passed: %s, expected: %s\n" reset, $1.line, $1.column+7, $2->type, return_type_function);
         semantic_errors++;
       }
     }
