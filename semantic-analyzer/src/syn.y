@@ -193,6 +193,7 @@ func_declaration:
       add_tree_node($$, $7);
       set_F_table($1->children->sibilings->child);
       // param_lst = create_params_list();
+      
     }
 ;
 
@@ -206,10 +207,7 @@ func_calling:
 
 var_declaration:
   unq_declaration ';' {
-      // $$ = create_node(VARIABLE_DECLARATION);
       $$ = $1;
-      // add_tree_node($$, $1);
-      // add_tree_token_node($$, &$2, SEMICOLON);
     }
 ;
 
@@ -430,6 +428,10 @@ return_stmt:
       add_tree_operation_leaf($$, &$1, RETURN, return_type_function);
       add_tree_node($$, $2);
       strcpy($2->type, $2->children->child->type);
+      printf("->> $2->type %s\n", $2->type);
+
+
+
       if(strcmp($2->type, return_type_function) != 0) {
         printf(BHRED "SEMANTIC ERROR (line: %d, column: %d): Type passed in the return is different from the expected type for the function return! Type passed: %s, expected: %s\n" reset, $1.line, $1.column+7, $2->type, return_type_function);
         semantic_errors++;
@@ -485,34 +487,24 @@ output:
   OUTPUT_WRITE '(' operation ')' ';'  {
       $$ = create_node(OUTPUT_OPERATION);
       add_tree_token_node($$, &$1, WRITE);
-      // add_tree_token_node($$, &$2, OPEN_PARENTHESES);
       add_tree_node($$, $3);
-      // add_tree_token_node($$, &$4, CLOSE_PARENTHESES);
-      // add_tree_token_node($$, &$5, SEMICOLON);
     }
   | OUTPUT_WRITELN '(' operation ')' ';' {
       $$ = create_node(OUTPUT_OPERATION);
       add_tree_token_node($$, &$1, WRITELN);
-      // add_tree_token_node($$, &$2, OPEN_PARENTHESES);
       add_tree_node($$, $3);
-      // add_tree_token_node($$, &$4, CLOSE_PARENTHESES);
-      // add_tree_token_node($$, &$5, SEMICOLON);
     }
   | OUTPUT_WRITE '(' STRING ')' ';' {
       $$ = create_node(OUTPUT_OPERATION);
       add_tree_token_node($$, &$1, WRITELN);
-      // add_tree_token_node($$, &$2, OPEN_PARENTHESES);
-      add_tree_token_node($$, &$3, STRING);
-      // add_tree_token_node($$, &$4, CLOSE_PARENTHESES);
-      // add_tree_token_node($$, &$5, SEMICOLON);
+      // add_tree_token_node($$, &$3, STRING);
+      add_tree_operation_leaf($$, &$3, STRING_STMT, "-");
     }
   | OUTPUT_WRITELN '(' STRING ')' ';' {
       $$ = create_node(OUTPUT_OPERATION);
       add_tree_token_node($$, &$1, WRITELN);
-      // add_tree_token_node($$, &$2, OPEN_PARENTHESES);
-      add_tree_token_node($$, &$3, STRING);
-      // add_tree_token_node($$, &$4, CLOSE_PARENTHESES);
-      // add_tree_token_node($$, &$5, SEMICOLON);
+      // add_tree_token_node($$, &$3, STRING);
+      add_tree_operation_leaf($$, &$3, STRING_STMT, "-");
     }
 ;
 
@@ -528,10 +520,10 @@ iden:
   ID {
       $$ = create_node(IDEN);
       add_tree_operation_leaf($$, &$1, IDENTIFIER, verify_existing_variable(&$1));
-      if(get_scope_from_table(&$1) != $1.scope){
-        printf(BHRED "SEMANTIC ERROR (line: %d, column: %d): Variable <%s> is being used in the wrong scope! \n" reset, $1.line, $1.column, $1.lexeme);
-        semantic_errors++;
-      }  
+      // if(get_scope_from_table(&$1) != $1.scope){
+      //   printf(BHRED "SEMANTIC ERROR (line: %d, column: %d): Variable <%s> is being used in the wrong scope! \n" reset, $1.line, $1.column, $1.lexeme);
+      //   semantic_errors++;
+      // }  
     }
 ;
 
@@ -544,37 +536,43 @@ operation:
   | operation GREATER operation  {
       $$ = create_node(OPERATION);
       add_tree_node($$, $1);
-      add_tree_token_node($$, &$2, GT_OP);
+      add_tree_operation_leaf($$, &$2, GT_OP, type_check_num($1, $3, &$2));
+      // add_tree_token_node($$, &$2, GT_OP);
       add_tree_node($$, $3);
     }
   | operation GREATER_EQ operation  {
       $$ = create_node(OPERATION);
       add_tree_node($$, $1);
+      add_tree_operation_leaf($$, &$2, GE_OP, type_check_num($1, $3, &$2));
       add_tree_token_node($$, &$2, GE_OP);
       add_tree_node($$, $3);
     }
   | operation LESS operation  {
       $$ = create_node(OPERATION);
       add_tree_node($$, $1);
+      add_tree_operation_leaf($$, &$2, LT_OP, type_check_num($1, $3, &$2));
       add_tree_token_node($$, &$2, LT_OP);
       add_tree_node($$, $3);
     }
   | operation LESS_EQ operation  {
       $$ = create_node(OPERATION);
       add_tree_node($$, $1);
-      add_tree_token_node($$, &$2, LE_OP);
+      add_tree_operation_leaf($$, &$2, LE_OP, type_check_num($1, $3, &$2));
+      // add_tree_token_node($$, &$2, LE_OP);
       add_tree_node($$, $3);
     }
   | operation EQUAL operation  {
       $$ = create_node(OPERATION);
       add_tree_node($$, $1);
-      add_tree_token_node($$, &$2, EQ_OP);
+      add_tree_operation_leaf($$, &$2, EQ_OP, type_check_num($1, $3, &$2));
+      // add_tree_token_node($$, &$2, EQ_OP);
       add_tree_node($$, $3);
     }
   | operation NOT_EQ operation  {
       $$ = create_node(OPERATION);
       add_tree_node($$, $1);
-      add_tree_token_node($$, &$2, NE_OP);
+      add_tree_operation_leaf($$, &$2, NE_OP, type_check_num($1, $3, &$2));
+      // add_tree_token_node($$, &$2, NE_OP);
       add_tree_node($$, $3);
     }
   | operation AND operation {
@@ -634,8 +632,6 @@ arith_binary:
     }
   | term {
       $$ = $1;
-      // $$ = create_node(ARITHMETIC_BINARY);
-      // add_tree_node($$, $1);
     }
 ;
 
@@ -656,8 +652,6 @@ term:
     }
   | expression {
       $$ = $1;
-      // $$ = create_node(TERM);
-      // add_tree_node($$, $1);
     }
 ;
 
@@ -678,6 +672,7 @@ expression:
     $$ = $2;
   }
 ;
+
 const: 
   number {
       $$ = $1;
@@ -702,13 +697,9 @@ number:
 single_operation:
   arith_single {
       $$ = $1;
-      // $$ = create_node(SINGLE_OPERATION);
-      // add_tree_node($$, $1);
     }
   | lst_single {
       $$ = $1;
-      // $$ = create_node(SINGLE_OPERATION);
-      // add_tree_node($$, $1);
     }
   | '!' expression {
     $$ = create_node(SINGLE_OPERATION);

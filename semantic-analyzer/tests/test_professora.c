@@ -31,7 +31,7 @@ int main() {
 	float list FL10;
 	read(n);
 	
-	// IL  = read_list(n);
+	IL  = read_list(n);
 	FL = succ >> IL;
 
 	FL10 = leq_10 <<  FL;

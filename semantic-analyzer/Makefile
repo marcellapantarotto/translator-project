@@ -16,4 +16,4 @@ run:
 #	./tradutor tests/test_errors2.c
 	
 debug:
-	valgrind -v --tool=memcheck --leak-check=full --log-file="logfile.out" --show-leak-kinds=all --track-origins=yes ./tradutor tests/test.c
+	valgrind -v --tool=memcheck --leak-check=full --log-file="logfile.out" --show-leak-kinds=all --track-origins=yes ./tradutor tests/test_professora.c

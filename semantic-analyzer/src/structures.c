@@ -63,7 +63,7 @@ const char *rule_label[] = {
   "NIL",
   "NUMBER_INT",
   "NUMBER_FLOAT",
-  "STRING_STMT",
+  "STRING",
   "TYPE",
   "TYPE_LIST",
   "LIST",
@@ -322,7 +322,7 @@ void add_tree_node(t_node *root, t_node *node) {
     youngest->sibilings = aux; // node
   }
 
-  set_type_node(root, node);
+  // set_type_node(root, node);
 }
 
 void set_type_node(t_node *root, t_node *node){
@@ -340,6 +340,11 @@ void set_type_node(t_node *root, t_node *node){
     strcpy(root->type, "float");
     strcpy(root->children->child->type, "float");
     // strcpy(node->type, "float");
+  } else if(strcmp(rule_label[root->children->child->label], "LIST") == 0 ||
+            strcmp(rule_label[root->label], "LIST") == 0 ||
+            strcmp(rule_label[node->label], "LIST") == 0 ) {
+    strcpy(root->type, curr_type);
+    strcpy(root->children->child->type, curr_type);
   } 
   else if(strcmp(rule_label[root->children->child->label], "IDENTIFIER") == 0 ||
             strcmp(rule_label[root->label], "IDENTIFIER") == 0 ||
@@ -348,6 +353,11 @@ void set_type_node(t_node *root, t_node *node){
         // strcpy(node->type, return_var_type_from_table(root->children->child));
         strcpy(root->children->child->type, return_var_type_from_table(root->children->child));
       }
+  } else if (strcmp(rule_label[root->label], "STRING") == 0) {
+      strcpy(root->children->child->type, "+");
+    }
+    else {
+    return;
   }
 }
 
@@ -542,15 +552,17 @@ void print_annotated(t_node *root, int height) {
     for(int i = 0; i < height-4; i++) {
       printf(" |");
     }
+
+    
+   
     if (strcmp(rule_label[root->label], "IDENTIFIER") == 0) {
       printf("- " BHBLU "%s  (line: %d, column: %d) " BHMAG " type: %s \n" reset, root->token.lexeme, root->token.line, root->token.column, root->type);
     } else if (strcmp(rule_label[root->label], "NUMBER_INT") == 0) {
       printf("- int: " BHBLU "%s  (line: %d, column: %d) " BHMAG " type: %s \n" reset, root->token.lexeme, root->token.line, root->token.column, root->type);
     }  else if (strcmp(rule_label[root->label], "NUMBER_FLOAT") == 0) {
       printf("- float: " BHBLU "%s  (line: %d, column: %d) " BHMAG " type: %s \n" reset, root->token.lexeme, root->token.line, root->token.column, root->type);
-    } 
-    else {     
-      printf("- %s  (line: %d, column: %d) " BHMAG " type: %s \n" reset, rule_label[root->label], root->token.line, root->token.column, root->type);
+    } else {     
+      printf("- %s: %s  (line: %d, column: %d) " BHMAG " type: %s \n" reset, rule_label[root->label], root->token.lexeme, root->token.line, root->token.column, root->type);
     }
   } 
   
