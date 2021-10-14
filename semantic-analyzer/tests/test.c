@@ -1,11 +1,13 @@
 float function(int a) {
    float b;
+   b = 6;
+   
    // b = 6.589 + 0.001;
-   a = +3;
+   // a = +3;
    // b = 6.589 + 1;
    // a = a / a + a;
    // return a + b;
-   return -9.85;
+   return b;
 }
 
 // int list_g(int a, ) {
@@ -17,8 +19,11 @@ float function(int a) {
 // }
 
 int main() {
-   // float a;
+   float p;
    function(22);
+   // x = 0.5;
+   // read(b);
+   s = p;
    return 0;
 }
 

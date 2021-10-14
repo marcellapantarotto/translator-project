@@ -122,6 +122,7 @@ typedef struct t_token {
   int line;
   int column;
   char type[13];
+  int scope;
 } t_token;
 
 // tree structure
@@ -197,6 +198,7 @@ char *type_check_num(t_node *node1, t_node *node2, t_token *op_node);
 char *type_check_id(t_token *token, t_node *node, int op);
 int is_variable(t_node *node);
 char *return_var_type_from_table(t_node *node);
+void set_type_node(t_node *root, t_node *node);
 
 //===============================================================
 // VARIABLE DECLARATIONS

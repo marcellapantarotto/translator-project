@@ -164,9 +164,7 @@ void add_table_node(char *tok, t_node *n, int i) {
   node->scope = g_scope;
   node->line = yylineno;
   node->column = column;
-  // node->type = (char*) malloc(sizeof(strlen(get_type(n, i))+1));
   strcpy(node->type, curr_type); //
-  // get_type(n, i);
   strcpy(node->vfp,"Variable"); //
   
   node->params = 0;
@@ -323,6 +321,12 @@ void add_tree_node(t_node *root, t_node *node) {
     youngest->sibilings = aux; // node
   }
 
+  set_type_node(root, node);
+}
+
+void set_type_node(t_node *root, t_node *node){
+    // if(strcmp(rule_label[root->children->child->label], "NUMBER_INT") == 0 ||
+
   if(strcmp(rule_label[root->children->child->label], "NUMBER_INT") == 0 ||
             strcmp(rule_label[root->label], "NUMBER_INT") == 0 ||
             strcmp(rule_label[node->label], "NUMBER_INT") == 0 ) {
@@ -364,6 +368,7 @@ void add_tree_token_node(t_node *root, t_token *tok, int label) {
 
 void add_tree_operation_leaf(t_node *root, t_token *tok, int label, char *type) {
   struct t_node *node;
+  tok->scope = g_scope;
   node = token_to_node(tok, label);
   strcpy(node->type, type);
   add_tree_node(root, node);
@@ -536,10 +541,9 @@ char *verify_existing_variable(t_token *tok) {
       return aux->type;
     }
   }
-  if(!found) {
+  if(!found && strcmp(tok->lexeme, "")) {
     printf(BHRED "SEMANTIC ERROR (line: %d, column: %d): Variable <%s> was not declared! \n" reset, tok->line, tok->column, tok->lexeme);
     semantic_errors++;
-    return NULL;
   }
   return aux->type;
 }
@@ -633,21 +637,22 @@ char *type_check_num(t_node *node1, t_node *node2, t_token *op_node) {
     strcpy(op_node->type, "int");
     strcpy(return_type, "int");
   }
-  printf(">> %s: %s (%s)\n", rule_label[node1->label], node1->children->child->token.lexeme, node1->type);
-  printf(">>> %s: %s (%s)\n", rule_label[node2->label], node2->children->child->token.lexeme, node2->type);
-  printf(">>>> return: %s\n", return_type);
+  // printf(">> %s: %s (%s)\n", rule_label[node1->label], node1->children->child->token.lexeme, node1->type);
+  // printf(">>> %s: %s (%s)\n", rule_label[node2->label], node2->children->child->token.lexeme, node2->type);
+  // printf(">>>> return: %s\n", return_type);
   
   return return_type;
 }
 
-void get_type_id(t_token *func) {
+int get_scope_from_table(t_token *func) {
   table_node *aux = symbol_table.beginning;
   while(aux->next != NULL) {
     aux = aux->next;
     if (strcmp(aux->token, func->lexeme) == 0) {
-      strcpy(func->type, aux->type);
+      return aux->scope;
     }
   }
+  return -1;
 }
 
 // char *type_check_id(t_token *token, t_node *node, int op) {

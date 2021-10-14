@@ -218,8 +218,6 @@ unq_declaration:
       add_tree_node($$, $1);
       add_tree_operation_leaf($$, &$2, IDENTIFIER, curr_type);
       add_table_node($2.lexeme, $1, idx);
-
-
       strcpy($1->type, get_type($1, idx));
       strcpy($1->children->child->type, curr_type);
       idx++;
@@ -347,11 +345,11 @@ command:
       $$ = create_node(COMMAND); 
       syntax_errors++;
     }
-  // | error {
-  //     yyerrok;
-  //     $$ = create_node(COMMAND); 
-  //     syntax_errors++;
-  //   }
+  | error {
+      yyerrok;
+      $$ = create_node(COMMAND); 
+      syntax_errors++;
+    }
 ;
 
 init_variable: 
@@ -363,15 +361,11 @@ init_variable:
 ;
 
 init_stmt: 
-  ID '=' operation  {
+  iden '=' operation  {
       $$ = create_node(INIT_STMT);
-      add_tree_operation_leaf($$, &$1, IDENTIFIER, verify_existing_variable(&$1));
-      // add_tree_token_node($$, &$1, IDENTIFIER);
-      add_tree_operation_leaf($$, &$2, ASSIGN, verify_existing_variable(&$1));
-      // add_tree_token_node($$, &$2, ASSIGN);
+      add_tree_node($$, $1);
+      add_tree_operation_leaf($$, &$2, ASSIGN, verify_existing_variable(&$1->token));
       add_tree_node($$, $3);
-      // type_check_id($1, $3, ASSIGN);
-      // strcpy($$->type, type_check_num($1, $3, ASSIGN));
     }
 ;
 
@@ -399,11 +393,8 @@ conditional_stmt:
 return_stmt: 
   RETURN_STM operation ';'  {
       $$ = create_node(RETURN_STMT);
-      // add_tree_token_node($$, &$1, RETURN);
       add_tree_operation_leaf($$, &$1, RETURN, return_function);
       add_tree_node($$, $2);
-      // add_tree_token_node($$, &$3, SEMICOLON);
-
       strcpy($2->type, $2->children->child->type);
       if(strcmp($2->type, return_function) != 0) {
         printf(BHRED "SEMANTIC ERROR (line: %d, column: %d): Type passed in the return is different from the expected type for the function return! Type passed: %s, expected: %s\n" reset, $1.line, $1.column+7, $2->type, return_function);
@@ -491,14 +482,11 @@ output:
     }
 ;
 
-input:
-  INPUT_READ '(' ID ')' ';' {
+input: 
+  INPUT_READ '(' iden ')' ';' {
       $$ = create_node(INPUT_OPERATION);
       add_tree_token_node($$, &$1, READ);
-      // add_tree_token_node($$, &$2, OPEN_PARENTHESES);
-      add_tree_token_node($$, &$3, IDENTIFIER);
-      // add_tree_token_node($$, &$4, CLOSE_PARENTHESES);
-      // add_tree_token_node($$, &$5, SEMICOLON);
+      add_tree_node($$, $3);
     }
 ;
 
@@ -506,10 +494,7 @@ func_calling:
   ID  '(' {calling_params_counter = 0;} calling_parameters {verify_amount_params($4, &$1);} ')'  {
       $$ = create_node(FUNCTION_CALLING);
       add_tree_operation_leaf($$, &$1, IDENTIFIER, verify_existing_function(&$1));
-      // add_tree_token_node($$, &$2, OPEN_PARENTHESES);
       add_tree_node($$, $4);
-      // add_tree_token_node($$, &$4, CLOSE_PARENTHESES);      
-      // verify_existing_function(&$1);
       strcpy($1.type, verify_existing_function(&$1));
     }
 ;
@@ -542,17 +527,16 @@ iden:
   ID {
       $$ = create_node(IDEN);
       add_tree_operation_leaf($$, &$1, IDENTIFIER, verify_existing_variable(&$1));
-      // add_tree_token_node($$, &$1, IDENTIFIER);
-      verify_existing_variable(&$1);
-      // printf(">>> %s %s\n",verify_existing_variable(&$1), $1.lexeme);
+      if(get_scope_from_table(&$1) != $1.scope){
+        printf(BHRED "SEMANTIC ERROR (line: %d, column: %d): Variable <%s> is being used in the wrong scope! \n" reset, $1.line, $1.column, $1.lexeme);
+        semantic_errors++;
+      }  
     }
 ;
 
 const: 
   number {
-    $$ = $1;
-      // $$ = create_node(CONSTANT);
-      // add_tree_node($$, $1);
+      $$ = $1;
     }
   | NIL_CNST {
       $$ = create_node(CONSTANT);
