@@ -427,10 +427,8 @@ return_stmt:
       $$ = create_node(RETURN_STMT);
       add_tree_operation_leaf($$, &$1, RETURN, return_type_function);
       add_tree_node($$, $2);
-      strcpy($2->type, $2->children->child->type);
+      // strcpy($2->type, get_type($2));
       printf("->> $2->type %s\n", $2->type);
-
-
 
       if(strcmp($2->type, return_type_function) != 0) {
         printf(BHRED "SEMANTIC ERROR (line: %d, column: %d): Type passed in the return is different from the expected type for the function return! Type passed: %s, expected: %s\n" reset, $1.line, $1.column+7, $2->type, return_type_function);
@@ -443,9 +441,7 @@ iteration:
   FOR_STMT '(' loop_condition ')' command {
       $$ = create_node(ITERATION_PROCESS);
       add_tree_token_node($$, &$1, FOR);
-      // add_tree_token_node($$, &$2, OPEN_PARENTHESES);
       add_tree_node($$, $3);
-      // add_tree_token_node($$, &$4, CLOSE_PARENTHESES);
       add_tree_node($$, $5);
     }
 ;
@@ -454,9 +450,7 @@ loop_condition:
   update_stmt ';' stop_stmt ';' update_stmt {
       $$ = create_node(LOOP_CONDITION);
       add_tree_node($$, $1);
-      // add_tree_token_node($$, &$2, SEMICOLON);
       add_tree_node($$, $3);
-      // add_tree_token_node($$, &$4, SEMICOLON);
       add_tree_node($$, $5);
     }
 ;
@@ -464,8 +458,6 @@ loop_condition:
 update_stmt:
   init_stmt {
       $$ = $1;
-      // $$ = create_node(UPDATE_STMT);
-      // add_tree_node($$, $1);
     }
   | %empty {
       $$ = create_node(UPDATE_STMT);
@@ -475,8 +467,6 @@ update_stmt:
 stop_stmt:
   operation {
       $$ = $1;
-      // $$ = create_node(STOP_STMT);
-      // add_tree_node($$, $1);
     }
   | %empty {
       $$ = create_node(STOP_STMT);

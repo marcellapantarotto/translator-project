@@ -468,16 +468,17 @@ char *get_type(t_node *node, int i) {
     } else if(strcmp(rule_label[curr->child->label], "FLOAT" ) == 0) {
       strcpy(buff[i], "float");
     } else if(strcmp(rule_label[curr->child->label], "LIST") == 0) {
+      if (strcmp(buff[i], "int") == 0) strcpy(buff[i], "list (int)");
+      else strcpy(buff[i], "list (float)");
       // strcat(buff[i], " ");  
       // strcat(buff[i], rule_label[curr->child->label]);
-      strcat(buff[i], " list"); 
+      // strcat(buff[i], " list"); 
     }
     curr = curr->sibilings;
   }  
   aux = buff[i];
   return aux;
 }
-
 
 void set_F_table(t_node *node) {
   table_node *aux = symbol_table.beginning;
@@ -552,9 +553,6 @@ void print_annotated(t_node *root, int height) {
     for(int i = 0; i < height-4; i++) {
       printf(" |");
     }
-
-    
-   
     if (strcmp(rule_label[root->label], "IDENTIFIER") == 0) {
       printf("- " BHBLU "%s  (line: %d, column: %d) " BHMAG " type: %s \n" reset, root->token.lexeme, root->token.line, root->token.column, root->type);
     } else if (strcmp(rule_label[root->label], "NUMBER_INT") == 0) {
