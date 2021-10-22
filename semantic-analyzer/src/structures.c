@@ -445,7 +445,7 @@ int find_main() {
   table_node *aux = symbol_table.beginning;
   while(aux->next != NULL) {
     aux = aux->next;
-    if(strcmp("main", aux->token) == 0) {
+    if(strcmp("main", aux->token) == 0 && aux->scope == 0) {
       found = 1;
     }
   }
