@@ -223,6 +223,7 @@ void remove_param_from_list(t_node *node);
 parameter_list create_params_list();
 
 void strip_ext(char *fname);
+char *get_type_tabel(t_node *node);
 
 //===============================================================
 // VARIABLE DECLARATIONS
@@ -250,6 +251,8 @@ extern char return_type_function[];
 extern char param_type[];
 extern parameter_list param_lst;
 extern int id;
+extern int id2;
 extern FILE *tac_output;
+
 
 #endif

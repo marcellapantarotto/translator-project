@@ -333,23 +333,15 @@ block_commands:
 command: 
   var_declaration {
       $$ = $1;
-      // $$ = create_node(COMMAND);
-      // add_tree_node($$, $1);
     }
   | init_variable {
       $$ = $1;
-      // $$ = create_node(COMMAND);
-      // add_tree_node($$, $1);
     }
   | conditional_stmt {
       $$ = $1;
-      // $$ = create_node(COMMAND);
-      // add_tree_node($$, $1);
     }
   | return_stmt {
       $$ = $1;
-      // $$ = create_node(COMMAND);
-      // add_tree_node($$, $1);
     }
   | iteration {
       $$ = $1;
@@ -362,14 +354,11 @@ command:
     }
   | {increment_scope();} '{' block_commands '}' {
       $$ = create_node(COMMAND);
-      // add_tree_token_node($$, &$2, OPEN_CURLY_BRACKET);
       add_tree_node($$, $3);
-      // add_tree_token_node($$, &$4, CLOSE_CURLY_BRACKET);
     }
   | operation ';' { 
       $$ = create_node(COMMAND);
       add_tree_node($$, $1);
-      // add_tree_token_node($$, &$2, SEMICOLON);
     }
 
   | error ';' {
@@ -388,7 +377,6 @@ init_variable:
   init_stmt ';' {
       $$ = create_node(INIT_VARIABLE);
       add_tree_node($$, $1);
-      // add_tree_token_node($$, &$2, SEMICOLON);
     }
 ;
 
@@ -424,17 +412,28 @@ conditional_stmt:
 
 return_stmt: 
   RETURN_STM operation ';'  {
-    
       $$ = create_node(RETURN_STMT);
       add_tree_operation_leaf($$, &$1, RETURN, return_type_function);
       add_tree_node($$, $2);
       strcpy($2->type, get_type($2, id));
       id++;
-      // if(strcmp($2->type, return_type_function) != 0 || 
-      // strcmp($2->children->child->type, return_type_function) != 0) {
-      //   printf(BHRED "SEMANTIC ERROR (line: %d, column: %d): Type passed in the return is different from the expected type for the function return! Type passed: .%s., expected: .%s. \n" reset, $1.line, $1.column+7, $2->children->child->type, return_type_function);
-      //   semantic_errors++;
-      // }
+      if(strcmp($2->children->child->type, "-") == 0) {
+        strcpy($2->type, get_type($2, id2));
+        id2++;
+      }
+      if(strcmp($2->children->child->type, return_type_function) != 0) {
+        if(strcmp($2->children->child->type, "-") == 0) {
+          strcpy($2->type, get_type($2, id2));
+          id2++;
+          if(strcmp($2->type, return_type_function) != 0) {
+            printf(BHRED "SEMANTIC ERROR (line: %d, column: %d): Type passed in the return is different from the expected type for the function return! Type passed: %s, expected: %s \n" reset, $1.line, $1.column+7, $2->type, return_type_function);
+            semantic_errors++;
+          }
+        } else {
+          printf(BHRED "SEMANTIC ERROR (line: %d, column: %d): Type passed in the return is different from the expected type for the function return! Type passed: %s, expected: %s \n" reset, $1.line, $1.column+7, $2->children->child->type, return_type_function);
+          semantic_errors++;
+        }
+      }
     }
 ;
 
@@ -501,7 +500,7 @@ output:
 input: 
   INPUT_READ '(' iden ')' ';' {
       $$ = create_node(INPUT_OPERATION);
-      add_tree_token_node($$, &$1, READ);
+      add_tree_operation_leaf($$, &$1, READ, verify_existing_variable(&$3->children->child->token));
       add_tree_node($$, $3);
     }
 ;
@@ -510,7 +509,10 @@ iden:
   ID {
       $$ = create_node(IDEN);
       add_tree_operation_leaf($$, &$1, IDENTIFIER, verify_existing_variable(&$1));
-      // if(get_scope_from_table(&$1) == $1.scope){
+      // printf(">> %d %d\n", get_scope_from_table(&$1), $1.scope);
+      
+      // if(get_scope_from_table(&$1) != $1.scope && get_scope_from_table(&$1) != 0){
+      //   printf(">> %d %d %d \n", get_scope_from_table(&$1), $1.scope, g_scope);
       //   printf(BHRED "SEMANTIC ERROR (line: %d, column: %d): Variable <%s> is being used in the wrong scope! \n" reset, $1.line, $1.column, $1.lexeme);
       //   semantic_errors++;
       // }  
@@ -601,7 +603,8 @@ arith_binary:
   arith_binary '+' term {
       $$ = create_node(ARITHMETIC_BINARY);
       add_tree_node($$, $1);
-      add_tree_operation_leaf($$, &$2, ADD_OP, type_check_num($1, $3, &$2));
+      type_check_num($1, $3, &$2);
+      add_tree_operation_leaf($$, &$2, ADD_OP, $2.type);
       add_tree_node($$, $3);
       strcpy($$->type, $1->type);
     }
@@ -751,12 +754,13 @@ int main(int argc, char **argv) {
   // print_ast_tree();
   print_annotated_tree();
   print_table();
+  find_main();
 
   total_lexical_errors();
   total_syntax_errors();
   total_semantic_errors();
 
-  find_main();
+  
 
   destroy_tree(root);
   destroy_table();

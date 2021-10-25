@@ -2,6 +2,12 @@
   "files.associations": {
     "typeinfo": "c",
     "type_traits": "c",
-    "structures.h": "c"
+    "structures.h": "c",
+    "array": "c",
+    "functional": "c",
+    "istream": "c",
+    "ostream": "c",
+    "tuple": "c",
+    "utility": "c"
   }
 }

@@ -3,7 +3,7 @@ int func(int x, int y){
     for(i = 0; i < y; i = i+1) {
         write(x);
     }
-    return x+y;
+    return y;
 }
 
 int output(int x){

@@ -25,6 +25,7 @@ char return_type_function[13] = "";
 char param_type[13] = "";
 parameter_list param_lst;
 int id = 0;
+int id2 = 0;
 FILE *tac_output;
 
 const char *rule_label[] = {
@@ -532,6 +533,7 @@ char *get_type(t_node *node, int i)
   tree_node *curr = node->children;
   char *aux;
   char buff[200][10];
+  strcpy(buff[i], "");
 
   while (curr != NULL)
   {
@@ -549,6 +551,21 @@ char *get_type(t_node *node, int i)
         strcpy(buff[i], "list (int)");
       else
         strcpy(buff[i], "list (float)");
+    }
+    else if (strcmp(rule_label[node->label], "OPERATION") == 0)
+    {
+      strcpy(buff[i], curr->child->type);
+      strcpy(node->type, curr->child->type);
+    }
+    else if (strcmp(rule_label[node->label], "LIST_BINARY") == 0)
+    {
+      strcpy(buff[i], curr->child->type);
+      strcpy(node->type, curr->child->type);
+    }
+    else if (strcmp(rule_label[node->label], "ARITHMETIC_BINARY") == 0)
+    {
+      strcpy(buff[i], curr->child->type);
+      strcpy(node->type, curr->child->type);
     }
     curr = curr->sibilings;
   }
@@ -687,47 +704,40 @@ void print_annotated(t_node *root, int height)
 
 char *type_check_num(t_node *node1, t_node *node2, t_token *op_node)
 {
+  strcpy(return_type, "");
   if (strcmp(node1->type, "int") == 0 && strcmp(node2->type, "float") == 0)
   {
     strcpy(node1->type, "float");
     strcpy(node1->children->child->type, "float");
     strcpy(op_node->type, "float");
     strcpy(return_type, "float");
-
-    // if (strcmp(rule_label[node1->label], "NUMBER") == 0) {
-    //   strcat(node1->children->child->token.lexeme, ".000000");
-    // }
   }
   else if (strcmp(node1->type, "float") == 0 && strcmp(node2->type, "int") == 0)
   {
     strcpy(node2->type, "float");
     strcpy(node2->children->child->type, "float");
-    // strcpy(op_node->type, "float");
+    strcpy(op_node->type, "float");
     strcpy(return_type, "float");
-
-    // if (strcmp(rule_label[node2->label], "NUMBER") == 0) {
-    //   strcat(node2->children->child->token.lexeme, ".000000");
-    // }
   }
   else if (strcmp(node1->type, "float") == 0 && strcmp(node2->type, "float") == 0)
   {
     strcpy(node1->children->child->type, "float");
     strcpy(node2->children->child->type, "float");
-    // strcpy(op_node->type, "float");
+    strcpy(op_node->type, "float");
     strcpy(return_type, "float");
   }
   else if (strcmp(node1->type, "int") == 0 && strcmp(node2->type, "int") == 0)
   {
     strcpy(node1->children->child->type, "int");
     strcpy(node2->children->child->type, "int");
-    // strcpy(op_node->type, "int");
+    strcpy(op_node->type, "int");
     strcpy(return_type, "int");
   }
   else if (strcmp(node1->type, "nil") == 0 || strcmp(node2->type, "nil") == 0)
   {
     strcpy(node1->children->child->type, "nil");
     strcpy(node2->children->child->type, "nil");
-    // strcpy(op_node->type, "nil");
+    strcpy(op_node->type, "nil");
     strcpy(return_type, "nil");
   }
   else if (strcmp(rule_label[node1->label], "IDEN") == 0)
@@ -735,8 +745,24 @@ char *type_check_num(t_node *node1, t_node *node2, t_token *op_node)
     if (strcmp(node2->type, "float") == 0)
     {
       strcpy(node1->children->child->type, "float");
-      // strcpy(op_node->type, "float");
+      strcpy(op_node->type, "float");
       strcpy(return_type, "float");
+    }
+    else
+    {
+      if (strcmp(get_type_tabel(node1), "float") == 0)
+      {
+        strcpy(node2->children->child->type, "float");
+        strcpy(op_node->type, "float");
+        strcpy(return_type, "float");
+      }
+      else
+      {
+        strcpy(node1->children->child->type, "int");
+        strcpy(node2->children->child->type, "int");
+        strcpy(op_node->type, "int");
+        strcpy(return_type, "int");
+      }
     }
   }
   else if (strcmp(rule_label[node2->label], "IDEN") == 0)
@@ -744,18 +770,49 @@ char *type_check_num(t_node *node1, t_node *node2, t_token *op_node)
     if (strcmp(node1->type, "float") == 0)
     {
       strcpy(node2->children->child->type, "float");
-      // strcpy(op_node->type, "float");
+      strcpy(op_node->type, "float");
       strcpy(return_type, "float");
     }
+    else
+    {
+      if (strcmp(get_type_tabel(node2), "float") == 0)
+      {
+        strcpy(node1->children->child->type, "float");
+        strcpy(op_node->type, "float");
+        strcpy(return_type, "float");
+      }
+      else
+      {
+        strcpy(node1->children->child->type, "int");
+        strcpy(node2->children->child->type, "int");
+        strcpy(op_node->type, "int");
+        strcpy(return_type, "int");
+      }
+    }
   }
-  else
-  {
-    printf(">> %s: %s (%s)\n", rule_label[node1->label], node1->children->child->token.lexeme, node1->type);
-    printf(">>> %s: %s (%s)\n", rule_label[node2->label], node2->children->child->token.lexeme, node2->type);
-    printf(">>>> return: %s\n", return_type);
-  }
-
+  // else
+  // {
+  //   printf(">> %s: %s (%s)\n", rule_label[node1->label], node1->children->child->token.lexeme, node1->type);
+  //   printf(">>> %s: %s (%s)\n", rule_label[node2->label], node2->children->child->token.lexeme, node2->type);
+  //   printf(">>>> return: %s\n", return_type);
+  // }
   return return_type;
+}
+
+char *get_type_tabel(t_node *node)
+{
+  table_node *aux = symbol_table.beginning;
+  while (aux->next != NULL)
+  {
+    aux = aux->next;
+    // printf("** %s\n", node->token.lexeme);
+    if (strcmp(aux->token, node->token.lexeme) == 0)
+    {
+      // printf("** %s\n", aux->token);
+      return aux->type;
+    }
+  }
+  return aux->type;
 }
 
 int get_scope_from_table(t_token *func)
