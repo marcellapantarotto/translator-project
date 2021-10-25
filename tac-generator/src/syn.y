@@ -736,6 +736,12 @@ int yyerror(const char *s) {
 
 int main(int argc, char **argv) {
   ++argv, --argc;
+  char output_name[50];
+  strcpy(output_name, argv[0]);
+  strip_ext(output_name);
+
+  strcat(output_name, ".tac");
+  tac_output = fopen(output_name, "w");
 
   root_scope_tree = (t_scope_node*) malloc(sizeof(t_scope_node));
   root_scope_tree->scope_number = 0;
@@ -751,15 +757,15 @@ int main(int argc, char **argv) {
   else
     yyin = stdin;
   
-
   // print_ast_tree();
   print_annotated_tree();
-  semantic_parser();
   print_table();
 
   total_lexical_errors();
   total_syntax_errors();
   total_semantic_errors();
+
+  find_main();
 
   destroy_tree(root);
   destroy_table();

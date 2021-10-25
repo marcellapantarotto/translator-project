@@ -200,7 +200,6 @@ void print_ast(t_node *root, int height);
 void print_ast_tree();
 void destroy_tree(t_node *root);
 
-void semantic_parser();
 int find_main();
 char *get_type(t_node *node, int i);
 int get_amount_params(t_node *node, char *function);
@@ -222,6 +221,8 @@ void set_type_node(t_node *root, t_node *node);
 parameter *find_param(char *type);
 void remove_param_from_list(t_node *node);
 parameter_list create_params_list();
+
+void strip_ext(char *fname);
 
 //===============================================================
 // VARIABLE DECLARATIONS
@@ -249,4 +250,6 @@ extern char return_type_function[];
 extern char param_type[];
 extern parameter_list param_lst;
 extern int id;
+extern FILE *tac_output;
+
 #endif
