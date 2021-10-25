@@ -928,8 +928,8 @@ YY_RULE_SETUP
   yylval.token.line = yylineno;
   yylval.token.column = column;
   column += yyleng;
-  if(strcmp(curr_type, "int") == 0) strcpy(curr_type, "int list");
-  else strcpy(curr_type, "float list");
+  if(strcmp(curr_type, "int") == 0) strcpy(curr_type, "list (int)");
+  else strcpy(curr_type, "list (float)");
   return(T_LIST);
 }
 	YY_BREAK

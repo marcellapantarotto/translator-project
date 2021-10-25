@@ -396,7 +396,7 @@ init_stmt:
   iden '=' operation  {
       $$ = create_node(INIT_STMT);
       add_tree_node($$, $1);
-      add_tree_operation_leaf($$, &$2, ASSIGN, verify_existing_variable(&$1->token));
+      add_tree_operation_leaf($$, &$2, ASSIGN, verify_existing_variable(&$1->children->child->token));
       add_tree_node($$, $3);
     }
 ;
@@ -477,24 +477,23 @@ stop_stmt:
 output: 
   OUTPUT_WRITE '(' operation ')' ';'  {
       $$ = create_node(OUTPUT_OPERATION);
-      add_tree_token_node($$, &$1, WRITE);
+      add_tree_operation_leaf($$, &$1, WRITE, "-");
       add_tree_node($$, $3);
     }
   | OUTPUT_WRITELN '(' operation ')' ';' {
       $$ = create_node(OUTPUT_OPERATION);
-      add_tree_token_node($$, &$1, WRITELN);
+      add_tree_operation_leaf($$, &$1, WRITELN, "-");
       add_tree_node($$, $3);
+      
     }
   | OUTPUT_WRITE '(' STRING ')' ';' {
       $$ = create_node(OUTPUT_OPERATION);
-      add_tree_token_node($$, &$1, WRITELN);
-      // add_tree_token_node($$, &$3, STRING);
+      add_tree_operation_leaf($$, &$1, WRITE, "-");
       add_tree_operation_leaf($$, &$3, STRING_STMT, "-");
     }
   | OUTPUT_WRITELN '(' STRING ')' ';' {
       $$ = create_node(OUTPUT_OPERATION);
-      add_tree_token_node($$, &$1, WRITELN);
-      // add_tree_token_node($$, &$3, STRING);
+      add_tree_operation_leaf($$, &$1, WRITELN, "-");
       add_tree_operation_leaf($$, &$3, STRING_STMT, "-");
     }
 ;
@@ -521,61 +520,53 @@ iden:
 operation:
   lst_binary {
       $$ = $1;
-      // $$ = create_node(OPERATION);
-      // add_tree_node($$, $1);
     }
   | operation GREATER operation  {
       $$ = create_node(OPERATION);
       add_tree_node($$, $1);
       add_tree_operation_leaf($$, &$2, GT_OP, type_check_num($1, $3, &$2));
-      // add_tree_token_node($$, &$2, GT_OP);
       add_tree_node($$, $3);
     }
   | operation GREATER_EQ operation  {
       $$ = create_node(OPERATION);
       add_tree_node($$, $1);
       add_tree_operation_leaf($$, &$2, GE_OP, type_check_num($1, $3, &$2));
-      add_tree_token_node($$, &$2, GE_OP);
       add_tree_node($$, $3);
     }
   | operation LESS operation  {
       $$ = create_node(OPERATION);
       add_tree_node($$, $1);
       add_tree_operation_leaf($$, &$2, LT_OP, type_check_num($1, $3, &$2));
-      add_tree_token_node($$, &$2, LT_OP);
       add_tree_node($$, $3);
     }
   | operation LESS_EQ operation  {
       $$ = create_node(OPERATION);
       add_tree_node($$, $1);
       add_tree_operation_leaf($$, &$2, LE_OP, type_check_num($1, $3, &$2));
-      // add_tree_token_node($$, &$2, LE_OP);
       add_tree_node($$, $3);
     }
   | operation EQUAL operation  {
       $$ = create_node(OPERATION);
       add_tree_node($$, $1);
       add_tree_operation_leaf($$, &$2, EQ_OP, type_check_num($1, $3, &$2));
-      // add_tree_token_node($$, &$2, EQ_OP);
       add_tree_node($$, $3);
     }
   | operation NOT_EQ operation  {
       $$ = create_node(OPERATION);
       add_tree_node($$, $1);
       add_tree_operation_leaf($$, &$2, NE_OP, type_check_num($1, $3, &$2));
-      // add_tree_token_node($$, &$2, NE_OP);
       add_tree_node($$, $3);
     }
   | operation AND operation {
       $$ = create_node(OPERATION);
       add_tree_node($$, $1);
-      add_tree_token_node($$, &$2, AND_OP);
+      add_tree_operation_leaf($$, &$2, AND_OP, "int");
       add_tree_node($$, $3);
     }
   | operation OR operation {
       $$ = create_node(OPERATION);
       add_tree_node($$, $1);
-      add_tree_token_node($$, &$2, OR_OP);
+      add_tree_operation_leaf($$, &$2, OR_OP, "int");
       add_tree_node($$, $3);
     }
 ;
@@ -772,6 +763,7 @@ int main(int argc, char **argv) {
   free(root_scope_tree);
   
   fclose(yyin);
+  fclose(tac_output);
   yylex_destroy();
   
   return 0;

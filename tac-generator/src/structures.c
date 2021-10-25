@@ -266,7 +266,12 @@ void print_table()
   while (aux->next != NULL)
   {
     aux = aux->next;
-    fprintf(tac_output, "%s %s\n", aux->type, aux->token);
+    if (strcmp(aux->type, "list (int)") == 0)
+      fprintf(tac_output, "int %s[] = {0}\n", aux->token);
+    else if (strcmp(aux->type, "list (float)") == 0)
+      fprintf(tac_output, "float %s[] = {0}\n", aux->token);
+    else
+      fprintf(tac_output, "%s %s\n", aux->type, aux->token);
     printf(" %-3d |  %-15s\t\t| %-13s|  %-2d   |  %-3d  |  %-3d   | %-12s |  %d\n", aux->id, aux->token, aux->type, aux->scope, aux->line, aux->column, aux->vfp, aux->params);
   }
   printf("==================================================================================================\n");
@@ -356,7 +361,7 @@ void add_tree_node(t_node *root, t_node *node)
     youngest->sibilings = aux; // node
   }
 
-  // set_type_node(root, node);
+  set_type_node(root, node);
 }
 
 void set_type_node(t_node *root, t_node *node)
@@ -385,6 +390,13 @@ void set_type_node(t_node *root, t_node *node)
   {
     strcpy(root->type, curr_type);
     strcpy(root->children->child->type, curr_type);
+  }
+  else if (strcmp(rule_label[root->children->child->label], "NIL") == 0 ||
+           strcmp(rule_label[root->label], "NIL") == 0 ||
+           strcmp(rule_label[node->label], "NIL") == 0)
+  {
+    strcpy(root->type, "nil");
+    strcpy(root->children->child->type, "nil");
   }
   else if (strcmp(rule_label[root->children->child->label], "IDENTIFIER") == 0 ||
            strcmp(rule_label[root->label], "IDENTIFIER") == 0 ||
@@ -648,6 +660,10 @@ void print_annotated(t_node *root, int height)
     {
       printf("- float: " BHBLU "%s  (line: %d, column: %d) " BHMAG " type: %s \n" reset, root->token.lexeme, root->token.line, root->token.column, root->type);
     }
+    else if (strcmp(root->type, "") == 0 || strcmp(root->type, "-") == 0)
+    {
+      printf("- %s: %s  (line: %d, column: %d) \n" reset, rule_label[root->label], root->token.lexeme, root->token.line, root->token.column);
+    }
     else
     {
       printf("- %s: %s  (line: %d, column: %d) " BHMAG " type: %s \n" reset, rule_label[root->label], root->token.lexeme, root->token.line, root->token.column, root->type);
@@ -686,7 +702,7 @@ char *type_check_num(t_node *node1, t_node *node2, t_token *op_node)
   {
     strcpy(node2->type, "float");
     strcpy(node2->children->child->type, "float");
-    strcpy(op_node->type, "float");
+    // strcpy(op_node->type, "float");
     strcpy(return_type, "float");
 
     // if (strcmp(rule_label[node2->label], "NUMBER") == 0) {
@@ -697,19 +713,47 @@ char *type_check_num(t_node *node1, t_node *node2, t_token *op_node)
   {
     strcpy(node1->children->child->type, "float");
     strcpy(node2->children->child->type, "float");
-    strcpy(op_node->type, "float");
+    // strcpy(op_node->type, "float");
     strcpy(return_type, "float");
   }
   else if (strcmp(node1->type, "int") == 0 && strcmp(node2->type, "int") == 0)
   {
     strcpy(node1->children->child->type, "int");
     strcpy(node2->children->child->type, "int");
-    strcpy(op_node->type, "int");
+    // strcpy(op_node->type, "int");
     strcpy(return_type, "int");
   }
-  // printf(">> %s: %s (%s)\n", rule_label[node1->label], node1->children->child->token.lexeme, node1->type);
-  // printf(">>> %s: %s (%s)\n", rule_label[node2->label], node2->children->child->token.lexeme, node2->type);
-  // printf(">>>> return: %s\n", return_type);
+  else if (strcmp(node1->type, "nil") == 0 || strcmp(node2->type, "nil") == 0)
+  {
+    strcpy(node1->children->child->type, "nil");
+    strcpy(node2->children->child->type, "nil");
+    // strcpy(op_node->type, "nil");
+    strcpy(return_type, "nil");
+  }
+  else if (strcmp(rule_label[node1->label], "IDEN") == 0)
+  {
+    if (strcmp(node2->type, "float") == 0)
+    {
+      strcpy(node1->children->child->type, "float");
+      // strcpy(op_node->type, "float");
+      strcpy(return_type, "float");
+    }
+  }
+  else if (strcmp(rule_label[node2->label], "IDEN") == 0)
+  {
+    if (strcmp(node1->type, "float") == 0)
+    {
+      strcpy(node2->children->child->type, "float");
+      // strcpy(op_node->type, "float");
+      strcpy(return_type, "float");
+    }
+  }
+  else
+  {
+    printf(">> %s: %s (%s)\n", rule_label[node1->label], node1->children->child->token.lexeme, node1->type);
+    printf(">>> %s: %s (%s)\n", rule_label[node2->label], node2->children->child->token.lexeme, node2->type);
+    printf(">>>> return: %s\n", return_type);
+  }
 
   return return_type;
 }
@@ -954,7 +998,7 @@ void destroy_params_list()
 // other_float = (float)my_int;    // => other_float=42.000000
 // printf("%f\n", other_float);
 
-void strip_ext(char *fname) 
+void strip_ext(char *fname)
 {
   char *end = fname + strlen(fname);
 
