@@ -27,6 +27,7 @@ parameter_list param_lst;
 int id = 0;
 int id2 = 0;
 FILE *tac_output;
+int tac_counter = 0;
 
 const char *rule_label[] = {
     "PROGRAM",
@@ -175,6 +176,15 @@ void add_table_node(char *tok, t_node *n, int i)
   strcpy(node->type, curr_type);
   strcpy(node->vfp, "Variable");
   node->params = 0;
+  
+  char *num;
+  if(asprintf(&num, "%d", tac_counter) == -1) {
+    perror("asprintf");
+  } else {
+    strcat(strcpy(node->tac, "v"), num);
+    free(num);
+    tac_counter++;
+  }
 
   int x = verify_existing_symbol(node);
   if (x == 0)
@@ -195,7 +205,7 @@ int verify_existing_symbol(table_node *symbol)
     symbol->label = aux->label;
     if (strcmp(symbol->token, aux->token) == 0 && symbol->scope == aux->scope)
     {
-      printf(BHRED "SEMANTIC ERROR (line: %d, column: %d): Redeclaration of variable or function <%s> inside scope! \n" reset, symbol->line, symbol->column, symbol->token);
+      printf(RED "SEMANTIC ERROR (line: %d, column: %d): Redeclaration of variable or function <%s> inside scope! \n" RESET, symbol->line, symbol->column, symbol->token);
       semantic_errors++;
       return 1;
     }
@@ -259,23 +269,26 @@ void print_table()
 {
   fprintf(tac_output, ".table\n");
   table_node *aux = symbol_table.beginning;
-  printf("\n\n==================================================================================================\n");
+  printf("\n\n=============================================================================================================\n");
   printf("\t\t\t\t\tSYMBOL TABLE");
-  printf("\n==================================================================================================\n");
-  printf(" ID  |  TOKENS\t\t\t| TYPE         | SCOPE | LINE  | COLUMN |  V/F/P       | # PARAMS");
-  printf("\n==================================================================================================\n");
+  printf("\n=============================================================================================================\n");
+  printf(" ID  |  TOKENS\t\t\t| TYPE         | SCOPE | LINE  | COLUMN |  V/F/P       | # PARAMS | TAC NAME");
+  printf("\n=============================================================================================================\n");
   while (aux->next != NULL)
   {
     aux = aux->next;
-    if (strcmp(aux->type, "list (int)") == 0)
-      fprintf(tac_output, "int %s[] = {0}\n", aux->token);
-    else if (strcmp(aux->type, "list (float)") == 0)
-      fprintf(tac_output, "float %s[] = {0}\n", aux->token);
-    else
-      fprintf(tac_output, "%s %s\n", aux->type, aux->token);
-    printf(" %-3d |  %-15s\t\t| %-13s|  %-2d   |  %-3d  |  %-3d   | %-12s |  %d\n", aux->id, aux->token, aux->type, aux->scope, aux->line, aux->column, aux->vfp, aux->params);
+    if (strcmp(aux->vfp, "Function") != 0)
+    {
+      if (strcmp(aux->type, "list (int)") == 0)
+        fprintf(tac_output, "int %s[] = {0}\n", aux->tac);
+      else if (strcmp(aux->type, "list (float)") == 0)
+        fprintf(tac_output, "float %s[] = {0}\n", aux->tac);
+      else
+        fprintf(tac_output, "%s %s\n", aux->type, aux->tac);
+    }
+    printf(" %-3d |  %-15s\t\t| %-13s|  %-2d   |  %-3d  |  %-3d   | %-12s |  %-7d | %s\n", aux->id, aux->token, aux->type, aux->scope, aux->line, aux->column, aux->vfp, aux->params, aux->tac);
   }
-  printf("==================================================================================================\n");
+  printf("=============================================================================================================\n");
   fprintf(tac_output, "\n.code\n");
 }
 
@@ -300,19 +313,19 @@ void destroy_table()
 // print total number of lexical errors
 void total_lexical_errors()
 {
-  printf(BHRED "\nTotal number of lexical errors: %d \n" reset, lexical_errors);
+  printf(RED "\nTotal number of lexical errors: %d \n" RESET, lexical_errors);
 }
 
 // print total number of syntax errors
 void total_syntax_errors()
 {
-  printf(BHRED "Total number of syntax errors: %d \n" reset, syntax_errors);
+  printf(RED "Total number of syntax errors: %d \n" RESET, syntax_errors);
 }
 
 // print total number of semantic errors
 void total_semantic_errors()
 {
-  printf(BHRED "Total number of semantic errors: %d \n\n" reset, semantic_errors);
+  printf(RED "Total number of semantic errors: %d \n\n" RESET, semantic_errors);
 }
 
 //===============================================================
@@ -464,12 +477,12 @@ void print_ast(t_node *root, int height)
   {
     printf(" |");
   }
-  printf("- %s " BHMAG " type: %s " reset, rule_label[root->label], root->type);
+  printf("- %s " MAGENTA " type: %s " RESET, rule_label[root->label], root->type);
 
   if (root->token.line != -1)
   {
     // printf("- %s", rule_label[root->label]);
-    printf(": " BHBLU "%s  (line: %d, column: %d)\n" reset, root->token.lexeme, root->token.line, root->token.column);
+    printf(": " BLUE "%s  (line: %d, column: %d)\n" RESET, root->token.lexeme, root->token.line, root->token.column);
   }
   else
   {
@@ -521,7 +534,7 @@ int find_main()
   }
   if (!found)
   {
-    printf(BHRED "\n\nSEMANTIC ERROR: No function main! \n" reset);
+    printf(RED "\n\nSEMANTIC ERROR: No function main! \n" RESET);
     semantic_errors++;
     return 1;
   }
@@ -615,7 +628,7 @@ char *verify_existing_variable(t_token *tok)
   }
   if (!found && strcmp(tok->lexeme, "") != 0)
   {
-    printf(BHRED "SEMANTIC ERROR (line: %d, column: %d): Variable <%s> was not declared! \n" reset, tok->line, tok->column, tok->lexeme);
+    printf(RED "SEMANTIC ERROR (line: %d, column: %d): Variable <%s> was not declared! \n" RESET, tok->line, tok->column, tok->lexeme);
     semantic_errors++;
   }
   return aux->type;
@@ -636,7 +649,7 @@ char *verify_existing_function(t_token *tok)
   }
   if (!found)
   {
-    printf(BHRED "SEMANTIC ERROR (line: %d, column: %d): Function <%s> was not declared! \n" reset, tok->line, tok->column, tok->lexeme);
+    printf(RED "SEMANTIC ERROR (line: %d, column: %d): Function <%s> was not declared! \n" RESET, tok->line, tok->column, tok->lexeme);
     semantic_errors++;
   }
   return aux->type;
@@ -667,23 +680,23 @@ void print_annotated(t_node *root, int height)
     }
     if (strcmp(rule_label[root->label], "IDENTIFIER") == 0)
     {
-      printf("- " BHBLU "%s  (line: %d, column: %d) " BHMAG " type: %s \n" reset, root->token.lexeme, root->token.line, root->token.column, root->type);
+      printf("- " BLUE "%s  (line: %d, column: %d) " MAGENTA " type: %s \n" RESET, root->token.lexeme, root->token.line, root->token.column, root->type);
     }
     else if (strcmp(rule_label[root->label], "NUMBER_INT") == 0)
     {
-      printf("- int: " BHBLU "%s  (line: %d, column: %d) " BHMAG " type: %s \n" reset, root->token.lexeme, root->token.line, root->token.column, root->type);
+      printf("- int: " BLUE "%s  (line: %d, column: %d) " MAGENTA " type: %s \n" RESET, root->token.lexeme, root->token.line, root->token.column, root->type);
     }
     else if (strcmp(rule_label[root->label], "NUMBER_FLOAT") == 0)
     {
-      printf("- float: " BHBLU "%s  (line: %d, column: %d) " BHMAG " type: %s \n" reset, root->token.lexeme, root->token.line, root->token.column, root->type);
+      printf("- float: " BLUE "%s  (line: %d, column: %d) " MAGENTA " type: %s \n" RESET, root->token.lexeme, root->token.line, root->token.column, root->type);
     }
     else if (strcmp(root->type, "") == 0 || strcmp(root->type, "-") == 0)
     {
-      printf("- %s: %s  (line: %d, column: %d) \n" reset, rule_label[root->label], root->token.lexeme, root->token.line, root->token.column);
+      printf("- %s: %s  (line: %d, column: %d) \n" RESET, rule_label[root->label], root->token.lexeme, root->token.line, root->token.column);
     }
     else
     {
-      printf("- %s: %s  (line: %d, column: %d) " BHMAG " type: %s \n" reset, rule_label[root->label], root->token.lexeme, root->token.line, root->token.column, root->type);
+      printf("- %s: %s  (line: %d, column: %d) " MAGENTA " type: %s \n" RESET, rule_label[root->label], root->token.lexeme, root->token.line, root->token.column, root->type);
     }
   }
 
@@ -750,7 +763,7 @@ char *type_check_num(t_node *node1, t_node *node2, t_token *op_node)
     }
     else
     {
-      if (strcmp(get_type_tabel(node1), "float") == 0)
+      if (strcmp(get_type_table(node1), "float") == 0)
       {
         strcpy(node2->children->child->type, "float");
         strcpy(op_node->type, "float");
@@ -775,7 +788,7 @@ char *type_check_num(t_node *node1, t_node *node2, t_token *op_node)
     }
     else
     {
-      if (strcmp(get_type_tabel(node2), "float") == 0)
+      if (strcmp(get_type_table(node2), "float") == 0)
       {
         strcpy(node1->children->child->type, "float");
         strcpy(op_node->type, "float");
@@ -790,27 +803,17 @@ char *type_check_num(t_node *node1, t_node *node2, t_token *op_node)
       }
     }
   }
-  // else
-  // {
-  //   printf(">> %s: %s (%s)\n", rule_label[node1->label], node1->children->child->token.lexeme, node1->type);
-  //   printf(">>> %s: %s (%s)\n", rule_label[node2->label], node2->children->child->token.lexeme, node2->type);
-  //   printf(">>>> return: %s\n", return_type);
-  // }
   return return_type;
 }
 
-char *get_type_tabel(t_node *node)
+char *get_type_table(t_node *node)
 {
   table_node *aux = symbol_table.beginning;
   while (aux->next != NULL)
   {
     aux = aux->next;
-    // printf("** %s\n", node->token.lexeme);
     if (strcmp(aux->token, node->token.lexeme) == 0)
-    {
-      // printf("** %s\n", aux->token);
       return aux->type;
-    }
   }
   return aux->type;
 }
@@ -883,13 +886,13 @@ int verify_amount_params(t_node *node, t_token *func)
     {
       if (calling_params_counter < aux->params)
       {
-        printf(BHRED "SEMANTIC ERROR (line: %d, column: %d): Amount of parameters passed is lower then the amount expected by the function! \n" reset, yylineno, column - yyleng);
+        printf(RED "SEMANTIC ERROR (line: %d, column: %d): Amount of parameters passed is lower then the amount expected by the function! \n" RESET, yylineno, column - yyleng);
         semantic_errors++;
         return 1;
       }
       else if (calling_params_counter > aux->params)
       {
-        printf(BHRED "SEMANTIC ERROR (line: %d, column: %d): Amount of parameters passed is higher then the amount expected by the function! \n" reset, yylineno, column - yyleng);
+        printf(RED "SEMANTIC ERROR (line: %d, column: %d): Amount of parameters passed is higher then the amount expected by the function! \n" RESET, yylineno, column - yyleng);
         semantic_errors++;
         return 1;
       }

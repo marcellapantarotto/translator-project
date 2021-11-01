@@ -1,20 +1,16 @@
 .table
-int IL[] = {0}
-float FL[] = {0}
-int read_list[] = {0}
-int n
-int i
-int new[] = {0}
-int elem
-float succ
-int i
-int leq_10
-float x
-int main
-int n
-float FL10[] = {0}
-float AUXL[] = {0}
-int n
+int v0[] = {0}
+float v1[] = {0}
+int v3
+int v4
+int v5[] = {0}
+int v6
+int v8
+float v10
+int v12
+float v13[] = {0}
+float v14[] = {0}
+int v15
 
 .code
 main:

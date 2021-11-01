@@ -301,7 +301,7 @@ lst_calling_parameters:
       // printf("<<< %s\n", $1->children->child->type);
       // remove_param_from_list($1);
       // else {
-      //   printf(BHRED "SEMANTIC ERROR (line: %d, column: %d): Type of parameter passed is different then the expected! Type passed: %s, expected: %s \n" reset, yylineno, column-yyleng, $1->children->child->type, param_type);
+      //   printf(RED "SEMANTIC ERROR (line: %d, column: %d): Type of parameter passed is different then the expected! Type passed: %s, expected: %s \n" RESET, yylineno, column-yyleng, $1->children->child->type, param_type);
       //   semantic_errors++;
       // }
     }
@@ -313,7 +313,7 @@ lst_calling_parameters:
       // printf("<<< %s\n", $1->children->child->type);
       // remove_param_from_list($1);
       //  else {
-      //   printf(BHRED "SEMANTIC ERROR (line: %d, column: %d): Type of parameter passed is different then the expected! Type passed: %s, expected: %s \n" reset, yylineno, column-yyleng, $1->children->child->type, param_type);
+      //   printf(RED "SEMANTIC ERROR (line: %d, column: %d): Type of parameter passed is different then the expected! Type passed: %s, expected: %s \n" RESET, yylineno, column-yyleng, $1->children->child->type, param_type);
       //   semantic_errors++;
       // }
     }
@@ -386,6 +386,17 @@ init_stmt:
       add_tree_node($$, $1);
       add_tree_operation_leaf($$, &$2, ASSIGN, verify_existing_variable(&$1->children->child->token));
       add_tree_node($$, $3);
+
+      if(strcmp($3->children->child->type, get_type_table($1->children->child)) != 0) {
+        if(strcmp($3->children->child->type, "-") == 0) {
+          strcpy($3->type, get_type_table($1->children->child));
+          strcpy($3->children->child->type, get_type_table($1->children->child));
+        } else {
+          strcpy($3->type, get_type_table($1->children->child));
+          strcpy($3->children->child->type, get_type_table($1->children->child));
+            
+        }
+      }
     }
 ;
 
@@ -426,12 +437,18 @@ return_stmt:
           strcpy($2->type, get_type($2, id2));
           id2++;
           if(strcmp($2->type, return_type_function) != 0) {
-            printf(BHRED "SEMANTIC ERROR (line: %d, column: %d): Type passed in the return is different from the expected type for the function return! Type passed: %s, expected: %s \n" reset, $1.line, $1.column+7, $2->type, return_type_function);
-            semantic_errors++;
+            // printf("\ncasting! %s %s-> %s ", $2->type, $2->children->child->type, return_type_function);
+            strcpy($2->type, return_type_function);
+            strcpy($2->children->child->type, return_type_function);
+            // printf(RED "SEMANTIC ERROR (line: %d, column: %d): Type passed in the return is different from the expected type for the function return! Type passed: %s, expected: %s \n" RESET, $1.line, $1.column+7, $2->type, return_type_function);
+            // semantic_errors++;
           }
         } else {
-          printf(BHRED "SEMANTIC ERROR (line: %d, column: %d): Type passed in the return is different from the expected type for the function return! Type passed: %s, expected: %s \n" reset, $1.line, $1.column+7, $2->children->child->type, return_type_function);
-          semantic_errors++;
+            // printf("\ncasting! %s %s-> %s ", $2->type, $2->children->child->type, return_type_function);
+          strcpy($2->type, return_type_function);
+          strcpy($2->children->child->type, return_type_function);
+          // printf(RED "SEMANTIC ERROR (line: %d, column: %d): Type passed in the return is different from the expected type for the function return! Type passed: %s, expected: %s \n" RESET, $1.line, $1.column+7, $2->children->child->type, return_type_function);
+          // semantic_errors++;
         }
       }
     }
@@ -513,7 +530,7 @@ iden:
       
       // if(get_scope_from_table(&$1) != $1.scope && get_scope_from_table(&$1) != 0){
       //   printf(">> %d %d %d \n", get_scope_from_table(&$1), $1.scope, g_scope);
-      //   printf(BHRED "SEMANTIC ERROR (line: %d, column: %d): Variable <%s> is being used in the wrong scope! \n" reset, $1.line, $1.column, $1.lexeme);
+      //   printf(RED "SEMANTIC ERROR (line: %d, column: %d): Variable <%s> is being used in the wrong scope! \n" RESET, $1.line, $1.column, $1.lexeme);
       //   semantic_errors++;
       // }  
     }
@@ -724,7 +741,7 @@ lst_single:
 %%
 //********** C Functions **********
 int yyerror(const char *s) {
-  fprintf(stderr, BHRED "SYNTAX ERROR   (line: %d, column: %d): %s " reset "\n", yylineno, column-yyleng, s);
+  fprintf(stderr, RED "SYNTAX ERROR   (line: %d, column: %d): %s " RESET "\n", yylineno, column-yyleng, s);
   return 0;
 }
 
@@ -758,9 +775,11 @@ int main(int argc, char **argv) {
 
   total_lexical_errors();
   total_syntax_errors();
-  total_semantic_errors();
+  total_semantic_errors();  
 
-  
+  if( lexical_errors != 0 || syntax_errors != 0 || semantic_errors != 0 ){
+    remove(output_name);
+  }
 
   destroy_tree(root);
   destroy_table();

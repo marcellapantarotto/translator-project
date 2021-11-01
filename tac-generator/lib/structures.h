@@ -1,10 +1,10 @@
 #ifndef STRUCTURES
 #define STRUCTURES
 
-#define BHRED "\e[1;91m"  // red
-#define BHBLU "\e[1;94m"  // blue
-#define BHMAG "\e[1;95m"  // magenta
-#define reset "\e[0m"
+#define RED "\e[1;91m"  // red
+#define BLUE "\e[1;94m"  // blue
+#define MAGENTA "\e[1;95m"  // magenta
+#define RESET "\e[0m"
 
 enum rule_label {
   PROGRAM,
@@ -104,6 +104,7 @@ typedef struct table_node {
   char type[13];
   char vfp[12];
   int params;
+  char tac[10];
 } table_node;
 
 // symbol table (pointers to beginning and end)
@@ -223,7 +224,7 @@ void remove_param_from_list(t_node *node);
 parameter_list create_params_list();
 
 void strip_ext(char *fname);
-char *get_type_tabel(t_node *node);
+char *get_type_table(t_node *node);
 
 //===============================================================
 // VARIABLE DECLARATIONS
@@ -253,6 +254,7 @@ extern parameter_list param_lst;
 extern int id;
 extern int id2;
 extern FILE *tac_output;
+extern int tac_counter;
 
 
 #endif

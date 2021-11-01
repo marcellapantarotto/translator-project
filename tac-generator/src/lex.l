@@ -439,5 +439,5 @@ id              [_a-zA-Z][_a-zA-Z0-9]*
 
 //********** C Functions **********
 void show_error() {
-  printf(BHRED "LEXICAL ERROR  (line: %d, column: %d): <%s> is not a token!" reset "\n", yylineno, column, yytext);
+  printf(RED "LEXICAL ERROR  (line: %d, column: %d): <%s> is not a token!" RESET "\n", yylineno, column, yytext);
 }

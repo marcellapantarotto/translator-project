@@ -143,6 +143,7 @@ int func1(float y) {
   int x; int i;
   read(x);
   writeln(x);
+  x = 0.5 + 3;
 
   for (i = 0; i < 20; i = i+1)
   {
