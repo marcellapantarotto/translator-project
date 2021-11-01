@@ -1,6 +1,6 @@
 MARCELLA PANTAROTTO (13/0143880)
 
-PROJECT 3: SEMANTIC ANALYZER 
+PROJECT 4: TRANSLATOR
 
 THE NECESSARY PREREQUISITES ARE:
   $ sudo apt-get install flex
@@ -42,3 +42,6 @@ TEST WITH ERRORS:
 
   test 2:
     $ ./tradutor tests/test_errors2.c
+
+TO RUN THE .tac FILE:
+  $ ./tac tests/<tradutor_output>.tac
