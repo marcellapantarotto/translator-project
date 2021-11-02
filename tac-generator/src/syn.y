@@ -1,5 +1,5 @@
 /* MARCELLA PANTAROTTO (13/0143880) */
-/* PROJECT 2: SYNTAX ANALYZER */
+/* PROJECT 4: TRANSLATOR */
 
 /********** C Stuff (headers, declarations, variables, etc.) **********/
 %defines
@@ -197,7 +197,9 @@ func_declaration:
       // if(strcmp($1->children->sibilings->child->token.lexeme, "main") == 0) {
       //   fprintf(tac_commands, "\nmain:\n");
       // }
-      
+      // add_variables_tac(&$1->children->sibilings->child->token);
+      fprintf(tac_commands, "\n%s: \n", $1->children->sibilings->child->token.lexeme);
+
     }
 ;
 
@@ -212,6 +214,7 @@ func_calling:
 var_declaration:
   unq_declaration ';' {
       $$ = $1;
+      add_variables_tac(&$1->children->sibilings->child->token);
     }
 ;
 
@@ -224,8 +227,6 @@ unq_declaration:
       strcpy($1->type, get_type($1, idx));
       strcpy($1->children->child->type, curr_type);
       idx++;
-
-      add_variables_tac(&$2);
     }
 ;
 
@@ -260,9 +261,6 @@ type_number:
 parameters:
   lst_parameters {
       $$ = $1;
-      
-      // $$ = create_node(PARAMETERS);
-      // add_tree_node($$, $1);
     }
   | %empty {
       $$ = create_node(PARAMETERS);
@@ -366,7 +364,6 @@ command:
       $$ = create_node(COMMAND);
       add_tree_node($$, $1);
     }
-
   | error ';' {
       yyerrok;
       $$ = create_node(COMMAND); 
@@ -494,22 +491,38 @@ output:
       $$ = create_node(OUTPUT_OPERATION);
       add_tree_operation_leaf($$, &$1, WRITE, "-");
       add_tree_node($$, $3);
+      
+      fprintf(tac_commands, "print %s\n", get_tac_name($3->children->child->token.lexeme));
     }
   | OUTPUT_WRITELN '(' operation ')' ';' {
       $$ = create_node(OUTPUT_OPERATION);
       add_tree_operation_leaf($$, &$1, WRITELN, "-");
       add_tree_node($$, $3);
+      printf("tempo = %s\n", temp);
       
+      fprintf(tac_commands, "println %s\n", get_tac_name($3->children->child->token.lexeme));
     }
   | OUTPUT_WRITE '(' STRING ')' ';' {
       $$ = create_node(OUTPUT_OPERATION);
       add_tree_operation_leaf($$, &$1, WRITE, "-");
       add_tree_operation_leaf($$, &$3, STRING_STMT, "-");
+
+      int size = strlen($3.lexeme);
+
+      temp_string = create_temp_4string(&$3);
+      fprintf(tac_table, "char %s[] = %s\n", temp_string, $3.lexeme);
+      strcpy($3.tac, temp_string);
+      fprintf(tac_commands, "print %s[%d]\n", $3.tac, size--);
     }
   | OUTPUT_WRITELN '(' STRING ')' ';' {
       $$ = create_node(OUTPUT_OPERATION);
       add_tree_operation_leaf($$, &$1, WRITELN, "-");
       add_tree_operation_leaf($$, &$3, STRING_STMT, "-");
+
+      temp_string = create_temp_4string(&$3);
+      fprintf(tac_table, "char %s[] = %s\n", temp_string, $3.lexeme);
+      strcpy($3.tac, temp_string);
+      fprintf(tac_commands, "println %s\n", $3.tac);
     }
 ;
 
@@ -624,7 +637,7 @@ arith_binary:
       add_tree_node($$, $3);
       strcpy($$->type, $1->type);
 
-      temp = create_temp($1);
+      temp = create_temp_4op($1);
       fprintf(tac_table, "%s %s\n", $1->children->child->type, temp);
       strcpy($2.tac, temp);
       fprintf(tac_commands, "add %s, %s, %s\n", get_tac_name($2.tac), get_tac_name($1->children->child->token.lexeme), get_tac_name($3->children->child->token.lexeme));
@@ -636,7 +649,7 @@ arith_binary:
       add_tree_node($$, $3);
       strcpy($$->type, $1->type);
 
-      temp = create_temp($1);
+      temp = create_temp_4op($1);
       fprintf(tac_table, "%s %s\n", $1->children->child->type, temp);
       strcpy($2.tac, temp);
       fprintf(tac_commands, "sub %s, %s, %s\n", get_tac_name($2.tac), get_tac_name($1->children->child->token.lexeme), get_tac_name($3->children->child->token.lexeme));
@@ -654,7 +667,7 @@ term:
       add_tree_node($$, $3);
       strcpy($$->type, $1->type);
 
-      temp = create_temp($1);
+      temp = create_temp_4op($1);
       fprintf(tac_table, "%s %s\n", $1->children->child->type, temp);
       strcpy($2.tac, temp);
       fprintf(tac_commands, "mul %s, %s, %s\n", get_tac_name($2.tac), get_tac_name($1->children->child->token.lexeme), get_tac_name($3->children->child->token.lexeme));
@@ -666,7 +679,7 @@ term:
       add_tree_node($$, $3);
       strcpy($$->type, $1->type);
 
-      temp = create_temp($1);
+      temp = create_temp_4op($1);
       fprintf(tac_table, "%s %s\n", $1->children->child->type, temp);
       strcpy($2.tac, temp);
       fprintf(tac_commands, "div %s, %s, %s\n", get_tac_name($2.tac), get_tac_name($1->children->child->token.lexeme), get_tac_name($3->children->child->token.lexeme));
@@ -744,7 +757,7 @@ arith_single:
       add_tree_node($$, $2);
       strcpy($$->type, $2->type);
 
-      temp = create_temp($2);
+      temp = create_temp_4op($2);
       fprintf(tac_table, "%s %s\n", $2->children->child->type, temp);
       strcpy($1.tac, temp);
       fprintf(tac_commands, "minus %s, %s\n", get_tac_name($1.tac), get_tac_name($2->children->child->token.lexeme));

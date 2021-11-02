@@ -1,3 +1,6 @@
+/* MARCELLA PANTAROTTO (13/0143880) */
+/* PROJECT 4: TRANSLATOR */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -32,6 +35,8 @@ FILE *tac_file;
 int tac_counter = 0;
 int temp_counter = 0;
 char *temp;
+char *temp_string;
+int temp_string_counter = 0;
 
 const char *rule_label[] = {
     "PROGRAM",
@@ -1002,7 +1007,7 @@ char *return_destiny(char *op1, char *op2) {
   return aux->tac;
 }
 
-char *create_temp(t_node *op){
+char *create_temp_4op(t_node *op){
   char *num;
   if (asprintf(&num, "%d", temp_counter) == -1)
   {
@@ -1015,6 +1020,21 @@ char *create_temp(t_node *op){
     temp_counter++;
   }
   return op->tac;
+}
+
+char *create_temp_4string(t_token *s){
+  char *num;
+  if (asprintf(&num, "%d", temp_string_counter) == -1)
+  {
+    perror("asprintf");
+  }
+  else
+  {
+    strcat(strcpy(s->tac, "s"), num);
+    free(num);
+    temp_string_counter++;
+  }
+  return s->tac;
 }
 
 void add_variables_tac(t_token *id) {
@@ -1033,7 +1053,7 @@ void add_variables_tac(t_token *id) {
     }
   }
 
-  if(strcmp(id->lexeme, "main") == 0) {
-    fprintf(tac_commands, "main:\n");
-  }
+  // if(strcmp(id->lexeme, "main") == 0) {
+  //   fprintf(tac_commands, "main:\n");
+  // }
 }

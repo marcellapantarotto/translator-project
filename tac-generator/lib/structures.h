@@ -1,3 +1,6 @@
+/* MARCELLA PANTAROTTO (13/0143880) */
+/* PROJECT 4: TRANSLATOR */
+
 #ifndef STRUCTURES
 #define STRUCTURES
 
@@ -232,6 +235,8 @@ void strip_ext(char *fname);
 void build_tac();
 char *get_tac_name(char *lexeme);
 void add_variables_tac(t_token *id);
+char *create_temp_4op(t_node *op);
+char *create_temp_4string(t_token *s);
 
 //===============================================================
 // VARIABLE DECLARATIONS
@@ -266,6 +271,8 @@ extern FILE *tac_file;
 extern int tac_counter;
 extern int temp_counter;
 extern char *temp;
+extern char *temp_string;
+extern int temp_string_counter;
 
 
 #endif

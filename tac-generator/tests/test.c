@@ -1,10 +1,40 @@
+int read_func() {
+  int a;
+  read(a);
+  writeln(a);
+  return a;
+}
+
 int main() {
-  int a; int b;
-  a = -a;
-  a = 7*a;
-  b = a + 10;
+  // write("Hello ");
+  // writeln("World");
+  read_func();
   return 0;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // int i;
 

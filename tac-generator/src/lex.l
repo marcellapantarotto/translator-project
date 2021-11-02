@@ -1,5 +1,5 @@
 /* MARCELLA PANTAROTTO (13/0143880) */
-/* PROJECT 2: SYNTAX ANALYZER */
+/* PROJECT 4: TRANSLATOR */
 
 /********** C Stuff (headers, declarations, variables, etc.) **********/
 %{

@@ -510,7 +510,7 @@ int yy_flex_debug = 0;
 char *yytext;
 #line 1 "src/lex.l"
 /* MARCELLA PANTAROTTO (13/0143880) */
-/* PROJECT 2: SYNTAX ANALYZER */
+/* PROJECT 4: TRANSLATOR */
 /********** C Stuff (headers, declarations, variables, etc.) **********/
 #line 6 "src/lex.l"
   #include <stdio.h>
