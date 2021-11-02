@@ -1,14 +1,12 @@
-int read_func() {
-  int a;
-  read(a);
-  writeln(a);
+int read_func(int a) {
+  writeln(a);  
   return a;
 }
 
 int main() {
   // write("Hello ");
   // writeln("World");
-  read_func();
+  read_func(1);
   return 0;
 }
 

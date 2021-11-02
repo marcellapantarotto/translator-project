@@ -862,7 +862,7 @@ void set_amount_params(char *func, int x)
   }
 }
 
-int verify_amount_params(t_node *node, t_token *func)
+int verify_amount_params(t_token *func)
 {
   table_node *aux = symbol_table.beginning;
   while (aux->next != NULL)
@@ -883,6 +883,18 @@ int verify_amount_params(t_node *node, t_token *func)
         return 1;
       }
     }
+  }
+  return 0;
+}
+
+int get_num_params_table(t_token *func)
+{
+  table_node *aux = symbol_table.beginning;
+  while (aux->next != NULL)
+  {
+    aux = aux->next;
+    if (strcmp(func->lexeme, aux->token) == 0)
+      return aux->params;
   }
   return 0;
 }
@@ -973,7 +985,7 @@ void build_tac()
     fputc(ch, tac_file);
   }
 
-  fprintf(tac_file, "\n.code\n");
+  fprintf(tac_file, "\n.code");
   while ((ch = fgetc(commands_read)) != EOF){
     fputc(ch, tac_file);
   }
