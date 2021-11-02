@@ -26,8 +26,12 @@ char param_type[13] = "";
 parameter_list param_lst;
 int id = 0;
 int id2 = 0;
-FILE *tac_output;
+FILE *tac_table;
+FILE *tac_commands;
+FILE *tac_file;
 int tac_counter = 0;
+int temp_counter = 0;
+char *temp;
 
 const char *rule_label[] = {
     "PROGRAM",
@@ -129,23 +133,8 @@ void print_node(t_node *n)
   printf("(Node ");
   print_token(&n->token);
   printf(" label: %s ", rule_label[n->label]);
-  // printf("(CHILDREN ");
-  // print_children(n->children);
   printf(")\n");
 }
-
-// void print_children(tree_node *c) {
-//   printf("child: ");
-//   print_node(c->child);
-//   printf(";");
-//   tree_node *aux;
-//   printf("(sibilings: ");
-//   while (c->sibilings != NULL) {
-//     aux = c->sibilings;
-//     print_node(aux->child);
-//   }
-//   printf(")\n");
-// }
 
 //===============================================================
 // SYMBOL TABLE SECTION
@@ -176,11 +165,14 @@ void add_table_node(char *tok, t_node *n, int i)
   strcpy(node->type, curr_type);
   strcpy(node->vfp, "Variable");
   node->params = 0;
-  
+
   char *num;
-  if(asprintf(&num, "%d", tac_counter) == -1) {
+  if (asprintf(&num, "%d", tac_counter) == -1)
+  {
     perror("asprintf");
-  } else {
+  }
+  else
+  {
     strcat(strcpy(node->tac, "v"), num);
     free(num);
     tac_counter++;
@@ -267,7 +259,6 @@ void decrement_scope()
 // print symbol table
 void print_table()
 {
-  fprintf(tac_output, ".table\n");
   table_node *aux = symbol_table.beginning;
   printf("\n\n=============================================================================================================\n");
   printf("\t\t\t\t\tSYMBOL TABLE");
@@ -277,19 +268,10 @@ void print_table()
   while (aux->next != NULL)
   {
     aux = aux->next;
-    if (strcmp(aux->vfp, "Function") != 0)
-    {
-      if (strcmp(aux->type, "list (int)") == 0)
-        fprintf(tac_output, "int %s[] = {0}\n", aux->tac);
-      else if (strcmp(aux->type, "list (float)") == 0)
-        fprintf(tac_output, "float %s[] = {0}\n", aux->tac);
-      else
-        fprintf(tac_output, "%s %s\n", aux->type, aux->tac);
-    }
     printf(" %-3d |  %-15s\t\t| %-13s|  %-2d   |  %-3d  |  %-3d   | %-12s |  %-7d | %s\n", aux->id, aux->token, aux->type, aux->scope, aux->line, aux->column, aux->vfp, aux->params, aux->tac);
   }
   printf("=============================================================================================================\n");
-  fprintf(tac_output, "\n.code\n");
+  
 }
 
 // destroy symbol table
@@ -529,7 +511,6 @@ int find_main()
     if (strcmp("main", aux->token) == 0 && aux->scope == 0)
     {
       found = 1;
-      fprintf(tac_output, "main:\n");
     }
   }
   if (!found)
@@ -965,110 +946,94 @@ void destroy_params_list()
   free(curr);
 }
 
-// char *type_check_id(t_token *token, t_node *node, int op) {
-//   if (strcmp(token, "int") == 0 && strcmp(node->type, "float") == 0) {
-//     strcpy(token->type, "float");
-//     strcpy(token->children->child->type, "float");
-//     strcpy(return_type, "float");
-//     if (strcmp(rule_label[token->label], "NUMBER") == 0) {
-//       strcat(token->children->child->token.lexeme, ".00");
-//     }
-//   } else if (strcmp(token->type, "float") == 0 && strcmp(node->type, "int") == 0) {
-//     strcpy(node->type, "float");
-//     strcpy(node->children->child->type, "float");
-//     strcpy(return_type, "float");
-//     if (strcmp(rule_label[node->label], "NUMBER") == 0) {
-//       strcat(node->children->child->token.lexeme, ".00");
-//     }
-//   } else if (strcmp(token->type, "float") == 0 && strcmp(node->type, "float") == 0) {
-//     strcpy(token->children->child->type, "float");
-//     strcpy(node->children->child->type, "float");
-//     strcpy(return_type, "float");
-//   } else if (strcmp(token->type, "int") == 0 && strcmp(node->type, "int") == 0) {
-//     strcpy(token->children->child->type, "int");
-//     strcpy(node->children->child->type, "int");
-//     strcpy(return_type, "int");
-//   }
-
-//   // printf("> %s\n", rule_label[op]);
-//   // printf(">> %s: %s (%s)\n", rule_label[token->label], token->children->child->token.lexeme, token->type);
-//   // printf(">>> %s: %s (%s)\n", rule_label[node->label], node->children->child->token.lexeme, node->type);
-//   // printf(">>>> return: %s\n", return_type);
-
-//   return return_type;
-// }
-
-//===============================================================
-// NUMBER CONVERTION
-//===============================================================
-
-// double int_to_float(t_node num1, t_node num2, char* operation) {
-//   double num_float;
-//   double aux1 = atof(num1.token.lexeme);
-//   double aux2 = atof(num2.token.lexeme);
-//   char *aux_lexeme;
-
-//   // find a way to verify is number is floating point number
-//   if (num1.label == NUMBER_INT) {
-//     num_float = strtof(num1.token.lexeme, NULL);
-//     return num_float;
-//   } else if(num2 == aux2) {
-//     num_float = strtof(num2.token.lexeme, NULL);
-//     return num_float;
-//   }
-
-// }
-
-// int int_to_char(int num_int, t_node node) {
-//   return itoa(num_int, node.token.lexeme, 200)
-// }
-
-// float char_to_float(char *c) {}
-
-// double float_to_int(t_node num1, t_node num2, char* operation) {
-//   double num_int;
-//   double aux1 = atof(num1.token.lexeme);
-//   double aux2 = atof(num2.token.lexeme);
-//   char *aux_lexeme;
-
-//   // find a way to verify is number is floating point number
-//   // if returns the number converted to integer and then to string
-//   if (num1 == aux1) {
-//     num_int = itoa(aux1, num1.token.lexeme, 200);
-//     return num_int;
-//   } else if(num2 == aux2) {
-//     num_int = itoa(aux2, num1.token.lexeme, 200);
-//     return num_int;
-//   }
-
-//   // atoll() is meant for integers.
-//   printf("float value : %4.8f\n", atof(num1.token.lexeme));
-// }
-
-// // atof()/strtof() is for floats.
-// printf("float value : %4.8f\n" ,strtof(num1.token.lexeme, NULL));
-
-// float my_float = 42.8;          // => my_float=42.000000
-// int my_int;
-// float other_float;
-
-// printf("%f\n", my_float);
-// my_int = (int)my_float;         // => my_int=42
-// printf("%d\n", my_int);
-// other_float = (float)my_int;    // => other_float=42.000000
-// printf("%f\n", other_float);
-
 void strip_ext(char *fname)
 {
   char *end = fname + strlen(fname);
 
   while (end > fname && *end != '.')
-  {
     --end;
-  }
 
   if (end > fname)
-  {
     *end = '\0';
+}
+
+void build_tac()
+{
+  int ch;
+  FILE *commands_read = fopen("tests/tac_commands.tac", "r");
+  FILE *table_read = fopen("tests/tac_table.tac", "r");
+
+  fprintf(tac_file, ".table\n");
+  while ((ch = fgetc(table_read)) != EOF){
+    fputc(ch, tac_file);
+  }
+
+  fprintf(tac_file, "\n.code\n");
+  while ((ch = fgetc(commands_read)) != EOF){
+    fputc(ch, tac_file);
+  }
+  fprintf(tac_table, "\n");
+
+  fclose(commands_read);
+  fclose(table_read);
+}
+
+char *get_tac_name(char *lexeme){
+  table_node *aux = symbol_table.beginning;
+  while (aux->next != NULL)
+  {
+    aux = aux->next;
+    if (strcmp(aux->token, lexeme) == 0)
+      return aux->tac;
+  }
+  return lexeme;
+}
+
+char *return_destiny(char *op1, char *op2) {
+  table_node *aux = symbol_table.beginning;
+  while (aux->next != NULL)
+  {
+    aux = aux->next;
+    if (strcmp(aux->token, op1) == 0)
+      return aux->tac;
+    else if (strcmp(aux->token, op2) == 0)
+      return aux->tac;
+  }
+  return aux->tac;
+}
+
+char *create_temp(t_node *op){
+  char *num;
+  if (asprintf(&num, "%d", temp_counter) == -1)
+  {
+    perror("asprintf");
+  }
+  else
+  {
+    strcat(strcpy(op->tac, "t"), num);
+    free(num);
+    temp_counter++;
+  }
+  return op->tac;
+}
+
+void add_variables_tac(t_token *id) {
+  table_node *aux = symbol_table.beginning;
+  while (aux->next != NULL)
+  {
+    aux = aux->next;
+    if (strcmp(aux->token, id->lexeme) == 0 && strcmp(aux->vfp, "Function") != 0)
+    {
+      if (strcmp(aux->type, "list (int)") == 0)
+        fprintf(tac_table, "int %s[] = {0}\n", aux->tac);
+      else if (strcmp(aux->type, "list (float)") == 0)
+        fprintf(tac_table, "float %s[] = {0}\n", aux->tac);
+      else
+        fprintf(tac_table, "%s %s\n", aux->type, aux->tac);
+    }
+  }
+
+  if(strcmp(id->lexeme, "main") == 0) {
+    fprintf(tac_commands, "main:\n");
   }
 }

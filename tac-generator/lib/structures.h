@@ -124,6 +124,7 @@ typedef struct t_token {
   int column;
   char type[14];
   int scope;
+  char tac[10];
 } t_token;
 
 // tree structure
@@ -132,6 +133,7 @@ typedef struct t_node {
   enum rule_label label;
   char type[14];
 	struct tree_node *children;
+  char tac[10];
 } t_node;
 
 // tree node struct
@@ -226,6 +228,11 @@ parameter_list create_params_list();
 void strip_ext(char *fname);
 char *get_type_table(t_node *node);
 
+void strip_ext(char *fname);
+void build_tac();
+char *get_tac_name(char *lexeme);
+void add_variables_tac(t_token *id);
+
 //===============================================================
 // VARIABLE DECLARATIONS
 //===============================================================
@@ -253,8 +260,12 @@ extern char param_type[];
 extern parameter_list param_lst;
 extern int id;
 extern int id2;
-extern FILE *tac_output;
+extern FILE *tac_table;
+extern FILE *tac_commands;
+extern FILE *tac_file;
 extern int tac_counter;
+extern int temp_counter;
+extern char *temp;
 
 
 #endif

@@ -193,6 +193,10 @@ func_declaration:
       add_tree_node($$, $7);
       set_F_table($1->children->sibilings->child);
       // param_lst = create_params_list();
+
+      // if(strcmp($1->children->sibilings->child->token.lexeme, "main") == 0) {
+      //   fprintf(tac_commands, "\nmain:\n");
+      // }
       
     }
 ;
@@ -220,6 +224,8 @@ unq_declaration:
       strcpy($1->type, get_type($1, idx));
       strcpy($1->children->child->type, curr_type);
       idx++;
+
+      add_variables_tac(&$2);
     }
 ;
 
@@ -397,6 +403,9 @@ init_stmt:
             
         }
       }
+
+      strcpy($3->children->child->tac, temp);
+      fprintf(tac_commands, "mov %s, %s\n", get_tac_name($1->children->child->token.lexeme), temp);
     }
 ;
 
@@ -404,17 +413,13 @@ conditional_stmt:
   IF_STMT '(' operation ')' command %prec IF_STMT {
       $$ = create_node(CONDITIONAL_STMT);
       add_tree_token_node($$, &$1, IF);
-      // add_tree_token_node($$, &$2, OPEN_PARENTHESES);
       add_tree_node($$, $3);
-      // add_tree_token_node($$, &$4, CLOSE_PARENTHESES);
       add_tree_node($$, $5);
     }
   | IF_STMT '(' operation ')' command ELSE_STMT command  {
       $$ = create_node(CONDITIONAL_STMT);
       add_tree_token_node($$, &$1, IF);
-      // add_tree_token_node($$, &$2, OPEN_PARENTHESES);
       add_tree_node($$, $3);
-      // add_tree_token_node($$, &$4, CLOSE_PARENTHESES);
       add_tree_node($$, $5);
       add_tree_token_node($$, &$6, ELSE);
       add_tree_node($$, $7);
@@ -437,18 +442,12 @@ return_stmt:
           strcpy($2->type, get_type($2, id2));
           id2++;
           if(strcmp($2->type, return_type_function) != 0) {
-            // printf("\ncasting! %s %s-> %s ", $2->type, $2->children->child->type, return_type_function);
             strcpy($2->type, return_type_function);
             strcpy($2->children->child->type, return_type_function);
-            // printf(RED "SEMANTIC ERROR (line: %d, column: %d): Type passed in the return is different from the expected type for the function return! Type passed: %s, expected: %s \n" RESET, $1.line, $1.column+7, $2->type, return_type_function);
-            // semantic_errors++;
           }
         } else {
-            // printf("\ncasting! %s %s-> %s ", $2->type, $2->children->child->type, return_type_function);
           strcpy($2->type, return_type_function);
           strcpy($2->children->child->type, return_type_function);
-          // printf(RED "SEMANTIC ERROR (line: %d, column: %d): Type passed in the return is different from the expected type for the function return! Type passed: %s, expected: %s \n" RESET, $1.line, $1.column+7, $2->children->child->type, return_type_function);
-          // semantic_errors++;
         }
       }
     }
@@ -624,6 +623,11 @@ arith_binary:
       add_tree_operation_leaf($$, &$2, ADD_OP, $2.type);
       add_tree_node($$, $3);
       strcpy($$->type, $1->type);
+
+      temp = create_temp($1);
+      fprintf(tac_table, "%s %s\n", $1->children->child->type, temp);
+      strcpy($2.tac, temp);
+      fprintf(tac_commands, "add %s, %s, %s\n", get_tac_name($2.tac), get_tac_name($1->children->child->token.lexeme), get_tac_name($3->children->child->token.lexeme));
     }
   | arith_binary '-' term {
       $$ = create_node(ARITHMETIC_BINARY);
@@ -631,6 +635,11 @@ arith_binary:
       add_tree_operation_leaf($$, &$2, MINUS_OP, type_check_num($1, $3, &$2));
       add_tree_node($$, $3);
       strcpy($$->type, $1->type);
+
+      temp = create_temp($1);
+      fprintf(tac_table, "%s %s\n", $1->children->child->type, temp);
+      strcpy($2.tac, temp);
+      fprintf(tac_commands, "sub %s, %s, %s\n", get_tac_name($2.tac), get_tac_name($1->children->child->token.lexeme), get_tac_name($3->children->child->token.lexeme));
     }
   | term {
       $$ = $1;
@@ -644,6 +653,11 @@ term:
       add_tree_operation_leaf($$, &$2, MULTIPLY_OP, type_check_num($1, $3, &$2));
       add_tree_node($$, $3);
       strcpy($$->type, $1->type);
+
+      temp = create_temp($1);
+      fprintf(tac_table, "%s %s\n", $1->children->child->type, temp);
+      strcpy($2.tac, temp);
+      fprintf(tac_commands, "mul %s, %s, %s\n", get_tac_name($2.tac), get_tac_name($1->children->child->token.lexeme), get_tac_name($3->children->child->token.lexeme));
     }
   | term '/' expression {
       $$ = create_node(TERM);
@@ -651,6 +665,11 @@ term:
       add_tree_operation_leaf($$, &$2, DIVISION_OP, type_check_num($1, $3, &$2));
       add_tree_node($$, $3);
       strcpy($$->type, $1->type);
+
+      temp = create_temp($1);
+      fprintf(tac_table, "%s %s\n", $1->children->child->type, temp);
+      strcpy($2.tac, temp);
+      fprintf(tac_commands, "div %s, %s, %s\n", get_tac_name($2.tac), get_tac_name($1->children->child->token.lexeme), get_tac_name($3->children->child->token.lexeme));
     }
   | expression {
       $$ = $1;
@@ -707,6 +726,8 @@ single_operation:
     $$ = create_node(SINGLE_OPERATION);
     add_tree_token_node($$, &$1, NOT_OR_TAIL);
     add_tree_node($$, $2);
+
+    fprintf(tac_commands, "not %s, %s\n", get_tac_name($2->children->child->token.lexeme), get_tac_name($2->children->child->token.lexeme));
   }
 ;
 
@@ -722,6 +743,11 @@ arith_single:
       add_tree_operation_leaf($$, &$1, MINUS_OP, type_check_num($2, $2, &$1));
       add_tree_node($$, $2);
       strcpy($$->type, $2->type);
+
+      temp = create_temp($2);
+      fprintf(tac_table, "%s %s\n", $2->children->child->type, temp);
+      strcpy($1.tac, temp);
+      fprintf(tac_commands, "minus %s, %s\n", get_tac_name($1.tac), get_tac_name($2->children->child->token.lexeme));
     }
 ;
 
@@ -752,7 +778,9 @@ int main(int argc, char **argv) {
   strip_ext(output_name);
 
   strcat(output_name, ".tac");
-  tac_output = fopen(output_name, "w");
+  tac_file = fopen(output_name, "w");
+  tac_commands = fopen("tests/tac_commands.tac", "w");
+  tac_table = fopen("tests/tac_table.tac", "w");
 
   root_scope_tree = (t_scope_node*) malloc(sizeof(t_scope_node));
   root_scope_tree->scope_number = 0;
@@ -777,16 +805,21 @@ int main(int argc, char **argv) {
   total_syntax_errors();
   total_semantic_errors();  
 
-  if( lexical_errors != 0 || syntax_errors != 0 || semantic_errors != 0 ){
+  if( lexical_errors != 0 || syntax_errors != 0 || semantic_errors != 0 )
     remove(output_name);
-  }
+
+  fclose(tac_commands);
+  fclose(tac_table);
+  build_tac();
 
   destroy_tree(root);
   destroy_table();
   free(root_scope_tree);
   
   fclose(yyin);
-  fclose(tac_output);
+  fclose(tac_file);
+  // remove("tests/tac_commands.tac");
+  // remove("tests/tac_table.tac");
   yylex_destroy();
   
   return 0;

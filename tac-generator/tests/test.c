@@ -1,3 +1,11 @@
+int main() {
+  int a; int b;
+  a = -a;
+  a = 7*a;
+  b = a + 10;
+  return 0;
+}
+
 // int i;
 
 // int fib(int i){
@@ -139,41 +147,144 @@
 // }
 ///////////////////////////////////////////////
 
-int func1(float y) {
-  int x; int i;
-  read(x);
-  writeln(x);
-  x = 0.5 + 3;
+// int func1(float y) {
+//   int x; int i;
+//   read(x);
+//   writeln(x);
+//   x = 0.5 + 3;
 
-  for (i = 0; i < 20; i = i+1)
-  {
-    y = x-3.4+72 > 0.3*29-37/i;
-    write("Y = "); writeln(y);
-    return y;
-  }
-}
+//   for (i = 0; i < 20; i = i+1)
+//   {
+//     y = x-3.4+72 > 0.3*29-37/i;
+//     write("Y = "); writeln(y);
+//     return y;
+//   }
+// }
 
-int func2(int x, float y) {
-  int i;
-  read(x);
-  writeln(x);
+// int func2(int x, float y) {
+//   int i;
+//   read(x);
+//   writeln(x);
   
-  for (i = 0; i < 20; i = i+1)
-  {
-    x = y*93-15/0.32+86*i-0.3/5.7;
-    write("X = "); writeln(x);
-    return x;
-  }
-}
+//   for (i = 0; i < 20; i = i+1)
+//   {
+//     x = y*93-15/0.32+86*i-0.3/5.7;
+//     write("X = "); writeln(x);
+//     return x;
+//   }
+// }
 
-int main() {
-  float x; int a;
-  a = 7;
-  write("Input a number: ");
-  read(x);
+// int main() {
+//   float x; int a;
+//   a = 7;
+//   write("Input a number: ");
+//   read(x);
 
-  func2(x, x+a);
-  func1(x);
+//   func2(x, x+a);
+//   func1(x);
 
-  return 0;
-}
+//   return 0;
+// }
+///////////////////////////////////////////
+// int                  list              i;
+
+// int fib(int i){
+
+// if (i == 1) return 1;
+
+// else if (i == 2) return 1;
+
+// else return fib(i-1) + fib(i-2);
+
+// }
+
+// int main() {
+
+// float i;
+
+// read(i);
+
+// if (i < 0) {
+
+// write("Forneça um número maior do que zero.");
+
+// return ! (1 + 5) <= 10 - 3 - 2 && (!1 + !5 <= 10 + (-3 - 2));
+
+// } else i = fib(i);
+
+// write("O resultado é:");
+// writeln(i);
+
+// return -1/2/3/4/5 - 0;
+
+// }
+//////////////////////////////////////////////////
+// int a;
+
+// int fn(int a) {
+//     read(a);
+//     write("local a: ");
+//     writeln(a);
+//     return a + 3.65 * 2.5 - ?(!(1 : 2 : 3 : NIL)) / 8;
+// }
+
+// int main() {
+//     a = 10;
+//     if (a) {
+//         int b;
+//         b = fn(a);
+//         int a;
+//         for (a = b; a >= 0; a = a - 2) {
+//             writeln(a);
+//         }
+//         write("if scope a: ");
+//         writeln(a);
+//     }
+//     if(a == 10) {
+//         write("global a remains ");
+//         writeln(a);
+//     }
+//     else writeln("something's not right");
+// }
+/////////////////////////////////////////////
+// int a;
+
+// int fn(int a) {
+//     read(a);
+//     write("local a: ");
+//     writeln(a);
+//     return a + 3.65 * 2.5 - ?(!(1 : 2 : 3 : NIL)) / 8;
+// }
+
+// float c(float k) {
+//     return k * k+1 --2 ++3 -k--k + ?!(7: 5.3 : NIL);
+// }
+
+// int main() {
+//     a = 10;
+//     int b;
+//     int i;
+//     for (i = fn(a); (i + 3 - ?!!(7 : (9 >= 4) : c(i) : NIL) <= c(a + i)) && i >= 0; i = i - 4) {
+//         write("i = ");
+//         writeln(i);
+//         return 0;
+//     }
+// }
+///////////////////////////////////////
+// int c(int k) {
+//     return k * 2 - 4;
+// }
+
+// float a1f(int j) {
+//     return j + 1.5;
+// }
+
+// int n35(float l) {
+//     return l - 3.5;
+// }
+
+// int main() {
+//     float list b;
+//     b = n35 << a1f >> c >> a1f >> c >> ((6 < 4) : (2 == 1) : (4 >= 32) : 5 + !3 : -8*-5 : n35(a1f(c(3))) : NIL);
+//     writeln(?b);
+// }
