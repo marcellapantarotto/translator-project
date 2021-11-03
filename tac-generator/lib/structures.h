@@ -238,6 +238,7 @@ char *get_tac_name(char *lexeme);
 void add_variables_tac(t_token *id);
 char *create_temp_4op(t_node *op);
 char *create_temp_4string(t_token *s);
+void print_params_tac(t_node *node);
 
 //===============================================================
 // VARIABLE DECLARATIONS
@@ -274,6 +275,7 @@ extern int temp_counter;
 extern char *temp;
 extern char *temp_string;
 extern int temp_string_counter;
+extern int tac_params_counter;
 
 
 #endif

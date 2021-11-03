@@ -193,11 +193,6 @@ func_declaration:
       add_tree_node($$, $7);
       set_F_table($1->children->sibilings->child);
       // param_lst = create_params_list();
-
-      // if(strcmp($1->children->sibilings->child->token.lexeme, "main") == 0) {
-      //   fprintf(tac_commands, "\nmain:\n");
-      // }
-      // add_variables_tac(&$1->children->sibilings->child->token);
     }
 ;
 
@@ -207,12 +202,8 @@ func_calling:
       add_tree_operation_leaf($$, &$1, IDENTIFIER, verify_existing_function(&$1));
       add_tree_node($$, $4);
 
-      // fprintf(tac_commands, "call %s [", $1.lexeme); 
-      // int n = get_num_params_table(&$1);
-      // for(int i = 0; i < n; i++){
-      //   fprintf(tac_commands, "%s", get_tac_name($4->children[0])); 
-      // } 
-      // fprintf(tac_commands, "]\n", ); 
+      print_params_tac($4);
+      fprintf(tac_commands, "call %s, %d\n", $1.lexeme, get_num_params_table(&$1)); 
     }
 ;
 
@@ -506,7 +497,6 @@ output:
       $$ = create_node(OUTPUT_OPERATION);
       add_tree_operation_leaf($$, &$1, WRITELN, "-");
       add_tree_node($$, $3);
-      printf("tempo = %s\n", temp);
       
       fprintf(tac_commands, "println %s\n", get_tac_name($3->children->child->token.lexeme));
     }

@@ -37,6 +37,7 @@ int temp_counter = 0;
 char *temp;
 char *temp_string;
 int temp_string_counter = 0;
+int tac_params_counter = 0;
 
 const char *rule_label[] = {
     "PROGRAM",
@@ -276,7 +277,6 @@ void print_table()
     printf(" %-3d |  %-15s\t\t| %-13s|  %-2d   |  %-3d  |  %-3d   | %-12s |  %-7d | %s\n", aux->id, aux->token, aux->type, aux->scope, aux->line, aux->column, aux->vfp, aux->params, aux->tac);
   }
   printf("=============================================================================================================\n");
-  
 }
 
 // destroy symbol table
@@ -981,12 +981,14 @@ void build_tac()
   FILE *table_read = fopen("tests/tac_table.tac", "r");
 
   fprintf(tac_file, ".table\n");
-  while ((ch = fgetc(table_read)) != EOF){
+  while ((ch = fgetc(table_read)) != EOF)
+  {
     fputc(ch, tac_file);
   }
 
   fprintf(tac_file, "\n.code");
-  while ((ch = fgetc(commands_read)) != EOF){
+  while ((ch = fgetc(commands_read)) != EOF)
+  {
     fputc(ch, tac_file);
   }
   fprintf(tac_table, "\n");
@@ -995,7 +997,8 @@ void build_tac()
   fclose(table_read);
 }
 
-char *get_tac_name(char *lexeme){
+char *get_tac_name(char *lexeme)
+{
   table_node *aux = symbol_table.beginning;
   while (aux->next != NULL)
   {
@@ -1006,7 +1009,8 @@ char *get_tac_name(char *lexeme){
   return lexeme;
 }
 
-char *return_destiny(char *op1, char *op2) {
+char *return_destiny(char *op1, char *op2)
+{
   table_node *aux = symbol_table.beginning;
   while (aux->next != NULL)
   {
@@ -1019,7 +1023,8 @@ char *return_destiny(char *op1, char *op2) {
   return aux->tac;
 }
 
-char *create_temp_4op(t_node *op){
+char *create_temp_4op(t_node *op)
+{
   char *num;
   if (asprintf(&num, "%d", temp_counter) == -1)
   {
@@ -1034,7 +1039,8 @@ char *create_temp_4op(t_node *op){
   return op->tac;
 }
 
-char *create_temp_4string(t_token *s){
+char *create_temp_4string(t_token *s)
+{
   char *num;
   if (asprintf(&num, "%d", temp_string_counter) == -1)
   {
@@ -1049,7 +1055,8 @@ char *create_temp_4string(t_token *s){
   return s->tac;
 }
 
-void add_variables_tac(t_token *id) {
+void add_variables_tac(t_token *id)
+{
   table_node *aux = symbol_table.beginning;
   while (aux->next != NULL)
   {
@@ -1068,4 +1075,26 @@ void add_variables_tac(t_token *id) {
   // if(strcmp(id->lexeme, "main") == 0) {
   //   fprintf(tac_commands, "main:\n");
   // }
+}
+
+void print_params_tac(t_node *node)
+{
+  tree_node *curr = node->children->child->children;
+  while (curr != NULL)
+  {
+    if (strcmp(rule_label[curr->child->label], "LIST_CALLING_PARAMETERS") == 0)
+      curr = curr->child->children;
+    
+    if (strcmp(rule_label[curr->child->label], "IDEN") == 0)
+      fprintf(tac_commands, "param %s\n", get_tac_name(curr->child->children->child->token.lexeme));
+    else{
+      fprintf(tac_commands, "param #%d\n", tac_params_counter);
+      tac_params_counter++;
+    }
+    // if (curr->sibilings == NULL)
+    //   fprintf(tac_commands, "%s", get_tac_name(curr->child->children->child->token.lexeme));
+    // else
+    //   fprintf(tac_commands, "%s, ", get_tac_name(curr->child->children->child->token.lexeme));
+    curr = curr->sibilings;
+  }
 }
