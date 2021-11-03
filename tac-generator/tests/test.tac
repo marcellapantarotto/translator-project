@@ -1,22 +1,31 @@
 .table
-int v3
-int v2
-int v1
-int t0
-int v5
-int t1
+int v9
 
 .code
 read_func: 
-add t0, v1, v2
-println 
-return v1 
+println #2
+println #1
+println #0
+return #2 
+
+read_func2: 
+println #2
+println #1
+println #0
+return #2 
 
 main: 
-minus t1, 2
-mov v5, t1
-param v5
-param #0
-param #1
+mov v9, 2
+param v9
+mov $0, 1
+param $0
+mov $1, 4
+param $1
 call read_func, 3
+param v9
+mov $2, 1
+param $2
+mov $3, 4
+param $3
+call read_func2, 3
 return 0 

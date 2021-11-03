@@ -1,5 +1,14 @@
 int read_func(int a, int b, int c) {
-  writeln(a+b);  
+  writeln(a);
+  writeln(b);  
+  writeln(c);  
+  return a;
+}
+
+int read_func2(int a, int b, int c) {
+  writeln(a);
+  writeln(b);  
+  writeln(c);  
   return a;
 }
 
@@ -7,8 +16,9 @@ int main() {
   // write("Hello ");
   // writeln("World");
   int x;
-  x = -2;
-  read_func(x, 2, 4);
+  x = 2;
+  read_func(x, 1, 4);
+  read_func2(x, 1, 4);
   return 0;
 }
 

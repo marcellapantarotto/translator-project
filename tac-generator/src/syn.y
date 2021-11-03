@@ -186,13 +186,16 @@ declaration:
 ;
 
 func_declaration:
-  unq_declaration {fprintf(tac_commands, "\n%s: \n", $1->children->sibilings->child->token.lexeme); strcpy(return_type_function, curr_type); increment_scope(); strcpy(func_name, $1->children->sibilings->child->token.lexeme);} '(' parameters ')' '{' block_commands '}' {
+  unq_declaration {tac_params_counter2 = 0; fprintf(tac_commands, "\n%s: \n", $1->children->sibilings->child->token.lexeme); strcpy(return_type_function, curr_type); increment_scope(); strcpy(func_name, $1->children->sibilings->child->token.lexeme);} '(' parameters ')' '{' block_commands '}' {tac_params_counter2 = get_num_params_table(&$1->children->sibilings->child->token);}{
       $$ = create_node(FUNCTION_DECLARATION);    
       add_tree_node($$, $1);
       add_tree_node($$, $4);
       add_tree_node($$, $7);
       set_F_table($1->children->sibilings->child);
       // param_lst = create_params_list();
+
+      
+      printf(">> %s %d\n", $1->children->sibilings->child->token.lexeme, tac_params_counter2);
     }
 ;
 
@@ -264,22 +267,23 @@ parameters:
 ;
 
 lst_parameters: 
-  unq_declaration ',' lst_parameters {strcpy(param_type, $1->children->child->type);}  {
+  unq_declaration ',' lst_parameters {strcpy(param_type, $1->children->child->type);} {
       $$ = create_node(LIST_PARAMETERS);
       add_tree_node($$, $1);
       add_tree_node($$, $3);
       set_P_table($1);
       set_amount_params(func_name, get_amount_params($1, func_name));
 
-      // printf(">>>> %s\n", $1->children->child->type);
-      add_variables_tac(&$1->children->sibilings->child->token);
+      // printf(">> %s %d\n", $1->children->sibilings->child->token.lexeme, get_params_table(func_name));   
+      add_parameter_tac(&$1->children->sibilings->child->token);
     }
   | unq_declaration {strcpy(param_type, $1->children->child->type);} {
       $$ = $1;
       set_P_table($1);
       set_amount_params(func_name, get_amount_params($1, func_name));
-      // printf(">>>> %s\n", $1->children->child->type);  
-      add_variables_tac(&$1->children->sibilings->child->token);   
+
+      // printf(">> %s %d\n", $1->children->sibilings->child->token.lexeme, get_params_table(func_name));
+      add_parameter_tac(&$1->children->sibilings->child->token);
     }
 ;
 
@@ -399,8 +403,11 @@ init_stmt:
         }
       }
 
-      strcpy($3->children->child->tac, temp);
-      fprintf(tac_commands, "mov %s, %s\n", get_tac_name($1->children->child->token.lexeme), temp);
+      // strcpy($3->tac, temp);
+      print_assign_tac($1, $3, temp);
+
+      // strcpy($3->children->child->tac, temp);
+      // fprintf(tac_commands, "mov %s, %s\n", get_tac_name($1->children->child->token.lexeme), temp);
     }
 ;
 

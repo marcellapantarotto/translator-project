@@ -21,6 +21,7 @@ t_scope_node *scope_node_curr;
 t_node *root;
 int idx = 0;
 int params_counter = 0;
+int params_counter2 = 0;
 int calling_params_counter = 0;
 char curr_type[] = "";
 char return_type[13] = "";
@@ -38,6 +39,8 @@ char *temp;
 char *temp_string;
 int temp_string_counter = 0;
 int tac_params_counter = 0;
+int tac_params_counter2;
+
 
 const char *rule_label[] = {
     "PROGRAM",
@@ -849,6 +852,25 @@ int get_amount_params(t_node *node, char *function)
   return params_counter;
 }
 
+int get_amount_params2(t_node *node, char *function)
+{
+  // parameter *p = (parameter*) malloc(sizeof(parameter));
+  tree_node *curr = node->children;
+  while (curr != NULL)
+  {
+    if (strcmp(rule_label[curr->child->label], "UNIQUE_DECLARATION") == 0)
+    {
+      curr = curr->sibilings;
+    }
+    if (strcmp(curr->child->token.lexeme, "") != 0)
+    {
+      params_counter2++;
+    }
+    curr = curr->sibilings;
+  }
+  return params_counter2;
+}
+
 void set_amount_params(char *func, int x)
 {
   table_node *aux = symbol_table.beginning;
@@ -894,6 +916,18 @@ int get_num_params_table(t_token *func)
   {
     aux = aux->next;
     if (strcmp(func->lexeme, aux->token) == 0)
+      return aux->params;
+  }
+  return 0;
+}
+
+int get_params_table(char *func)
+{
+  table_node *aux = symbol_table.beginning;
+  while (aux->next != NULL)
+  {
+    aux = aux->next;
+    if (strcmp(func, aux->token) == 0)
       return aux->params;
   }
   return 0;
@@ -1071,10 +1105,32 @@ void add_variables_tac(t_token *id)
         fprintf(tac_table, "%s %s\n", aux->type, aux->tac);
     }
   }
+}
 
-  // if(strcmp(id->lexeme, "main") == 0) {
-  //   fprintf(tac_commands, "main:\n");
-  // }
+char *add_parameter_tac(t_token *id)
+{
+  // tac_params_counter2 = get_params_table(f); 
+  char *num;
+  if (asprintf(&num, "%d", tac_params_counter2) == -1)
+  {
+    perror("asprintf");
+  }
+  else
+  {
+    printf("-- %d\n", tac_params_counter2);
+    strcat(strcpy(id->tac, "#"), num);
+    free(num);
+    tac_params_counter2++;
+  }
+
+  table_node *aux = symbol_table.beginning;
+  while (aux->next != NULL)
+  {
+    aux = aux->next;
+    if (strcmp(aux->token, id->lexeme) == 0 )
+      strcpy(aux->tac, id->tac);
+  }
+  return id->tac;
 }
 
 void print_params_tac(t_node *node)
@@ -1084,17 +1140,35 @@ void print_params_tac(t_node *node)
   {
     if (strcmp(rule_label[curr->child->label], "LIST_CALLING_PARAMETERS") == 0)
       curr = curr->child->children;
-    
+
     if (strcmp(rule_label[curr->child->label], "IDEN") == 0)
       fprintf(tac_commands, "param %s\n", get_tac_name(curr->child->children->child->token.lexeme));
-    else{
-      fprintf(tac_commands, "param #%d\n", tac_params_counter);
+    else
+    {
+      fprintf(tac_commands, "mov $%d, %s\n", tac_params_counter, get_tac_name(curr->child->children->child->token.lexeme));
+      fprintf(tac_commands, "param $%d\n", tac_params_counter);
       tac_params_counter++;
     }
     // if (curr->sibilings == NULL)
     //   fprintf(tac_commands, "%s", get_tac_name(curr->child->children->child->token.lexeme));
     // else
     //   fprintf(tac_commands, "%s, ", get_tac_name(curr->child->children->child->token.lexeme));
+    curr = curr->sibilings;
+  }
+}
+
+void print_assign_tac(t_node *id, t_node *op, char *temp)
+{
+  tree_node *curr = op->children;
+  while (curr != NULL)
+  {
+    if (strcmp(rule_label[curr->child->label], "IDENTIFIER") == 0)
+      fprintf(tac_commands, "mov %s, %s\n", get_tac_name(id->children->child->token.lexeme), get_tac_name(curr->child->token.lexeme));
+    else if (strcmp(rule_label[curr->child->label], "NUMBER_INT") == 0 || strcmp(rule_label[curr->child->label], "NUMBER_FLOAT") == 0)
+      fprintf(tac_commands, "mov %s, %s\n", get_tac_name(id->children->child->token.lexeme), get_tac_name(curr->child->token.lexeme));
+    else
+      fprintf(tac_commands, "mov %s, %s\n", get_tac_name(id->children->child->token.lexeme), temp);
+
     curr = curr->sibilings;
   }
 }

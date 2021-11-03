@@ -239,6 +239,8 @@ void add_variables_tac(t_token *id);
 char *create_temp_4op(t_node *op);
 char *create_temp_4string(t_token *s);
 void print_params_tac(t_node *node);
+void print_assign_tac(t_node *id, t_node *op, char *temp);
+char *add_parameter_tac(t_token *id);
 
 //===============================================================
 // VARIABLE DECLARATIONS
@@ -258,6 +260,7 @@ extern t_scope_node *scope_node_curr;
 extern t_node *root;
 extern int idx;
 extern int params_counter;
+extern int params_counter2;
 extern int calling_params_counter;
 extern char func_name[];
 extern char curr_type[];
@@ -276,6 +279,7 @@ extern char *temp;
 extern char *temp_string;
 extern int temp_string_counter;
 extern int tac_params_counter;
+extern int tac_params_counter2;
 
 
 #endif
