@@ -3,7 +3,7 @@ int v9
 
 .code
 read_func: 
-println #2
+scani #2
 println #1
 println #0
 return #2 

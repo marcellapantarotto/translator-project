@@ -195,7 +195,7 @@ func_declaration:
       // param_lst = create_params_list();
 
       
-      printf(">> %s %d\n", $1->children->sibilings->child->token.lexeme, tac_params_counter2);
+      // printf(">> %s %d\n", $1->children->sibilings->child->token.lexeme, tac_params_counter2);
     }
 ;
 
@@ -536,6 +536,12 @@ input:
       $$ = create_node(INPUT_OPERATION);
       add_tree_operation_leaf($$, &$1, READ, verify_existing_variable(&$3->children->child->token));
       add_tree_node($$, $3);
+
+      printf("%s \n", $3->children->child->token.lexeme);
+      if(strcmp($3->children->child->type, "int") == 0)
+        fprintf(tac_commands, "scani %s\n", get_tac_name($3->children->child->token.lexeme));
+      else if(strcmp($3->children->child->type, "float") == 0)
+        fprintf(tac_commands, "scanf %s\n", get_tac_name($3->children->child->token.lexeme));
     }
 ;
 

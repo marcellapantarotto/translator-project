@@ -1117,7 +1117,7 @@ char *add_parameter_tac(t_token *id)
   }
   else
   {
-    printf("-- %d\n", tac_params_counter2);
+    // printf("-- %d\n", tac_params_counter2);
     strcat(strcpy(id->tac, "#"), num);
     free(num);
     tac_params_counter2++;

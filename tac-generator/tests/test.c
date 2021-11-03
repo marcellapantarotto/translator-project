@@ -1,5 +1,5 @@
 int read_func(int a, int b, int c) {
-  writeln(a);
+  read(a);
   writeln(b);  
   writeln(c);  
   return a;
