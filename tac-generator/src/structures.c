@@ -20,14 +20,14 @@ t_scope_node *root_scope_tree;
 t_scope_node *scope_node_curr;
 t_node *root;
 int idx = 0;
-int params_counter = 0;
-int params_counter2 = 0;
+int params_counter_declaration = 0;
+int params_counter_calling = 0;
 int calling_params_counter = 0;
 char curr_type[] = "";
 char return_type[13] = "";
 char return_type_function[13] = "";
 char param_type[13] = "";
-parameter_list param_lst;
+parameter_list param_list;
 int id = 0;
 int id2 = 0;
 FILE *tac_table;
@@ -40,7 +40,9 @@ char *temp_string;
 int temp_string_counter = 0;
 int tac_params_counter = 0;
 int tac_params_counter2;
-
+int temp_read_counter = 0;
+char *temp_read;
+int param_id_counter = 0;
 
 const char *rule_label[] = {
     "PROGRAM",
@@ -138,7 +140,6 @@ void print_token(t_token *t)
 
 void print_node(t_node *n)
 {
-
   printf("(Node ");
   print_token(&n->token);
   printf(" label: %s ", rule_label[n->label]);
@@ -253,7 +254,7 @@ void increment_scope()
   temp->scope_number = g_scope;
   temp->parent = scope_node_curr;
   scope_node_curr = temp;
-  params_counter = 0;
+  params_counter_declaration = 0;
 }
 
 // decrements scope of symbols
@@ -340,7 +341,6 @@ t_node *create_node(int label)
   node->label = label;
   strcpy(node->type, "-");
   node->children = NULL;
-
   return node;
 }
 
@@ -370,8 +370,6 @@ void add_tree_node(t_node *root, t_node *node)
 
 void set_type_node(t_node *root, t_node *node)
 {
-  // if(strcmp(rule_label[root->children->child->label], "NUMBER_INT") == 0 ||
-
   if (strcmp(rule_label[root->children->child->label], "NUMBER_INT") == 0 ||
       strcmp(rule_label[root->label], "NUMBER_INT") == 0 ||
       strcmp(rule_label[node->label], "NUMBER_INT") == 0)
@@ -471,7 +469,6 @@ void print_ast(t_node *root, int height)
 
   if (root->token.line != -1)
   {
-    // printf("- %s", rule_label[root->label]);
     printf(": " BLUE "%s  (line: %d, column: %d)\n" RESET, root->token.lexeme, root->token.line, root->token.column);
   }
   else
@@ -825,50 +822,32 @@ int get_scope_from_table(t_token *func)
 // PARAMETERS
 //===============================================================
 
-int get_amount_params(t_node *node, char *function)
+int get_amount_params_declaration(t_node *node, char *function)
 {
-  // parameter *p = (parameter*) malloc(sizeof(parameter));
   tree_node *curr = node->children;
   while (curr != NULL)
   {
     if (strcmp(rule_label[curr->child->label], "UNIQUE_DECLARATION") == 0)
-    {
       curr = curr->sibilings;
-    }
     if (strcmp(curr->child->token.lexeme, "") != 0)
-    {
-      params_counter++;
-
-      // strcpy(p->name, curr->child->token.lexeme);
-      // strcpy(p->type, curr->child->type);
-      // strcpy(p->function, function);
-      // p->next = NULL;
-
-      // param_lst.final->next = p;
-      // param_lst.final = p;
-    }
+      params_counter_declaration++;
     curr = curr->sibilings;
   }
-  return params_counter;
+  return params_counter_declaration;
 }
 
-int get_amount_params2(t_node *node, char *function)
+int get_amount_params_calling(t_node *node, char *function)
 {
-  // parameter *p = (parameter*) malloc(sizeof(parameter));
   tree_node *curr = node->children;
   while (curr != NULL)
   {
     if (strcmp(rule_label[curr->child->label], "UNIQUE_DECLARATION") == 0)
-    {
       curr = curr->sibilings;
-    }
     if (strcmp(curr->child->token.lexeme, "") != 0)
-    {
-      params_counter2++;
-    }
+      params_counter_calling++;
     curr = curr->sibilings;
   }
-  return params_counter2;
+  return params_counter_calling;
 }
 
 void set_amount_params(char *func, int x)
@@ -933,60 +912,77 @@ int get_params_table(char *func)
   return 0;
 }
 
-parameter_list create_params_list()
+parameter_list create_param_list()
 {
-  parameter_list lst;
-  lst.beginning = (parameter *)malloc(sizeof(parameter));
-  strcpy(lst.beginning->name, "");
-  strcpy(lst.beginning->type, "");
-  lst.beginning->next = NULL;
-  lst.final = lst.beginning;
-  return lst;
+  parameter_list s;
+  s.beginning = (parameter *)malloc(sizeof(parameter));
+  s.beginning->id = param_id_counter;
+  s.beginning->node = NULL;
+  s.beginning->next = NULL;
+  s.beginning->previous = NULL;
+  s.final = s.beginning;
+  s.size = 0;
+  return s;
 }
 
-void remove_param_from_list(t_node *node)
+void add_all_params_2list(t_node *node)
 {
-  parameter *p = param_lst.beginning;
-  // parameter *next;
-  tree_node *curr = node->children;
-
+  tree_node *curr = node->children->child->children;
   while (curr != NULL)
   {
-    if (strcmp(curr->child->token.lexeme, "") != 0)
-    {
-      printf("~~~~ %s %s \n", curr->child->token.lexeme, curr->child->type);
-      if (strcmp(curr->child->type, p->type) == 0)
-      {
-        //   next = p->next;
-        // free(p);
-        // p = next;
-        printf(" %-10s - %-13s - %-s \n", p->name, p->type, p->function);
-      }
-    }
+    if (strcmp(rule_label[curr->child->label], "LIST_CALLING_PARAMETERS") == 0)
+      curr = curr->child->children;
+
+    add_param(curr->child);
     curr = curr->sibilings;
   }
 }
 
-void print_params_list()
+void add_param(t_node *node)
 {
-  parameter *aux = param_lst.beginning;
-  printf("\n\n========================================================\n");
-  printf("\t\tLIST OF PARAMETERS");
-  printf("\n========================================================\n");
-  printf(" NAME\t    | TYPE\t    | FUNCTION ");
-  printf("\n========================================================\n");
+  parameter *new = (parameter *)malloc(sizeof(parameter));
+  new->id = param_id_counter;
+  new->node = node->children->child;
+  new->previous = param_list.final;
+  new->next = NULL;
 
+  char *num;
+  if (asprintf(&num, "%d", new->id) == -1)
+  {
+    perror("asprintf");
+  }
+  else
+  {
+    strcat(strcpy(new->tac, "#"), num);
+    free(num);
+  }
+
+  param_list.size++;
+
+  param_list.final->next = new;
+  param_list.final = new;
+  param_id_counter++;
+}
+
+void print_params_stack()
+{
+  parameter *aux = param_list.beginning;
+  printf("\n\n=========================================\n");
+  printf("   LIST OF PARAMETERS IN FUNCION CALL");
+  printf("\n=========================================\n");
+  printf(" ID | TYPE         | TOKEN      | TAC");
+  printf("\n=========================================\n");
   while (aux->next != NULL)
   {
     aux = aux->next;
-    printf(" %-10s | %-13s | %-s \n", aux->name, aux->type, aux->function);
+    printf(" %d  | %-13s| %-10s | %s\n", aux->id, aux->node->type, aux->node->token.lexeme, aux->tac);
   }
-  printf("========================================================\n\n");
+  printf("=========================================\n\n");
 }
 
 void destroy_params_list()
 {
-  parameter *curr = param_lst.beginning;
+  parameter *curr = param_list.beginning;
   parameter *nxt;
   while (curr->next != NULL)
   {
@@ -996,6 +992,53 @@ void destroy_params_list()
   }
   free(curr);
 }
+
+void set_tac_name_param()
+{
+  parameter *aux = param_list.beginning;
+  int size = param_list.size - 1;
+  while (aux->next != NULL)
+  {
+    aux = aux->next;
+    char *num;
+    if (asprintf(&num, "%d", size) == -1)
+    {
+      perror("asprintf");
+    }
+    else
+    {
+      strcat(strcpy(aux->tac, "$"), num);
+      free(num);
+      size--;
+    }
+  }
+}
+
+void print_params()
+{
+  parameter *aux = param_list.beginning;
+
+  while (aux->next != NULL)
+  {
+    aux = aux->next;
+    // printf(">>>>> id: %d, token: %s, tac: %s, label: %s\n", aux->id, aux->node->token.lexeme, aux->tac, rule_label[aux->node->label]);
+
+    if (strcmp(rule_label[aux->node->label], "IDENTIFIER") == 0)
+    {
+      fprintf(tac_commands, "param %s\n", get_tac_name(aux->node->token.lexeme));
+    }
+    else
+    {
+      fprintf(tac_commands, "mov %s, %s\n", aux->tac, get_tac_name(aux->node->token.lexeme));
+      fprintf(tac_commands, "param %s\n", aux->tac);
+    }    
+  }
+}
+
+
+//===============================================================
+// TAC
+//===============================================================
 
 void strip_ext(char *fname)
 {
@@ -1089,6 +1132,22 @@ char *create_temp_4string(t_token *s)
   return s->tac;
 }
 
+char *create_temp_4read(t_token *s)
+{
+  char *num;
+  if (asprintf(&num, "%d", temp_read_counter) == -1)
+  {
+    perror("asprintf");
+  }
+  else
+  {
+    strcat(strcpy(s->tac, "r"), num);
+    free(num);
+    temp_read_counter++;
+  }
+  return s->tac;
+}
+
 void add_variables_tac(t_token *id)
 {
   table_node *aux = symbol_table.beginning;
@@ -1109,7 +1168,6 @@ void add_variables_tac(t_token *id)
 
 char *add_parameter_tac(t_token *id)
 {
-  // tac_params_counter2 = get_params_table(f); 
   char *num;
   if (asprintf(&num, "%d", tac_params_counter2) == -1)
   {
@@ -1117,7 +1175,6 @@ char *add_parameter_tac(t_token *id)
   }
   else
   {
-    // printf("-- %d\n", tac_params_counter2);
     strcat(strcpy(id->tac, "#"), num);
     free(num);
     tac_params_counter2++;
@@ -1127,7 +1184,7 @@ char *add_parameter_tac(t_token *id)
   while (aux->next != NULL)
   {
     aux = aux->next;
-    if (strcmp(aux->token, id->lexeme) == 0 )
+    if (strcmp(aux->token, id->lexeme) == 0)
       strcpy(aux->tac, id->tac);
   }
   return id->tac;
@@ -1142,12 +1199,16 @@ void print_params_tac(t_node *node)
       curr = curr->child->children;
 
     if (strcmp(rule_label[curr->child->label], "IDEN") == 0)
+    {
       fprintf(tac_commands, "param %s\n", get_tac_name(curr->child->children->child->token.lexeme));
+      // printf("1>> %d\n", tac_params_counter);
+    }
     else
     {
       fprintf(tac_commands, "mov $%d, %s\n", tac_params_counter, get_tac_name(curr->child->children->child->token.lexeme));
       fprintf(tac_commands, "param $%d\n", tac_params_counter);
       tac_params_counter++;
+      // printf("2>> %d\n", tac_params_counter);
     }
     // if (curr->sibilings == NULL)
     //   fprintf(tac_commands, "%s", get_tac_name(curr->child->children->child->token.lexeme));

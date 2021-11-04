@@ -192,20 +192,25 @@ func_declaration:
       add_tree_node($$, $4);
       add_tree_node($$, $7);
       set_F_table($1->children->sibilings->child);
-      // param_lst = create_params_list();
-
       
       // printf(">> %s %d\n", $1->children->sibilings->child->token.lexeme, tac_params_counter2);
     }
 ;
 
 func_calling: 
-  ID  '(' {calling_params_counter = 0;} calling_parameters {verify_amount_params(&$1);} ')' {
+  ID  '(' {calling_params_counter = 0; } calling_parameters {verify_amount_params(&$1);} ')' {
       $$ = create_node(FUNCTION_CALLING);
       add_tree_operation_leaf($$, &$1, IDENTIFIER, verify_existing_function(&$1));
       add_tree_node($$, $4);
 
-      print_params_tac($4);
+      
+      param_list = create_param_list();
+      add_all_params_2list($4);
+      set_tac_name_param();
+      print_params_stack();
+      print_params();
+      destroy_params_list();
+      
       fprintf(tac_commands, "call %s, %d\n", $1.lexeme, get_num_params_table(&$1)); 
     }
 ;
@@ -272,7 +277,7 @@ lst_parameters:
       add_tree_node($$, $1);
       add_tree_node($$, $3);
       set_P_table($1);
-      set_amount_params(func_name, get_amount_params($1, func_name));
+      set_amount_params(func_name, get_amount_params_declaration($1, func_name));
 
       // printf(">> %s %d\n", $1->children->sibilings->child->token.lexeme, get_params_table(func_name));   
       add_parameter_tac(&$1->children->sibilings->child->token);
@@ -280,7 +285,7 @@ lst_parameters:
   | unq_declaration {strcpy(param_type, $1->children->child->type);} {
       $$ = $1;
       set_P_table($1);
-      set_amount_params(func_name, get_amount_params($1, func_name));
+      set_amount_params(func_name, get_amount_params_declaration($1, func_name));
 
       // printf(">> %s %d\n", $1->children->sibilings->child->token.lexeme, get_params_table(func_name));
       add_parameter_tac(&$1->children->sibilings->child->token);
@@ -305,7 +310,7 @@ lst_calling_parameters:
       calling_params_counter += 1;
 
       // printf("<<< %s\n", $1->children->child->type);
-      // remove_param_from_list($1);
+      // pop_param_stack($1);
       // else {
       //   printf(RED "SEMANTIC ERROR (line: %d, column: %d): Type of parameter passed is different then the expected! Type passed: %s, expected: %s \n" RESET, yylineno, column-yyleng, $1->children->child->type, param_type);
       //   semantic_errors++;
@@ -317,7 +322,7 @@ lst_calling_parameters:
       calling_params_counter += 1;
 
       // printf("<<< %s\n", $1->children->child->type);
-      // remove_param_from_list($1);
+      // pop_param_stack($1);
       //  else {
       //   printf(RED "SEMANTIC ERROR (line: %d, column: %d): Type of parameter passed is different then the expected! Type passed: %s, expected: %s \n" RESET, yylineno, column-yyleng, $1->children->child->type, param_type);
       //   semantic_errors++;
@@ -512,12 +517,12 @@ output:
       add_tree_operation_leaf($$, &$1, WRITE, "-");
       add_tree_operation_leaf($$, &$3, STRING_STMT, "-");
 
-      int size = strlen($3.lexeme);
+      // int size = strlen($3.lexeme);
 
       temp_string = create_temp_4string(&$3);
       fprintf(tac_table, "char %s[] = %s\n", temp_string, $3.lexeme);
       strcpy($3.tac, temp_string);
-      fprintf(tac_commands, "print %s[%d]\n", $3.tac, size--);
+      fprintf(tac_commands, "print %s\n", $3.tac);
     }
   | OUTPUT_WRITELN '(' STRING ')' ';' {
       $$ = create_node(OUTPUT_OPERATION);
@@ -537,11 +542,34 @@ input:
       add_tree_operation_leaf($$, &$1, READ, verify_existing_variable(&$3->children->child->token));
       add_tree_node($$, $3);
 
-      printf("%s \n", $3->children->child->token.lexeme);
-      if(strcmp($3->children->child->type, "int") == 0)
+      
+      if(strcmp($3->children->child->type, "int") == 0){
         fprintf(tac_commands, "scani %s\n", get_tac_name($3->children->child->token.lexeme));
-      else if(strcmp($3->children->child->type, "float") == 0)
+        printf("%s ", $3->children->child->type);
+      }
+      else if(strcmp($3->children->child->type, "float") == 0){
         fprintf(tac_commands, "scanf %s\n", get_tac_name($3->children->child->token.lexeme));
+        printf("%s ", $3->children->child->type);
+      }
+      printf("%s \n", $3->children->child->token.lexeme);
+
+
+      // if(strcmp($3->children->child->type, "int") == 0){
+      //   temp_read = create_temp_4read(&$3->token);
+      //   fprintf(tac_table, "int %s\n", temp_read);
+      //   strcpy($3->children->child->tac, temp_read);
+      //   fprintf(tac_commands, "scani %s\n", $3->children->child->tac);
+      //   fprintf(tac_commands, "mov %s, %s\n", get_tac_name($3->children->child->token.lexeme), $3->children->child->tac);
+      //   printf("%s ", $3->children->child->type);
+      // }
+      // else if(strcmp($3->children->child->type, "float") == 0){
+      //   temp_read = create_temp_4read(&$3->token);
+      //   fprintf(tac_table, "float %s\n", temp_read);
+      //   strcpy($3->children->child->tac, temp_read);
+      //   fprintf(tac_commands, "scanf %s\n", $3->children->child->tac);
+      //   fprintf(tac_commands, "mov %s, %s\n", get_tac_name($3->children->child->token.lexeme), $3->children->child->tac);
+      //   printf("%s ", $3->children->child->type);
+      // }
     }
 ;
 
