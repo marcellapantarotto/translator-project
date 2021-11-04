@@ -238,7 +238,8 @@ char *get_type_table(t_node *node);
 
 void strip_ext(char *fname);
 void build_tac();
-char *get_tac_name(char *lexeme);
+// char *get_tac_name(char *lexeme);
+char *get_tac_name(t_token *token);
 void add_variables_tac(t_token *id);
 char *create_temp_4op(t_node *op);
 char *create_temp_4string(t_token *s);

@@ -225,6 +225,7 @@ var_declaration:
   unq_declaration ';' {
       $$ = $1;
       add_variables_tac(&$1->children->sibilings->child->token);
+      // printf(">> g_scope: %d\n", g_scope);
     }
 ;
 
@@ -237,6 +238,7 @@ unq_declaration:
       strcpy($1->type, get_type($1, idx));
       strcpy($1->children->child->type, curr_type);
       idx++;
+      // add_variables_tac(&$2);
     }
 ;
 
@@ -410,15 +412,9 @@ init_stmt:
         } else {
           strcpy($3->type, get_type_table($1->children->child));
           strcpy($3->children->child->type, get_type_table($1->children->child));
-            
         }
       }
-
-      // strcpy($3->tac, temp);
       print_assign_tac($1, $3, temp);
-
-      // strcpy($3->children->child->tac, temp);
-      // fprintf(tac_commands, "mov %s, %s\n", get_tac_name($1->children->child->token.lexeme), temp);
     }
 ;
 
@@ -463,7 +459,7 @@ return_stmt:
           strcpy($2->children->child->type, return_type_function);
         }
       }
-      fprintf(tac_commands, "return %s \n", get_tac_name($2->children->child->token.lexeme));
+      fprintf(tac_commands, "return %s \n", get_tac_name(&$2->children->child->token));
     }
 ;
 
@@ -509,14 +505,14 @@ output:
       add_tree_operation_leaf($$, &$1, WRITE, "-");
       add_tree_node($$, $3);
       
-      fprintf(tac_commands, "print %s\n", get_tac_name($3->children->child->token.lexeme));
+      fprintf(tac_commands, "print %s\n", get_tac_name(&$3->children->child->token));
     }
   | OUTPUT_WRITELN '(' operation ')' ';' {
       $$ = create_node(OUTPUT_OPERATION);
       add_tree_operation_leaf($$, &$1, WRITELN, "-");
       add_tree_node($$, $3);
       
-      fprintf(tac_commands, "println %s\n", get_tac_name($3->children->child->token.lexeme));
+      fprintf(tac_commands, "println %s\n", get_tac_name(&$3->children->child->token));
     }
   | OUTPUT_WRITE '(' STRING ')' ';' {
       $$ = create_node(OUTPUT_OPERATION);
@@ -550,41 +546,21 @@ input:
 
       
       if(strcmp($3->children->child->type, "int") == 0){
-        fprintf(tac_commands, "scani %s\n", get_tac_name($3->children->child->token.lexeme));
+        fprintf(tac_commands, "scani %s\n", get_tac_name(&$3->children->child->token));
         printf("%s ", $3->children->child->type);
       }
       else if(strcmp($3->children->child->type, "float") == 0){
-        fprintf(tac_commands, "scanf %s\n", get_tac_name($3->children->child->token.lexeme));
+        fprintf(tac_commands, "scanf %s\n", get_tac_name(&$3->children->child->token));
         printf("%s ", $3->children->child->type);
       }
       printf("%s \n", $3->children->child->token.lexeme);
-
-
-      // if(strcmp($3->children->child->type, "int") == 0){
-      //   temp_read = create_temp_4read(&$3->token);
-      //   fprintf(tac_table, "int %s\n", temp_read);
-      //   strcpy($3->children->child->tac, temp_read);
-      //   fprintf(tac_commands, "scani %s\n", $3->children->child->tac);
-      //   fprintf(tac_commands, "mov %s, %s\n", get_tac_name($3->children->child->token.lexeme), $3->children->child->tac);
-      //   printf("%s ", $3->children->child->type);
-      // }
-      // else if(strcmp($3->children->child->type, "float") == 0){
-      //   temp_read = create_temp_4read(&$3->token);
-      //   fprintf(tac_table, "float %s\n", temp_read);
-      //   strcpy($3->children->child->tac, temp_read);
-      //   fprintf(tac_commands, "scanf %s\n", $3->children->child->tac);
-      //   fprintf(tac_commands, "mov %s, %s\n", get_tac_name($3->children->child->token.lexeme), $3->children->child->tac);
-      //   printf("%s ", $3->children->child->type);
-      // }
     }
 ;
 
 iden: 
   ID {
       $$ = create_node(IDEN);
-      add_tree_operation_leaf($$, &$1, IDENTIFIER, verify_existing_variable(&$1));
-      // printf(">> %d %d\n", get_scope_from_table(&$1), $1.scope);
-      
+      add_tree_operation_leaf($$, &$1, IDENTIFIER, verify_existing_variable(&$1));      
       // if(get_scope_from_table(&$1) != $1.scope && get_scope_from_table(&$1) != 0){
       //   printf(">> %d %d %d \n", get_scope_from_table(&$1), $1.scope, g_scope);
       //   printf(RED "SEMANTIC ERROR (line: %d, column: %d): Variable <%s> is being used in the wrong scope! \n" RESET, $1.line, $1.column, $1.lexeme);
@@ -685,7 +661,7 @@ arith_binary:
       temp = create_temp_4op($1);
       fprintf(tac_table, "%s %s\n", $1->children->child->type, temp);
       strcpy($2.tac, temp);
-      fprintf(tac_commands, "add %s, %s, %s\n", get_tac_name($2.tac), get_tac_name($1->children->child->token.lexeme), get_tac_name($3->children->child->token.lexeme));
+      fprintf(tac_commands, "add %s, %s, %s\n", $2.tac, get_tac_name(&$1->children->child->token), get_tac_name(&$3->children->child->token));
     }
   | arith_binary '-' term {
       $$ = create_node(ARITHMETIC_BINARY);
@@ -697,7 +673,7 @@ arith_binary:
       temp = create_temp_4op($1);
       fprintf(tac_table, "%s %s\n", $1->children->child->type, temp);
       strcpy($2.tac, temp);
-      fprintf(tac_commands, "sub %s, %s, %s\n", get_tac_name($2.tac), get_tac_name($1->children->child->token.lexeme), get_tac_name($3->children->child->token.lexeme));
+      fprintf(tac_commands, "sub %s, %s, %s\n", $2.tac, get_tac_name(&$1->children->child->token), get_tac_name(&$3->children->child->token));
     }
   | term {
       $$ = $1;
@@ -715,7 +691,7 @@ term:
       temp = create_temp_4op($1);
       fprintf(tac_table, "%s %s\n", $1->children->child->type, temp);
       strcpy($2.tac, temp);
-      fprintf(tac_commands, "mul %s, %s, %s\n", get_tac_name($2.tac), get_tac_name($1->children->child->token.lexeme), get_tac_name($3->children->child->token.lexeme));
+      fprintf(tac_commands, "mul %s, %s, %s\n", $2.tac, get_tac_name(&$1->children->child->token), get_tac_name(&$3->children->child->token));
     }
   | term '/' expression {
       $$ = create_node(TERM);
@@ -727,7 +703,7 @@ term:
       temp = create_temp_4op($1);
       fprintf(tac_table, "%s %s\n", $1->children->child->type, temp);
       strcpy($2.tac, temp);
-      fprintf(tac_commands, "div %s, %s, %s\n", get_tac_name($2.tac), get_tac_name($1->children->child->token.lexeme), get_tac_name($3->children->child->token.lexeme));
+      fprintf(tac_commands, "div %s, %s, %s\n", $2.tac, get_tac_name(&$1->children->child->token), get_tac_name(&$3->children->child->token));
     }
   | expression {
       $$ = $1;
@@ -785,7 +761,7 @@ single_operation:
     add_tree_token_node($$, &$1, NOT_OR_TAIL);
     add_tree_node($$, $2);
 
-    fprintf(tac_commands, "not %s, %s\n", get_tac_name($2->children->child->token.lexeme), get_tac_name($2->children->child->token.lexeme));
+    fprintf(tac_commands, "not %s, %s\n", get_tac_name(&$2->children->child->token), get_tac_name(&$2->children->child->token));
   }
 ;
 
@@ -805,7 +781,7 @@ arith_single:
       temp = create_temp_4op($2);
       fprintf(tac_table, "%s %s\n", $2->children->child->type, temp);
       strcpy($1.tac, temp);
-      fprintf(tac_commands, "minus %s, %s\n", get_tac_name($1.tac), get_tac_name($2->children->child->token.lexeme));
+      fprintf(tac_commands, "minus %s, %s\n", $1.tac, get_tac_name(&$2->children->child->token));
     }
 ;
 

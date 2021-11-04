@@ -177,13 +177,19 @@ void add_table_node(char *tok, t_node *n, int i)
   node->params = 0;
 
   char *num;
+  // char *num_scope;
   if (asprintf(&num, "%d", tac_counter) == -1)
   {
     perror("asprintf");
   }
+  // else if (asprintf(&num_scope, "%d", g_scope) == -1)
+  // {
+  //   perror("asprintf");
+  // }
   else
   {
     strcat(strcpy(node->tac, "v"), num);
+    // strcat(strcat(strcpy(node->tac, "v"), num), num_scope);
     free(num);
     tac_counter++;
   }
@@ -581,6 +587,7 @@ void set_F_table(t_node *node)
     if (strcmp(aux->token, node->token.lexeme) == 0)
     {
       strcpy(aux->vfp, "Function");
+      strcpy(aux->tac, node->token.lexeme);
     }
   }
 }
@@ -1018,9 +1025,8 @@ void print_params(parameter *aux)
 {
   if (aux == NULL)
     return;
-
   print_params(aux->next);
-  fprintf(tac_commands, "param %s\n", get_tac_name(aux->node->token.lexeme));
+  fprintf(tac_commands, "param %s\n", get_tac_name(&aux->node->token));
   return;
 }
 
@@ -1062,30 +1068,33 @@ void build_tac()
   fclose(table_read);
 }
 
-char *get_tac_name(char *lexeme)
+// char *get_tac_name(char *lexeme)
+// {
+//   table_node *aux = symbol_table.beginning;
+//   while (aux->next != NULL)
+//   {
+//     aux = aux->next;
+//     if (strcmp(aux->token, lexeme) == 0){
+//       printf(">> %s\n", aux->tac);
+//       return aux->tac;
+//     }
+//   }
+//   return lexeme;
+// }
+char *get_tac_name(t_token *token)
 {
   table_node *aux = symbol_table.beginning;
   while (aux->next != NULL)
   {
     aux = aux->next;
-    if (strcmp(aux->token, lexeme) == 0)
+    if (strcmp(aux->token, token->lexeme) == 0 && (aux->scope == token->scope || aux->scope == 0 || aux->scope == aux->scope + 1))
+    {
+      // printf("~~ %s %d | %s %d\n", aux->token, aux->scope, token->lexeme, token->scope);
       return aux->tac;
+    }
   }
-  return lexeme;
-}
-
-char *return_destiny(char *op1, char *op2)
-{
-  table_node *aux = symbol_table.beginning;
-  while (aux->next != NULL)
-  {
-    aux = aux->next;
-    if (strcmp(aux->token, op1) == 0)
-      return aux->tac;
-    else if (strcmp(aux->token, op2) == 0)
-      return aux->tac;
-  }
-  return aux->tac;
+  // printf("~~~~ %s %d | %s %d\n", aux->token, aux->scope, token->lexeme, token->scope);
+  return token->lexeme;
 }
 
 char *create_temp_4op(t_node *op)
@@ -1142,7 +1151,7 @@ void add_variables_tac(t_token *id)
   while (aux->next != NULL)
   {
     aux = aux->next;
-    if (strcmp(aux->token, id->lexeme) == 0 && strcmp(aux->vfp, "Function") != 0)
+    if (strcmp(aux->token, id->lexeme) == 0 && strcmp(aux->vfp, "Variable") == 0 && id->scope == aux->scope)
     {
       if (strcmp(aux->type, "list (int)") == 0)
         fprintf(tac_table, "int %s[] = {0}\n", aux->tac);
@@ -1172,7 +1181,7 @@ char *add_parameter_tac(t_token *id)
   while (aux->next != NULL)
   {
     aux = aux->next;
-    if (strcmp(aux->token, id->lexeme) == 0)
+    if (strcmp(aux->token, id->lexeme) == 0 && strcmp(aux->vfp, "Variable (P)") == 0 && g_scope == aux->scope)
       strcpy(aux->tac, id->tac);
   }
   return id->tac;
@@ -1188,20 +1197,14 @@ void print_params_tac(t_node *node)
 
     if (strcmp(rule_label[curr->child->label], "IDEN") == 0)
     {
-      fprintf(tac_commands, "param %s\n", get_tac_name(curr->child->children->child->token.lexeme));
-      // printf("1>> %d\n", tac_params_counter);
+      fprintf(tac_commands, "param %s\n", get_tac_name(&curr->child->children->child->token));
     }
     else
     {
-      fprintf(tac_commands, "mov $%d, %s\n", tac_params_counter, get_tac_name(curr->child->children->child->token.lexeme));
+      fprintf(tac_commands, "mov $%d, %s\n", tac_params_counter, get_tac_name(&curr->child->children->child->token));
       fprintf(tac_commands, "param $%d\n", tac_params_counter);
       tac_params_counter++;
-      // printf("2>> %d\n", tac_params_counter);
     }
-    // if (curr->sibilings == NULL)
-    //   fprintf(tac_commands, "%s", get_tac_name(curr->child->children->child->token.lexeme));
-    // else
-    //   fprintf(tac_commands, "%s, ", get_tac_name(curr->child->children->child->token.lexeme));
     curr = curr->sibilings;
   }
 }
@@ -1211,12 +1214,15 @@ void print_assign_tac(t_node *id, t_node *op, char *temp)
   tree_node *curr = op->children;
   while (curr != NULL)
   {
-    if (strcmp(rule_label[curr->child->label], "IDENTIFIER") == 0)
-      fprintf(tac_commands, "mov %s, %s\n", get_tac_name(id->children->child->token.lexeme), get_tac_name(curr->child->token.lexeme));
-    else if (strcmp(rule_label[curr->child->label], "NUMBER_INT") == 0 || strcmp(rule_label[curr->child->label], "NUMBER_FLOAT") == 0)
-      fprintf(tac_commands, "mov %s, %s\n", get_tac_name(id->children->child->token.lexeme), get_tac_name(curr->child->token.lexeme));
-    else
-      fprintf(tac_commands, "mov %s, %s\n", get_tac_name(id->children->child->token.lexeme), temp);
+    if (strcmp(rule_label[curr->child->label], "IDENTIFIER") == 0){
+      fprintf(tac_commands, "mov %s, %s\n", get_tac_name(&id->children->child->token), get_tac_name(&curr->child->token));
+    }
+    else if (strcmp(rule_label[curr->child->label], "NUMBER_INT") == 0 || strcmp(rule_label[curr->child->label], "NUMBER_FLOAT") == 0){
+      fprintf(tac_commands, "mov %s, %s\n", get_tac_name(&id->children->child->token), get_tac_name(&curr->child->token));
+    }
+    else {
+      fprintf(tac_commands, "mov %s, %s\n", get_tac_name(&id->children->child->token), temp);
+    }
 
     curr = curr->sibilings;
   }

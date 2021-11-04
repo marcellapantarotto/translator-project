@@ -9,19 +9,15 @@ int v6
 char s0[] = "Digite o elemento da lista: "
 int t2
 char s1[] = "Digite os número de elementos da lista: "
-int #0
 int v12
 float v13[] = {0}
 float v14[] = {0}
-int #0
-int v12
 int v15
 int t3
 char s2[] = " "
-char s3[] = " "
-char s4[] = "A nova lista tem "
-char s5[] = " elementos."
-char s6[] = "A nova lista não possui elementos."
+char s3[] = "A nova lista tem "
+char s4[] = " elementos."
+char s5[] = "A nova lista não possui elementos."
 
 .code
 read_list: 
@@ -36,9 +32,9 @@ mov v4, t1
 mov v4, t1
 println s0
 scani v6
-mov v5, t1
-mov v5, t1
-mov v5, t1
+mov new, t1
+mov new, t1
+mov new, t1
 return v5 
 
 succ: 
@@ -50,10 +46,10 @@ return
 
 main: 
 println s1
-scani #0
-param #0
+scani v12
+param v12
 call read_list, 1
-mov v0, v2
+mov v0, read_list
 mov v0, t2
 mov v1, t2
 mov v1, t2
@@ -61,20 +57,18 @@ mov v1, t2
 mov v13, t2
 mov v13, t2
 mov v13, t2
-mov #0, 0
-mov v14, v13
+mov v15, 0
+mov v14, FL10
 not v14, v14
 mov v14, t2
 mov v14, t2
-add t3, #0, 1
-mov #0, t3
-mov #0, t3
-mov #0, t3
-print ?
-print s2
-println s3
-print s4
-print #0
+add t3, n, 1
+mov n, t3
+mov n, t3
+mov n, t3
+println s2
+print s3
+print v15
+println s4
 println s5
-println s6
 return 0 
