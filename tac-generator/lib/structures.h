@@ -247,6 +247,7 @@ void print_assign_tac(t_node *id, t_node *op, char *temp);
 char *add_parameter_tac(t_token *id);
 char *create_temp_4read(t_token *s);
 char *new_name(t_token *id);
+void print_params(parameter *aux);
 
 //===============================================================
 // VARIABLE DECLARATIONS

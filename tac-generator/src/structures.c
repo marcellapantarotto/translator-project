@@ -1014,27 +1014,15 @@ void set_tac_name_param()
   }
 }
 
-void print_params()
+void print_params(parameter *aux)
 {
-  parameter *aux = param_list.beginning;
+  if (aux == NULL)
+    return;
 
-  while (aux->next != NULL)
-  {
-    aux = aux->next;
-    // printf(">>>>> id: %d, token: %s, tac: %s, label: %s\n", aux->id, aux->node->token.lexeme, aux->tac, rule_label[aux->node->label]);
-
-    if (strcmp(rule_label[aux->node->label], "IDENTIFIER") == 0)
-    {
-      fprintf(tac_commands, "param %s\n", get_tac_name(aux->node->token.lexeme));
-    }
-    else
-    {
-      fprintf(tac_commands, "mov %s, %s\n", aux->tac, get_tac_name(aux->node->token.lexeme));
-      fprintf(tac_commands, "param %s\n", aux->tac);
-    }    
-  }
+  print_params(aux->next);
+  fprintf(tac_commands, "param %s\n", get_tac_name(aux->node->token.lexeme));
+  return;
 }
-
 
 //===============================================================
 // TAC

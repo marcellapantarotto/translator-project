@@ -7,8 +7,6 @@
 
 %{
   #include <stdio.h>
-  // #include <stdlib.h>
-  // #include <string.h>
   #include "../lib/structures.h"
   #include "structures.c"
 
@@ -186,7 +184,15 @@ declaration:
 ;
 
 func_declaration:
-  unq_declaration {tac_params_counter2 = 0; fprintf(tac_commands, "\n%s: \n", $1->children->sibilings->child->token.lexeme); strcpy(return_type_function, curr_type); increment_scope(); strcpy(func_name, $1->children->sibilings->child->token.lexeme);} '(' parameters ')' '{' block_commands '}' {tac_params_counter2 = get_num_params_table(&$1->children->sibilings->child->token);}{
+  unq_declaration {
+    tac_params_counter2 = 0; 
+    fprintf(tac_commands, "\n%s: \n", $1->children->sibilings->child->token.lexeme); 
+    strcpy(return_type_function, curr_type); 
+    increment_scope(); 
+    strcpy(func_name, $1->children->sibilings->child->token.lexeme);
+  } '(' parameters ')' '{' block_commands '}' {
+    tac_params_counter2 = get_num_params_table(&$1->children->sibilings->child->token);
+  }{
       $$ = create_node(FUNCTION_DECLARATION);    
       add_tree_node($$, $1);
       add_tree_node($$, $4);
@@ -203,12 +209,12 @@ func_calling:
       add_tree_operation_leaf($$, &$1, IDENTIFIER, verify_existing_function(&$1));
       add_tree_node($$, $4);
 
-      
       param_list = create_param_list();
       add_all_params_2list($4);
-      set_tac_name_param();
-      print_params_stack();
-      print_params();
+      // print_params_stack();
+
+      parameter *aux = param_list.beginning;
+      print_params(aux->next);
       destroy_params_list();
       
       fprintf(tac_commands, "call %s, %d\n", $1.lexeme, get_num_params_table(&$1)); 
