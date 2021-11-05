@@ -520,7 +520,6 @@ output:
       add_tree_operation_leaf($$, &$3, STRING_STMT, "-");
 
       // int size = strlen($3.lexeme);
-
       // temp_string = create_temp_4string(&$3);
       // fprintf(tac_table, "char %s[] = %s\n", temp_string, $3.lexeme);
       // strcpy($3.tac, temp_string);

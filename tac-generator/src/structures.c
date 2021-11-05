@@ -397,7 +397,6 @@ void set_type_node(t_node *root, t_node *node)
   {
     if (is_variable(root->children->child))
     {
-      // strcpy(node->type, return_var_type_from_table(root->children->child));
       strcpy(root->children->child->type, return_var_type_from_table(root->children->child));
     }
   }
@@ -1033,19 +1032,6 @@ void build_tac()
   fclose(table_read);
 }
 
-// char *get_tac_name(char *lexeme)
-// {
-//   table_node *aux = symbol_table.beginning;
-//   while (aux->next != NULL)
-//   {
-//     aux = aux->next;
-//     if (strcmp(aux->token, lexeme) == 0){
-//       printf(">> %s\n", aux->tac);
-//       return aux->tac;
-//     }
-//   }
-//   return lexeme;
-// }
 char *get_tac_name(t_token *token)
 {
   table_node *aux = symbol_table.beginning;
@@ -1053,12 +1039,8 @@ char *get_tac_name(t_token *token)
   {
     aux = aux->next;
     if (strcmp(aux->token, token->lexeme) == 0 && (aux->scope == token->scope || aux->scope == 0))
-    {
-      // printf("~~ %s %d | %s %d\n", aux->token, aux->scope, token->lexeme, token->scope);
       return aux->tac;
-    }
   }
-  printf("~~~~ %s %d | %s %d\n", aux->token, aux->scope, token->lexeme, token->scope);
   return token->lexeme;
 }
 
@@ -1143,15 +1125,18 @@ void print_assign_tac(t_token *id, t_node *op, char *temp)
   tree_node *curr = op->children;
   while (curr != NULL)
   {
-    if (strcmp(rule_label[curr->child->label], "IDENTIFIER") == 0){
+    if (strcmp(rule_label[curr->child->label], "IDENTIFIER") == 0)
+    {
       fprintf(tac_commands, "mov %s, %s\n", get_tac_name(id), get_tac_name(&curr->child->token));
       return;
     }
-    else if (strcmp(rule_label[curr->child->label], "NUMBER_INT") == 0 || strcmp(rule_label[curr->child->label], "NUMBER_FLOAT") == 0){
+    else if (strcmp(rule_label[curr->child->label], "NUMBER_INT") == 0 || strcmp(rule_label[curr->child->label], "NUMBER_FLOAT") == 0)
+    {
       fprintf(tac_commands, "mov %s, %s\n", get_tac_name(id), get_tac_name(&curr->child->token));
       return;
     }
-    else {
+    else
+    {
       fprintf(tac_commands, "mov %s, %s\n", get_tac_name(id), temp);
       return;
     }

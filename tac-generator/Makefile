@@ -6,17 +6,14 @@ compile:
 	gcc-11 -g -Wall -o tradutor -I lib/ src/syn.tab.c src/lex.yy.c -lfl
 
 run:
-	./tradutor tests/test.c
-# ./tradutor tests/test_professora.c
-# ./tradutor tests/test_professora2.c
-#	./tradutor tests/test_ana3.c
-# ./tradutor tests/test_correct1.c
-# ./tradutor tests/test_correct2.c
+	./tradutor tests/test_correct1.c
+	./tradutor tests/test_correct2.c
 # ./tradutor tests/test_errors1.c
 # ./tradutor tests/test_errors2.c
 	
 debug:
-	valgrind -v --tool=memcheck --leak-check=full --log-file="logfile.out" --show-leak-kinds=all --track-origins=yes ./tradutor tests/test.c
+	valgrind -v --tool=memcheck --leak-check=full --log-file="logfile.out" --show-leak-kinds=all --track-origins=yes ./tradutor test_correct1.c
 
-tac:
-	./tac tests/test.tac
+run-tac:
+	./tac tests/test_correct1.tac
+	./tac tests/test_correct2.tac
