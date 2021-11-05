@@ -176,23 +176,8 @@ void add_table_node(char *tok, t_node *n, int i)
   strcpy(node->vfp, "Variable");
   node->params = 0;
 
-  char *num;
-  // char *num_scope;
-  if (asprintf(&num, "%d", tac_counter) == -1)
-  {
-    perror("asprintf");
-  }
-  // else if (asprintf(&num_scope, "%d", g_scope) == -1)
-  // {
-  //   perror("asprintf");
-  // }
-  else
-  {
-    strcat(strcpy(node->tac, "v"), num);
-    // strcat(strcat(strcpy(node->tac, "v"), num), num_scope);
-    free(num);
-    tac_counter++;
-  }
+  sprintf(node->tac, "v%d", tac_counter);
+  tac_counter++;
 
   int x = verify_existing_symbol(node);
   if (x == 0)
@@ -952,20 +937,9 @@ void add_param(t_node *node)
   new->node = node->children->child;
   new->previous = param_list.final;
   new->next = NULL;
-
-  char *num;
-  if (asprintf(&num, "%d", new->id) == -1)
-  {
-    perror("asprintf");
-  }
-  else
-  {
-    strcat(strcpy(new->tac, "#"), num);
-    free(num);
-  }
+  sprintf(new->tac, "#%d", new->id);
 
   param_list.size++;
-
   param_list.final->next = new;
   param_list.final = new;
   param_id_counter++;
@@ -1007,17 +981,8 @@ void set_tac_name_param()
   while (aux->next != NULL)
   {
     aux = aux->next;
-    char *num;
-    if (asprintf(&num, "%d", size) == -1)
-    {
-      perror("asprintf");
-    }
-    else
-    {
-      strcat(strcpy(aux->tac, "$"), num);
-      free(num);
-      size--;
-    }
+    sprintf(aux->tac, "$%d", size);
+    size--;
   }
 }
 
@@ -1087,61 +1052,34 @@ char *get_tac_name(t_token *token)
   while (aux->next != NULL)
   {
     aux = aux->next;
-    if (strcmp(aux->token, token->lexeme) == 0 && (aux->scope == token->scope || aux->scope == 0 || aux->scope == aux->scope + 1))
+    if (strcmp(aux->token, token->lexeme) == 0 && (aux->scope == token->scope || aux->scope == 0))
     {
       // printf("~~ %s %d | %s %d\n", aux->token, aux->scope, token->lexeme, token->scope);
       return aux->tac;
     }
   }
-  // printf("~~~~ %s %d | %s %d\n", aux->token, aux->scope, token->lexeme, token->scope);
+  printf("~~~~ %s %d | %s %d\n", aux->token, aux->scope, token->lexeme, token->scope);
   return token->lexeme;
 }
 
 char *create_temp_4op(t_node *op)
 {
-  char *num;
-  if (asprintf(&num, "%d", temp_counter) == -1)
-  {
-    perror("asprintf");
-  }
-  else
-  {
-    strcat(strcpy(op->tac, "t"), num);
-    free(num);
-    temp_counter++;
-  }
+  sprintf(op->tac, "t%d", temp_counter);
+  temp_counter++;
   return op->tac;
 }
 
 char *create_temp_4string(t_token *s)
 {
-  char *num;
-  if (asprintf(&num, "%d", temp_string_counter) == -1)
-  {
-    perror("asprintf");
-  }
-  else
-  {
-    strcat(strcpy(s->tac, "s"), num);
-    free(num);
-    temp_string_counter++;
-  }
+  sprintf(s->tac, "s%d", temp_string_counter);
+  temp_string_counter++;
   return s->tac;
 }
 
 char *create_temp_4read(t_token *s)
 {
-  char *num;
-  if (asprintf(&num, "%d", temp_read_counter) == -1)
-  {
-    perror("asprintf");
-  }
-  else
-  {
-    strcat(strcpy(s->tac, "r"), num);
-    free(num);
-    temp_read_counter++;
-  }
+  sprintf(s->tac, "r%d", temp_read_counter);
+  temp_read_counter++;
   return s->tac;
 }
 
@@ -1156,7 +1094,7 @@ void add_variables_tac(t_token *id)
       if (strcmp(aux->type, "list (int)") == 0)
         fprintf(tac_table, "int %s[] = {0}\n", aux->tac);
       else if (strcmp(aux->type, "list (float)") == 0)
-        fprintf(tac_table, "float %s[] = {0}\n", aux->tac);
+        fprintf(tac_table, "float %s[] = {0.0}\n", aux->tac);
       else
         fprintf(tac_table, "%s %s\n", aux->type, aux->tac);
     }
@@ -1165,17 +1103,8 @@ void add_variables_tac(t_token *id)
 
 char *add_parameter_tac(t_token *id)
 {
-  char *num;
-  if (asprintf(&num, "%d", tac_params_counter2) == -1)
-  {
-    perror("asprintf");
-  }
-  else
-  {
-    strcat(strcpy(id->tac, "#"), num);
-    free(num);
-    tac_params_counter2++;
-  }
+  sprintf(id->tac, "#%d", tac_params_counter2);
+  tac_params_counter2++;
 
   table_node *aux = symbol_table.beginning;
   while (aux->next != NULL)
@@ -1209,19 +1138,22 @@ void print_params_tac(t_node *node)
   }
 }
 
-void print_assign_tac(t_node *id, t_node *op, char *temp)
+void print_assign_tac(t_token *id, t_node *op, char *temp)
 {
   tree_node *curr = op->children;
   while (curr != NULL)
   {
     if (strcmp(rule_label[curr->child->label], "IDENTIFIER") == 0){
-      fprintf(tac_commands, "mov %s, %s\n", get_tac_name(&id->children->child->token), get_tac_name(&curr->child->token));
+      fprintf(tac_commands, "mov %s, %s\n", get_tac_name(id), get_tac_name(&curr->child->token));
+      return;
     }
     else if (strcmp(rule_label[curr->child->label], "NUMBER_INT") == 0 || strcmp(rule_label[curr->child->label], "NUMBER_FLOAT") == 0){
-      fprintf(tac_commands, "mov %s, %s\n", get_tac_name(&id->children->child->token), get_tac_name(&curr->child->token));
+      fprintf(tac_commands, "mov %s, %s\n", get_tac_name(id), get_tac_name(&curr->child->token));
+      return;
     }
     else {
-      fprintf(tac_commands, "mov %s, %s\n", get_tac_name(&id->children->child->token), temp);
+      fprintf(tac_commands, "mov %s, %s\n", get_tac_name(id), temp);
+      return;
     }
 
     curr = curr->sibilings;

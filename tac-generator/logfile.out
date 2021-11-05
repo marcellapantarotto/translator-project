@@ -1,623 +1,909 @@
-==25272== Memcheck, a memory error detector
-==25272== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
-==25272== Using Valgrind-3.15.0-608cb11914-20190413 and LibVEX; rerun with -h for copyright info
-==25272== Command: ./tradutor tests/test_professora.c
-==25272== Parent PID: 25271
-==25272== 
---25272-- 
---25272-- Valgrind options:
---25272--    -v
---25272--    --tool=memcheck
---25272--    --leak-check=full
---25272--    --log-file=logfile.out
---25272--    --show-leak-kinds=all
---25272--    --track-origins=yes
---25272-- Contents of /proc/version:
---25272--   Linux version 5.10.16.3-microsoft-standard-WSL2 (oe-user@oe-host) (x86_64-msft-linux-gcc (GCC) 9.3.0, GNU ld (GNU Binutils) 2.34.0.20200220) #1 SMP Fri Apr 2 22:23:49 UTC 2021
---25272-- 
---25272-- Arch and hwcaps: AMD64, LittleEndian, amd64-cx16-lzcnt-rdtscp-sse3-ssse3-avx-avx2-bmi-f16c-rdrand
---25272-- Page sizes: currently 4096, max supported 4096
---25272-- Valgrind library directory: /usr/lib/x86_64-linux-gnu/valgrind
---25272-- Reading syms from /mnt/c/Users/cella/OneDrive/Documentos/UnB/Tradutores/translator-project/tac-generator/tradutor
---25272-- Reading syms from /usr/lib/x86_64-linux-gnu/ld-2.33.so
---25272--   Considering /usr/lib/x86_64-linux-gnu/ld-2.33.so ..
---25272--   .. CRC mismatch (computed 425b6850 wanted cee0dc4c)
---25272--   Considering /lib/x86_64-linux-gnu/ld-2.33.so ..
---25272--   .. CRC mismatch (computed 425b6850 wanted cee0dc4c)
---25272--   Considering /usr/lib/debug/lib/x86_64-linux-gnu/ld-2.33.so ..
---25272--   .. CRC is valid
---25272-- Reading syms from /usr/lib/x86_64-linux-gnu/valgrind/memcheck-amd64-linux
---25272--    object doesn't have a symbol table
---25272--    object doesn't have a dynamic symbol table
---25272-- Scheduler: using generic scheduler lock implementation.
---25272-- Reading suppressions file: /usr/lib/x86_64-linux-gnu/valgrind/default.supp
-==25272== embedded gdbserver: reading from /tmp/vgdb-pipe-from-vgdb-to-25272-by-marcella-on-???
-==25272== embedded gdbserver: writing to   /tmp/vgdb-pipe-to-vgdb-from-25272-by-marcella-on-???
-==25272== embedded gdbserver: shared mem   /tmp/vgdb-pipe-shared-mem-vgdb-25272-by-marcella-on-???
-==25272== 
-==25272== TO CONTROL THIS PROCESS USING vgdb (which you probably
-==25272== don't want to do, unless you know exactly what you're doing,
-==25272== or are doing some strange experiment):
-==25272==   /usr/lib/x86_64-linux-gnu/valgrind/../../bin/vgdb --pid=25272 ...command...
-==25272== 
-==25272== TO DEBUG THIS PROCESS USING GDB: start GDB like this
-==25272==   /path/to/gdb ./tradutor
-==25272== and then give GDB the following command
-==25272==   target remote | /usr/lib/x86_64-linux-gnu/valgrind/../../bin/vgdb --pid=25272
-==25272== --pid is optional if only one valgrind process is running
-==25272== 
---25272-- REDIR: 0x40276d0 (ld-linux-x86-64.so.2:strlen) redirected to 0x580c9ce2 (???)
---25272-- REDIR: 0x40274a0 (ld-linux-x86-64.so.2:index) redirected to 0x580c9cfc (???)
---25272-- Reading syms from /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_core-amd64-linux.so
---25272--    object doesn't have a symbol table
---25272-- Reading syms from /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so
---25272--    object doesn't have a symbol table
-==25272== WARNING: new redirection conflicts with existing -- ignoring it
---25272--     old: 0x040276d0 (strlen              ) R-> (0000.0) 0x580c9ce2 ???
---25272--     new: 0x040276d0 (strlen              ) R-> (2007.0) 0x04845060 strlen
---25272-- REDIR: 0x4023eb0 (ld-linux-x86-64.so.2:strcmp) redirected to 0x4845fd0 (strcmp)
---25272-- REDIR: 0x4027c30 (ld-linux-x86-64.so.2:mempcpy) redirected to 0x4849a20 (mempcpy)
---25272-- Reading syms from /usr/lib/x86_64-linux-gnu/libc-2.33.so
---25272--   Considering /usr/lib/x86_64-linux-gnu/libc-2.33.so ..
---25272--   .. CRC mismatch (computed 31fcf0a5 wanted 9eb4d521)
---25272--   Considering /lib/x86_64-linux-gnu/libc-2.33.so ..
---25272--   .. CRC mismatch (computed 31fcf0a5 wanted 9eb4d521)
---25272--   Considering /usr/lib/debug/lib/x86_64-linux-gnu/libc-2.33.so ..
---25272--   .. CRC is valid
---25272-- REDIR: 0x48f4f00 (libc.so.6:memmove) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
---25272-- REDIR: 0x48f43a0 (libc.so.6:strncpy) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
---25272-- REDIR: 0x48f5240 (libc.so.6:strcasecmp) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
---25272-- REDIR: 0x48f3e50 (libc.so.6:strcat) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
---25272-- REDIR: 0x48f4400 (libc.so.6:rindex) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
---25272-- REDIR: 0x48f6700 (libc.so.6:rawmemchr) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
---25272-- REDIR: 0x4910830 (libc.so.6:wmemchr) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
---25272-- REDIR: 0x4910370 (libc.so.6:wcscmp) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
---25272-- REDIR: 0x48f5060 (libc.so.6:mempcpy) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
---25272-- REDIR: 0x48f4e90 (libc.so.6:bcmp) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
---25272-- REDIR: 0x48f4340 (libc.so.6:strncmp) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
---25272-- REDIR: 0x48f3f00 (libc.so.6:strcmp) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
---25272-- REDIR: 0x48f4fd0 (libc.so.6:memset) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
---25272-- REDIR: 0x4910330 (libc.so.6:wcschr) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
---25272-- REDIR: 0x48f42a0 (libc.so.6:strnlen) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
---25272-- REDIR: 0x48f3fe0 (libc.so.6:strcspn) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
---25272-- REDIR: 0x48f5290 (libc.so.6:strncasecmp) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
---25272-- REDIR: 0x48f3f80 (libc.so.6:strcpy) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
---25272-- REDIR: 0x48f53e0 (libc.so.6:memcpy@@GLIBC_2.14) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
---25272-- REDIR: 0x4911ab0 (libc.so.6:wcsnlen) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
---25272-- REDIR: 0x49103b0 (libc.so.6:wcscpy) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
---25272-- REDIR: 0x48f4440 (libc.so.6:strpbrk) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
---25272-- REDIR: 0x48f3eb0 (libc.so.6:index) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
---25272-- REDIR: 0x48f4260 (libc.so.6:strlen) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
---25272-- REDIR: 0x48fcc20 (libc.so.6:memrchr) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
---25272-- REDIR: 0x48f52e0 (libc.so.6:strcasecmp_l) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
---25272-- REDIR: 0x48f4e50 (libc.so.6:memchr) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
---25272-- REDIR: 0x4910480 (libc.so.6:wcslen) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
---25272-- REDIR: 0x48f4560 (libc.so.6:strspn) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
---25272-- REDIR: 0x48f51e0 (libc.so.6:stpncpy) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
---25272-- REDIR: 0x48f5180 (libc.so.6:stpcpy) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
---25272-- REDIR: 0x48f6740 (libc.so.6:strchrnul) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
---25272-- REDIR: 0x48f5330 (libc.so.6:strncasecmp_l) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
---25272-- REDIR: 0x49d7d60 (libc.so.6:__strrchr_avx2) redirected to 0x4844a10 (rindex)
---25272-- REDIR: 0x49d9470 (libc.so.6:__strcpy_avx2) redirected to 0x4845090 (strcpy)
---25272-- REDIR: 0x49d7f30 (libc.so.6:__strlen_avx2) redirected to 0x4844f40 (strlen)
---25272-- REDIR: 0x48ef130 (libc.so.6:malloc) redirected to 0x4841780 (malloc)
---25272-- REDIR: 0x48f4a20 (libc.so.6:__GI_strstr) redirected to 0x4849ca0 (__strstr_sse2)
---25272-- REDIR: 0x49db3d0 (libc.so.6:__memset_avx2_unaligned_erms) redirected to 0x48488e0 (memset)
---25272-- REDIR: 0x49d4060 (libc.so.6:__rawmemchr_avx2) redirected to 0x4849580 (rawmemchr)
---25272-- REDIR: 0x49d3420 (libc.so.6:__strcmp_avx2) redirected to 0x4845ed0 (strcmp)
---25272-- REDIR: 0x49d7b70 (libc.so.6:__strchrnul_avx2) redirected to 0x4849540 (strchrnul)
---25272-- REDIR: 0x49daf40 (libc.so.6:__memcpy_avx_unaligned_erms) redirected to 0x48489f0 (memmove)
---25272-- REDIR: 0x48ef740 (libc.so.6:free) redirected to 0x48429d0 (free)
---25272-- REDIR: 0x49d83f0 (libc.so.6:__strcat_avx2) redirected to 0x4844c20 (strcat)
-==25272== Invalid read of size 1
-==25272==    at 0x4845094: strcpy (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==25272==    by 0x10F574: yyparse (syn.y:231)
-==25272==    by 0x11287D: main (syn.y:846)
-==25272==  Address 0x1ffeff3660 is on thread 1's stack
-==25272==  2024 bytes below stack pointer
-==25272== 
-==25272== Invalid read of size 1
-==25272==    at 0x48450B2: strcpy (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==25272==    by 0x10F574: yyparse (syn.y:231)
-==25272==    by 0x11287D: main (syn.y:846)
-==25272==  Address 0x1ffeff3661 is on thread 1's stack
-==25272==  2023 bytes below stack pointer
-==25272== 
---25272-- REDIR: 0x49daf20 (libc.so.6:__mempcpy_avx_unaligned_erms) redirected to 0x4849660 (mempcpy)
-==25272== Source and destination overlap in strcpy(0x1ffeff5784, 0x1ffeff5784)
-==25272==    at 0x4845150: strcpy (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==25272==    by 0x110707: yyparse (syn.y:534)
-==25272==    by 0x11287D: main (syn.y:846)
-==25272== 
-==25272== Invalid read of size 1
-==25272==    at 0x4845094: strcpy (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==25272==    by 0x10FFE4: yyparse (syn.y:441)
-==25272==    by 0x11287D: main (syn.y:846)
-==25272==  Address 0x1ffeff3660 is on thread 1's stack
-==25272==  2024 bytes below stack pointer
-==25272== 
-==25272== Invalid read of size 1
-==25272==    at 0x48450B2: strcpy (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==25272==    by 0x10FFE4: yyparse (syn.y:441)
-==25272==    by 0x11287D: main (syn.y:846)
-==25272==  Address 0x1ffeff366b is on thread 1's stack
-==25272==  2013 bytes below stack pointer
-==25272== 
-==25272== Invalid read of size 1
-==25272==    at 0x4845094: strcpy (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==25272==    by 0x11006D: yyparse (syn.y:444)
-==25272==    by 0x11287D: main (syn.y:846)
-==25272==  Address 0x1ffeff3660 is on thread 1's stack
-==25272==  2024 bytes below stack pointer
-==25272== 
-==25272== Invalid read of size 1
-==25272==    at 0x48450B2: strcpy (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==25272==    by 0x11006D: yyparse (syn.y:444)
-==25272==    by 0x11287D: main (syn.y:846)
-==25272==  Address 0x1ffeff3661 is on thread 1's stack
-==25272==  2023 bytes below stack pointer
-==25272== 
-==25272== Invalid read of size 1
-==25272==    at 0x4845094: strcpy (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==25272==    by 0x110134: yyparse (syn.y:449)
-==25272==    by 0x11287D: main (syn.y:846)
-==25272==  Address 0x1ffeff366a is on thread 1's stack
-==25272==  2014 bytes below stack pointer
-==25272== 
-==25272== Invalid read of size 1
-==25272==    at 0x48450B2: strcpy (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==25272==    by 0x110134: yyparse (syn.y:449)
-==25272==    by 0x11287D: main (syn.y:846)
-==25272==  Address 0x1ffeff366b is on thread 1's stack
-==25272==  2013 bytes below stack pointer
-==25272== 
-==25272== Conditional jump or move depends on uninitialised value(s)
-==25272==    at 0x4845EDC: strcmp (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==25272==    by 0x10FC7A: yyparse (syn.y:400)
-==25272==    by 0x11287D: main (syn.y:846)
-==25272==  Uninitialised value was created by a heap allocation
-==25272==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==25272==    by 0x10B567: token_to_node (structures.c:426)
-==25272==    by 0x10B703: add_tree_token_node (structures.c:437)
-==25272==    by 0x111A08: yyparse (syn.y:779)
-==25272==    by 0x11287D: main (syn.y:846)
-==25272== 
-==25272== Conditional jump or move depends on uninitialised value(s)
-==25272==    at 0x10FC7D: yyparse (syn.y:400)
-==25272==    by 0x11287D: main (syn.y:846)
-==25272==  Uninitialised value was created by a heap allocation
-==25272==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==25272==    by 0x10B567: token_to_node (structures.c:426)
-==25272==    by 0x10B703: add_tree_token_node (structures.c:437)
-==25272==    by 0x111A08: yyparse (syn.y:779)
-==25272==    by 0x11287D: main (syn.y:846)
-==25272== 
-==25272== Conditional jump or move depends on uninitialised value(s)
-==25272==    at 0x4845EDC: strcmp (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==25272==    by 0x10FCAE: yyparse (syn.y:401)
-==25272==    by 0x11287D: main (syn.y:846)
-==25272==  Uninitialised value was created by a heap allocation
-==25272==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==25272==    by 0x10B567: token_to_node (structures.c:426)
-==25272==    by 0x10B703: add_tree_token_node (structures.c:437)
-==25272==    by 0x111A08: yyparse (syn.y:779)
-==25272==    by 0x11287D: main (syn.y:846)
-==25272== 
-==25272== Conditional jump or move depends on uninitialised value(s)
-==25272==    at 0x10FCB1: yyparse (syn.y:401)
-==25272==    by 0x11287D: main (syn.y:846)
-==25272==  Uninitialised value was created by a heap allocation
-==25272==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==25272==    by 0x10B567: token_to_node (structures.c:426)
-==25272==    by 0x10B703: add_tree_token_node (structures.c:437)
-==25272==    by 0x111A08: yyparse (syn.y:779)
-==25272==    by 0x11287D: main (syn.y:846)
-==25272== 
-==25272== Source and destination overlap in strcpy(0x1ffeff6684, 0x1ffeff6684)
-==25272==    at 0x4845150: strcpy (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==25272==    by 0x1105EE: yyparse (syn.y:524)
-==25272==    by 0x11287D: main (syn.y:846)
-==25272== 
-==25272== Conditional jump or move depends on uninitialised value(s)
-==25272==    at 0x10C31C: print_annotated (structures.c:679)
-==25272==    by 0x10C43C: print_annotated (structures.c:698)
-==25272==    by 0x10C43C: print_annotated (structures.c:698)
-==25272==    by 0x10C43C: print_annotated (structures.c:698)
-==25272==    by 0x10C43C: print_annotated (structures.c:698)
-==25272==    by 0x10C43C: print_annotated (structures.c:698)
-==25272==    by 0x10C144: print_annotated_tree (structures.c:650)
-==25272==    by 0x112897: main (syn.y:852)
-==25272==  Uninitialised value was created by a heap allocation
-==25272==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==25272==    by 0x10B567: token_to_node (structures.c:426)
-==25272==    by 0x10B703: add_tree_token_node (structures.c:437)
-==25272==    by 0x10F66B: yyparse (syn.y:257)
-==25272==    by 0x11287D: main (syn.y:846)
-==25272== 
-==25272== Invalid read of size 1
-==25272==    at 0x48DF45D: fputc (fputc.c:35)
-==25272==    by 0x10D52F: build_tac (structures.c:1071)
-==25272==    by 0x11291B: main (syn.y:865)
-==25272==  Address 0x4a474f4 is 116 bytes inside a block of size 472 free'd
-==25272==    at 0x4842A3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==25272==    by 0x48D6492: _IO_deallocate_file (libioP.h:863)
-==25272==    by 0x48D6492: fclose@@GLIBC_2.2.5 (iofclose.c:74)
-==25272==    by 0x112911: main (syn.y:864)
-==25272==  Block was alloc'd at
-==25272==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==25272==    by 0x48D6EDD: __fopen_internal (iofopen.c:65)
-==25272==    by 0x48D6EDD: fopen@@GLIBC_2.2.5 (iofopen.c:86)
-==25272==    by 0x1127FC: main (syn.y:835)
-==25272== 
-==25272== Invalid read of size 8
-==25272==    at 0x48DF500: fputc (fputc.c:36)
-==25272==    by 0x10D52F: build_tac (structures.c:1071)
-==25272==    by 0x11291B: main (syn.y:865)
-==25272==  Address 0x4a474a8 is 40 bytes inside a block of size 472 free'd
-==25272==    at 0x4842A3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==25272==    by 0x48D6492: _IO_deallocate_file (libioP.h:863)
-==25272==    by 0x48D6492: fclose@@GLIBC_2.2.5 (iofclose.c:74)
-==25272==    by 0x112911: main (syn.y:864)
-==25272==  Block was alloc'd at
-==25272==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==25272==    by 0x48D6EDD: __fopen_internal (iofopen.c:65)
-==25272==    by 0x48D6EDD: fopen@@GLIBC_2.2.5 (iofopen.c:86)
-==25272==    by 0x1127FC: main (syn.y:835)
-==25272== 
-==25272== Invalid read of size 8
-==25272==    at 0x48DF508: fputc (fputc.c:36)
-==25272==    by 0x10D52F: build_tac (structures.c:1071)
-==25272==    by 0x11291B: main (syn.y:865)
-==25272==  Address 0x4a474b0 is 48 bytes inside a block of size 472 free'd
-==25272==    at 0x4842A3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==25272==    by 0x48D6492: _IO_deallocate_file (libioP.h:863)
-==25272==    by 0x48D6492: fclose@@GLIBC_2.2.5 (iofclose.c:74)
-==25272==    by 0x112911: main (syn.y:864)
-==25272==  Block was alloc'd at
-==25272==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==25272==    by 0x48D6EDD: __fopen_internal (iofopen.c:65)
-==25272==    by 0x48D6EDD: fopen@@GLIBC_2.2.5 (iofopen.c:86)
-==25272==    by 0x1127FC: main (syn.y:835)
-==25272== 
-==25272== Invalid read of size 4
-==25272==    at 0x48E5B69: __overflow (genops.c:201)
-==25272==    by 0x10D52F: build_tac (structures.c:1071)
-==25272==    by 0x11291B: main (syn.y:865)
-==25272==  Address 0x4a47540 is 192 bytes inside a block of size 472 free'd
-==25272==    at 0x4842A3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==25272==    by 0x48D6492: _IO_deallocate_file (libioP.h:863)
-==25272==    by 0x48D6492: fclose@@GLIBC_2.2.5 (iofclose.c:74)
-==25272==    by 0x112911: main (syn.y:864)
-==25272==  Block was alloc'd at
-==25272==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==25272==    by 0x48D6EDD: __fopen_internal (iofopen.c:65)
-==25272==    by 0x48D6EDD: fopen@@GLIBC_2.2.5 (iofopen.c:86)
-==25272==    by 0x1127FC: main (syn.y:835)
-==25272== 
-==25272== Invalid read of size 8
-==25272==    at 0x48E5B7D: __overflow (genops.c:203)
-==25272==    by 0x10D52F: build_tac (structures.c:1071)
-==25272==    by 0x11291B: main (syn.y:865)
-==25272==  Address 0x4a47558 is 216 bytes inside a block of size 472 free'd
-==25272==    at 0x4842A3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==25272==    by 0x48D6492: _IO_deallocate_file (libioP.h:863)
-==25272==    by 0x48D6492: fclose@@GLIBC_2.2.5 (iofclose.c:74)
-==25272==    by 0x112911: main (syn.y:864)
-==25272==  Block was alloc'd at
-==25272==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==25272==    by 0x48D6EDD: __fopen_internal (iofopen.c:65)
-==25272==    by 0x48D6EDD: fopen@@GLIBC_2.2.5 (iofopen.c:86)
-==25272==    by 0x1127FC: main (syn.y:835)
-==25272== 
-==25272== Invalid read of size 4
-==25272==    at 0x48E4F1B: _IO_file_overflow@@GLIBC_2.2.5 (fileops.c:733)
-==25272==    by 0x10D52F: build_tac (structures.c:1071)
-==25272==    by 0x11291B: main (syn.y:865)
-==25272==  Address 0x4a47480 is 0 bytes inside a block of size 472 free'd
-==25272==    at 0x4842A3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==25272==    by 0x48D6492: _IO_deallocate_file (libioP.h:863)
-==25272==    by 0x48D6492: fclose@@GLIBC_2.2.5 (iofclose.c:74)
-==25272==    by 0x112911: main (syn.y:864)
-==25272==  Block was alloc'd at
-==25272==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==25272==    by 0x48D6EDD: __fopen_internal (iofopen.c:65)
-==25272==    by 0x48D6EDD: fopen@@GLIBC_2.2.5 (iofopen.c:86)
-==25272==    by 0x1127FC: main (syn.y:835)
-==25272== 
-==25272== Invalid write of size 4
-==25272==    at 0x48E5123: _IO_file_overflow@@GLIBC_2.2.5 (fileops.c:735)
-==25272==    by 0x10D52F: build_tac (structures.c:1071)
-==25272==    by 0x11291B: main (syn.y:865)
-==25272==  Address 0x4a47480 is 0 bytes inside a block of size 472 free'd
-==25272==    at 0x4842A3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==25272==    by 0x48D6492: _IO_deallocate_file (libioP.h:863)
-==25272==    by 0x48D6492: fclose@@GLIBC_2.2.5 (iofclose.c:74)
-==25272==    by 0x112911: main (syn.y:864)
-==25272==  Block was alloc'd at
-==25272==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==25272==    by 0x48D6EDD: __fopen_internal (iofopen.c:65)
-==25272==    by 0x48D6EDD: fopen@@GLIBC_2.2.5 (iofopen.c:86)
-==25272==    by 0x1127FC: main (syn.y:835)
-==25272== 
-==25272== 
-==25272== HEAP SUMMARY:
-==25272==     in use at exit: 0 bytes in 0 blocks
-==25272==   total heap usage: 732 allocs, 732 frees, 123,920 bytes allocated
-==25272== 
-==25272== All heap blocks were freed -- no leaks are possible
-==25272== 
-==25272== ERROR SUMMARY: 186 errors from 22 contexts (suppressed: 0 from 0)
-==25272== 
-==25272== 1 errors in context 1 of 22:
-==25272== Invalid write of size 4
-==25272==    at 0x48E5123: _IO_file_overflow@@GLIBC_2.2.5 (fileops.c:735)
-==25272==    by 0x10D52F: build_tac (structures.c:1071)
-==25272==    by 0x11291B: main (syn.y:865)
-==25272==  Address 0x4a47480 is 0 bytes inside a block of size 472 free'd
-==25272==    at 0x4842A3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==25272==    by 0x48D6492: _IO_deallocate_file (libioP.h:863)
-==25272==    by 0x48D6492: fclose@@GLIBC_2.2.5 (iofclose.c:74)
-==25272==    by 0x112911: main (syn.y:864)
-==25272==  Block was alloc'd at
-==25272==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==25272==    by 0x48D6EDD: __fopen_internal (iofopen.c:65)
-==25272==    by 0x48D6EDD: fopen@@GLIBC_2.2.5 (iofopen.c:86)
-==25272==    by 0x1127FC: main (syn.y:835)
-==25272== 
-==25272== 
-==25272== 1 errors in context 2 of 22:
-==25272== Invalid read of size 4
-==25272==    at 0x48E4F1B: _IO_file_overflow@@GLIBC_2.2.5 (fileops.c:733)
-==25272==    by 0x10D52F: build_tac (structures.c:1071)
-==25272==    by 0x11291B: main (syn.y:865)
-==25272==  Address 0x4a47480 is 0 bytes inside a block of size 472 free'd
-==25272==    at 0x4842A3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==25272==    by 0x48D6492: _IO_deallocate_file (libioP.h:863)
-==25272==    by 0x48D6492: fclose@@GLIBC_2.2.5 (iofclose.c:74)
-==25272==    by 0x112911: main (syn.y:864)
-==25272==  Block was alloc'd at
-==25272==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==25272==    by 0x48D6EDD: __fopen_internal (iofopen.c:65)
-==25272==    by 0x48D6EDD: fopen@@GLIBC_2.2.5 (iofopen.c:86)
-==25272==    by 0x1127FC: main (syn.y:835)
-==25272== 
-==25272== 
-==25272== 1 errors in context 3 of 22:
-==25272== Invalid read of size 8
-==25272==    at 0x48E5B7D: __overflow (genops.c:203)
-==25272==    by 0x10D52F: build_tac (structures.c:1071)
-==25272==    by 0x11291B: main (syn.y:865)
-==25272==  Address 0x4a47558 is 216 bytes inside a block of size 472 free'd
-==25272==    at 0x4842A3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==25272==    by 0x48D6492: _IO_deallocate_file (libioP.h:863)
-==25272==    by 0x48D6492: fclose@@GLIBC_2.2.5 (iofclose.c:74)
-==25272==    by 0x112911: main (syn.y:864)
-==25272==  Block was alloc'd at
-==25272==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==25272==    by 0x48D6EDD: __fopen_internal (iofopen.c:65)
-==25272==    by 0x48D6EDD: fopen@@GLIBC_2.2.5 (iofopen.c:86)
-==25272==    by 0x1127FC: main (syn.y:835)
-==25272== 
-==25272== 
-==25272== 1 errors in context 4 of 22:
-==25272== Invalid read of size 4
-==25272==    at 0x48E5B69: __overflow (genops.c:201)
-==25272==    by 0x10D52F: build_tac (structures.c:1071)
-==25272==    by 0x11291B: main (syn.y:865)
-==25272==  Address 0x4a47540 is 192 bytes inside a block of size 472 free'd
-==25272==    at 0x4842A3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==25272==    by 0x48D6492: _IO_deallocate_file (libioP.h:863)
-==25272==    by 0x48D6492: fclose@@GLIBC_2.2.5 (iofclose.c:74)
-==25272==    by 0x112911: main (syn.y:864)
-==25272==  Block was alloc'd at
-==25272==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==25272==    by 0x48D6EDD: __fopen_internal (iofopen.c:65)
-==25272==    by 0x48D6EDD: fopen@@GLIBC_2.2.5 (iofopen.c:86)
-==25272==    by 0x1127FC: main (syn.y:835)
-==25272== 
-==25272== 
-==25272== 1 errors in context 5 of 22:
-==25272== Invalid read of size 8
-==25272==    at 0x48DF508: fputc (fputc.c:36)
-==25272==    by 0x10D52F: build_tac (structures.c:1071)
-==25272==    by 0x11291B: main (syn.y:865)
-==25272==  Address 0x4a474b0 is 48 bytes inside a block of size 472 free'd
-==25272==    at 0x4842A3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==25272==    by 0x48D6492: _IO_deallocate_file (libioP.h:863)
-==25272==    by 0x48D6492: fclose@@GLIBC_2.2.5 (iofclose.c:74)
-==25272==    by 0x112911: main (syn.y:864)
-==25272==  Block was alloc'd at
-==25272==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==25272==    by 0x48D6EDD: __fopen_internal (iofopen.c:65)
-==25272==    by 0x48D6EDD: fopen@@GLIBC_2.2.5 (iofopen.c:86)
-==25272==    by 0x1127FC: main (syn.y:835)
-==25272== 
-==25272== 
-==25272== 1 errors in context 6 of 22:
-==25272== Invalid read of size 8
-==25272==    at 0x48DF500: fputc (fputc.c:36)
-==25272==    by 0x10D52F: build_tac (structures.c:1071)
-==25272==    by 0x11291B: main (syn.y:865)
-==25272==  Address 0x4a474a8 is 40 bytes inside a block of size 472 free'd
-==25272==    at 0x4842A3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==25272==    by 0x48D6492: _IO_deallocate_file (libioP.h:863)
-==25272==    by 0x48D6492: fclose@@GLIBC_2.2.5 (iofclose.c:74)
-==25272==    by 0x112911: main (syn.y:864)
-==25272==  Block was alloc'd at
-==25272==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==25272==    by 0x48D6EDD: __fopen_internal (iofopen.c:65)
-==25272==    by 0x48D6EDD: fopen@@GLIBC_2.2.5 (iofopen.c:86)
-==25272==    by 0x1127FC: main (syn.y:835)
-==25272== 
-==25272== 
-==25272== 1 errors in context 7 of 22:
-==25272== Invalid read of size 1
-==25272==    at 0x48DF45D: fputc (fputc.c:35)
-==25272==    by 0x10D52F: build_tac (structures.c:1071)
-==25272==    by 0x11291B: main (syn.y:865)
-==25272==  Address 0x4a474f4 is 116 bytes inside a block of size 472 free'd
-==25272==    at 0x4842A3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==25272==    by 0x48D6492: _IO_deallocate_file (libioP.h:863)
-==25272==    by 0x48D6492: fclose@@GLIBC_2.2.5 (iofclose.c:74)
-==25272==    by 0x112911: main (syn.y:864)
-==25272==  Block was alloc'd at
-==25272==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==25272==    by 0x48D6EDD: __fopen_internal (iofopen.c:65)
-==25272==    by 0x48D6EDD: fopen@@GLIBC_2.2.5 (iofopen.c:86)
-==25272==    by 0x1127FC: main (syn.y:835)
-==25272== 
-==25272== 
-==25272== 1 errors in context 8 of 22:
-==25272== Conditional jump or move depends on uninitialised value(s)
-==25272==    at 0x10FCB1: yyparse (syn.y:401)
-==25272==    by 0x11287D: main (syn.y:846)
-==25272==  Uninitialised value was created by a heap allocation
-==25272==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==25272==    by 0x10B567: token_to_node (structures.c:426)
-==25272==    by 0x10B703: add_tree_token_node (structures.c:437)
-==25272==    by 0x111A08: yyparse (syn.y:779)
-==25272==    by 0x11287D: main (syn.y:846)
-==25272== 
-==25272== 
-==25272== 1 errors in context 9 of 22:
-==25272== Conditional jump or move depends on uninitialised value(s)
-==25272==    at 0x4845EDC: strcmp (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==25272==    by 0x10FCAE: yyparse (syn.y:401)
-==25272==    by 0x11287D: main (syn.y:846)
-==25272==  Uninitialised value was created by a heap allocation
-==25272==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==25272==    by 0x10B567: token_to_node (structures.c:426)
-==25272==    by 0x10B703: add_tree_token_node (structures.c:437)
-==25272==    by 0x111A08: yyparse (syn.y:779)
-==25272==    by 0x11287D: main (syn.y:846)
-==25272== 
-==25272== 
-==25272== 1 errors in context 10 of 22:
-==25272== Conditional jump or move depends on uninitialised value(s)
-==25272==    at 0x10FC7D: yyparse (syn.y:400)
-==25272==    by 0x11287D: main (syn.y:846)
-==25272==  Uninitialised value was created by a heap allocation
-==25272==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==25272==    by 0x10B567: token_to_node (structures.c:426)
-==25272==    by 0x10B703: add_tree_token_node (structures.c:437)
-==25272==    by 0x111A08: yyparse (syn.y:779)
-==25272==    by 0x11287D: main (syn.y:846)
-==25272== 
-==25272== 
-==25272== 1 errors in context 11 of 22:
-==25272== Conditional jump or move depends on uninitialised value(s)
-==25272==    at 0x4845EDC: strcmp (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==25272==    by 0x10FC7A: yyparse (syn.y:400)
-==25272==    by 0x11287D: main (syn.y:846)
-==25272==  Uninitialised value was created by a heap allocation
-==25272==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==25272==    by 0x10B567: token_to_node (structures.c:426)
-==25272==    by 0x10B703: add_tree_token_node (structures.c:437)
-==25272==    by 0x111A08: yyparse (syn.y:779)
-==25272==    by 0x11287D: main (syn.y:846)
-==25272== 
-==25272== 
-==25272== 2 errors in context 12 of 22:
-==25272== Source and destination overlap in strcpy(0x1ffeff6684, 0x1ffeff6684)
-==25272==    at 0x4845150: strcpy (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==25272==    by 0x1105EE: yyparse (syn.y:524)
-==25272==    by 0x11287D: main (syn.y:846)
-==25272== 
-==25272== 
-==25272== 2 errors in context 13 of 22:
-==25272== Invalid read of size 1
-==25272==    at 0x4845094: strcpy (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==25272==    by 0x110134: yyparse (syn.y:449)
-==25272==    by 0x11287D: main (syn.y:846)
-==25272==  Address 0x1ffeff366a is on thread 1's stack
-==25272==  2014 bytes below stack pointer
-==25272== 
-==25272== 
-==25272== 2 errors in context 14 of 22:
-==25272== Invalid read of size 1
-==25272==    at 0x4845094: strcpy (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==25272==    by 0x11006D: yyparse (syn.y:444)
-==25272==    by 0x11287D: main (syn.y:846)
-==25272==  Address 0x1ffeff3660 is on thread 1's stack
-==25272==  2024 bytes below stack pointer
-==25272== 
-==25272== 
-==25272== 4 errors in context 15 of 22:
-==25272== Invalid read of size 1
-==25272==    at 0x4845094: strcpy (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==25272==    by 0x10FFE4: yyparse (syn.y:441)
-==25272==    by 0x11287D: main (syn.y:846)
-==25272==  Address 0x1ffeff3660 is on thread 1's stack
-==25272==  2024 bytes below stack pointer
-==25272== 
-==25272== 
-==25272== 5 errors in context 16 of 22:
-==25272== Source and destination overlap in strcpy(0x1ffeff5784, 0x1ffeff5784)
-==25272==    at 0x4845150: strcpy (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==25272==    by 0x110707: yyparse (syn.y:534)
-==25272==    by 0x11287D: main (syn.y:846)
-==25272== 
-==25272== 
-==25272== 6 errors in context 17 of 22:
-==25272== Invalid read of size 1
-==25272==    at 0x48450B2: strcpy (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==25272==    by 0x110134: yyparse (syn.y:449)
-==25272==    by 0x11287D: main (syn.y:846)
-==25272==  Address 0x1ffeff366b is on thread 1's stack
-==25272==  2013 bytes below stack pointer
-==25272== 
-==25272== 
-==25272== 6 errors in context 18 of 22:
-==25272== Invalid read of size 1
-==25272==    at 0x48450B2: strcpy (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==25272==    by 0x11006D: yyparse (syn.y:444)
-==25272==    by 0x11287D: main (syn.y:846)
-==25272==  Address 0x1ffeff3661 is on thread 1's stack
-==25272==  2023 bytes below stack pointer
-==25272== 
-==25272== 
-==25272== 6 errors in context 19 of 22:
-==25272== Invalid read of size 1
-==25272==    at 0x48450B2: strcpy (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==25272==    by 0x10FFE4: yyparse (syn.y:441)
-==25272==    by 0x11287D: main (syn.y:846)
-==25272==  Address 0x1ffeff366b is on thread 1's stack
-==25272==  2013 bytes below stack pointer
-==25272== 
-==25272== 
-==25272== 16 errors in context 20 of 22:
-==25272== Invalid read of size 1
-==25272==    at 0x4845094: strcpy (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==25272==    by 0x10F574: yyparse (syn.y:231)
-==25272==    by 0x11287D: main (syn.y:846)
-==25272==  Address 0x1ffeff3660 is on thread 1's stack
-==25272==  2024 bytes below stack pointer
-==25272== 
-==25272== 
-==25272== 20 errors in context 21 of 22:
-==25272== Conditional jump or move depends on uninitialised value(s)
-==25272==    at 0x10C31C: print_annotated (structures.c:679)
-==25272==    by 0x10C43C: print_annotated (structures.c:698)
-==25272==    by 0x10C43C: print_annotated (structures.c:698)
-==25272==    by 0x10C43C: print_annotated (structures.c:698)
-==25272==    by 0x10C43C: print_annotated (structures.c:698)
-==25272==    by 0x10C43C: print_annotated (structures.c:698)
-==25272==    by 0x10C144: print_annotated_tree (structures.c:650)
-==25272==    by 0x112897: main (syn.y:852)
-==25272==  Uninitialised value was created by a heap allocation
-==25272==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==25272==    by 0x10B567: token_to_node (structures.c:426)
-==25272==    by 0x10B703: add_tree_token_node (structures.c:437)
-==25272==    by 0x10F66B: yyparse (syn.y:257)
-==25272==    by 0x11287D: main (syn.y:846)
-==25272== 
-==25272== 
-==25272== 106 errors in context 22 of 22:
-==25272== Invalid read of size 1
-==25272==    at 0x48450B2: strcpy (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==25272==    by 0x10F574: yyparse (syn.y:231)
-==25272==    by 0x11287D: main (syn.y:846)
-==25272==  Address 0x1ffeff3661 is on thread 1's stack
-==25272==  2023 bytes below stack pointer
-==25272== 
-==25272== ERROR SUMMARY: 186 errors from 22 contexts (suppressed: 0 from 0)
+==21417== Memcheck, a memory error detector
+==21417== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==21417== Using Valgrind-3.15.0-608cb11914-20190413 and LibVEX; rerun with -h for copyright info
+==21417== Command: ./tradutor tests/test_professora.c
+==21417== Parent PID: 21416
+==21417== 
+--21417-- 
+--21417-- Valgrind options:
+--21417--    -v
+--21417--    --tool=memcheck
+--21417--    --leak-check=full
+--21417--    --log-file=logfile.out
+--21417--    --show-leak-kinds=all
+--21417--    --track-origins=yes
+--21417-- Contents of /proc/version:
+--21417--   Linux version 5.10.16.3-microsoft-standard-WSL2 (oe-user@oe-host) (x86_64-msft-linux-gcc (GCC) 9.3.0, GNU ld (GNU Binutils) 2.34.0.20200220) #1 SMP Fri Apr 2 22:23:49 UTC 2021
+--21417-- 
+--21417-- Arch and hwcaps: AMD64, LittleEndian, amd64-cx16-lzcnt-rdtscp-sse3-ssse3-avx-avx2-bmi-f16c-rdrand
+--21417-- Page sizes: currently 4096, max supported 4096
+--21417-- Valgrind library directory: /usr/lib/x86_64-linux-gnu/valgrind
+--21417-- Reading syms from /mnt/c/Users/cella/OneDrive/Documentos/UnB/Tradutores/translator-project/tac-generator/tradutor
+--21417-- Reading syms from /usr/lib/x86_64-linux-gnu/ld-2.33.so
+--21417--   Considering /usr/lib/x86_64-linux-gnu/ld-2.33.so ..
+--21417--   .. CRC mismatch (computed 425b6850 wanted cee0dc4c)
+--21417--   Considering /lib/x86_64-linux-gnu/ld-2.33.so ..
+--21417--   .. CRC mismatch (computed 425b6850 wanted cee0dc4c)
+--21417--   Considering /usr/lib/debug/lib/x86_64-linux-gnu/ld-2.33.so ..
+--21417--   .. CRC is valid
+--21417-- Reading syms from /usr/lib/x86_64-linux-gnu/valgrind/memcheck-amd64-linux
+--21417--    object doesn't have a symbol table
+--21417--    object doesn't have a dynamic symbol table
+--21417-- Scheduler: using generic scheduler lock implementation.
+--21417-- Reading suppressions file: /usr/lib/x86_64-linux-gnu/valgrind/default.supp
+==21417== embedded gdbserver: reading from /tmp/vgdb-pipe-from-vgdb-to-21417-by-marcella-on-???
+==21417== embedded gdbserver: writing to   /tmp/vgdb-pipe-to-vgdb-from-21417-by-marcella-on-???
+==21417== embedded gdbserver: shared mem   /tmp/vgdb-pipe-shared-mem-vgdb-21417-by-marcella-on-???
+==21417== 
+==21417== TO CONTROL THIS PROCESS USING vgdb (which you probably
+==21417== don't want to do, unless you know exactly what you're doing,
+==21417== or are doing some strange experiment):
+==21417==   /usr/lib/x86_64-linux-gnu/valgrind/../../bin/vgdb --pid=21417 ...command...
+==21417== 
+==21417== TO DEBUG THIS PROCESS USING GDB: start GDB like this
+==21417==   /path/to/gdb ./tradutor
+==21417== and then give GDB the following command
+==21417==   target remote | /usr/lib/x86_64-linux-gnu/valgrind/../../bin/vgdb --pid=21417
+==21417== --pid is optional if only one valgrind process is running
+==21417== 
+--21417-- REDIR: 0x40276d0 (ld-linux-x86-64.so.2:strlen) redirected to 0x580c9ce2 (???)
+--21417-- REDIR: 0x40274a0 (ld-linux-x86-64.so.2:index) redirected to 0x580c9cfc (???)
+--21417-- Reading syms from /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_core-amd64-linux.so
+--21417--    object doesn't have a symbol table
+--21417-- Reading syms from /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so
+--21417--    object doesn't have a symbol table
+==21417== WARNING: new redirection conflicts with existing -- ignoring it
+--21417--     old: 0x040276d0 (strlen              ) R-> (0000.0) 0x580c9ce2 ???
+--21417--     new: 0x040276d0 (strlen              ) R-> (2007.0) 0x04845060 strlen
+--21417-- REDIR: 0x4023eb0 (ld-linux-x86-64.so.2:strcmp) redirected to 0x4845fd0 (strcmp)
+--21417-- REDIR: 0x4027c30 (ld-linux-x86-64.so.2:mempcpy) redirected to 0x4849a20 (mempcpy)
+--21417-- Reading syms from /usr/lib/x86_64-linux-gnu/libc-2.33.so
+--21417--   Considering /usr/lib/x86_64-linux-gnu/libc-2.33.so ..
+--21417--   .. CRC mismatch (computed 31fcf0a5 wanted 9eb4d521)
+--21417--   Considering /lib/x86_64-linux-gnu/libc-2.33.so ..
+--21417--   .. CRC mismatch (computed 31fcf0a5 wanted 9eb4d521)
+--21417--   Considering /usr/lib/debug/lib/x86_64-linux-gnu/libc-2.33.so ..
+--21417--   .. CRC is valid
+--21417-- REDIR: 0x48f4f00 (libc.so.6:memmove) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--21417-- REDIR: 0x48f43a0 (libc.so.6:strncpy) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--21417-- REDIR: 0x48f5240 (libc.so.6:strcasecmp) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--21417-- REDIR: 0x48f3e50 (libc.so.6:strcat) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--21417-- REDIR: 0x48f4400 (libc.so.6:rindex) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--21417-- REDIR: 0x48f6700 (libc.so.6:rawmemchr) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--21417-- REDIR: 0x4910830 (libc.so.6:wmemchr) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--21417-- REDIR: 0x4910370 (libc.so.6:wcscmp) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--21417-- REDIR: 0x48f5060 (libc.so.6:mempcpy) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--21417-- REDIR: 0x48f4e90 (libc.so.6:bcmp) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--21417-- REDIR: 0x48f4340 (libc.so.6:strncmp) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--21417-- REDIR: 0x48f3f00 (libc.so.6:strcmp) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--21417-- REDIR: 0x48f4fd0 (libc.so.6:memset) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--21417-- REDIR: 0x4910330 (libc.so.6:wcschr) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--21417-- REDIR: 0x48f42a0 (libc.so.6:strnlen) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--21417-- REDIR: 0x48f3fe0 (libc.so.6:strcspn) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--21417-- REDIR: 0x48f5290 (libc.so.6:strncasecmp) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--21417-- REDIR: 0x48f3f80 (libc.so.6:strcpy) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--21417-- REDIR: 0x48f53e0 (libc.so.6:memcpy@@GLIBC_2.14) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--21417-- REDIR: 0x4911ab0 (libc.so.6:wcsnlen) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--21417-- REDIR: 0x49103b0 (libc.so.6:wcscpy) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--21417-- REDIR: 0x48f4440 (libc.so.6:strpbrk) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--21417-- REDIR: 0x48f3eb0 (libc.so.6:index) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--21417-- REDIR: 0x48f4260 (libc.so.6:strlen) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--21417-- REDIR: 0x48fcc20 (libc.so.6:memrchr) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--21417-- REDIR: 0x48f52e0 (libc.so.6:strcasecmp_l) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--21417-- REDIR: 0x48f4e50 (libc.so.6:memchr) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--21417-- REDIR: 0x4910480 (libc.so.6:wcslen) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--21417-- REDIR: 0x48f4560 (libc.so.6:strspn) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--21417-- REDIR: 0x48f51e0 (libc.so.6:stpncpy) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--21417-- REDIR: 0x48f5180 (libc.so.6:stpcpy) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--21417-- REDIR: 0x48f6740 (libc.so.6:strchrnul) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--21417-- REDIR: 0x48f5330 (libc.so.6:strncasecmp_l) redirected to 0x48391d0 (_vgnU_ifunc_wrapper)
+--21417-- REDIR: 0x49d7d60 (libc.so.6:__strrchr_avx2) redirected to 0x4844a10 (rindex)
+--21417-- REDIR: 0x49d9470 (libc.so.6:__strcpy_avx2) redirected to 0x4845090 (strcpy)
+--21417-- REDIR: 0x49d7f30 (libc.so.6:__strlen_avx2) redirected to 0x4844f40 (strlen)
+--21417-- REDIR: 0x48ef130 (libc.so.6:malloc) redirected to 0x4841780 (malloc)
+--21417-- REDIR: 0x48f4a20 (libc.so.6:__GI_strstr) redirected to 0x4849ca0 (__strstr_sse2)
+--21417-- REDIR: 0x49db3d0 (libc.so.6:__memset_avx2_unaligned_erms) redirected to 0x48488e0 (memset)
+--21417-- REDIR: 0x49d4060 (libc.so.6:__rawmemchr_avx2) redirected to 0x4849580 (rawmemchr)
+--21417-- REDIR: 0x49d3420 (libc.so.6:__strcmp_avx2) redirected to 0x4845ed0 (strcmp)
+--21417-- REDIR: 0x49d7b70 (libc.so.6:__strchrnul_avx2) redirected to 0x4849540 (strchrnul)
+==21417== Conditional jump or move depends on uninitialised value(s)
+==21417==    at 0x484954F: strchrnul (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==21417==    by 0x48CC3AA: __find_specmb (printf-parse.h:111)
+==21417==    by 0x48CC3AA: __vfprintf_internal (vfprintf-internal.c:1396)
+==21417==    by 0x48D9688: __vsprintf_internal (iovsprintf.c:95)
+==21417==    by 0x48B7897: sprintf (sprintf.c:30)
+==21417==    by 0x10F219: yyparse (syn.y:235)
+==21417==    by 0x11244E: main (syn.y:819)
+==21417==  Uninitialised value was created by a stack allocation
+==21417==    at 0x487E3B0: ??? (in /usr/lib/x86_64-linux-gnu/libc-2.33.so)
+==21417== 
+==21417== Conditional jump or move depends on uninitialised value(s)
+==21417==    at 0x4849553: strchrnul (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==21417==    by 0x48CC3AA: __find_specmb (printf-parse.h:111)
+==21417==    by 0x48CC3AA: __vfprintf_internal (vfprintf-internal.c:1396)
+==21417==    by 0x48D9688: __vsprintf_internal (iovsprintf.c:95)
+==21417==    by 0x48B7897: sprintf (sprintf.c:30)
+==21417==    by 0x10F219: yyparse (syn.y:235)
+==21417==    by 0x11244E: main (syn.y:819)
+==21417==  Uninitialised value was created by a stack allocation
+==21417==    at 0x487E3B0: ??? (in /usr/lib/x86_64-linux-gnu/libc-2.33.so)
+==21417== 
+==21417== Conditional jump or move depends on uninitialised value(s)
+==21417==    at 0x484956E: strchrnul (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==21417==    by 0x48CC3AA: __find_specmb (printf-parse.h:111)
+==21417==    by 0x48CC3AA: __vfprintf_internal (vfprintf-internal.c:1396)
+==21417==    by 0x48D9688: __vsprintf_internal (iovsprintf.c:95)
+==21417==    by 0x48B7897: sprintf (sprintf.c:30)
+==21417==    by 0x10F219: yyparse (syn.y:235)
+==21417==    by 0x11244E: main (syn.y:819)
+==21417==  Uninitialised value was created by a stack allocation
+==21417==    at 0x487E3B0: ??? (in /usr/lib/x86_64-linux-gnu/libc-2.33.so)
+==21417== 
+==21417== Conditional jump or move depends on uninitialised value(s)
+==21417==    at 0x4849562: strchrnul (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==21417==    by 0x48CC3AA: __find_specmb (printf-parse.h:111)
+==21417==    by 0x48CC3AA: __vfprintf_internal (vfprintf-internal.c:1396)
+==21417==    by 0x48D9688: __vsprintf_internal (iovsprintf.c:95)
+==21417==    by 0x48B7897: sprintf (sprintf.c:30)
+==21417==    by 0x10F219: yyparse (syn.y:235)
+==21417==    by 0x11244E: main (syn.y:819)
+==21417==  Uninitialised value was created by a stack allocation
+==21417==    at 0x487E3B0: ??? (in /usr/lib/x86_64-linux-gnu/libc-2.33.so)
+==21417== 
+==21417== Conditional jump or move depends on uninitialised value(s)
+==21417==    at 0x48CC441: __vfprintf_internal (vfprintf-internal.c:1408)
+==21417==    by 0x48D9688: __vsprintf_internal (iovsprintf.c:95)
+==21417==    by 0x48B7897: sprintf (sprintf.c:30)
+==21417==    by 0x10F219: yyparse (syn.y:235)
+==21417==    by 0x11244E: main (syn.y:819)
+==21417==  Uninitialised value was created by a stack allocation
+==21417==    at 0x48CC406: outstring_func (vfprintf-internal.c:239)
+==21417==    by 0x48CC406: __vfprintf_internal (vfprintf-internal.c:1404)
+==21417== 
+--21417-- REDIR: 0x49daf20 (libc.so.6:__mempcpy_avx_unaligned_erms) redirected to 0x4849660 (mempcpy)
+==21417== Conditional jump or move depends on uninitialised value(s)
+==21417==    at 0x48CC4E1: __vfprintf_internal (vfprintf-internal.c:1453)
+==21417==    by 0x48D9688: __vsprintf_internal (iovsprintf.c:95)
+==21417==    by 0x48B7897: sprintf (sprintf.c:30)
+==21417==    by 0x10F219: yyparse (syn.y:235)
+==21417==    by 0x11244E: main (syn.y:819)
+==21417==  Uninitialised value was created by a stack allocation
+==21417==    at 0x48CC406: outstring_func (vfprintf-internal.c:239)
+==21417==    by 0x48CC406: __vfprintf_internal (vfprintf-internal.c:1404)
+==21417== 
+==21417== Use of uninitialised value of size 8
+==21417==    at 0x48CC4FA: __vfprintf_internal (vfprintf-internal.c:1453)
+==21417==    by 0x48D9688: __vsprintf_internal (iovsprintf.c:95)
+==21417==    by 0x48B7897: sprintf (sprintf.c:30)
+==21417==    by 0x10F219: yyparse (syn.y:235)
+==21417==    by 0x11244E: main (syn.y:819)
+==21417==  Uninitialised value was created by a stack allocation
+==21417==    at 0x48CC406: outstring_func (vfprintf-internal.c:239)
+==21417==    by 0x48CC406: __vfprintf_internal (vfprintf-internal.c:1404)
+==21417== 
+==21417== Conditional jump or move depends on uninitialised value(s)
+==21417==    at 0x48CC9AF: __vfprintf_internal (vfprintf-internal.c:1650)
+==21417==    by 0x48D9688: __vsprintf_internal (iovsprintf.c:95)
+==21417==    by 0x48B7897: sprintf (sprintf.c:30)
+==21417==    by 0x10F219: yyparse (syn.y:235)
+==21417==    by 0x11244E: main (syn.y:819)
+==21417==  Uninitialised value was created by a stack allocation
+==21417==    at 0x48CC406: outstring_func (vfprintf-internal.c:239)
+==21417==    by 0x48CC406: __vfprintf_internal (vfprintf-internal.c:1404)
+==21417== 
+==21417== Source and destination overlap in strcpy(0x1ffeff5784, 0x1ffeff5784)
+==21417==    at 0x4845150: strcpy (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==21417==    by 0x1103B7: yyparse (syn.y:530)
+==21417==    by 0x11244E: main (syn.y:819)
+==21417== 
+--21417-- REDIR: 0x48ef740 (libc.so.6:free) redirected to 0x48429d0 (free)
+==21417== Invalid read of size 1
+==21417==    at 0x4845094: strcpy (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==21417==    by 0x10FC94: yyparse (syn.y:437)
+==21417==    by 0x11244E: main (syn.y:819)
+==21417==  Address 0x1ffeff3660 is on thread 1's stack
+==21417==  2024 bytes below stack pointer
+==21417== 
+==21417== Conditional jump or move depends on uninitialised value(s)
+==21417==    at 0x48450A2: strcpy (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==21417==    by 0x10F4A3: yyparse (syn.y:289)
+==21417==    by 0x11244E: main (syn.y:819)
+==21417==  Uninitialised value was created by a stack allocation
+==21417==    at 0x48CC301: __vfprintf_internal (vfprintf-internal.c:1321)
+==21417== 
+==21417== Conditional jump or move depends on uninitialised value(s)
+==21417==    at 0x48450B7: strcpy (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==21417==    by 0x10F4A3: yyparse (syn.y:289)
+==21417==    by 0x11244E: main (syn.y:819)
+==21417==  Uninitialised value was created by a stack allocation
+==21417==    at 0x48CC301: __vfprintf_internal (vfprintf-internal.c:1321)
+==21417== 
+==21417== Invalid read of size 1
+==21417==    at 0x48450B2: strcpy (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==21417==    by 0x10FC94: yyparse (syn.y:437)
+==21417==    by 0x11244E: main (syn.y:819)
+==21417==  Address 0x1ffeff366b is on thread 1's stack
+==21417==  2013 bytes below stack pointer
+==21417== 
+==21417== Invalid read of size 1
+==21417==    at 0x4845094: strcpy (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==21417==    by 0x10FD1D: yyparse (syn.y:440)
+==21417==    by 0x11244E: main (syn.y:819)
+==21417==  Address 0x1ffeff3660 is on thread 1's stack
+==21417==  2024 bytes below stack pointer
+==21417== 
+==21417== Invalid read of size 1
+==21417==    at 0x48450B2: strcpy (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==21417==    by 0x10FD1D: yyparse (syn.y:440)
+==21417==    by 0x11244E: main (syn.y:819)
+==21417==  Address 0x1ffeff3661 is on thread 1's stack
+==21417==  2023 bytes below stack pointer
+==21417== 
+==21417== Invalid read of size 1
+==21417==    at 0x4845094: strcpy (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==21417==    by 0x10FDE4: yyparse (syn.y:445)
+==21417==    by 0x11244E: main (syn.y:819)
+==21417==  Address 0x1ffeff366a is on thread 1's stack
+==21417==  2014 bytes below stack pointer
+==21417== 
+==21417== Invalid read of size 1
+==21417==    at 0x48450B2: strcpy (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==21417==    by 0x10FDE4: yyparse (syn.y:445)
+==21417==    by 0x11244E: main (syn.y:819)
+==21417==  Address 0x1ffeff366b is on thread 1's stack
+==21417==  2013 bytes below stack pointer
+==21417== 
+==21417== Conditional jump or move depends on uninitialised value(s)
+==21417==    at 0x48CD0FE: __vfprintf_internal (vfprintf-internal.c:1646)
+==21417==    by 0x48B770E: printf (printf.c:33)
+==21417==    by 0x10D41D: get_tac_name (structures.c:1061)
+==21417==    by 0x10FEFB: yyparse (syn.y:456)
+==21417==    by 0x11244E: main (syn.y:819)
+==21417==  Uninitialised value was created by a stack allocation
+==21417==    at 0x10AB85: null_token (structures.c:319)
+==21417== 
+==21417== Use of uninitialised value of size 8
+==21417==    at 0x48B11EB: _itoa_word (_itoa.c:179)
+==21417==    by 0x48CCBAE: __vfprintf_internal (vfprintf-internal.c:1646)
+==21417==    by 0x48B770E: printf (printf.c:33)
+==21417==    by 0x10D41D: get_tac_name (structures.c:1061)
+==21417==    by 0x10FEFB: yyparse (syn.y:456)
+==21417==    by 0x11244E: main (syn.y:819)
+==21417==  Uninitialised value was created by a stack allocation
+==21417==    at 0x10AB85: null_token (structures.c:319)
+==21417== 
+==21417== Conditional jump or move depends on uninitialised value(s)
+==21417==    at 0x48B11FC: _itoa_word (_itoa.c:179)
+==21417==    by 0x48CCBAE: __vfprintf_internal (vfprintf-internal.c:1646)
+==21417==    by 0x48B770E: printf (printf.c:33)
+==21417==    by 0x10D41D: get_tac_name (structures.c:1061)
+==21417==    by 0x10FEFB: yyparse (syn.y:456)
+==21417==    by 0x11244E: main (syn.y:819)
+==21417==  Uninitialised value was created by a stack allocation
+==21417==    at 0x10AB85: null_token (structures.c:319)
+==21417== 
+==21417== Conditional jump or move depends on uninitialised value(s)
+==21417==    at 0x48CD9D3: __vfprintf_internal (vfprintf-internal.c:1646)
+==21417==    by 0x48B770E: printf (printf.c:33)
+==21417==    by 0x10D41D: get_tac_name (structures.c:1061)
+==21417==    by 0x10FEFB: yyparse (syn.y:456)
+==21417==    by 0x11244E: main (syn.y:819)
+==21417==  Uninitialised value was created by a stack allocation
+==21417==    at 0x10AB85: null_token (structures.c:319)
+==21417== 
+==21417== Conditional jump or move depends on uninitialised value(s)
+==21417==    at 0x48CCCDB: __vfprintf_internal (vfprintf-internal.c:1646)
+==21417==    by 0x48B770E: printf (printf.c:33)
+==21417==    by 0x10D41D: get_tac_name (structures.c:1061)
+==21417==    by 0x10FEFB: yyparse (syn.y:456)
+==21417==    by 0x11244E: main (syn.y:819)
+==21417==  Uninitialised value was created by a stack allocation
+==21417==    at 0x10AB85: null_token (structures.c:319)
+==21417== 
+==21417== Conditional jump or move depends on uninitialised value(s)
+==21417==    at 0x4845EDC: strcmp (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==21417==    by 0x10F91F: yyparse (syn.y:402)
+==21417==    by 0x11244E: main (syn.y:819)
+==21417==  Uninitialised value was created by a heap allocation
+==21417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==21417==    by 0x10B4CC: token_to_node (structures.c:417)
+==21417==    by 0x10B668: add_tree_token_node (structures.c:428)
+==21417==    by 0x1115E9: yyparse (syn.y:752)
+==21417==    by 0x11244E: main (syn.y:819)
+==21417== 
+==21417== Conditional jump or move depends on uninitialised value(s)
+==21417==    at 0x10F922: yyparse (syn.y:402)
+==21417==    by 0x11244E: main (syn.y:819)
+==21417==  Uninitialised value was created by a heap allocation
+==21417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==21417==    by 0x10B4CC: token_to_node (structures.c:417)
+==21417==    by 0x10B668: add_tree_token_node (structures.c:428)
+==21417==    by 0x1115E9: yyparse (syn.y:752)
+==21417==    by 0x11244E: main (syn.y:819)
+==21417== 
+==21417== Conditional jump or move depends on uninitialised value(s)
+==21417==    at 0x4845EDC: strcmp (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==21417==    by 0x10F953: yyparse (syn.y:403)
+==21417==    by 0x11244E: main (syn.y:819)
+==21417==  Uninitialised value was created by a heap allocation
+==21417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==21417==    by 0x10B4CC: token_to_node (structures.c:417)
+==21417==    by 0x10B668: add_tree_token_node (structures.c:428)
+==21417==    by 0x1115E9: yyparse (syn.y:752)
+==21417==    by 0x11244E: main (syn.y:819)
+==21417== 
+==21417== Conditional jump or move depends on uninitialised value(s)
+==21417==    at 0x10F956: yyparse (syn.y:403)
+==21417==    by 0x11244E: main (syn.y:819)
+==21417==  Uninitialised value was created by a heap allocation
+==21417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==21417==    by 0x10B4CC: token_to_node (structures.c:417)
+==21417==    by 0x10B668: add_tree_token_node (structures.c:428)
+==21417==    by 0x1115E9: yyparse (syn.y:752)
+==21417==    by 0x11244E: main (syn.y:819)
+==21417== 
+==21417== Source and destination overlap in strcpy(0x1ffeff60e4, 0x1ffeff60e4)
+==21417==    at 0x4845150: strcpy (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==21417==    by 0x11029E: yyparse (syn.y:520)
+==21417==    by 0x11244E: main (syn.y:819)
+==21417== 
+==21417== Conditional jump or move depends on uninitialised value(s)
+==21417==    at 0x10C298: print_annotated (structures.c:671)
+==21417==    by 0x10C3B8: print_annotated (structures.c:690)
+==21417==    by 0x10C3B8: print_annotated (structures.c:690)
+==21417==    by 0x10C3B8: print_annotated (structures.c:690)
+==21417==    by 0x10C3B8: print_annotated (structures.c:690)
+==21417==    by 0x10C3B8: print_annotated (structures.c:690)
+==21417==    by 0x10C0C0: print_annotated_tree (structures.c:642)
+==21417==    by 0x112468: main (syn.y:825)
+==21417==  Uninitialised value was created by a heap allocation
+==21417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==21417==    by 0x10B4CC: token_to_node (structures.c:417)
+==21417==    by 0x10B668: add_tree_token_node (structures.c:428)
+==21417==    by 0x10F310: yyparse (syn.y:263)
+==21417==    by 0x11244E: main (syn.y:819)
+==21417== 
+==21417== Invalid read of size 1
+==21417==    at 0x48DF45D: fputc (fputc.c:35)
+==21417==    by 0x10D34E: build_tac (structures.c:1030)
+==21417==    by 0x1124EC: main (syn.y:838)
+==21417==  Address 0x4a474f4 is 116 bytes inside a block of size 472 free'd
+==21417==    at 0x4842A3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==21417==    by 0x48D6492: _IO_deallocate_file (libioP.h:863)
+==21417==    by 0x48D6492: fclose@@GLIBC_2.2.5 (iofclose.c:74)
+==21417==    by 0x1124E2: main (syn.y:837)
+==21417==  Block was alloc'd at
+==21417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==21417==    by 0x48D6EDD: __fopen_internal (iofopen.c:65)
+==21417==    by 0x48D6EDD: fopen@@GLIBC_2.2.5 (iofopen.c:86)
+==21417==    by 0x1123CD: main (syn.y:808)
+==21417== 
+==21417== Invalid read of size 8
+==21417==    at 0x48DF500: fputc (fputc.c:36)
+==21417==    by 0x10D34E: build_tac (structures.c:1030)
+==21417==    by 0x1124EC: main (syn.y:838)
+==21417==  Address 0x4a474a8 is 40 bytes inside a block of size 472 free'd
+==21417==    at 0x4842A3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==21417==    by 0x48D6492: _IO_deallocate_file (libioP.h:863)
+==21417==    by 0x48D6492: fclose@@GLIBC_2.2.5 (iofclose.c:74)
+==21417==    by 0x1124E2: main (syn.y:837)
+==21417==  Block was alloc'd at
+==21417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==21417==    by 0x48D6EDD: __fopen_internal (iofopen.c:65)
+==21417==    by 0x48D6EDD: fopen@@GLIBC_2.2.5 (iofopen.c:86)
+==21417==    by 0x1123CD: main (syn.y:808)
+==21417== 
+==21417== Invalid read of size 8
+==21417==    at 0x48DF508: fputc (fputc.c:36)
+==21417==    by 0x10D34E: build_tac (structures.c:1030)
+==21417==    by 0x1124EC: main (syn.y:838)
+==21417==  Address 0x4a474b0 is 48 bytes inside a block of size 472 free'd
+==21417==    at 0x4842A3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==21417==    by 0x48D6492: _IO_deallocate_file (libioP.h:863)
+==21417==    by 0x48D6492: fclose@@GLIBC_2.2.5 (iofclose.c:74)
+==21417==    by 0x1124E2: main (syn.y:837)
+==21417==  Block was alloc'd at
+==21417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==21417==    by 0x48D6EDD: __fopen_internal (iofopen.c:65)
+==21417==    by 0x48D6EDD: fopen@@GLIBC_2.2.5 (iofopen.c:86)
+==21417==    by 0x1123CD: main (syn.y:808)
+==21417== 
+==21417== Invalid read of size 4
+==21417==    at 0x48E5B69: __overflow (genops.c:201)
+==21417==    by 0x10D34E: build_tac (structures.c:1030)
+==21417==    by 0x1124EC: main (syn.y:838)
+==21417==  Address 0x4a47540 is 192 bytes inside a block of size 472 free'd
+==21417==    at 0x4842A3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==21417==    by 0x48D6492: _IO_deallocate_file (libioP.h:863)
+==21417==    by 0x48D6492: fclose@@GLIBC_2.2.5 (iofclose.c:74)
+==21417==    by 0x1124E2: main (syn.y:837)
+==21417==  Block was alloc'd at
+==21417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==21417==    by 0x48D6EDD: __fopen_internal (iofopen.c:65)
+==21417==    by 0x48D6EDD: fopen@@GLIBC_2.2.5 (iofopen.c:86)
+==21417==    by 0x1123CD: main (syn.y:808)
+==21417== 
+==21417== Invalid read of size 8
+==21417==    at 0x48E5B7D: __overflow (genops.c:203)
+==21417==    by 0x10D34E: build_tac (structures.c:1030)
+==21417==    by 0x1124EC: main (syn.y:838)
+==21417==  Address 0x4a47558 is 216 bytes inside a block of size 472 free'd
+==21417==    at 0x4842A3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==21417==    by 0x48D6492: _IO_deallocate_file (libioP.h:863)
+==21417==    by 0x48D6492: fclose@@GLIBC_2.2.5 (iofclose.c:74)
+==21417==    by 0x1124E2: main (syn.y:837)
+==21417==  Block was alloc'd at
+==21417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==21417==    by 0x48D6EDD: __fopen_internal (iofopen.c:65)
+==21417==    by 0x48D6EDD: fopen@@GLIBC_2.2.5 (iofopen.c:86)
+==21417==    by 0x1123CD: main (syn.y:808)
+==21417== 
+==21417== Invalid read of size 4
+==21417==    at 0x48E4F1B: _IO_file_overflow@@GLIBC_2.2.5 (fileops.c:733)
+==21417==    by 0x10D34E: build_tac (structures.c:1030)
+==21417==    by 0x1124EC: main (syn.y:838)
+==21417==  Address 0x4a47480 is 0 bytes inside a block of size 472 free'd
+==21417==    at 0x4842A3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==21417==    by 0x48D6492: _IO_deallocate_file (libioP.h:863)
+==21417==    by 0x48D6492: fclose@@GLIBC_2.2.5 (iofclose.c:74)
+==21417==    by 0x1124E2: main (syn.y:837)
+==21417==  Block was alloc'd at
+==21417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==21417==    by 0x48D6EDD: __fopen_internal (iofopen.c:65)
+==21417==    by 0x48D6EDD: fopen@@GLIBC_2.2.5 (iofopen.c:86)
+==21417==    by 0x1123CD: main (syn.y:808)
+==21417== 
+==21417== Invalid write of size 4
+==21417==    at 0x48E5123: _IO_file_overflow@@GLIBC_2.2.5 (fileops.c:735)
+==21417==    by 0x10D34E: build_tac (structures.c:1030)
+==21417==    by 0x1124EC: main (syn.y:838)
+==21417==  Address 0x4a47480 is 0 bytes inside a block of size 472 free'd
+==21417==    at 0x4842A3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==21417==    by 0x48D6492: _IO_deallocate_file (libioP.h:863)
+==21417==    by 0x48D6492: fclose@@GLIBC_2.2.5 (iofclose.c:74)
+==21417==    by 0x1124E2: main (syn.y:837)
+==21417==  Block was alloc'd at
+==21417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==21417==    by 0x48D6EDD: __fopen_internal (iofopen.c:65)
+==21417==    by 0x48D6EDD: fopen@@GLIBC_2.2.5 (iofopen.c:86)
+==21417==    by 0x1123CD: main (syn.y:808)
+==21417== 
+==21417== 
+==21417== HEAP SUMMARY:
+==21417==     in use at exit: 0 bytes in 0 blocks
+==21417==   total heap usage: 646 allocs, 646 frees, 117,306 bytes allocated
+==21417== 
+==21417== All heap blocks were freed -- no leaks are possible
+==21417== 
+==21417== ERROR SUMMARY: 303 errors from 35 contexts (suppressed: 0 from 0)
+==21417== 
+==21417== 1 errors in context 1 of 35:
+==21417== Invalid write of size 4
+==21417==    at 0x48E5123: _IO_file_overflow@@GLIBC_2.2.5 (fileops.c:735)
+==21417==    by 0x10D34E: build_tac (structures.c:1030)
+==21417==    by 0x1124EC: main (syn.y:838)
+==21417==  Address 0x4a47480 is 0 bytes inside a block of size 472 free'd
+==21417==    at 0x4842A3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==21417==    by 0x48D6492: _IO_deallocate_file (libioP.h:863)
+==21417==    by 0x48D6492: fclose@@GLIBC_2.2.5 (iofclose.c:74)
+==21417==    by 0x1124E2: main (syn.y:837)
+==21417==  Block was alloc'd at
+==21417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==21417==    by 0x48D6EDD: __fopen_internal (iofopen.c:65)
+==21417==    by 0x48D6EDD: fopen@@GLIBC_2.2.5 (iofopen.c:86)
+==21417==    by 0x1123CD: main (syn.y:808)
+==21417== 
+==21417== 
+==21417== 1 errors in context 2 of 35:
+==21417== Invalid read of size 4
+==21417==    at 0x48E4F1B: _IO_file_overflow@@GLIBC_2.2.5 (fileops.c:733)
+==21417==    by 0x10D34E: build_tac (structures.c:1030)
+==21417==    by 0x1124EC: main (syn.y:838)
+==21417==  Address 0x4a47480 is 0 bytes inside a block of size 472 free'd
+==21417==    at 0x4842A3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==21417==    by 0x48D6492: _IO_deallocate_file (libioP.h:863)
+==21417==    by 0x48D6492: fclose@@GLIBC_2.2.5 (iofclose.c:74)
+==21417==    by 0x1124E2: main (syn.y:837)
+==21417==  Block was alloc'd at
+==21417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==21417==    by 0x48D6EDD: __fopen_internal (iofopen.c:65)
+==21417==    by 0x48D6EDD: fopen@@GLIBC_2.2.5 (iofopen.c:86)
+==21417==    by 0x1123CD: main (syn.y:808)
+==21417== 
+==21417== 
+==21417== 1 errors in context 3 of 35:
+==21417== Invalid read of size 8
+==21417==    at 0x48E5B7D: __overflow (genops.c:203)
+==21417==    by 0x10D34E: build_tac (structures.c:1030)
+==21417==    by 0x1124EC: main (syn.y:838)
+==21417==  Address 0x4a47558 is 216 bytes inside a block of size 472 free'd
+==21417==    at 0x4842A3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==21417==    by 0x48D6492: _IO_deallocate_file (libioP.h:863)
+==21417==    by 0x48D6492: fclose@@GLIBC_2.2.5 (iofclose.c:74)
+==21417==    by 0x1124E2: main (syn.y:837)
+==21417==  Block was alloc'd at
+==21417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==21417==    by 0x48D6EDD: __fopen_internal (iofopen.c:65)
+==21417==    by 0x48D6EDD: fopen@@GLIBC_2.2.5 (iofopen.c:86)
+==21417==    by 0x1123CD: main (syn.y:808)
+==21417== 
+==21417== 
+==21417== 1 errors in context 4 of 35:
+==21417== Invalid read of size 4
+==21417==    at 0x48E5B69: __overflow (genops.c:201)
+==21417==    by 0x10D34E: build_tac (structures.c:1030)
+==21417==    by 0x1124EC: main (syn.y:838)
+==21417==  Address 0x4a47540 is 192 bytes inside a block of size 472 free'd
+==21417==    at 0x4842A3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==21417==    by 0x48D6492: _IO_deallocate_file (libioP.h:863)
+==21417==    by 0x48D6492: fclose@@GLIBC_2.2.5 (iofclose.c:74)
+==21417==    by 0x1124E2: main (syn.y:837)
+==21417==  Block was alloc'd at
+==21417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==21417==    by 0x48D6EDD: __fopen_internal (iofopen.c:65)
+==21417==    by 0x48D6EDD: fopen@@GLIBC_2.2.5 (iofopen.c:86)
+==21417==    by 0x1123CD: main (syn.y:808)
+==21417== 
+==21417== 
+==21417== 1 errors in context 5 of 35:
+==21417== Invalid read of size 8
+==21417==    at 0x48DF508: fputc (fputc.c:36)
+==21417==    by 0x10D34E: build_tac (structures.c:1030)
+==21417==    by 0x1124EC: main (syn.y:838)
+==21417==  Address 0x4a474b0 is 48 bytes inside a block of size 472 free'd
+==21417==    at 0x4842A3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==21417==    by 0x48D6492: _IO_deallocate_file (libioP.h:863)
+==21417==    by 0x48D6492: fclose@@GLIBC_2.2.5 (iofclose.c:74)
+==21417==    by 0x1124E2: main (syn.y:837)
+==21417==  Block was alloc'd at
+==21417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==21417==    by 0x48D6EDD: __fopen_internal (iofopen.c:65)
+==21417==    by 0x48D6EDD: fopen@@GLIBC_2.2.5 (iofopen.c:86)
+==21417==    by 0x1123CD: main (syn.y:808)
+==21417== 
+==21417== 
+==21417== 1 errors in context 6 of 35:
+==21417== Invalid read of size 8
+==21417==    at 0x48DF500: fputc (fputc.c:36)
+==21417==    by 0x10D34E: build_tac (structures.c:1030)
+==21417==    by 0x1124EC: main (syn.y:838)
+==21417==  Address 0x4a474a8 is 40 bytes inside a block of size 472 free'd
+==21417==    at 0x4842A3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==21417==    by 0x48D6492: _IO_deallocate_file (libioP.h:863)
+==21417==    by 0x48D6492: fclose@@GLIBC_2.2.5 (iofclose.c:74)
+==21417==    by 0x1124E2: main (syn.y:837)
+==21417==  Block was alloc'd at
+==21417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==21417==    by 0x48D6EDD: __fopen_internal (iofopen.c:65)
+==21417==    by 0x48D6EDD: fopen@@GLIBC_2.2.5 (iofopen.c:86)
+==21417==    by 0x1123CD: main (syn.y:808)
+==21417== 
+==21417== 
+==21417== 1 errors in context 7 of 35:
+==21417== Invalid read of size 1
+==21417==    at 0x48DF45D: fputc (fputc.c:35)
+==21417==    by 0x10D34E: build_tac (structures.c:1030)
+==21417==    by 0x1124EC: main (syn.y:838)
+==21417==  Address 0x4a474f4 is 116 bytes inside a block of size 472 free'd
+==21417==    at 0x4842A3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==21417==    by 0x48D6492: _IO_deallocate_file (libioP.h:863)
+==21417==    by 0x48D6492: fclose@@GLIBC_2.2.5 (iofclose.c:74)
+==21417==    by 0x1124E2: main (syn.y:837)
+==21417==  Block was alloc'd at
+==21417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==21417==    by 0x48D6EDD: __fopen_internal (iofopen.c:65)
+==21417==    by 0x48D6EDD: fopen@@GLIBC_2.2.5 (iofopen.c:86)
+==21417==    by 0x1123CD: main (syn.y:808)
+==21417== 
+==21417== 
+==21417== 1 errors in context 8 of 35:
+==21417== Source and destination overlap in strcpy(0x1ffeff60e4, 0x1ffeff60e4)
+==21417==    at 0x4845150: strcpy (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==21417==    by 0x11029E: yyparse (syn.y:520)
+==21417==    by 0x11244E: main (syn.y:819)
+==21417== 
+==21417== 
+==21417== 1 errors in context 9 of 35:
+==21417== Conditional jump or move depends on uninitialised value(s)
+==21417==    at 0x10F956: yyparse (syn.y:403)
+==21417==    by 0x11244E: main (syn.y:819)
+==21417==  Uninitialised value was created by a heap allocation
+==21417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==21417==    by 0x10B4CC: token_to_node (structures.c:417)
+==21417==    by 0x10B668: add_tree_token_node (structures.c:428)
+==21417==    by 0x1115E9: yyparse (syn.y:752)
+==21417==    by 0x11244E: main (syn.y:819)
+==21417== 
+==21417== 
+==21417== 1 errors in context 10 of 35:
+==21417== Conditional jump or move depends on uninitialised value(s)
+==21417==    at 0x4845EDC: strcmp (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==21417==    by 0x10F953: yyparse (syn.y:403)
+==21417==    by 0x11244E: main (syn.y:819)
+==21417==  Uninitialised value was created by a heap allocation
+==21417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==21417==    by 0x10B4CC: token_to_node (structures.c:417)
+==21417==    by 0x10B668: add_tree_token_node (structures.c:428)
+==21417==    by 0x1115E9: yyparse (syn.y:752)
+==21417==    by 0x11244E: main (syn.y:819)
+==21417== 
+==21417== 
+==21417== 1 errors in context 11 of 35:
+==21417== Conditional jump or move depends on uninitialised value(s)
+==21417==    at 0x10F922: yyparse (syn.y:402)
+==21417==    by 0x11244E: main (syn.y:819)
+==21417==  Uninitialised value was created by a heap allocation
+==21417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==21417==    by 0x10B4CC: token_to_node (structures.c:417)
+==21417==    by 0x10B668: add_tree_token_node (structures.c:428)
+==21417==    by 0x1115E9: yyparse (syn.y:752)
+==21417==    by 0x11244E: main (syn.y:819)
+==21417== 
+==21417== 
+==21417== 1 errors in context 12 of 35:
+==21417== Conditional jump or move depends on uninitialised value(s)
+==21417==    at 0x4845EDC: strcmp (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==21417==    by 0x10F91F: yyparse (syn.y:402)
+==21417==    by 0x11244E: main (syn.y:819)
+==21417==  Uninitialised value was created by a heap allocation
+==21417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==21417==    by 0x10B4CC: token_to_node (structures.c:417)
+==21417==    by 0x10B668: add_tree_token_node (structures.c:428)
+==21417==    by 0x1115E9: yyparse (syn.y:752)
+==21417==    by 0x11244E: main (syn.y:819)
+==21417== 
+==21417== 
+==21417== 1 errors in context 13 of 35:
+==21417== Conditional jump or move depends on uninitialised value(s)
+==21417==    at 0x48450A2: strcpy (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==21417==    by 0x10F4A3: yyparse (syn.y:289)
+==21417==    by 0x11244E: main (syn.y:819)
+==21417==  Uninitialised value was created by a stack allocation
+==21417==    at 0x48CC301: __vfprintf_internal (vfprintf-internal.c:1321)
+==21417== 
+==21417== 
+==21417== 1 errors in context 14 of 35:
+==21417== Use of uninitialised value of size 8
+==21417==    at 0x48CC4FA: __vfprintf_internal (vfprintf-internal.c:1453)
+==21417==    by 0x48D9688: __vsprintf_internal (iovsprintf.c:95)
+==21417==    by 0x48B7897: sprintf (sprintf.c:30)
+==21417==    by 0x10F219: yyparse (syn.y:235)
+==21417==    by 0x11244E: main (syn.y:819)
+==21417==  Uninitialised value was created by a stack allocation
+==21417==    at 0x48CC406: outstring_func (vfprintf-internal.c:239)
+==21417==    by 0x48CC406: __vfprintf_internal (vfprintf-internal.c:1404)
+==21417== 
+==21417== 
+==21417== 2 errors in context 15 of 35:
+==21417== Conditional jump or move depends on uninitialised value(s)
+==21417==    at 0x48CCCDB: __vfprintf_internal (vfprintf-internal.c:1646)
+==21417==    by 0x48B770E: printf (printf.c:33)
+==21417==    by 0x10D41D: get_tac_name (structures.c:1061)
+==21417==    by 0x10FEFB: yyparse (syn.y:456)
+==21417==    by 0x11244E: main (syn.y:819)
+==21417==  Uninitialised value was created by a stack allocation
+==21417==    at 0x10AB85: null_token (structures.c:319)
+==21417== 
+==21417== 
+==21417== 2 errors in context 16 of 35:
+==21417== Conditional jump or move depends on uninitialised value(s)
+==21417==    at 0x48CD9D3: __vfprintf_internal (vfprintf-internal.c:1646)
+==21417==    by 0x48B770E: printf (printf.c:33)
+==21417==    by 0x10D41D: get_tac_name (structures.c:1061)
+==21417==    by 0x10FEFB: yyparse (syn.y:456)
+==21417==    by 0x11244E: main (syn.y:819)
+==21417==  Uninitialised value was created by a stack allocation
+==21417==    at 0x10AB85: null_token (structures.c:319)
+==21417== 
+==21417== 
+==21417== 2 errors in context 17 of 35:
+==21417== Conditional jump or move depends on uninitialised value(s)
+==21417==    at 0x48CD0FE: __vfprintf_internal (vfprintf-internal.c:1646)
+==21417==    by 0x48B770E: printf (printf.c:33)
+==21417==    by 0x10D41D: get_tac_name (structures.c:1061)
+==21417==    by 0x10FEFB: yyparse (syn.y:456)
+==21417==    by 0x11244E: main (syn.y:819)
+==21417==  Uninitialised value was created by a stack allocation
+==21417==    at 0x10AB85: null_token (structures.c:319)
+==21417== 
+==21417== 
+==21417== 2 errors in context 18 of 35:
+==21417== Invalid read of size 1
+==21417==    at 0x4845094: strcpy (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==21417==    by 0x10FDE4: yyparse (syn.y:445)
+==21417==    by 0x11244E: main (syn.y:819)
+==21417==  Address 0x1ffeff366a is on thread 1's stack
+==21417==  2014 bytes below stack pointer
+==21417== 
+==21417== 
+==21417== 2 errors in context 19 of 35:
+==21417== Invalid read of size 1
+==21417==    at 0x4845094: strcpy (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==21417==    by 0x10FD1D: yyparse (syn.y:440)
+==21417==    by 0x11244E: main (syn.y:819)
+==21417==  Address 0x1ffeff3660 is on thread 1's stack
+==21417==  2024 bytes below stack pointer
+==21417== 
+==21417== 
+==21417== 2 errors in context 20 of 35:
+==21417== Conditional jump or move depends on uninitialised value(s)
+==21417==    at 0x48450B7: strcpy (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==21417==    by 0x10F4A3: yyparse (syn.y:289)
+==21417==    by 0x11244E: main (syn.y:819)
+==21417==  Uninitialised value was created by a stack allocation
+==21417==    at 0x48CC301: __vfprintf_internal (vfprintf-internal.c:1321)
+==21417== 
+==21417== 
+==21417== 3 errors in context 21 of 35:
+==21417== Conditional jump or move depends on uninitialised value(s)
+==21417==    at 0x48CC9AF: __vfprintf_internal (vfprintf-internal.c:1650)
+==21417==    by 0x48D9688: __vsprintf_internal (iovsprintf.c:95)
+==21417==    by 0x48B7897: sprintf (sprintf.c:30)
+==21417==    by 0x10F219: yyparse (syn.y:235)
+==21417==    by 0x11244E: main (syn.y:819)
+==21417==  Uninitialised value was created by a stack allocation
+==21417==    at 0x48CC406: outstring_func (vfprintf-internal.c:239)
+==21417==    by 0x48CC406: __vfprintf_internal (vfprintf-internal.c:1404)
+==21417== 
+==21417== 
+==21417== 3 errors in context 22 of 35:
+==21417== Conditional jump or move depends on uninitialised value(s)
+==21417==    at 0x48CC4E1: __vfprintf_internal (vfprintf-internal.c:1453)
+==21417==    by 0x48D9688: __vsprintf_internal (iovsprintf.c:95)
+==21417==    by 0x48B7897: sprintf (sprintf.c:30)
+==21417==    by 0x10F219: yyparse (syn.y:235)
+==21417==    by 0x11244E: main (syn.y:819)
+==21417==  Uninitialised value was created by a stack allocation
+==21417==    at 0x48CC406: outstring_func (vfprintf-internal.c:239)
+==21417==    by 0x48CC406: __vfprintf_internal (vfprintf-internal.c:1404)
+==21417== 
+==21417== 
+==21417== 4 errors in context 23 of 35:
+==21417== Invalid read of size 1
+==21417==    at 0x4845094: strcpy (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==21417==    by 0x10FC94: yyparse (syn.y:437)
+==21417==    by 0x11244E: main (syn.y:819)
+==21417==  Address 0x1ffeff3660 is on thread 1's stack
+==21417==  2024 bytes below stack pointer
+==21417== 
+==21417== 
+==21417== 5 errors in context 24 of 35:
+==21417== Source and destination overlap in strcpy(0x1ffeff5784, 0x1ffeff5784)
+==21417==    at 0x4845150: strcpy (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==21417==    by 0x1103B7: yyparse (syn.y:530)
+==21417==    by 0x11244E: main (syn.y:819)
+==21417== 
+==21417== 
+==21417== 6 errors in context 25 of 35:
+==21417== Invalid read of size 1
+==21417==    at 0x48450B2: strcpy (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==21417==    by 0x10FDE4: yyparse (syn.y:445)
+==21417==    by 0x11244E: main (syn.y:819)
+==21417==  Address 0x1ffeff366b is on thread 1's stack
+==21417==  2013 bytes below stack pointer
+==21417== 
+==21417== 
+==21417== 6 errors in context 26 of 35:
+==21417== Invalid read of size 1
+==21417==    at 0x48450B2: strcpy (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==21417==    by 0x10FD1D: yyparse (syn.y:440)
+==21417==    by 0x11244E: main (syn.y:819)
+==21417==  Address 0x1ffeff3661 is on thread 1's stack
+==21417==  2023 bytes below stack pointer
+==21417== 
+==21417== 
+==21417== 6 errors in context 27 of 35:
+==21417== Invalid read of size 1
+==21417==    at 0x48450B2: strcpy (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==21417==    by 0x10FC94: yyparse (syn.y:437)
+==21417==    by 0x11244E: main (syn.y:819)
+==21417==  Address 0x1ffeff366b is on thread 1's stack
+==21417==  2013 bytes below stack pointer
+==21417== 
+==21417== 
+==21417== 8 errors in context 28 of 35:
+==21417== Conditional jump or move depends on uninitialised value(s)
+==21417==    at 0x48B11FC: _itoa_word (_itoa.c:179)
+==21417==    by 0x48CCBAE: __vfprintf_internal (vfprintf-internal.c:1646)
+==21417==    by 0x48B770E: printf (printf.c:33)
+==21417==    by 0x10D41D: get_tac_name (structures.c:1061)
+==21417==    by 0x10FEFB: yyparse (syn.y:456)
+==21417==    by 0x11244E: main (syn.y:819)
+==21417==  Uninitialised value was created by a stack allocation
+==21417==    at 0x10AB85: null_token (structures.c:319)
+==21417== 
+==21417== 
+==21417== 8 errors in context 29 of 35:
+==21417== Use of uninitialised value of size 8
+==21417==    at 0x48B11EB: _itoa_word (_itoa.c:179)
+==21417==    by 0x48CCBAE: __vfprintf_internal (vfprintf-internal.c:1646)
+==21417==    by 0x48B770E: printf (printf.c:33)
+==21417==    by 0x10D41D: get_tac_name (structures.c:1061)
+==21417==    by 0x10FEFB: yyparse (syn.y:456)
+==21417==    by 0x11244E: main (syn.y:819)
+==21417==  Uninitialised value was created by a stack allocation
+==21417==    at 0x10AB85: null_token (structures.c:319)
+==21417== 
+==21417== 
+==21417== 13 errors in context 30 of 35:
+==21417== Conditional jump or move depends on uninitialised value(s)
+==21417==    at 0x48CC441: __vfprintf_internal (vfprintf-internal.c:1408)
+==21417==    by 0x48D9688: __vsprintf_internal (iovsprintf.c:95)
+==21417==    by 0x48B7897: sprintf (sprintf.c:30)
+==21417==    by 0x10F219: yyparse (syn.y:235)
+==21417==    by 0x11244E: main (syn.y:819)
+==21417==  Uninitialised value was created by a stack allocation
+==21417==    at 0x48CC406: outstring_func (vfprintf-internal.c:239)
+==21417==    by 0x48CC406: __vfprintf_internal (vfprintf-internal.c:1404)
+==21417== 
+==21417== 
+==21417== 13 errors in context 31 of 35:
+==21417== Conditional jump or move depends on uninitialised value(s)
+==21417==    at 0x4849553: strchrnul (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==21417==    by 0x48CC3AA: __find_specmb (printf-parse.h:111)
+==21417==    by 0x48CC3AA: __vfprintf_internal (vfprintf-internal.c:1396)
+==21417==    by 0x48D9688: __vsprintf_internal (iovsprintf.c:95)
+==21417==    by 0x48B7897: sprintf (sprintf.c:30)
+==21417==    by 0x10F219: yyparse (syn.y:235)
+==21417==    by 0x11244E: main (syn.y:819)
+==21417==  Uninitialised value was created by a stack allocation
+==21417==    at 0x487E3B0: ??? (in /usr/lib/x86_64-linux-gnu/libc-2.33.so)
+==21417== 
+==21417== 
+==21417== 13 errors in context 32 of 35:
+==21417== Conditional jump or move depends on uninitialised value(s)
+==21417==    at 0x484954F: strchrnul (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==21417==    by 0x48CC3AA: __find_specmb (printf-parse.h:111)
+==21417==    by 0x48CC3AA: __vfprintf_internal (vfprintf-internal.c:1396)
+==21417==    by 0x48D9688: __vsprintf_internal (iovsprintf.c:95)
+==21417==    by 0x48B7897: sprintf (sprintf.c:30)
+==21417==    by 0x10F219: yyparse (syn.y:235)
+==21417==    by 0x11244E: main (syn.y:819)
+==21417==  Uninitialised value was created by a stack allocation
+==21417==    at 0x487E3B0: ??? (in /usr/lib/x86_64-linux-gnu/libc-2.33.so)
+==21417== 
+==21417== 
+==21417== 19 errors in context 33 of 35:
+==21417== Conditional jump or move depends on uninitialised value(s)
+==21417==    at 0x10C298: print_annotated (structures.c:671)
+==21417==    by 0x10C3B8: print_annotated (structures.c:690)
+==21417==    by 0x10C3B8: print_annotated (structures.c:690)
+==21417==    by 0x10C3B8: print_annotated (structures.c:690)
+==21417==    by 0x10C3B8: print_annotated (structures.c:690)
+==21417==    by 0x10C3B8: print_annotated (structures.c:690)
+==21417==    by 0x10C0C0: print_annotated_tree (structures.c:642)
+==21417==    by 0x112468: main (syn.y:825)
+==21417==  Uninitialised value was created by a heap allocation
+==21417==    at 0x48417F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==21417==    by 0x10B4CC: token_to_node (structures.c:417)
+==21417==    by 0x10B668: add_tree_token_node (structures.c:428)
+==21417==    by 0x10F310: yyparse (syn.y:263)
+==21417==    by 0x11244E: main (syn.y:819)
+==21417== 
+==21417== 
+==21417== 79 errors in context 34 of 35:
+==21417== Conditional jump or move depends on uninitialised value(s)
+==21417==    at 0x4849562: strchrnul (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==21417==    by 0x48CC3AA: __find_specmb (printf-parse.h:111)
+==21417==    by 0x48CC3AA: __vfprintf_internal (vfprintf-internal.c:1396)
+==21417==    by 0x48D9688: __vsprintf_internal (iovsprintf.c:95)
+==21417==    by 0x48B7897: sprintf (sprintf.c:30)
+==21417==    by 0x10F219: yyparse (syn.y:235)
+==21417==    by 0x11244E: main (syn.y:819)
+==21417==  Uninitialised value was created by a stack allocation
+==21417==    at 0x487E3B0: ??? (in /usr/lib/x86_64-linux-gnu/libc-2.33.so)
+==21417== 
+==21417== 
+==21417== 91 errors in context 35 of 35:
+==21417== Conditional jump or move depends on uninitialised value(s)
+==21417==    at 0x484956E: strchrnul (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==21417==    by 0x48CC3AA: __find_specmb (printf-parse.h:111)
+==21417==    by 0x48CC3AA: __vfprintf_internal (vfprintf-internal.c:1396)
+==21417==    by 0x48D9688: __vsprintf_internal (iovsprintf.c:95)
+==21417==    by 0x48B7897: sprintf (sprintf.c:30)
+==21417==    by 0x10F219: yyparse (syn.y:235)
+==21417==    by 0x11244E: main (syn.y:819)
+==21417==  Uninitialised value was created by a stack allocation
+==21417==    at 0x487E3B0: ??? (in /usr/lib/x86_64-linux-gnu/libc-2.33.so)
+==21417== 
+==21417== ERROR SUMMARY: 303 errors from 35 contexts (suppressed: 0 from 0)

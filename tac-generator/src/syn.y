@@ -198,8 +198,6 @@ func_declaration:
       add_tree_node($$, $4);
       add_tree_node($$, $7);
       set_F_table($1->children->sibilings->child);
-      
-      // printf(">> %s %d\n", $1->children->sibilings->child->token.lexeme, tac_params_counter2);
     }
 ;
 
@@ -218,6 +216,8 @@ func_calling:
       destroy_params_list();
       
       fprintf(tac_commands, "call %s, %d\n", $1.lexeme, get_num_params_table(&$1)); 
+      fprintf(tac_commands, "pop $0\n");     
+      // sprintf($$->tac,"$0");
     }
 ;
 
@@ -225,7 +225,6 @@ var_declaration:
   unq_declaration ';' {
       $$ = $1;
       add_variables_tac(&$1->children->sibilings->child->token);
-      // printf(">> g_scope: %d\n", g_scope);
     }
 ;
 
@@ -238,7 +237,6 @@ unq_declaration:
       strcpy($1->type, get_type($1, idx));
       strcpy($1->children->child->type, curr_type);
       idx++;
-      // add_variables_tac(&$2);
     }
 ;
 
@@ -286,16 +284,12 @@ lst_parameters:
       add_tree_node($$, $3);
       set_P_table($1);
       set_amount_params(func_name, get_amount_params_declaration($1, func_name));
-
-      // printf(">> %s %d\n", $1->children->sibilings->child->token.lexeme, get_params_table(func_name));   
       add_parameter_tac(&$1->children->sibilings->child->token);
     }
   | unq_declaration {strcpy(param_type, $1->children->child->type);} {
       $$ = $1;
       set_P_table($1);
       set_amount_params(func_name, get_amount_params_declaration($1, func_name));
-
-      // printf(">> %s %d\n", $1->children->sibilings->child->token.lexeme, get_params_table(func_name));
       add_parameter_tac(&$1->children->sibilings->child->token);
     }
 ;
@@ -414,7 +408,13 @@ init_stmt:
           strcpy($3->children->child->type, get_type_table($1->children->child));
         }
       }
-      print_assign_tac($1, $3, temp);
+      // printf(">> %s\n", rule_label[$3->label]);
+      if(strcmp(rule_label[$3->label], "FUNCTION_CALLING") == 0) {
+        fprintf(tac_commands, "mov %s, $0\n", get_tac_name(&$1->children->child->token)); 
+      } else {
+        print_assign_tac(&$1->children->child->token, $3, temp);
+      }
+      
     }
 ;
 
@@ -521,20 +521,27 @@ output:
 
       // int size = strlen($3.lexeme);
 
-      temp_string = create_temp_4string(&$3);
-      fprintf(tac_table, "char %s[] = %s\n", temp_string, $3.lexeme);
-      strcpy($3.tac, temp_string);
-      fprintf(tac_commands, "print %s\n", $3.tac);
+      // temp_string = create_temp_4string(&$3);
+      // fprintf(tac_table, "char %s[] = %s\n", temp_string, $3.lexeme);
+      // strcpy($3.tac, temp_string);
+      // fprintf(tac_commands, "print %s\n", $3.tac);
+
+      for(int i = 1; i < strlen($3.lexeme) - 1; i++) {
+        fprintf(tac_commands, "print '%c'\n", $3.lexeme[i]);
+      }
     }
   | OUTPUT_WRITELN '(' STRING ')' ';' {
       $$ = create_node(OUTPUT_OPERATION);
       add_tree_operation_leaf($$, &$1, WRITELN, "-");
       add_tree_operation_leaf($$, &$3, STRING_STMT, "-");
 
-      temp_string = create_temp_4string(&$3);
-      fprintf(tac_table, "char %s[] = %s\n", temp_string, $3.lexeme);
-      strcpy($3.tac, temp_string);
-      fprintf(tac_commands, "println %s\n", $3.tac);
+      // temp_string = create_temp_4string(&$3);
+      // fprintf(tac_table, "char %s[] = %s\n", temp_string, $3.lexeme);
+      // strcpy($3.tac, temp_string);
+      // fprintf(tac_commands, "println %s\n", $3.tac);
+      for(int i = 1; i < strlen($3.lexeme) - 1; i++) {
+        fprintf(tac_commands, "println '%c'\n", $3.lexeme[i]);
+      }
     }
 ;
 
@@ -543,17 +550,14 @@ input:
       $$ = create_node(INPUT_OPERATION);
       add_tree_operation_leaf($$, &$1, READ, verify_existing_variable(&$3->children->child->token));
       add_tree_node($$, $3);
-
       
       if(strcmp($3->children->child->type, "int") == 0){
         fprintf(tac_commands, "scani %s\n", get_tac_name(&$3->children->child->token));
-        printf("%s ", $3->children->child->type);
       }
       else if(strcmp($3->children->child->type, "float") == 0){
         fprintf(tac_commands, "scanf %s\n", get_tac_name(&$3->children->child->token));
-        printf("%s ", $3->children->child->type);
+
       }
-      printf("%s \n", $3->children->child->token.lexeme);
     }
 ;
 
@@ -742,10 +746,14 @@ number:
   NUM_INT {
       $$ = create_node(NUMBER);
       add_tree_token_node($$, &$1, NUMBER_INT);
+      // strcpy($$->tac, $1.lexeme);
+      // strcpy($1->tac, $1.lexeme);
     }
   | NUM_FLOAT {
       $$ = create_node(NUMBER);
       add_tree_token_node($$, &$1, NUMBER_FLOAT);
+      // strcpy($$->tac, $1.lexeme);
+      // strcpy($1->tac, $1.lexeme);
     }
 ;
 
@@ -852,8 +860,8 @@ int main(int argc, char **argv) {
   
   fclose(yyin);
   fclose(tac_file);
-  // remove("tests/tac_commands.tac");
-  // remove("tests/tac_table.tac");
+  remove("tests/tac_commands.tac");
+  remove("tests/tac_table.tac");
   yylex_destroy();
   
   return 0;
