@@ -1,41 +1,23 @@
-float list my_list;
-int list my_other_list;
+int add_func(int a, int b) {
+  int c;
+  write(a);  
+  write(" + ");
+  write(b);
+  write(" = ");   
 
-int main()
-{
-  int i;
-  int x;
-  my_list = NIL;
-  for (i = 0; i < 10; i = i + 1) {
-      // int x;
-		writeln("Write 10 elements to the my_list: ");
-		read(x);
-		my_list = x : my_list;
-	}
+  c = a + b;
+  writeln(c);
 
-   my_other_list >> my_list;
+  return c;
+}
 
-   for (i = 0; i < 10; i = i + 1) {
-    x = 2 + i;
-    my_other_list = x : my_other_list;
-	}
-
-   if(my_list != NIL && my_list != NIL) {
-      writeln("Lists are not empty!");
-   }
-   
-   if (my_list > my_list ) {
-      writeln("My list is bigger");
-   } else if (my_list < my_list ) {
-      writeln("My list is smaller");
-   } else {
-      writeln("Both lists are the same size");
-   }
-
-   my_other_list << my_list;
-
-   writeln(! my_list);
-   writeln(% my_other_list);
-
-   return 0;
+int main() {
+  int x; int y;
+  write("Input a integer number: ");
+  read(x);
+  write("Input another integer number: ");
+  read(y);
+  x = add_func(x, y);
+  write("The result is: ");
+  writeln(x);
 }
