@@ -104,7 +104,7 @@ This runs the lexical, syntactic, semantic parsers and the intermediate code gen
 > ./tac tests/<output>.tac
 ```
 
-The (tac-master)[https://github.com/marcellapantarotto/translator-project/tree/master/tac-master] directory contains the TAC tool that runs the translated program produced by this project. Inside the [tac-generator](https://github.com/marcellapantarotto/translator-project/tree/master/tac-generator) directory there is already an executable for this tool, but if you want to run the project to generate the executable, the steps are as follows:
+The TAC tool runs the translated program produced by this project. Inside the [tac-generator](https://github.com/marcellapantarotto/translator-project/tree/master/tac-generator) directory there is already an executable for this tool, but if you want to run the project to generate the executable, the steps are as follows:
 
 Install Automake: `sudo apt install automake`
 
