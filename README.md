@@ -1,6 +1,76 @@
-# translator-project
+# Translator Project
 
-Execution of Lexical Analyzer:
+This a project was developed in 4 stages:
+
+1) [Lexical Analyzer](https://github.com/marcellapantarotto/translator-project/tree/master/lexical-analyzer)
+2) [Syntactic Analyzer](https://github.com/marcellapantarotto/translator-project/tree/master/syntax-analyzer)
+3) [Semantic Analyzer](https://github.com/marcellapantarotto/translator-project/tree/master/semantic-analyzer)
+4) [TAC Intermediate Code Generator](https://github.com/marcellapantarotto/translator-project/tree/master/tac-generator)
+
+At each stage of the project there were improvements on what was implemented before. Therefore the last directory contains the project as a whole, including all parsers and scanners as well as the TAC intermediate code generator.
+
+Within each directory there is a directory called "doc", which has the report sent in for each submission. This report explains the project in detail. But for a brief summary:
+
+The lexical analyzer scans a program written in C-IPL language that has been passed in as input. The syntactic and semantic parsers do their due analysis and the intermediate code generator translates the program passed in as input into TAC language, very similar to Assembly. By passing this generated code to the TAC tool, the program is executed. The language specifications for C-IPL are described below.
+
+## C-IPL Language Prerequisites:
+
+- The data types of the language are int, float and list. The types int and float are simple. The declaration of a variable of type list is done by defining the basic type of the list (ex: int list and float list). As a restriction on the usual C syntax, the declaration of variables cannot be followed by an assignment.
+
+- The language contains numeric constants (for integers and reals (yes, this includes negative numbers)) and the constant NIL (for lists); string constants are used only for printing.
+
+- The binary arithmetic operations are addition, subtraction, multiplication, and division, with usual precedence rules and semantics.
+
+- The logical operations are negation, disjunction and conjunction, with usual parity, precedence rules and semantics. There is no boolean type in the language: just as in C, non-zero values and NIL are treated as true.
+
+- The binary relational operations are the usual arithmetic ones: less than, less than or equal to, greater than, greater than or equal to, equal and different, with the usual precedence rules and semantics. The only exception is for the equal and different comparators for comparing a list with the constant NIL.
+
+- Implicit conversions between arithmetic expressions should be handled in the usual way, allowing both type expansion (in the case of arithmetic computation and comparison, parameter passing by copy and function return) and type reduction (in the case of assignment, parameter passing by copy and function return). There is no type conversion between lists and the other types (or vice versa). If it is possible to identify the attempt to perform operations between operands that do not admit conversion between them, the translator must issue a warning that the operation is undefined. The conversion from float to int is done by discarding the decimal part (not by rounding; overflow, as usual, corresponds to undefined behavior).
+
+- A program consists of a sequence of variable and function declarations, where each declared function is followed by its definition (i.e. a command block, containing variable declarations and command blocks). Every function has a declared return type which can be any of the primitive types of the new language (int, float, list). Unlike C, any function can have zero arguments (note that there is no VOID type in the language; but this must be specified as an empty list of parameters).
+
+- Necessarily, the program must contain a "main" function.
+
+- The scoping rules are the same as in C. A variable or function can only be used after it has been declared and in its respective scope.
+
+- The assignment command has the usual syntax. In case the variable is integer or real, the semantics is the usual. For lists, see below.
+
+- The language commands for flow control are restricted to the following: conditional (if, if-else), iteration (for), function call and return. All commands have the usual semantics for the C language fragment.
+
+- The language commands for input and output are read, write, writeln. The read command parameter is a simple type variable; the write command parameter is a simple type expression or a constant. The writeln command is equivalent to the write command followed by the line break write.
+
+- When calling functions, integer and real types are passed by copy; the list type is passed by reference.
+
+- Every function returns an expression of the declared return type.
+
+- Operations on lists are described below:
+
+  - Declaration: int list, float list.
+
+  - Assignment: the assignment is made by reference.
+
+  - Constructors (right associative): the constant NIL has already been mentioned; the operator : is the infixed binary constructor of lists: the left operand is an expression (rvalue) and the left operand is a list (lvalue). The element is always added to the beginning of the list.
+
+  - Operators (right associative):
+
+    - header: ? is the unary operator that returns the value of the first element of a list; the list remains unchanged; using the operator on an empty list has undefined behavior.
+
+    - tail: ! is unary operator that returns the tail of a list; the list remains unchanged; use of the operator on an empty list has undefined behavior.
+
+  - Destructor (right associative):
+
+    - tail: % is unary operator that returns the tail of the list; the list has its first element removed; using the operator on an empty list has undefined behavior.
+
+  - Functions (associative on the right):
+
+    - map: >> is the infixed binary operator that takes as first argument a unary function and as second argument a list; it returns a list with the function applied to the elements of the second element; it does not change the list passed as argument.
+
+    - filter: << is the infixed binary operator that takes as first argument a unary function and as second argument a list; it returns the list of elements of the second argument for which the function given as first argument returns non-zero value; it does not change the list passed as argument.
+
+## Execution of what was sent in each step:
+
+### Lexical Analyzer:
+This executes only the lexical analyzer implemented for the first submission. It receives a program as input and recognizes the tokens accepted by the C-IPL language. If there is something that is not recognized as a token, then an error is thrown.
 
 ```bash
 > cd lexical-analyzer
@@ -9,77 +79,47 @@ Execution of Lexical Analyzer:
 > ./tradutor tests/<test_name>.c
 ```
 
-Execution of Syntax Analyzer:
+### Syntax Analyzer:
+This runs the lexical and syntactic parsers. The lexical continues with the same behavior and the syntactic builds the abstract tree of commands from the input file and checks for errors.
 
 ```bash
 > cd syntax-analyzer
 > make && make run
 ```
 
-Execution of Semantic Analyzer:
+### Semantic Analyzer:
+This runs the lexical, syntactic and semantic analyzers. The lexical and syntactic continue with the same behavior and the semantic performs some error checking, builds the annotated abstract tree and performs type conversions. All the proper conversions have been implemented, except those concerning list operations.
 
 ```bash
 > cd semantic-analyzer
 > make && make run
 ```
 
-C-IPL Language Prerequisites: (in Portuguese)
+### TAC Intermediate Code Generator:
+This runs the lexical, syntactic, semantic parsers and the intermediate code generator. The lexical, syntactic and semantic parsers continue with the same behavior and the intermediate code generator translates the commands from the input program into the TAC language and saves them in another file. The project is able to translate input and output, arithmetic operations, function declaration and function call, as well as parameter passing. Operations with lists have not been implemented.
 
-- [x] Os tipos de dados da linguagem são int, float e list. Os tipos int e float são simples. A declaração de uma variável do tipo list se dá pela definição do tipo básico da lista (ver exemplos abaixo).
-  - [x] Como restrição em relação à sintaxe usual de C, a declaração de variáveis não poderá ser seguida de atribuição.
+```bash
+> cd tac-generator
+> make && make run
+> ./tac tests/<output>.tac
+```
 
-- [x] A linguagem contém constantes numéricas (para inteiros e reais (sim, isso inclui números negativos)) e a constante NIL (para listas); 
-  - [x] constantes do tipo string são usadas tão somente para impressão.
+The (tac-master)[https://github.com/marcellapantarotto/translator-project/tree/master/tac-master] directory contains the TAC tool that runs the translated program produced by this project. Inside the [tac-generator](https://github.com/marcellapantarotto/translator-project/tree/master/tac-generator) directory there is already an executable for this tool, but if you want to run the project to generate the executable, the steps are as follows:
 
-- [x] As operações binárias aritméticas são adição, subtração, multiplicação e divisão, 
-  - [ ] com regras de precedência e semântica usuais.
+Install Automake: `sudo apt install automake`
 
-- [x] As operações lógicas são negação, disjunção e conjunção, com  aridade, regras de precedência e semântica usuais.
-  - [ ] Não há tipo booleano na linguagem: exatamente como em C, valores diferentes de zero e  NIL são tratados como verdadeiro.
+Simplified summary:
 
-- [x] As operações binárias relacionais são as usuais da aritmética: menor, menor ou igual, maior, maior ou igual, igual e diferente,
-  - [ ] com regras de precedência e semântica usuais. A única exceção é para os comparadores de igual e diferente para comparar uma lista com a constante NIL.
+- `git clone https://github.com/lhsantos/tac`
+- `cd tac sh autogen.sh`
+- `./configure`
+- `cd flex-bison sed -i 's/std::string& file/auto file/g' tac.yy`
+- `cd ... make all`
 
-- [ ] Conversões implícitas entre expressões aritméticas devem ser tratadas de forma usual, permitindo tanto a ampliação (no caso de cálculo e comparação aritméticos, passagem de parâmetro por cópia e retorno de função) quanto redução de tipo (no caso de atribuição, passagem de parâmetros por cópia e retorno de função). Não há conversão de tipo entre listas e os demais tipos (ou vice-versa). Se for possível identificar a tentativa de realização de operações entre operandos que não admitem conversão entre si, o tradutor deve emitir aviso de que a operação é indefinida. A conversão de float para int se dá pelo descarte da parte decimal (não pelo arrendondamento; overflow, como usual, corresponde a comportamento indefinido).
+Full summary:
 
-- [x] Um programa consiste de uma sequência de declarações de variáveis e funções, onde cada função declarada é seguida de sua definição (ou seja, um bloco de comandos, contendo declarações de variáveis e blocos de comandos). 
-  - [ ] Toda função tem um tipo de retorno declarado que pode ser quaisquer um dos tipos primitivos da nova linguagem (int, float, list). Diferentemente de C, qualquer função pode ter zero argumentos (note que não há o tipo VOID na linguagem; mas isso deve ser especificado como uma lista vazia de parâmetros).
-
-- [x] Necessariamente, o programa deve conter uma função "main".
-
-- [ ] As regras de escopo são as mesmas de C. Uma variável ou função só podem ser usadas depois de declaradas e em seus respectivos escopos.
-
-- [x] O comando de atribuição tem a sintaxe usual. No caso da variável ser inteira ou real, a semântica é a usual. Para listas, ver abaixo.
-
-- [x] Os comandos da linguagem para controle de fluxo são restritos aos seguintes: condicionais (if, if-else), iteração (for), chamada de função e retorno. Todos os comandos têm a semântica usual para o fragmento da linguagem C.
-
-- [x] Os comandos da linguagem para entrada e saída são: read, write, writeln. O parâmetro do comando de leitura (read) é uma variável de tipo simples; o parâmetro do comando de escrita (write, writeln) é uma expressão de tipo simples ou uma constante. O comando writeln é equivalente ao comando write seguido da escrita de quebra de linha.
-
-- [ ] Na chamada de funções, tipos inteiros e reais são passados por cópia; o tipo lista é passado por referência.
-
-- [ ] Toda função retorna uma expressão do tipo de retorno declarado.
-
-- [ ] As operações sobre listas são descritas a seguir:
-
-  - [x] declaração: int list, float list.
-
-  - [ ] atribuição: a atribuição é feita por referência.
-
-  - [x] construtores (associativos à direita): a constante NIL já foi mencionada; o operador : é o construtor binário infixo de listas: o operando esquerdo é uma expressão (rvalue) e o operando à esquerda é uma lista (lvalue). 
-    - [ ] O elemento é sempre acrescentado ao início da lista.
-
-  - [x] operadores (associativos à direita)
-
-    - [x] header: ? é o operador unário que retorna o valor do primeiro elemento de uma lista; a lista permanece inalterada; uso do operador em uma lista vazia tem comportamento indefinido.
-
-    - [x] tail: ! é operador unário que retorna a cauda de uma lista; a lista permanece inalterada; o uso do operador em uma lista vazia tem comportamento indefinido.
-
-  - [x] destrutor (associativo à direita)
-
-    - [x] tail: % é operador unário que retorna a cauda da lista; a lista tem seu primeiro elemento removido; o uso do operador em uma lista vazia tem comportamento indefinido.
-
-  - [x] funções (associativas à direita):
-
-    - [x] map: >> é o operador binário infixo que tem como primeiro argumento uma função unária e como segundo argumento uma lista; retorna uma lista com a função aplicada aos elementos do segundo elemento; não altera a lista passada como argumento.
-
-    - [x] filter: << é o operador binário infixo que tem como primeiro argumento uma função unária e como segundo argumento uma lista; retorna a lista dos elementos do segundo argumento para os quais a função dada como primeiro argumento retorna valor diferente de zero; não altera a lista passada como argumento.
+- Go to https://github.com/lhsantos/tac and download the repository on your machine (`git clone https://github.com/lhsantos/tac `)
+- Go to the cloned github folder and run the autogen.sh script (`sh autogen.sh`)
+- Run the command to install (`./configure`)
+- In the flex-bison folder, in the file tac.yy modify the line 579 from "std::string& file" to "auto file (`cd flex-bison sed -i 's/std::string& file/auto file/g' tac.yy `)
+- Go back to the main folder and run make all (`cd ... make all`)

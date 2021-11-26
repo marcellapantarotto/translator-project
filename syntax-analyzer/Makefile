@@ -6,9 +6,8 @@ compile:
 	gcc-11 -g -Wall -o tradutor -I lib/ src/syn.tab.c src/lex.yy.c -lfl
 
 run:
-	./tradutor tests/test.c
-#	./tradutor tests/test_correct1.c
-#	./tradutor tests/test_correct2.c
+	./tradutor tests/test_correct1.c
+	./tradutor tests/test_correct2.c
 #	./tradutor tests/test_errors1.c
 #	./tradutor tests/test_errors2.c
 	

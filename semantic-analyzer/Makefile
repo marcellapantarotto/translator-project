@@ -7,11 +7,11 @@ compile:
 
 run:
 # ./tradutor tests/test.c
-	./tradutor tests/test_professora.c
+#	./tradutor tests/test_professora.c
 # ./tradutor tests/test_professora2.c
 #	./tradutor tests/test_ana3.c
-#	./tradutor tests/test_correct1.c
-#	./tradutor tests/test_correct2.c
+	./tradutor tests/test_correct1.c
+	./tradutor tests/test_correct2.c
 #	./tradutor tests/test_errors1.c
 #	./tradutor tests/test_errors2.c
 	
